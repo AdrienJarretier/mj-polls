@@ -10,19 +10,37 @@ const db = new Database(config.db.database, { verbose: console.log });
 
 
 
-db.exec(`CREATE TABLE IF NOT EXISTS "units" (
+
+db.exec(`CREATE TABLE IF NOT EXISTS "grades" (
     "id" INTEGER PRIMARY KEY,
-    "name" VARCHAR(255) NOT NULL UNIQUE
+    "value" VARCHAR(255) NOT NULL UNIQUE,
+    "order" INTEGER NOT NULL UNIQUE
     );`);
 
-db.exec(`CREATE TABLE IF NOT EXISTS "products" (
-    "id" INTEGER PRIMARY KEY,
-    "name" VARCHAR(255) NOT NULL UNIQUE,
-    "unit_id" INTEGER NOT NULL,
-    "current" INTEGER,
-    "max" INTEGER,
-    FOREIGN KEY(unit_id) REFERENCES units(id)
-    );`);
+db.exec(`INSERT INTO grades("value", "order") VALUES('Excellent', 0);`);
+db.exec(`INSERT INTO grades("value", "order") VALUES('Passable', 500);`);
+db.exec(`INSERT INTO grades("value", "order") VALUES('Bad', 1000);`);
+
+//     db.exec(`CREATE TABLE IF NOT EXISTS "vote-results" (
+//         "id" INTEGER PRIMARY KEY,
+//         "name" VARCHAR(255) NOT NULL UNIQUE
+//         );`);
+
+
+
+// db.exec(`CREATE TABLE IF NOT EXISTS "units" (
+//     "id" INTEGER PRIMARY KEY,
+//     "name" VARCHAR(255) NOT NULL UNIQUE
+//     );`);
+
+// db.exec(`CREATE TABLE IF NOT EXISTS "products" (
+//     "id" INTEGER PRIMARY KEY,
+//     "name" VARCHAR(255) NOT NULL UNIQUE,
+//     "unit_id" INTEGER NOT NULL,
+//     "current" INTEGER,
+//     "max" INTEGER,
+//     FOREIGN KEY(unit_id) REFERENCES units(id)
+//     );`);
 
 
 db.close();

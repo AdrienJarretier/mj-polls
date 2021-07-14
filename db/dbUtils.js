@@ -7,7 +7,7 @@ const config = common.serverConfig;
 const Database = require('better-sqlite3');
 
 
-function executeStatement(sqlString, bindParameters, executionMethod, expand) {
+function executeStatement(sqlString, executionMethod, bindParameters, expand) {
 
     bindParameters = bindParameters || []
 
