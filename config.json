@@ -1,0 +1,14 @@
+{
+    "db": {
+        "database": "db/dbName.db"
+    },
+    "api": {
+        "/entryPath": {
+            "methods": {
+                "GET": "Get all"
+            },
+            "routes": {
+            }
+        }
+    }
+}
