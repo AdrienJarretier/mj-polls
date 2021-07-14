@@ -18,6 +18,8 @@ const apiDesc = common.serverConfig.api;
 
 function makeSubroutes(routeDesc, completePath) {
 
+    subroutesList = [];
+
     completePath = completePath || '';
 
     for (let [subPath, subRouteDesc] of Object.entries(routeDesc)) {
@@ -27,25 +29,31 @@ function makeSubroutes(routeDesc, completePath) {
         if (subRouteDesc.methods) {
             for (let [method, methodDesc] of Object.entries(subRouteDesc.methods)) {
 
-                console.log(method + '\t: ' + path + ' :\t' + methodDesc);
+                subroutesList.push({
+                    'method': method,
+                    'path': path,
+                    'description': methodDesc
+                });
 
             }
         }
 
         if (subRouteDesc.routes) {
-            makeSubroutes(subRouteDesc.routes, path);
+            subroutesList = subroutesList.concat(makeSubroutes(subRouteDesc.routes, path));
         }
 
     }
+
+    return subroutesList;
 }
 
-makeSubroutes(apiDesc);
+console.table(makeSubroutes(apiDesc));
 
 
 
 router.get('/', function (req, res, next) {
 
-    res.json(db.getAll());
+    res.json(db.getGrades());
 });
 
 module.exports = router

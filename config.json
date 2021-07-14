@@ -3,9 +3,9 @@
         "database": "db/dbName.db"
     },
     "api": {
-        "/entryPath": {
+        "/grades": {
             "methods": {
-                "GET": "Get all"
+                "GET": "Get list of grades"
             },
             "routes": {
             }
