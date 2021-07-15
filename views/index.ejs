@@ -22,10 +22,10 @@
 
           let cloned = $(pollPreviewTemplate.cloneNode(true));
 
-          let href = cloned.children().children().attr('href');
+          let href = cloned.children().children().children().attr('href');
 
-          cloned.children().children().attr('href', href + poll.id);
-          cloned.children().children().text(poll.title);
+          cloned.children().children().children().attr('href', href + poll.id);
+          cloned.children().children().children().text(poll.title);
 
           $('#mostRecent').append(cloned);
         }
@@ -43,20 +43,23 @@
 
     <div class="row">
 
-      <nav>
-
-        <a href="createPoll">Create a poll</a>
-
-      </nav>
-
       <div class="col">
 
+        <nav>
+
+          <a href="createPoll">Create a poll</a>
+
+        </nav>
+
       </div>
+
     </div>
 
     <br>
 
-    <div class="row" id="mostRecent">
+    <div class="row">
+
+      <div class="col" id="mostRecent"></div>
 
     </div>
 
@@ -69,9 +72,13 @@
 
 <template id="pollPreviewTemplate">
 
-  <div>
+  <div class="row">
 
-    <a href="poll/">title</a>
+    <div class="col">
+
+      <a href="poll/">title</a>
+
+    </div>
 
   </div>
 

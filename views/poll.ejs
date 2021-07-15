@@ -18,18 +18,18 @@
 
 
                 let row = $('<div>').addClass('row');
+                row.append($('<div>').addClass('col-4'));
                 for (let choice of parsedPoll.choices) {
 
                     row.append($('<div>').addClass('col').text(choice.name));
 
                 }
-                row.prepend($('<div>').addClass('col'));
                 $('#choices').append(row);
 
                 for (let grade of grades) {
 
                     row = $('<div>').addClass('row');
-                    row.append($('<div>').addClass('col').text(grade.value));
+                    row.append($('<div>').addClass('col-4').text(grade.value));
 
                     for (let choice of parsedPoll.choices) {
 
