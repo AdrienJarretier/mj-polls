@@ -53,7 +53,7 @@ console.table(makeSubroutes(apiDesc));
 router.get('/', function (req, res, next) {
 
     res.json({
-        'polls': db.getPolls(),
+        'polls': db.getFullPolls(),
         'grades': db.getGrades()
     });
 
