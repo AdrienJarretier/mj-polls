@@ -13,7 +13,7 @@ function createDb() {
 
     const db = new Database(config.db.database, { verbose: console.log });
 
-    const sqlSchema = fs.readFileSync('db/dbShema.sql', 'utf8')
+    const sqlSchema = fs.readFileSync('db/dbSchema.sql', 'utf8')
 
     db.exec(sqlSchema);
 
