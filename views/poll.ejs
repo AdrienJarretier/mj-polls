@@ -14,6 +14,8 @@
 
                 console.log(parsedPoll);
 
+                $('#title').text(parsedPoll.title);
+
                 let grades = await get('/polls/grades');
 
 
@@ -74,14 +76,15 @@
 
             <div class="col">
 
-                <h1 id="title"></h1>
+                <h2 id="title"></h2>
+                <br>
 
                 <form>
 
                     <div id="choices"></div>
 
                     <br>
-                    <button type="submit" class="btn-dark">submit</button>
+                    <button type="button" class="btn-dark">submit</button>
 
                 </form>
             </div>
