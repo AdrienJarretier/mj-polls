@@ -5,13 +5,25 @@
     "api": {
         "/polls": {
             "methods": {
-                "GET": "Get list of polls and possible grades",
+                "GET": "Get list of polls ids and possible grades",
                 "POST": "create new poll"
             },
             "routes": {
                 "/grades": {
                     "methods": {
                         "GET": "Get list of possible grades"
+                    },
+                    "routes": {}
+                },
+                "/full": {
+                    "methods": {
+                        "GET": "Get a full list of polls and their choices"
+                    },
+                    "routes": {}
+                },
+                "/:id": {
+                    "methods": {
+                        "GET": "Get poll"
                     },
                     "routes": {}
                 }

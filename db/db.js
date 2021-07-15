@@ -4,29 +4,29 @@ const dbUtils = require('./dbUtils.js');
 
 let executeStatement = dbUtils.executeStatement;
 
-exports.getPolls = function () {
+exports.getPollsIds = function () {
 
-    return executeStatement(`
-    SELECT *
+    let rows = executeStatement(`
+    SELECT id
     FROM polls;
     `,
         'all')
 
+    let pollsIds = [];
+
+    for (let row of rows) {
+        pollsIds.push(row.id);
+    }
+
+    return pollsIds;
+
 }
 
-exports.getFullPolls = function () {
-
-    let rows = executeStatement(`
-    SELECT *
-    FROM polls
-    INNER JOIN polls_choices
-    ON polls.id=polls_choices.poll_id;
-    `,
-        'all', null, true);
+function aggregateChoices(resultRows) {
 
     let polls = {};
 
-    for (let row of rows) {
+    for (let row of resultRows) {
 
         let id = row.polls.id;
 
@@ -45,6 +45,39 @@ exports.getFullPolls = function () {
     }
 
     return polls;
+
+}
+
+exports.getFullPolls = function () {
+
+    let rows = executeStatement(`
+    SELECT *
+    FROM polls
+    INNER JOIN polls_choices
+    ON polls.id=polls_choices.poll_id;
+    `,
+        'all', null, true);
+
+    let polls = aggregateChoices(rows);
+
+    return polls;
+
+}
+
+exports.getPoll = function (id) {
+
+    let rows = executeStatement(`
+    SELECT *
+    FROM polls
+    INNER JOIN polls_choices
+    ON polls.id=polls_choices.poll_id
+    WHERE polls.id = ?;
+    `,
+        'all', [id], true);
+
+    let poll = aggregateChoices(rows)[id];
+
+    return poll;
 
 }
 
@@ -67,7 +100,7 @@ exports.insertPoll = function (data) {
 
     }
 
-    return pollsInsertResult;
+    return pollsInsertResult.lastInsertRowid;
 
 }
 

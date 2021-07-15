@@ -72,9 +72,9 @@
 
           let formData = parseForm('form');
 
-          console.log(formData);
-
           let poll = await post('/polls', formData);
+
+          console.log(poll);
 
         });
 

@@ -53,9 +53,21 @@ console.table(makeSubroutes(apiDesc));
 router.get('/', function (req, res, next) {
 
     res.json({
-        'polls': db.getFullPolls(),
+        'pollsIds': db.getPollsIds(),
         'grades': db.getGrades()
     });
+
+});
+
+router.get('/full', function (req, res, next) {
+
+    res.json(db.getFullPolls());
+
+});
+
+router.get('/:id', function (req, res, next) {
+
+    res.json(db.getPoll(req.params.id));
 
 });
 
@@ -63,7 +75,8 @@ router.post('/', function (req, res, next) {
 
     console.log('post new poll');
     console.log(req.body);
-    db.insertPoll(req.body);
+    let lastInsertRowid = db.insertPoll(req.body);
+    res.json(db.getPoll(lastInsertRowid));
 
 });
 
