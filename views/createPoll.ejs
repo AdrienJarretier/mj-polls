@@ -30,6 +30,7 @@
 
           label.attr('for', idAttr + choices);
           input.attr('id', idAttr + choices);
+          label.text(choices + ' : ');
 
           ++choices;
           $('#choices').append(cloned);
@@ -44,9 +45,9 @@
 
         }
 
-        $('#addChoice').change(function () {
+        function updateChoicesInputs() {
 
-          let requestedChoices = $(this).val();
+          let requestedChoices = $('#addChoice').val();
 
           if (requestedChoices >= 0) {
 
@@ -63,7 +64,21 @@
             }
           }
 
+        }
+
+        $('#addChoice').change(updateChoicesInputs);
+
+        $('#submitButton').click(async () => {
+
+          let formData = parseForm('form');
+
+          console.log(formData);
+
+          let poll = await post('/polls', formData);
+
         });
+
+        updateChoicesInputs();
 
       });
 
@@ -97,7 +112,7 @@
       <form>
 
         <label for="title">Title : </label>
-        <input id="title"" type=" text">
+        <input id="title" name="title" type=" text">
 
         <br>
         <br>
@@ -112,7 +127,7 @@
         <br>
         <br>
 
-        <button type="submit">submit</button>
+        <button type="button" id="submitButton">submit</button>
 
       </form>
 
@@ -127,7 +142,7 @@
 
   <p>
     <label for="choice-"></label>
-    <input id="choice-" type="text">
+    <input id="choice-" name="choices[]" type="text">
   </p>
 
 </template>

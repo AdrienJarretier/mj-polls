@@ -5,7 +5,8 @@
     "api": {
         "/polls": {
             "methods": {
-                "GET": "Get list of polls and possible grades"
+                "GET": "Get list of polls and possible grades",
+                "POST": "create new poll"
             },
             "routes": {
                 "/grades": {

@@ -59,6 +59,14 @@ router.get('/', function (req, res, next) {
 
 });
 
+router.post('/', function (req, res, next) {
+
+    console.log('post new poll');
+    console.log(req.body);
+    db.insertPoll(req.body);
+
+});
+
 router.get('/grades', function (req, res, next) {
 
     res.json(db.getGrades());
