@@ -1,6 +1,6 @@
 {
     "db": {
-        "database": "db/dbName.db"
+        "database": "db/polls.db"
     },
     "api": {
         "/polls": {
