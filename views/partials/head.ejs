@@ -4,6 +4,9 @@
 
 <title>
     <%= globalTitle %>
+    <% if(locals.pageTitle) { %>
+        - <%= pageTitle %>
+    <% } %>
 </title>
 
 <link rel="stylesheet" href="extLibs/bootstrap-4.4.1-dist/css/bootstrap.min.css">

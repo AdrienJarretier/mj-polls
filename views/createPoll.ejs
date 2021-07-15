@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('partials/head.ejs') %>
+
+    <script>
+
+      'use strict';
+
+      var choices = 0;
+
+      $(async function () {
+
+        function addChoiceInput() {
+
+          let choiceInput = $('#choiceInputTemplate')[0].content;
+
+          let cloned = $(choiceInput.cloneNode(true));
+
+          // console.log($(cloned.children().children()[0]).attr('for'));
+
+          let label = cloned.children().children().eq(0);
+          let input = cloned.children().children().eq(1);
+
+          // console.log(input);
+
+          let idAttr = input.attr('id');
+          // console.log(idAttr);
+
+          label.attr('for', idAttr + choices);
+          input.attr('id', idAttr + choices);
+
+          ++choices;
+          $('#choices').append(cloned);
+
+        }
+
+
+        function removeChoiceInput() {
+
+          $('#choices').last().remove();
+          --choices;
+
+        }
+
+        $('#addChoice').change(function () {
+
+          let requestedChoices = $(this).val();
+          console.log(requestedChoices);
+
+          while (choices < requestedChoices) {
+
+            addChoiceInput();
+
+          }
+
+          // while (choices > requestedChoices) {
+
+          //   removeChoiceInput();
+
+          // }
+
+        });
+
+      });
+
+
+    </script>
+
+</head>
+
+
+<body>
+
+  <div class="container">
+
+    <div class="row">
+
+      <nav>
+
+        <a href="/">home</a>
+
+      </nav>
+
+      <div class="col">
+
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+
+      <form>
+
+        <label for="title">Title : </label>
+        <input id="title"" type=" text">
+
+        <br>
+        <br>
+
+        <fieldset id="choices">
+          <legend>Choices</legend>
+
+          <input type="number" id="addChoice">
+
+        </fieldset>
+
+        <br>
+        <br>
+
+        <button type="submit">submit</button>
+
+      </form>
+
+    </div>
+
+
+  </div>
+
+</body>
+
+<template id="choiceInputTemplate">
+
+  <p>
+    <label for="choice-"></label>
+    <input id="choice-" type="text">
+  </p>
+
+</template>
+
+</html>

@@ -50,10 +50,19 @@ function makeSubroutes(routeDesc, completePath) {
 console.table(makeSubroutes(apiDesc));
 
 
-
 router.get('/', function (req, res, next) {
 
+    res.json({
+        'polls': db.getPolls(),
+        'grades': db.getGrades()
+    });
+
+});
+
+router.get('/grades', function (req, res, next) {
+
     res.json(db.getGrades());
+
 });
 
 module.exports = router

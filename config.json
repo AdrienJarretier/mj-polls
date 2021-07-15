@@ -3,11 +3,17 @@
         "database": "db/dbName.db"
     },
     "api": {
-        "/grades": {
+        "/polls": {
             "methods": {
-                "GET": "Get list of grades"
+                "GET": "Get list of polls and possible grades"
             },
             "routes": {
+                "/grades": {
+                    "methods": {
+                        "GET": "Get list of possible grades"
+                    },
+                    "routes": {}
+                }
             }
         }
     }
