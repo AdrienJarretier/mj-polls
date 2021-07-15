@@ -18,7 +18,7 @@
 
 
                 let row = $('<div>').addClass('row');
-                row.append($('<div>').addClass('col-4'));
+                row.append($('<div>').addClass('col'));
                 for (let choice of parsedPoll.choices) {
 
                     row.append($('<div>').addClass('col').text(choice.name));
@@ -29,7 +29,7 @@
                 for (let grade of grades) {
 
                     row = $('<div>').addClass('row');
-                    row.append($('<div>').addClass('col-4').text(grade.value));
+                    row.append($('<div>').addClass('col').text(grade.value));
 
                     for (let choice of parsedPoll.choices) {
 
@@ -72,14 +72,19 @@
 
         <div class="row">
 
-            <h1 id="title"></h1>
+            <div class="col">
 
-            <form id="choices">
+                <h1 id="title"></h1>
 
-                <button type="submit">submit</button>
+                <form>
 
-            </form>
+                    <div id="choices"></div>
 
+                    <br>
+                    <button type="submit" class="btn-dark">submit</button>
+
+                </form>
+            </div>
         </div>
 
 
