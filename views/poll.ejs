@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head.ejs') %>
+
+        <script>
+
+            'use strict';
+
+            $(async function () {
+
+                const parsedPoll = JSON.parse('<%- poll %>');
+
+                console.log(parsedPoll);
+
+                let grades = await get('/polls/grades');
+
+
+                let row = $('<div>').addClass('row');
+                for (let choice of parsedPoll.choices) {
+
+                    row.append($('<div>').addClass('col').text(choice.name));
+
+                }
+                $('#choices')
+                    .append(row.prepend($('<div>').addClass('col')));
+
+                for (let grade of grades) {
+
+                    row = $('<div>').addClass('row');
+                    row.append($('<div>').addClass('col').text(grade.value));
+
+                    // for (let choice of parsedPoll.choices) {
+
+                    //     let col = $('<div>').addClass('col');
+                    //     col.append($('<input type="radio">'));
+                    //     row.append(col);
+
+                    // }
+
+                    $('#choices').append(row);
+
+                }
+
+            });
+
+
+        </script>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <div class="row">
+
+            <nav>
+
+                <a href="/">home</a>
+
+            </nav>
+
+            <div class="col">
+
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+
+            <h1 id="title"></h1>
+
+            <form id="choices">
+
+
+
+            </form>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

@@ -50,6 +50,12 @@ function makeSubroutes(routeDesc, completePath) {
 console.table(makeSubroutes(apiDesc));
 
 
+router.get('/grades', function (req, res, next) {
+
+    res.json(db.getGrades());
+
+});
+
 router.get('/', function (req, res, next) {
 
     res.json({
@@ -83,12 +89,6 @@ router.post('/', function (req, res, next) {
     console.log(req.body);
     let lastInsertRowid = db.insertPoll(req.body);
     res.json(db.getPoll(lastInsertRowid));
-
-});
-
-router.get('/grades', function (req, res, next) {
-
-    res.json(db.getGrades());
 
 });
 
