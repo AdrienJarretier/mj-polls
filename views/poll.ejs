@@ -23,21 +23,21 @@
                     row.append($('<div>').addClass('col').text(choice.name));
 
                 }
-                $('#choices')
-                    .append(row.prepend($('<div>').addClass('col')));
+                row.prepend($('<div>').addClass('col'));
+                $('#choices').append(row);
 
                 for (let grade of grades) {
 
                     row = $('<div>').addClass('row');
                     row.append($('<div>').addClass('col').text(grade.value));
 
-                    // for (let choice of parsedPoll.choices) {
+                    for (let choice of parsedPoll.choices) {
 
-                    //     let col = $('<div>').addClass('col');
-                    //     col.append($('<input type="radio">'));
-                    //     row.append(col);
+                        let col = $('<div>').addClass('col');
+                        col.append($('<input type="radio" required>').attr('name', choice.id));
+                        row.append(col);
 
-                    // }
+                    }
 
                     $('#choices').append(row);
 
@@ -76,7 +76,7 @@
 
             <form id="choices">
 
-
+                <button type="submit">submit</button>
 
             </form>
 

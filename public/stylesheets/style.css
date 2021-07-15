@@ -7,3 +7,9 @@ body {
   margin-bottom: 20px;
 
 }
+
+#choices .row{
+  border: solid black 2px;
+  padding: -1px;
+  margin: -1px;
+}
