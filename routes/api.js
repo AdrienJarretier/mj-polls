@@ -65,6 +65,12 @@ router.get('/full', function (req, res, next) {
 
 });
 
+router.get('/recent', function (req, res, next) {
+
+    res.json(db.getMostRecentPolls(2));
+
+});
+
 router.get('/:id', function (req, res, next) {
 
     res.json(db.getPoll(req.params.id));

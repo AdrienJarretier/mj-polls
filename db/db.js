@@ -64,6 +64,27 @@ exports.getFullPolls = function () {
 
 }
 
+exports.getMostRecentPolls = function (limit) {
+
+    let rows = executeStatement(`
+
+    SELECT *
+    FROM
+        (SELECT *
+        FROM polls
+        ORDER BY datetime_opened DESC
+        LIMIT ?) as subq
+    INNER JOIN polls_choices
+    ON subq.id=polls_choices.poll_id;
+    `,
+        'all', [limit], true);
+
+    let polls = aggregateChoices(rows);
+
+    return polls;
+
+}
+
 exports.getPoll = function (id) {
 
     let rows = executeStatement(`

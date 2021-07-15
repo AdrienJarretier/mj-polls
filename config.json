@@ -6,7 +6,7 @@
         "/polls": {
             "methods": {
                 "GET": "Get list of polls ids and possible grades",
-                "POST": "create new poll"
+                "POST": "Create new poll"
             },
             "routes": {
                 "/grades": {
@@ -18,6 +18,12 @@
                 "/full": {
                     "methods": {
                         "GET": "Get a full list of polls and their choices"
+                    },
+                    "routes": {}
+                },
+                "/recent": {
+                    "methods": {
+                        "GET": "Get a detailed list of the most recent polls"
                     },
                     "routes": {}
                 },
