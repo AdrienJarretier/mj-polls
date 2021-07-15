@@ -39,7 +39,7 @@
 
         function removeChoiceInput() {
 
-          $('#choices').last().remove();
+          $('#choices').children().last().remove();
           --choices;
 
         }
@@ -47,19 +47,21 @@
         $('#addChoice').change(function () {
 
           let requestedChoices = $(this).val();
-          console.log(requestedChoices);
 
-          while (choices < requestedChoices) {
+          if (requestedChoices >= 0) {
 
-            addChoiceInput();
+            while (choices < requestedChoices) {
 
+              addChoiceInput();
+
+            }
+
+            while (choices > requestedChoices) {
+
+              removeChoiceInput();
+
+            }
           }
-
-          // while (choices > requestedChoices) {
-
-          //   removeChoiceInput();
-
-          // }
 
         });
 
