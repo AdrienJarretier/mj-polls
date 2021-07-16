@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS "polls_choices" (
         );
 
 CREATE TABLE IF NOT EXISTS "polls_votes" (
-        "poll_id" INTEGER NOT NULL,
+        "poll_choice_id" INTEGER NOT NULL,
         "grade_id" INTEGER NOT NULL,
         "count" INTEGER DEFAULT 0,
-        FOREIGN KEY(poll_id) REFERENCES polls(id),
+        FOREIGN KEY(poll_choice_id) REFERENCES polls_choices(id),
         FOREIGN KEY(grade_id) REFERENCES grades(id),
-        UNIQUE(poll_id,grade_id)
+        UNIQUE(poll_choice_id,grade_id)
         );

@@ -21,13 +21,13 @@ Table "polls_choices" {
 }
 
 Table "polls_votes" {
-  "poll_id" INTEGER [unique, not null]
+  "poll_choice_id" INTEGER [unique, not null]
   "grade_id" INTEGER [unique, not null]
   "count" INTEGER [default: 0]
 }
 
 Ref:"polls"."id" < "polls_choices"."poll_id"
 
-Ref:"polls"."id" < "polls_votes"."poll_id"
+Ref:"polls_choices"."id" < "polls_votes"."poll_choice_id"
 
 Ref:"grades"."id" < "polls_votes"."grade_id"
