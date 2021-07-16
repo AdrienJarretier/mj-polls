@@ -78,7 +78,11 @@ function parseForm(formSelector) {
 
     let formData = {};
 
-    for (let field of $(formSelector).serializeArray()) {
+    let serializedFOrm = $(formSelector).serializeArray();
+
+    // console.log(serializedFOrm);
+
+    for (let field of serializedFOrm) {
 
         let name = field.name;
 
