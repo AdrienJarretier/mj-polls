@@ -74,7 +74,7 @@
 
           let poll = await post('/polls', formData);
 
-          console.log(poll);
+          window.location.href = 'poll/' + poll.id;
 
         });
 
