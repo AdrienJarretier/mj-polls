@@ -20,4 +20,10 @@ router.get('/poll/:id', function (req, res, next) {
   res.render('poll', Object.assign({ 'pageTitle': poll.title, poll: JSON.stringify(poll) }, GLOBAL_OPTIONS));
 });
 
+router.get('/poll_results/:id', function (req, res, next) {
+
+  let poll = db.getPoll(req.params.id);
+  res.render('poll_results', Object.assign({ 'pageTitle': "results " + poll.title, poll: JSON.stringify(poll) }, GLOBAL_OPTIONS));
+});
+
 module.exports = router;
