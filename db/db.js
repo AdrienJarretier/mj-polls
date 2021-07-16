@@ -22,6 +22,9 @@ exports.getPollsIds = function () {
 
 }
 
+// for a list of results with polls and their choices
+// returns an object with polls ids as keys
+// values are the polls with an array of their choices
 function aggregateChoices(resultRows) {
 
     let polls = {};
@@ -41,6 +44,36 @@ function aggregateChoices(resultRows) {
         }
 
         polls[id]['choices'].push(row.polls_choices);
+
+    }
+
+    return polls;
+
+}
+
+function aggregateVotes(resultRows) {
+
+    let polls = aggregateChoices(resultRows);
+
+    console.log(resultRows);
+
+    for (let row of resultRows) {
+
+        let id = row.polls.id;
+
+        if (!('votes' in polls[id]))
+            polls[id]['votes'] = [];
+
+        if (!('grades' in polls[id]))
+            polls[id]['grades'] = [];
+
+        // for (const [key, value] of Object.entries(row.polls)) {
+        //     polls[id][key] = value;
+        // }
+
+        polls[id]['votes'].push(row.polls_votes);
+        polls[id]['grades'].push(row.grades);
+
 
     }
 
@@ -114,10 +147,19 @@ exports.insertPoll = function (data) {
 
     for (let choice of data.choices) {
 
-        executeStatement(`
+        let poll_choice_insertResult = executeStatement(`
         INSERT INTO polls_choices(poll_id, name)
         VALUES(?, ?);
         `, 'run', [pollsInsertResult.lastInsertRowid, choice]);
+
+        for (let g of exports.getGrades()) {
+
+            executeStatement(`
+            INSERT INTO polls_votes(poll_choice_id, grade_id)
+            VALUES(?, ?);
+            `, 'run', [poll_choice_insertResult.lastInsertRowid, g.id]);
+
+        }
 
     }
 
@@ -128,5 +170,20 @@ exports.insertPoll = function (data) {
 exports.getGrades = function () {
 
     return executeStatement('SELECT * FROM grades ORDER BY "order";', 'all');
+
+}
+
+exports.getVotes = function (poll_id) {
+
+    let rows = executeStatement(`
+    SELECT * FROM polls
+    INNER JOIN polls_choices AS pc ON polls.id = pc.poll_id
+    INNER JOIN polls_votes AS pv ON pc.id = pv.poll_choice_id
+    INNER JOIN grades AS g ON pv.grade_id = g.id
+    WHERE polls.id = ?
+    `, 'all', [poll_id], true);
+
+    // return rows;
+    return aggregateVotes(rows);
 
 }
