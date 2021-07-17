@@ -17,7 +17,17 @@ router.get('/createPoll', function (req, res, next) {
 router.get('/poll/:id', function (req, res, next) {
 
   let poll = db.getPoll(req.params.id);
-  res.render('poll', Object.assign({ 'pageTitle': poll.title, poll: JSON.stringify(poll) }, GLOBAL_OPTIONS));
+
+  const pollJSONstr = JSON.stringify(poll).replace("'", "\\'");
+
+  console.log(pollJSONstr);
+
+  res.render('poll', Object.assign(
+    {
+      'pageTitle': poll.title,
+      poll: pollJSONstr
+    },
+    GLOBAL_OPTIONS));
 });
 
 module.exports = router;
