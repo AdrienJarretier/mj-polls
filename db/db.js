@@ -35,12 +35,13 @@ function aggregateChoices(resultRows) {
 
         if (!(id in polls)) {
 
-            polls[id] = { 'choices': [] };
+            polls[id] = {};
 
             for (const [key, value] of Object.entries(row.polls)) {
                 polls[id][key] = value;
             }
 
+            polls[id]['choices'] = [];
         }
 
         polls[id]['choices'].push(row.polls_choices);
