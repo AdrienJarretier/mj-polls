@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 var testApiRouter = require('./routes/testApi');
 var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/testApi');
+var apiRouter = require('./routes/api');
 
 
 const common = require("./common.js");
