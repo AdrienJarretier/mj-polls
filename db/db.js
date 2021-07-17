@@ -145,37 +145,49 @@ exports.getGrades = function () {
 
 }
 
+// exports.getVotes = function (poll_id) {
+
+//     let poll = exports.getPoll(poll_id);
+
+//     let polls_votes = executeStatement(`
+//     SELECT * FROM polls_votes;
+//     `, 'all');
+
+//     let grades = exports.getGrades();
+
+//     for (let choice of poll.choices) {
+
+//         choice['votes'] = {};
+
+//         for (let grade of grades) {
+//             choice['votes'][grade.id] = grade;
+
+//         }
+
+//         for (let vote of polls_votes) {
+
+//             if (vote.poll_choice_id == choice.id) {
+
+//                 choice['votes'][vote.grade_id].count = vote.count;
+
+//             }
+
+//         }
+
+//     }
+
+//     return poll;
+
+// }
+
 exports.getVotes = function (poll_id) {
 
-    let poll = exports.getPoll(poll_id);
-
-    let polls_votes = executeStatement(`
-    SELECT * FROM polls_votes;
-    `, 'all');
-
-    let grades = exports.getGrades();
-
-    for (let choice of poll.choices) {
-
-        choice['votes'] = {};
-
-        for (let grade of grades) {
-            choice['votes'][grade.id] = grade;
-
-        }
-
-        for (let vote of polls_votes) {
-
-            if (vote.poll_choice_id == choice.id) {
-
-                choice['votes'][vote.grade_id].count = vote.count;
-
-            }
-
-        }
-
-    }
-
-    return poll;
+    return executeStatement(`
+    SELECT name AS choice_name, value, count, "order" FROM polls_votes AS pv
+    INNER JOIN polls_choices AS pc ON pv.poll_choice_id=pc.id
+    INNER JOIN polls on pc.poll_id=polls.id
+    INNER JOIN grades AS g on pv.grade_id=g.id
+    WHERE polls.id = ?
+    `, 'all', [poll_id], false);
 
 }
