@@ -14,7 +14,7 @@ const db = require('../db/db.js');
 
 // ------------------------------------------------------ CONFIG
 
-const apiDesc = common.serverConfig.api;
+const apiDesc = common.serverConfig.testApi;
 
 function makeSubroutes(routeDesc, completePath) {
 
@@ -49,63 +49,9 @@ function makeSubroutes(routeDesc, completePath) {
 
 console.table(makeSubroutes(apiDesc));
 
-
-router.get('/grades', function (req, res, next) {
-
-    res.json(db.getGrades());
-
-});
-
-router.get('/', function (req, res, next) {
-
-    res.json({
-        'pollsIds': db.getPollsIds(),
-        'grades': db.getGrades()
-    });
-
-});
-
-router.get('/full', function (req, res, next) {
-
-    res.json(db.getFullPolls());
-
-});
-
-router.get('/recent', function (req, res, next) {
-
-    res.json(db.getMostRecentPolls(3));
-
-});
-
-
-router.get('/:id/vote', function (req, res, next) {
+router.get('/polls/:id', function (req, res, next) {
 
     res.json(db.getFullPoll(req.params.id));
-
-});
-
-
-router.get('/:id', function (req, res, next) {
-
-    res.json(db.getPoll(req.params.id));
-
-});
-
-router.post('/:id/vote', function (req, res, next) {
-
-    console.log('post new vote');
-    let addVoteReturn = db.addVote(req.body);
-
-    res.json({ 'voteSuccessfull': addVoteReturn });
-
-});
-
-router.post('/', function (req, res, next) {
-
-    console.log('post new poll');
-    console.log(req.body);
-    let lastInsertRowid = db.insertPoll(req.body);
-    res.json(db.getPoll(lastInsertRowid));
 
 });
 

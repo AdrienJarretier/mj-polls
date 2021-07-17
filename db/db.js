@@ -3,6 +3,7 @@
 const dbUtils = require('./dbUtils.js');
 
 let executeStatement = dbUtils.executeStatement;
+let executeLoop = dbUtils.executeLoop;
 
 exports.getPollsIds = function () {
 
@@ -35,12 +36,13 @@ function aggregateChoices(resultRows) {
 
         if (!(id in polls)) {
 
-            polls[id] = { 'choices': [] };
+            polls[id] = {};
 
             for (const [key, value] of Object.entries(row.polls)) {
                 polls[id][key] = value;
             }
 
+            polls[id]['choices'] = [];
         }
 
         polls[id]['choices'].push(row.polls_choices);
@@ -51,39 +53,6 @@ function aggregateChoices(resultRows) {
 
 }
 
-function aggregateVotes(resultRows) {
-
-    let polls = aggregateChoices(resultRows);
-
-    let choicesNoDuplicate = {};
-
-    polls.choices = choicesNoDuplicate;
-
-    console.log(resultRows);
-
-    for (let row of resultRows) {
-
-        let id = row.polls.id;
-
-        if (!('votes' in polls[id]))
-            polls[id]['votes'] = [];
-
-        if (!('grades' in polls[id]))
-            polls[id]['grades'] = [];
-
-        // for (const [key, value] of Object.entries(row.polls)) {
-        //     polls[id][key] = value;
-        // }
-
-        polls[id]['votes'].push(row.polls_votes);
-        polls[id]['grades'].push(row.grades);
-
-
-    }
-
-    return polls;
-
-}
 
 exports.getFullPolls = function () {
 
@@ -171,19 +140,53 @@ exports.insertPoll = function (data) {
 
 }
 
+exports.addVote = function (vote) {
+
+    console.log('adding vote');
+
+    let voteEntries = Object.entries(vote);
+
+    let updatesResults = executeLoop(`
+    UPDATE polls_votes
+    SET count = count+1
+    WHERE poll_choice_id = ?
+    AND grade_id = ?
+    ;`,
+        'run', voteEntries);
+
+
+    // update unsuccessfull
+    if (updatesResults.length < voteEntries.length)
+        return false;
+
+    for (let updateResult of updatesResults) {
+        // update unsuccessfull
+        if (updateResult.changes != 1)
+            return false;
+    }
+
+    // update success
+    return true;
+
+}
+
 exports.getGrades = function () {
 
     return executeStatement('SELECT * FROM grades ORDER BY "order";', 'all');
 
 }
 
-exports.getVotes = function (poll_id) {
+
+
+exports.getFullPoll = function (poll_id) {
 
     let poll = exports.getPoll(poll_id);
 
     let polls_votes = executeStatement(`
-    SELECT * FROM polls_votes;
-    `, 'all');
+    SELECT pv.* FROM polls_votes AS pv
+    INNER JOIN polls_choices AS pc ON pv.poll_choice_id=pc.id
+    WHERE pc.poll_id = ?;
+    `, 'all', [poll_id]);
 
     let grades = exports.getGrades();
 
@@ -192,15 +195,16 @@ exports.getVotes = function (poll_id) {
         choice['votes'] = {};
 
         for (let grade of grades) {
-            choice['votes'][grade.id] = grade;
-
+            choice['votes'][grade.id] = Object.assign({}, grade);
         }
 
         for (let vote of polls_votes) {
 
             if (vote.poll_choice_id == choice.id) {
 
+                console.log(vote.grade_id, vote.count);
                 choice['votes'][vote.grade_id].count = vote.count;
+                console.log(choice);
 
             }
 
@@ -211,3 +215,23 @@ exports.getVotes = function (poll_id) {
     return poll;
 
 }
+
+// alternateVersion chere choices are the raw list from db inner join result
+// exports.getVotes = function (poll_id) {
+
+//     return Object.assign(exports.getPoll(poll_id),
+//         {
+//             "choices": executeStatement(`
+//             SELECT name, value, count, "order" FROM polls_votes AS pv
+//             INNER JOIN polls_choices AS pc ON pv.poll_choice_id=pc.id
+//             INNER JOIN polls on pc.poll_id=polls.id
+//             INNER JOIN grades AS g on pv.grade_id=g.id
+//             WHERE polls.id = ?
+//             `, 'all', [poll_id], false)
+//         });
+
+// }
+
+
+
+// ---------------------- Used for testing ----------------------

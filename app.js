@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var testApiRouter = require('./routes/testApi');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 
@@ -22,6 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/', express.static(path.join(__dirname, 'public')));
 
+// api for tests during dev, DISABLE for prod
+app.use(Object.keys(common.serverConfig.testApi)[0], testApiRouter);
 app.use('/', indexRouter);
 app.use(Object.keys(common.serverConfig.api)[0], apiRouter);
 

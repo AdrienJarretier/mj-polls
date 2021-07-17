@@ -5,7 +5,11 @@ CREATE TABLE IF NOT EXISTS "grades" (
         );
 
 INSERT INTO grades("value", "order") VALUES('Excellent', 0);
+INSERT INTO grades("value", "order") VALUES('Very good', 200);
+INSERT INTO grades("value", "order") VALUES('Good', 300);
 INSERT INTO grades("value", "order") VALUES('Passable', 500);
+INSERT INTO grades("value", "order") VALUES('Inadequate', 700);
+INSERT INTO grades("value", "order") VALUES('Mediocre', 800);
 INSERT INTO grades("value", "order") VALUES('Bad', 1000);
 
 
@@ -14,7 +18,6 @@ INSERT INTO grades("value", "order") VALUES('Bad', 1000);
 CREATE TABLE IF NOT EXISTS "polls" (
         "id" INTEGER PRIMARY KEY,
         "title" VARCHAR(255) NOT NULL,
-        "voters_count" INTEGER DEFAULT 0,
         "max_voters" INTEGER,
         "max_datetime" DATETIME,
         "datetime_opened" DATETIME DEFAULT CURRENT_TIMESTAMP,

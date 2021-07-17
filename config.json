@@ -2,6 +2,24 @@
     "db": {
         "database": "db/polls.db"
     },
+    "testApi": {
+        "/testApi": {
+            "methods": {},
+            "routes": {
+                "/polls": {
+                    "methods": {},
+                    "routes": {
+                        "/:id": {
+                            "methods": {
+                                "GET": "get full poll and its votes results"
+                            },
+                            "routes": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
     "api": {
         "/polls": {
             "methods": {
@@ -31,7 +49,15 @@
                     "methods": {
                         "GET": "Get poll"
                     },
-                    "routes": {}
+                    "routes": {
+                        "/vote": {
+                            "methods": {
+                                "GET": "Get vote results for poll with given id",
+                                "POST": "Cast a new vote for this poll"
+                            },
+                            "routes": {}
+                        }
+                    }
                 }
             }
         }

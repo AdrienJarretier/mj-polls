@@ -2,96 +2,171 @@
 <html lang="en">
 
 <head>
-    <%- include('partials/head.ejs') %>
+  <%- include('partials/head.ejs') %>
 
-        <script>
+    <script>
 
-            'use strict';
+      'use strict';
 
-            $(async function () {
+      const pollJSONstr = '<%- poll %>';
 
-                const parsedPoll = JSON.parse('<%- poll %>');
+      console.log(pollJSONstr);
 
-                console.log(parsedPoll);
+      const parsedPoll = JSON.parse(pollJSONstr);
 
-                $('#title').text(parsedPoll.title);
+      function hasVoted(hasVoted) {
 
-                let grades = await get('/polls/grades');
+        if (hasVoted) {
+
+          $('#choicesForm').hide();
+          $('#hasVotedAlert').show();
+
+        } else {
+
+          $('#hasVotedAlert').hide();
+          makeVoteForm();
+        }
+      }
+
+      function makeChoicesRow() {
+
+      }
+
+      async function makeVoteForm() {
+
+        let grades = await get('/polls/grades');
+
+        for (let grade of grades) {
+
+          let row = $('<div>').addClass('row');
+          row.append($('<div>').addClass('col').text(grade.value));
+
+          for (let choice of parsedPoll.choices) {
+
+            let col = $('<div>').addClass('col');
+            let radioBtn = $('<input type="radio" required>')
+              .attr('name', choice.id)
+              .attr('value', grade.id);
+
+            col.append(radioBtn);
+            row.append(col);
+
+          }
+
+          $('#choicesForm').append(row);
+
+        }
+
+        let submitButton = $('<button type="submit" id="submitButton">')
+          .addClass("btn-dark")
+          .addClass("btn-block")
+          .text('Vote')
 
 
-                let row = $('<div>').addClass('row');
-                row.append($('<div>').addClass('col'));
-                for (let choice of parsedPoll.choices) {
+        $('#choicesForm').append(submitButton)
+          .submit(async function (event) {
+            event.preventDefault();
 
-                    row.append($('<div>').addClass('col').text(choice.name));
+            let formData = parseForm($(this));
 
-                }
-                $('#choices').append(row);
+            console.log(formData);
 
-                for (let grade of grades) {
+            let voteOk = await post(
+              '/polls/' + parsedPoll.id + '/vote',
+              formData
+            );
 
-                    row = $('<div>').addClass('row');
-                    row.append($('<div>').addClass('col').text(grade.value));
+            console.log(voteOk);
 
-                    for (let choice of parsedPoll.choices) {
+            if (voteOk) {
 
-                        let col = $('<div>').addClass('col');
-                        col.append($('<input type="radio" required>').attr('name', choice.id));
-                        row.append(col);
+              localStorage.setItem(parsedPoll.id, true);
 
-                    }
+              hasVoted(true);
 
-                    $('#choices').append(row);
+            }
 
-                }
-
-            });
+          });
 
 
-        </script>
+      }
+
+      $(async function () {
+
+        $('#title').text(parsedPoll.title);
+
+
+        let row = $('<div>').addClass('row');
+        row.append($('<div>').addClass('col'));
+        for (let choice of parsedPoll.choices) {
+
+          row.append($('<div>').addClass('col').text(choice.name));
+
+        }
+        $('#choices').append(row);
+
+
+        if (!localStorage.getItem(parsedPoll.id)) {
+          hasVoted(false);
+        }
+        else {
+          hasVoted(true);
+        }
+
+      });
+
+
+    </script>
 
 </head>
 
 
 <body>
 
-    <div class="container">
+  <div class="container">
 
-        <div class="row">
+    <div class="row">
 
-            <nav>
+      <nav>
 
-                <a href="/">home</a>
+        <a href="/">home</a>
 
-            </nav>
+      </nav>
 
-            <div class="col">
+      <div class="col">
 
-            </div>
+      </div>
+    </div>
+
+    <br>
+
+
+    <div class="row">
+
+      <div class="col">
+
+        <h2 id="title"></h2>
+        <br>
+
+        <div id="choices">
         </div>
+        <form id="choicesForm">
+
+        </form>
 
         <br>
 
-        <div class="row">
-
-            <div class="col">
-
-                <h2 id="title"></h2>
-                <br>
-
-                <form>
-
-                    <div id="choices"></div>
-
-                    <br>
-                    <button type="button" class="btn-dark">submit</button>
-
-                </form>
-            </div>
+        <div class="alert alert-success" role="alert" id="hasVotedAlert">
+          <h4 class="alert-heading">Has voted</h4>
+          <p>You have voted on this poll.</p>
         </div>
 
 
+      </div>
     </div>
+
+
+  </div>
 
 </body>
 
