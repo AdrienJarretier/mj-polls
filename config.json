@@ -2,6 +2,24 @@
     "db": {
         "database": "db/polls.db"
     },
+    "testApi": {
+        "/testApi": {
+            "methods": {},
+            "routes": {
+                "/polls": {
+                    "methods": {},
+                    "routes": {
+                        "/:id": {
+                            "methods": {
+                                "GET": "get full poll and its votes results"
+                            },
+                            "routes": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
     "api": {
         "/polls": {
             "methods": {
