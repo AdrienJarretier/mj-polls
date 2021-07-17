@@ -5,16 +5,13 @@ const COLORS_7 = [
     "#df8568", "#feb39a", "#f6d3a2", "#f8e6b5", "#c1dbb3", "#7ebc89", "#54a062"
 ];
 
-
 const COLORS_3 = [
     "#df8568", "#f8e6b5", "#54a062"
 ];
 
-
 const COLORS_5 = [
     "#df8568", "#feb39a", "#f8e6b5", "#7ebc89", "#54a062"
 ];
-
 
 function color(index, palette) {
     return palette[index % palette.length];
@@ -24,7 +21,6 @@ function color(index, palette) {
 $(async function () {
 
     const choices = parsedPoll["choices"];
-
     var VOTERS_COUNT = 0;
 
     // Number of choices, eg candidates, in the poll
@@ -79,11 +75,15 @@ $(async function () {
         }
     }
 
+
+    // data to be plotted
     const data = {
         labels: labels,
         datasets: dataset
     };
 
+
+    // Configurating the plot
     const config = {
         type: 'bar',
         data: data,
@@ -95,7 +95,7 @@ $(async function () {
                 },
                 subtitle: {
                     display: true,
-                    text: 'Number of voters :' + VOTERS_COUNT
+                    text: 'Number of voters : ' + VOTERS_COUNT
                 },
                 autocolors: false,
                 annotation: {
@@ -118,7 +118,7 @@ $(async function () {
             },
             layout: {
                 padding: {
-                    bottom: 400
+                    bottom: 200
                 }
             },
             responsive: true,
@@ -127,12 +127,15 @@ $(async function () {
                     stacked: true,
                 },
                 y: {
-                    stacked: true
+                    stacked: true,
+                    min: 0,
+                    max: VOTERS_COUNT
                 }
             }
         }
     };
 
+    // drawing the plot, finally
     var myChart = new Chart(
         document.getElementById('results_plot'),
         config
