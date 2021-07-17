@@ -31,7 +31,15 @@
                     "methods": {
                         "GET": "Get poll"
                     },
-                    "routes": {}
+                    "routes": {
+                        "/vote": {
+                            "methods": {
+                                "GET": "Get vote results for poll with given id",
+                                "POST": "Cast a new vote for this poll"
+                            },
+                            "routes": {}
+                        }
+                    }
                 }
             }
         }
