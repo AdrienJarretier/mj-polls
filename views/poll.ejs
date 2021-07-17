@@ -8,29 +8,15 @@
 
       'use strict';
 
-      $(async function () {
+      const parsedPoll = JSON.parse('<%- poll %>');
 
-        const parsedPoll = JSON.parse('<%- poll %>');
-
-        console.log(parsedPoll);
-
-        $('#title').text(parsedPoll.title);
+      async function makeVoteForm() {
 
         let grades = await get('/polls/grades');
 
-
-        let row = $('<div>').addClass('row');
-        row.append($('<div>').addClass('col'));
-        for (let choice of parsedPoll.choices) {
-
-          row.append($('<div>').addClass('col').text(choice.name));
-
-        }
-        $('#choices').append(row);
-
         for (let grade of grades) {
 
-          row = $('<div>').addClass('row');
+          let row = $('<div>').addClass('row');
           row.append($('<div>').addClass('col').text(grade.value));
 
           for (let choice of parsedPoll.choices) {
@@ -49,21 +35,48 @@
 
         }
 
-        $('#choicesForm').submit(async function (event) {
-          event.preventDefault();
+        let submitButton = $('<button type="submit" id="submitButton" class="btn-dark">')
+          .text('submit')
+          .submit(async function (event) {
+            event.preventDefault();
 
-          let formData = parseForm($(this));
+            let formData = parseForm($(this));
 
-          console.log(formData);
+            console.log(formData);
 
-          let voteOk = await post(
-            '/polls/' + parsedPoll.id + '/vote',
-            formData
-          );
+            let voteOk = await post(
+              '/polls/' + parsedPoll.id + '/vote',
+              formData
+            );
 
-          console.log(voteOk);
+            console.log(voteOk);
 
-        });
+            if (voteOk) {
+
+              localStorage.setItem(parsedPoll.id, true);
+
+            }
+
+          });
+
+          $('#choicesForm').append(submitButton);
+      }
+
+      $(async function () {
+
+        $('#title').text(parsedPoll.title);
+
+
+        let row = $('<div>').addClass('row');
+        row.append($('<div>').addClass('col'));
+        for (let choice of parsedPoll.choices) {
+
+          row.append($('<div>').addClass('col').text(choice.name));
+
+        }
+        $('#choices').append(row);
+
+        makeVoteForm();
 
       });
 
@@ -92,6 +105,7 @@
 
     <br>
 
+
     <div class="row">
 
       <div class="col">
@@ -104,8 +118,6 @@
           <div id="choices"></div>
 
           <br>
-          <button type="submit" id="submitButton" class="btn-dark">submit</button>
-
         </form>
       </div>
     </div>
