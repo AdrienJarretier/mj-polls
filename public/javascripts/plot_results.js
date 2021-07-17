@@ -1,43 +1,34 @@
 'use strict';
 
-const COLORS = [
-    '#4dc9f6',
-    '#f67019',
-    '#f53794',
-    '#537bc4',
-    '#acc236',
-    '#166a8f',
-    '#00a950',
-    '#58595b',
-    '#8549ba'
+const COLORS_7 = [
+    "#95F9C3",
+    "#7ED9B4",
+    "#67B9A4",
+    "#509995",
+    "#397885",
+    "#225876",
+    "#0B3866"
 ];
 
-function color(index) {
-    return COLORS[index % COLORS.length];
-}
 
-const CHART_COLORS = {
-    red: 'rgb(255, 99, 132)',
-    orange: 'rgb(255, 159, 64)',
-    yellow: 'rgb(255, 205, 86)',
-    green: 'rgb(75, 192, 192)',
-    blue: 'rgb(54, 162, 235)',
-    purple: 'rgb(153, 102, 255)',
-    grey: 'rgb(201, 203, 207)'
-};
-
-const NAMED_COLORS = [
-    CHART_COLORS.red,
-    CHART_COLORS.orange,
-    CHART_COLORS.yellow,
-    CHART_COLORS.green,
-    CHART_COLORS.blue,
-    CHART_COLORS.purple,
-    CHART_COLORS.grey,
+const COLORS_3 = [
+    "#95F9C3",
+    "#509995",
+    "#0B3866"
 ];
 
-function namedColor(index) {
-    return NAMED_COLORS[index % NAMED_COLORS.length];
+
+const COLORS_5 = [
+    "#95F9C3",
+    "#73C9AC",
+    "#509995",
+    "#2E687D",
+    "#0B3866"
+];
+
+
+function color(index, palette) {
+    return palette[index % palette.length];
 }
 
 
@@ -45,6 +36,10 @@ function namedColor(index) {
 $(async function () {
 
     const choices = parsedPoll["choices"];
+    console.log(parsedPoll);
+
+
+    var VOTERS_COUNT = 0;
 
     // Number of choices, eg candidates, in the poll
     const DATA_COUNT = choices.length;
@@ -55,16 +50,43 @@ $(async function () {
         labels.push(choice.name);
     }
 
-    // Filling the data to be plotted as well
-    var dataset = [];
+    // Getting possible values
+    const values = [];
     var choice = choices[0];
     var votes = choice.votes;
-    var cpt = 0;
     for (const vote of Object.keys(votes)) {
-        const entry = { "label": votes[vote].value, "data": [votes[vote].count], "backgroundColor": color(cpt), };
+        values.push(votes[vote].value);
+    }
+
+
+    var palette = COLORS_7;
+
+    // Getting the appropriate color palette
+    if (values.length <= 3) {
+        palette = COLORS_3;
+    }
+    if (values.length <= 5 & values.length > 3) {
+        palette = COLORS_5;
+    }
+    if (values.length <= 7 & values.length > 5) {
+        palette = COLORS_7;
+    }
+
+    console.log(palette);
+
+    // Creating the data structure as needed by Chartjs to be plotted
+    var dataset = [];
+    var cpt = 0;
+
+    for (const vote of Object.keys(votes)) {
+        const entry = { "label": votes[vote].value, "data": [votes[vote].count], "backgroundColor": color(cpt, palette), };
         dataset.push(entry);
         cpt += 1;
+        VOTERS_COUNT += votes[vote].count;
+        values.push(votes[vote].value);
     }
+
+
 
     for (choice of choices.slice(-choices.length + 1)) {
 
@@ -78,7 +100,6 @@ $(async function () {
     }
 
     console.log(dataset);
-    console.log(parsedPoll.voters_count / 2)
 
     const data = {
         labels: labels,
@@ -96,15 +117,15 @@ $(async function () {
                 },
                 subtitle: {
                     display: true,
-                    text: 'Number of voters :' + parsedPoll.voters_count
+                    text: 'Number of voters :' + VOTERS_COUNT
                 },
                 autocolors: false,
                 annotation: {
                     annotations: [{
                         type: 'line',
                         xScaleID: 'x',
-                        yMin: parsedPoll.voters_count / 2,
-                        yMax: parsedPoll.voters_count / 2,
+                        yMin: VOTERS_COUNT / 2,
+                        yMax: VOTERS_COUNT / 2,
                         xMin: labels[0],
                         xMax: labels[labels.length - 1],
                         borderColor: 'rgb(240, 240, 240)',
@@ -138,9 +159,6 @@ $(async function () {
         document.getElementById('results_plot'),
         config
     );
-
-
-
 
 });
 
