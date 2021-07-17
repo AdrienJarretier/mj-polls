@@ -55,6 +55,10 @@ function aggregateVotes(resultRows) {
 
     let polls = aggregateChoices(resultRows);
 
+    let choicesNoDuplicate = {};
+
+    polls.choices = choicesNoDuplicate;
+
     console.log(resultRows);
 
     for (let row of resultRows) {
@@ -175,15 +179,35 @@ exports.getGrades = function () {
 
 exports.getVotes = function (poll_id) {
 
-    let rows = executeStatement(`
-    SELECT * FROM polls
-    INNER JOIN polls_choices AS pc ON polls.id = pc.poll_id
-    INNER JOIN polls_votes AS pv ON pc.id = pv.poll_choice_id
-    INNER JOIN grades AS g ON pv.grade_id = g.id
-    WHERE polls.id = ?
-    `, 'all', [poll_id], true);
+    let poll = exports.getPoll(poll_id);
 
-    // return rows;
-    return aggregateVotes(rows);
+    let polls_votes = executeStatement(`
+    SELECT * FROM polls_votes;
+    `, 'all');
+
+    let grades = exports.getGrades();
+
+    for (let choice of poll.choices) {
+
+        choice['votes'] = {};
+
+        for (let grade of grades) {
+            choice['votes'][grade.id] = grade;
+
+        }
+
+        for (let vote of polls_votes) {
+
+            if (vote.poll_choice_id == choice.id) {
+
+                choice['votes'][vote.grade_id].count = vote.count;
+
+            }
+
+        }
+
+    }
+
+    return poll;
 
 }
