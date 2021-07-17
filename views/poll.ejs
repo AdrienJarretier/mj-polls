@@ -35,7 +35,7 @@
 
         let grades = await get('/polls/grades');
 
-        for (let grade of grades.sort((a, b) => a.order < b.order)) {
+        for (let grade of grades.sort((a, b) => b.order - a.order)) {
 
           let row = $('<div>').addClass('row');
           row.append($('<div>').addClass('col').text(grade.value));
