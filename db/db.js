@@ -22,6 +22,9 @@ exports.getPollsIds = function () {
 
 }
 
+// for a list of results with polls and their choices
+// returns an object with polls ids as keys
+// values are the polls with an array of their choices
 function aggregateChoices(resultRows) {
 
     let polls = {};
@@ -41,6 +44,40 @@ function aggregateChoices(resultRows) {
         }
 
         polls[id]['choices'].push(row.polls_choices);
+
+    }
+
+    return polls;
+
+}
+
+function aggregateVotes(resultRows) {
+
+    let polls = aggregateChoices(resultRows);
+
+    let choicesNoDuplicate = {};
+
+    polls.choices = choicesNoDuplicate;
+
+    console.log(resultRows);
+
+    for (let row of resultRows) {
+
+        let id = row.polls.id;
+
+        if (!('votes' in polls[id]))
+            polls[id]['votes'] = [];
+
+        if (!('grades' in polls[id]))
+            polls[id]['grades'] = [];
+
+        // for (const [key, value] of Object.entries(row.polls)) {
+        //     polls[id][key] = value;
+        // }
+
+        polls[id]['votes'].push(row.polls_votes);
+        polls[id]['grades'].push(row.grades);
+
 
     }
 
@@ -114,10 +151,19 @@ exports.insertPoll = function (data) {
 
     for (let choice of data.choices) {
 
-        executeStatement(`
+        let poll_choice_insertResult = executeStatement(`
         INSERT INTO polls_choices(poll_id, name)
         VALUES(?, ?);
         `, 'run', [pollsInsertResult.lastInsertRowid, choice]);
+
+        for (let g of exports.getGrades()) {
+
+            executeStatement(`
+            INSERT INTO polls_votes(poll_choice_id, grade_id)
+            VALUES(?, ?);
+            `, 'run', [poll_choice_insertResult.lastInsertRowid, g.id]);
+
+        }
 
     }
 
@@ -128,5 +174,40 @@ exports.insertPoll = function (data) {
 exports.getGrades = function () {
 
     return executeStatement('SELECT * FROM grades ORDER BY "order";', 'all');
+
+}
+
+exports.getVotes = function (poll_id) {
+
+    let poll = exports.getPoll(poll_id);
+
+    let polls_votes = executeStatement(`
+    SELECT * FROM polls_votes;
+    `, 'all');
+
+    let grades = exports.getGrades();
+
+    for (let choice of poll.choices) {
+
+        choice['votes'] = {};
+
+        for (let grade of grades) {
+            choice['votes'][grade.id] = grade;
+
+        }
+
+        for (let vote of polls_votes) {
+
+            if (vote.poll_choice_id == choice.id) {
+
+                choice['votes'][vote.grade_id].count = vote.count;
+
+            }
+
+        }
+
+    }
+
+    return poll;
 
 }

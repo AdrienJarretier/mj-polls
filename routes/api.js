@@ -77,6 +77,14 @@ router.get('/recent', function (req, res, next) {
 
 });
 
+
+router.get('/:id/vote', function (req, res, next) {
+
+    res.json(db.getVotes(req.params.id));
+
+});
+
+
 router.get('/:id', function (req, res, next) {
 
     res.json(db.getPoll(req.params.id));
