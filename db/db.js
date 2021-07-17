@@ -51,39 +51,6 @@ function aggregateChoices(resultRows) {
 
 }
 
-function aggregateVotes(resultRows) {
-
-    let polls = aggregateChoices(resultRows);
-
-    let choicesNoDuplicate = {};
-
-    polls.choices = choicesNoDuplicate;
-
-    console.log(resultRows);
-
-    for (let row of resultRows) {
-
-        let id = row.polls.id;
-
-        if (!('votes' in polls[id]))
-            polls[id]['votes'] = [];
-
-        if (!('grades' in polls[id]))
-            polls[id]['grades'] = [];
-
-        // for (const [key, value] of Object.entries(row.polls)) {
-        //     polls[id][key] = value;
-        // }
-
-        polls[id]['votes'].push(row.polls_votes);
-        polls[id]['grades'].push(row.grades);
-
-
-    }
-
-    return polls;
-
-}
 
 exports.getFullPolls = function () {
 
