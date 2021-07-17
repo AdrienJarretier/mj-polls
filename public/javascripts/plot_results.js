@@ -3,17 +3,17 @@
 // Palettes definition
 const COLORS_7 = [
     "#df8568", "#feb39a", "#f6d3a2", "#f8e6b5", "#c1dbb3", "#7ebc89", "#54a062"
-];
+].reverse();
 
 
 const COLORS_3 = [
     "#df8568", "#f8e6b5", "#54a062"
-];
+].reverse();
 
 
 const COLORS_5 = [
     "#df8568", "#feb39a", "#f8e6b5", "#7ebc89", "#54a062"
-];
+].reverse();
 
 
 function color(index, palette) {
@@ -57,6 +57,12 @@ $(async function () {
     if (values.length <= 7 & values.length > 5) {
         palette = COLORS_7;
     }
+
+    // color_matchings = [];
+
+    // for (value of values) {
+    //     color_matchings.push({ value:})
+    // }
 
     console.log(palette);
 
