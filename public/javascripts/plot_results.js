@@ -2,29 +2,17 @@
 
 // Palettes definition
 const COLORS_7 = [
-    "#95F9C3",
-    "#7ED9B4",
-    "#67B9A4",
-    "#509995",
-    "#397885",
-    "#225876",
-    "#0B3866"
+    "#df8568", "#feb39a", "#f6d3a2", "#f8e6b5", "#c1dbb3", "#7ebc89", "#54a062"
 ];
 
 
 const COLORS_3 = [
-    "#95F9C3",
-    "#509995",
-    "#0B3866"
+    "#df8568", "#f8e6b5", "#54a062"
 ];
 
 
 const COLORS_5 = [
-    "#95F9C3",
-    "#73C9AC",
-    "#509995",
-    "#2E687D",
-    "#0B3866"
+    "#df8568", "#feb39a", "#f8e6b5", "#7ebc89", "#54a062"
 ];
 
 
@@ -85,9 +73,7 @@ $(async function () {
     }
 
 
-
     for (choice of choices.slice(-choices.length + 1)) {
-
         var votes = choice.votes;
         var cpt = 0;
         for (const vote of Object.keys(votes)) {
