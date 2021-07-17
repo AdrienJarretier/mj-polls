@@ -172,7 +172,10 @@ exports.addVote = function (vote) {
 
 exports.getGrades = function () {
 
-    return executeStatement('SELECT * FROM grades ORDER BY "order";', 'all');
+    return executeStatement(`
+    SELECT * FROM grades ORDER BY "order";
+    `
+        , 'all');
 
 }
 
@@ -197,14 +200,15 @@ exports.getFullPoll = function (poll_id) {
         for (let grade of grades) {
             choice['votes'][grade.id] = Object.assign({}, grade);
         }
+        // console.log(choice['votes']);
 
         for (let vote of polls_votes) {
 
             if (vote.poll_choice_id == choice.id) {
 
-                console.log(vote.grade_id, vote.count);
+                // console.log(vote.grade_id, vote.count);
                 choice['votes'][vote.grade_id].count = vote.count;
-                console.log(choice);
+                // console.log(choice);
 
             }
 
