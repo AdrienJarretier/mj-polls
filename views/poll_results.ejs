@@ -4,7 +4,22 @@
 <head>
     <%- include('partials/head.ejs') %>
 
-        <script src="javascripts/script.js"></script>
+
+        <script>
+
+            'use strict';
+
+            $(async function () {
+
+
+            });
+
+            const parsedPoll = JSON.parse('<%- poll %>');
+
+        </script>
+
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <script src="/javascripts/plot_results.js"></script>
 
 </head>
 
@@ -15,6 +30,8 @@
         <div class="row">
 
             <div class="col">
+
+                <div id="results_plot"></div>
 
             </div>
         </div>
