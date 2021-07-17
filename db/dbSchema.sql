@@ -4,13 +4,13 @@ CREATE TABLE IF NOT EXISTS "grades" (
         "order" INTEGER NOT NULL UNIQUE
         );
 
-INSERT INTO grades("value", "order") VALUES('Excellent', 0);
-INSERT INTO grades("value", "order") VALUES('Very good', 200);
-INSERT INTO grades("value", "order") VALUES('Good', 300);
-INSERT INTO grades("value", "order") VALUES('Passable', 500);
-INSERT INTO grades("value", "order") VALUES('Inadequate', 700);
-INSERT INTO grades("value", "order") VALUES('Mediocre', 800);
-INSERT INTO grades("value", "order") VALUES('Bad', 1000);
+INSERT INTO grades("value", "order") VALUES('Excellent', 60);
+INSERT INTO grades("value", "order") VALUES('Very good', 50);
+INSERT INTO grades("value", "order") VALUES('Good', 40);
+INSERT INTO grades("value", "order") VALUES('Passable', 30);
+INSERT INTO grades("value", "order") VALUES('Inadequate', 20);
+INSERT INTO grades("value", "order") VALUES('Mediocre', 10);
+INSERT INTO grades("value", "order") VALUES('Bad', 0);
 
 
     -- // Polls will close when either voters_count > max_voters

@@ -110,31 +110,59 @@ exports.getPoll = function (id) {
 
 exports.insertPoll = function (data) {
 
-    console.log('exports.insertPoll');
-    console.log(data);
+    // console.log('exports.insertPoll');
+    // console.log(data);
 
     let pollsInsertResult = executeStatement(`
     INSERT INTO polls(title)
     VALUES(?);
     `, 'run', [data.title]);
 
-    for (let choice of data.choices) {
+    let pollId = pollsInsertResult.lastInsertRowid;
 
-        let poll_choice_insertResult = executeStatement(`
+    // ------------------------ INSERT choices ------------------------
+
+    let gradesIds = exports.getGrades().map(g => g.id);
+
+    let pcs_inserts_params = [];
+
+    for (let choiceId of data.choices) {
+        pcs_inserts_params.push([pollId, choiceId])
+    }
+
+    // console.log('pcs_inserts_params', pcs_inserts_params);
+
+    let pcs_insertsResults = executeLoop(`
         INSERT INTO polls_choices(poll_id, name)
         VALUES(?, ?);
-        `, 'run', [pollsInsertResult.lastInsertRowid, choice]);
+        `, pcs_inserts_params);
 
-        for (let g of exports.getGrades()) {
+    // ----------------------------------------------------------------
 
-            executeStatement(`
-            INSERT INTO polls_votes(poll_choice_id, grade_id)
-            VALUES(?, ?);
-            `, 'run', [poll_choice_insertResult.lastInsertRowid, g.id]);
+    // ---------------------- INSERT polls_votes ----------------------
 
+    let pvs_inserts_params = [];
+
+    for (let pc_insertResult of pcs_insertsResults) {
+
+        let pcId = pc_insertResult.lastInsertRowid;
+
+        for (let gradeId of gradesIds) {
+            pvs_inserts_params.push([pcId, gradeId]);
         }
 
     }
+
+    // console.log('pvs_inserts_params', pvs_inserts_params);
+
+    executeLoop(`
+    INSERT INTO polls_votes(poll_choice_id, grade_id)
+    VALUES(?, ?);
+    `,
+        pvs_inserts_params
+    );
+
+    // ----------------------------------------------------------------
 
     return pollsInsertResult.lastInsertRowid;
 
@@ -152,7 +180,7 @@ exports.addVote = function (vote) {
     WHERE poll_choice_id = ?
     AND grade_id = ?
     ;`,
-        'run', voteEntries);
+        voteEntries);
 
 
     // update unsuccessfull
@@ -172,7 +200,10 @@ exports.addVote = function (vote) {
 
 exports.getGrades = function () {
 
-    return executeStatement('SELECT * FROM grades ORDER BY "order";', 'all');
+    return executeStatement(`
+    SELECT * FROM grades ORDER BY "order";
+    `
+        , 'all');
 
 }
 
@@ -197,14 +228,15 @@ exports.getFullPoll = function (poll_id) {
         for (let grade of grades) {
             choice['votes'][grade.id] = Object.assign({}, grade);
         }
+        // console.log(choice['votes']);
 
         for (let vote of polls_votes) {
 
             if (vote.poll_choice_id == choice.id) {
 
-                console.log(vote.grade_id, vote.count);
+                // console.log(vote.grade_id, vote.count);
                 choice['votes'][vote.grade_id].count = vote.count;
-                console.log(choice);
+                // console.log(choice);
 
             }
 

@@ -105,7 +105,7 @@ router.post('/', function (req, res, next) {
     console.log('post new poll');
     console.log(req.body);
     let lastInsertRowid = db.insertPoll(req.body);
-    res.json(db.getPoll(lastInsertRowid));
+    res.json(lastInsertRowid);
 
 });
 

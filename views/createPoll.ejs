@@ -72,9 +72,11 @@
 
           let formData = parseForm('form');
 
-          let poll = await post('/polls', formData);
+          let pollId = await post('/polls', formData);
 
-          window.location.href = 'poll/' + poll.id;
+          console.log(pollId);
+
+          window.location.href = 'poll/' + pollId;
 
         });
 
