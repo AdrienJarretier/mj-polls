@@ -22,7 +22,7 @@ router.get('/poll/:id', function (req, res, next) {
 
   const pollJSONstr = JSON.stringify(poll).replace("'", "\\'");
 
-  console.log(pollJSONstr);
+  // console.log(pollJSONstr);
 
   res.render('poll', Object.assign(
     {
