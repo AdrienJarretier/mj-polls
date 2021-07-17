@@ -8,7 +8,29 @@
 
       'use strict';
 
-      const parsedPoll = JSON.parse('<%- poll %>');
+      const pollJSONstr = '<%- poll %>';
+
+      console.log(pollJSONstr);
+
+      const parsedPoll = JSON.parse(pollJSONstr);
+
+      function hasVoted(hasVoted) {
+
+        if (hasVoted) {
+
+          $('#choicesForm').hide();
+          $('#hasVotedAlert').show();
+
+        } else {
+
+          $('#hasVotedAlert').hide();
+          makeVoteForm();
+        }
+      }
+
+      function makeChoicesRow() {
+
+      }
 
       async function makeVoteForm() {
 
@@ -31,12 +53,17 @@
 
           }
 
-          $('#choices').append(row);
+          $('#choicesForm').append(row);
 
         }
 
-        let submitButton = $('<button type="submit" id="submitButton" class="btn-dark">')
-          .text('submit')
+        let submitButton = $('<button type="submit" id="submitButton">')
+          .addClass("btn-dark")
+          .addClass("btn-block")
+          .text('Vote')
+
+
+        $('#choicesForm').append(submitButton)
           .submit(async function (event) {
             event.preventDefault();
 
@@ -55,11 +82,13 @@
 
               localStorage.setItem(parsedPoll.id, true);
 
+              hasVoted(true);
+
             }
 
           });
 
-          $('#choicesForm').append(submitButton);
+
       }
 
       $(async function () {
@@ -76,7 +105,13 @@
         }
         $('#choices').append(row);
 
-        makeVoteForm();
+
+        if (!localStorage.getItem(parsedPoll.id)) {
+          hasVoted(false);
+        }
+        else {
+          hasVoted(true);
+        }
 
       });
 
@@ -113,12 +148,20 @@
         <h2 id="title"></h2>
         <br>
 
+        <div id="choices">
+        </div>
         <form id="choicesForm">
 
-          <div id="choices"></div>
-
-          <br>
         </form>
+
+        <br>
+
+        <div class="alert alert-success" role="alert" id="hasVotedAlert">
+          <h4 class="alert-heading">Has voted</h4>
+          <p>You have voted on this poll.</p>
+        </div>
+
+
       </div>
     </div>
 

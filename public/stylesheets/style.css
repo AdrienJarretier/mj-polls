@@ -10,10 +10,15 @@ body {
 
 }
 
-#choices .row{
+#choices .row, #choicesForm .row{
   border: solid black 2px;
-  padding: -1px;
-  margin: -1px;
+  margin-top: -2px;
+  margin-bottom: -2px;
+}
+
+#choicesForm button{
+  margin-top: 40px;
+  text-align: center;
 }
 
 textarea {
