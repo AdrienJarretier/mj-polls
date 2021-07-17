@@ -56,9 +56,12 @@
 
           console.log(formData);
 
-          // let voteOk = await post('/polls/' + parsedPoll.id + '/vote', formData);
+          let voteOk = await post(
+            '/polls/' + parsedPoll.id + '/vote',
+            formData
+          );
 
-          // console.log(voteOk);
+          console.log(voteOk);
 
         });
 

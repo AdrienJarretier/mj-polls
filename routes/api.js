@@ -91,6 +91,15 @@ router.get('/:id', function (req, res, next) {
 
 });
 
+router.post('/:id/vote', function (req, res, next) {
+
+    console.log('post new vote');
+    let addVoteReturn = db.addVote(req.body);
+
+    res.json({ 'voteSuccessfull': addVoteReturn });
+
+});
+
 router.post('/', function (req, res, next) {
 
     console.log('post new poll');

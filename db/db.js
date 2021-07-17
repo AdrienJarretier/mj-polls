@@ -3,6 +3,7 @@
 const dbUtils = require('./dbUtils.js');
 
 let executeStatement = dbUtils.executeStatement;
+let executeLoop = dbUtils.executeLoop;
 
 exports.getPollsIds = function () {
 
@@ -136,6 +137,36 @@ exports.insertPoll = function (data) {
     }
 
     return pollsInsertResult.lastInsertRowid;
+
+}
+
+exports.addVote = function (vote) {
+
+    console.log('adding vote');
+
+    let voteEntries = Object.entries(vote);
+
+    let updatesResults = executeLoop(`
+    UPDATE polls_votes
+    SET count = count+1
+    WHERE poll_choice_id = ?
+    AND grade_id = ?
+    ;`,
+        'run', voteEntries);
+
+
+    // update unsuccessfull
+    if (updatesResults.length < voteEntries.length)
+        return false;
+
+    for (let updateResult of updatesResults) {
+        // update unsuccessfull
+        if (updateResult.changes != 1)
+            return false;
+    }
+
+    // update success
+    return true;
 
 }
 

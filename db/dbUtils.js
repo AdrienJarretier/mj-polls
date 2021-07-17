@@ -6,41 +6,54 @@ const config = common.serverConfig;
 
 const Database = require('better-sqlite3');
 
-
-function executeStatement(sqlString, executionMethod, bindParameters, expand) {
-
-    bindParameters = bindParameters || []
-
-    expand = expand || false;
-
-    const db = new Database(config.db.database, { verbose: console.log });
-
-    const stmt = db.prepare(sqlString);
-
-    let results;
+function _executePrepared(stmt, executionMethod, bindParameters, expand) {
 
     switch (executionMethod) {
 
         case 'all':
             stmt.expand(expand);
-            results = stmt.all(bindParameters);
-            break;
+            return stmt.all(bindParameters);
 
         case 'get':
             stmt.expand(expand);
-            results = stmt.get(bindParameters);
-            break;
+            return stmt.get(bindParameters);
 
         case 'run':
-            results = stmt.run(bindParameters);
-            break;
+            return stmt.run(bindParameters);
+
+    }
+
+}
+
+function executeLoop(sqlString, executionMethod, arrayOfBindParameters, expand) {
+
+    expand = expand || false;
+
+    const db = new Database(config.db.database, { verbose: console.log });
+
+    let arrayOfResults = []
+
+    for (let bindParameters of arrayOfBindParameters) {
+
+        bindParameters = bindParameters || [];
+
+        const stmt = db.prepare(sqlString);
+
+        arrayOfResults.push(_executePrepared(stmt, executionMethod, bindParameters, expand));
 
     }
 
     db.close();
 
-    return results;
+    return arrayOfResults;
+
+}
+
+function executeStatement(sqlString, executionMethod, bindParameters, expand) {
+
+    return executeLoop(sqlString, executionMethod, [bindParameters], expand)[0];
 
 }
 
 exports.executeStatement = executeStatement;
+exports.executeLoop = executeLoop;
