@@ -80,7 +80,7 @@ router.get('/recent', function (req, res, next) {
 
 router.get('/:id/vote', function (req, res, next) {
 
-    res.json(db.getVotes(req.params.id));
+    res.json(db.getFullPoll(req.params.id));
 
 });
 
