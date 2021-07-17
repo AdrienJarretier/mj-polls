@@ -24,7 +24,6 @@
         } else {
 
           $('#hasVotedAlert').hide();
-          makeVoteForm();
         }
       }
 
@@ -36,7 +35,7 @@
 
         let grades = await get('/polls/grades');
 
-        for (let grade of grades) {
+        for (let grade of grades.sort((a, b) => a.order < b.order)) {
 
           let row = $('<div>').addClass('row');
           row.append($('<div>').addClass('col').text(grade.value));
@@ -106,7 +105,9 @@
         $('#choices').append(row);
 
 
-        if (!localStorage.getItem(parsedPoll.id)) {
+        if (!localStorage.getItem(parsedPoll.id) || infiniteVoteEnabled) {
+
+          makeVoteForm();
           hasVoted(false);
         }
         else {
