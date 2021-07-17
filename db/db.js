@@ -183,8 +183,10 @@ exports.getFullPoll = function (poll_id) {
     let poll = exports.getPoll(poll_id);
 
     let polls_votes = executeStatement(`
-    SELECT * FROM polls_votes;
-    `, 'all');
+    SELECT pv.* FROM polls_votes AS pv
+    INNER JOIN polls_choices AS pc ON pv.poll_choice_id=pc.id
+    WHERE pc.poll_id = ?;
+    `, 'all', [poll_id]);
 
     let grades = exports.getGrades();
 
@@ -193,15 +195,16 @@ exports.getFullPoll = function (poll_id) {
         choice['votes'] = {};
 
         for (let grade of grades) {
-            choice['votes'][grade.id] = grade;
-
+            choice['votes'][grade.id] = Object.assign({}, grade);
         }
 
         for (let vote of polls_votes) {
 
             if (vote.poll_choice_id == choice.id) {
 
+                console.log(vote.grade_id, vote.count);
                 choice['votes'][vote.grade_id].count = vote.count;
+                console.log(choice);
 
             }
 
