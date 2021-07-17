@@ -1,5 +1,6 @@
 'use strict';
 
+// Palettes definition
 const COLORS_7 = [
     "#95F9C3",
     "#7ED9B4",
@@ -32,12 +33,9 @@ function color(index, palette) {
 }
 
 
-
 $(async function () {
 
     const choices = parsedPoll["choices"];
-    console.log(parsedPoll);
-
 
     var VOTERS_COUNT = 0;
 
