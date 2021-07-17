@@ -36,7 +36,11 @@
                     for (let choice of parsedPoll.choices) {
 
                         let col = $('<div>').addClass('col');
-                        col.append($('<input type="radio" required>').attr('name', choice.id));
+                        let radioBtn = $('<input type="radio" required>')
+                            .attr('name', choice.id)
+                            .attr('value', grade.id);
+
+                        col.append(radioBtn);
                         row.append(col);
 
                     }
@@ -44,6 +48,19 @@
                     $('#choices').append(row);
 
                 }
+
+                $('#choicesForm').submit(async function (event) {
+                    event.preventDefault();
+
+                    let formData = parseForm($(this));
+
+                    console.log(formData);
+
+                    // let voteOk = await post('/polls/' + parsedPoll.id + '/vote', formData);
+
+                    // console.log(voteOk);
+
+                });
 
             });
 
@@ -79,12 +96,12 @@
                 <h2 id="title"></h2>
                 <br>
 
-                <form>
+                <form id="choicesForm">
 
                     <div id="choices"></div>
 
                     <br>
-                    <button type="button" class="btn-dark">submit</button>
+                    <button type="submit" id="submitButton" class="btn-dark">submit</button>
 
                 </form>
             </div>
