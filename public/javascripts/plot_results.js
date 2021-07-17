@@ -3,17 +3,17 @@
 // Palettes definition
 const COLORS_7 = [
     "#df8568", "#feb39a", "#f6d3a2", "#f8e6b5", "#c1dbb3", "#7ebc89", "#54a062"
-].reverse();
+];
 
 
 const COLORS_3 = [
     "#df8568", "#f8e6b5", "#54a062"
-].reverse();
+];
 
 
 const COLORS_5 = [
     "#df8568", "#feb39a", "#f8e6b5", "#7ebc89", "#54a062"
-].reverse();
+];
 
 
 function color(index, palette) {
@@ -58,38 +58,26 @@ $(async function () {
         palette = COLORS_7;
     }
 
-    // color_matchings = [];
-
-    // for (value of values) {
-    //     color_matchings.push({ value:})
-    // }
-
-    console.log(palette);
 
     // Creating the data structure as needed by Chartjs to be plotted
     var dataset = [];
     var cpt = 0;
 
-    for (const vote of Object.keys(votes)) {
+    for (const vote of Object.keys(votes).reverse()) {
         const entry = { "label": votes[vote].value, "data": [votes[vote].count], "backgroundColor": color(cpt, palette), };
         dataset.push(entry);
         cpt += 1;
         VOTERS_COUNT += votes[vote].count;
-        values.push(votes[vote].value);
     }
-
 
     for (choice of choices.slice(-choices.length + 1)) {
         var votes = choice.votes;
         var cpt = 0;
-        for (const vote of Object.keys(votes)) {
+        for (const vote of Object.keys(votes).reverse()) {
             dataset[cpt].data.push(votes[vote].count);
             cpt += 1;
         }
-
     }
-
-    console.log(dataset);
 
     const data = {
         labels: labels,
