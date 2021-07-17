@@ -7,7 +7,6 @@ Table "grades" {
 Table "polls" {
   "id" INTEGER [pk]
   "title" VARCHAR(255) [not null]
-  "voters_count" INTEGER [default: 0]
   "max_voters" INTEGER
   "max_datetime" DATETIME
   "datetime_opened" DATETIME [default: `CURRENT_TIMESTAMP`]

@@ -179,13 +179,16 @@ exports.getGrades = function () {
 
 exports.getVotes = function (poll_id) {
 
-    return executeStatement(`
-    SELECT name AS choice_name, value, count, "order" FROM polls_votes AS pv
-    INNER JOIN polls_choices AS pc ON pv.poll_choice_id=pc.id
-    INNER JOIN polls on pc.poll_id=polls.id
-    INNER JOIN grades AS g on pv.grade_id=g.id
-    WHERE polls.id = ?
-    `, 'all', [poll_id], false);
+    return Object.assign(exports.getPoll(poll_id),
+        {
+            "choices": executeStatement(`
+            SELECT name, value, count, "order" FROM polls_votes AS pv
+            INNER JOIN polls_choices AS pc ON pv.poll_choice_id=pc.id
+            INNER JOIN polls on pc.poll_id=polls.id
+            INNER JOIN grades AS g on pv.grade_id=g.id
+            WHERE polls.id = ?
+            `, 'all', [poll_id], false)
+        });
 
 }
 

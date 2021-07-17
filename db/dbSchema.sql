@@ -14,7 +14,6 @@ INSERT INTO grades("value", "order") VALUES('Bad', 1000);
 CREATE TABLE IF NOT EXISTS "polls" (
         "id" INTEGER PRIMARY KEY,
         "title" VARCHAR(255) NOT NULL,
-        "voters_count" INTEGER DEFAULT 0,
         "max_voters" INTEGER,
         "max_datetime" DATETIME,
         "datetime_opened" DATETIME DEFAULT CURRENT_TIMESTAMP,
