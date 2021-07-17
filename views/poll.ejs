@@ -9,14 +9,14 @@
       'use strict';
 
       const pollJSONstr = '<%- poll %>';
-
-      console.log(pollJSONstr);
+      const infiniteVoteEnabledStr = '<%- infiniteVoteEnabled %>';
 
       const parsedPoll = JSON.parse(pollJSONstr);
+      const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
 
       function hasVoted(hasVoted) {
 
-        if (hasVoted) {
+        if (hasVoted && !infiniteVoteEnabled) {
 
           $('#choicesForm').hide();
           $('#hasVotedAlert').show();

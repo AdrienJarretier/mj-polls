@@ -2,6 +2,10 @@
     "db": {
         "database": "db/polls.db"
     },
+    "testConfig": {
+        "infiniteVoteEnabled":true,
+        "testApiEnabled": true
+    },
     "testApi": {
         "/testApi": {
             "methods": {},

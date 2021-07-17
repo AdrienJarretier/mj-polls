@@ -3,6 +3,8 @@ var router = express.Router();
 
 var db = require('../db/db.js');
 
+const common = require("../common.js");
+
 const GLOBAL_OPTIONS = { globalTitle: 'MJ-Voting' }
 
 /* GET home page. */
@@ -25,7 +27,8 @@ router.get('/poll/:id', function (req, res, next) {
   res.render('poll', Object.assign(
     {
       'pageTitle': poll.title,
-      poll: pollJSONstr
+      poll: pollJSONstr,
+      infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
     },
     GLOBAL_OPTIONS));
 });
