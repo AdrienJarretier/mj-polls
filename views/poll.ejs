@@ -2,113 +2,113 @@
 <html lang="en">
 
 <head>
-    <%- include('partials/head.ejs') %>
+  <%- include('partials/head.ejs') %>
 
-        <script>
+    <script>
 
-            'use strict';
+      'use strict';
 
-            $(async function () {
+      $(async function () {
 
-                const parsedPoll = JSON.parse('<%- poll %>');
+        const parsedPoll = JSON.parse('<%- poll %>');
 
-                console.log(parsedPoll);
+        console.log(parsedPoll);
 
-                $('#title').text(parsedPoll.title);
+        $('#title').text(parsedPoll.title);
 
-                let grades = await get('/polls/grades');
-
-
-                let row = $('<div>').addClass('row');
-                row.append($('<div>').addClass('col'));
-                for (let choice of parsedPoll.choices) {
-
-                    row.append($('<div>').addClass('col').text(choice.name));
-
-                }
-                $('#choices').append(row);
-
-                for (let grade of grades) {
-
-                    row = $('<div>').addClass('row');
-                    row.append($('<div>').addClass('col').text(grade.value));
-
-                    for (let choice of parsedPoll.choices) {
-
-                        let col = $('<div>').addClass('col');
-                        let radioBtn = $('<input type="radio" required>')
-                            .attr('name', choice.id)
-                            .attr('value', grade.id);
-
-                        col.append(radioBtn);
-                        row.append(col);
-
-                    }
-
-                    $('#choices').append(row);
-
-                }
-
-                $('#choicesForm').submit(async function (event) {
-                    event.preventDefault();
-
-                    let formData = parseForm($(this));
-
-                    console.log(formData);
-
-                    // let voteOk = await post('/polls/' + parsedPoll.id + '/vote', formData);
-
-                    // console.log(voteOk);
-
-                });
-
-            });
+        let grades = await get('/polls/grades');
 
 
-        </script>
+        let row = $('<div>').addClass('row');
+        row.append($('<div>').addClass('col'));
+        for (let choice of parsedPoll.choices) {
+
+          row.append($('<div>').addClass('col').text(choice.name));
+
+        }
+        $('#choices').append(row);
+
+        for (let grade of grades) {
+
+          row = $('<div>').addClass('row');
+          row.append($('<div>').addClass('col').text(grade.value));
+
+          for (let choice of parsedPoll.choices) {
+
+            let col = $('<div>').addClass('col');
+            let radioBtn = $('<input type="radio" required>')
+              .attr('name', choice.id)
+              .attr('value', grade.id);
+
+            col.append(radioBtn);
+            row.append(col);
+
+          }
+
+          $('#choices').append(row);
+
+        }
+
+        $('#choicesForm').submit(async function (event) {
+          event.preventDefault();
+
+          let formData = parseForm($(this));
+
+          console.log(formData);
+
+          // let voteOk = await post('/polls/' + parsedPoll.id + '/vote', formData);
+
+          // console.log(voteOk);
+
+        });
+
+      });
+
+
+    </script>
 
 </head>
 
 
 <body>
 
-    <div class="container">
+  <div class="container">
 
-        <div class="row">
+    <div class="row">
 
-            <nav>
+      <nav>
 
-                <a href="/">home</a>
+        <a href="/">home</a>
 
-            </nav>
+      </nav>
 
-            <div class="col">
+      <div class="col">
 
-            </div>
-        </div>
+      </div>
+    </div>
 
+    <br>
+
+    <div class="row">
+
+      <div class="col">
+
+        <h2 id="title"></h2>
         <br>
 
-        <div class="row">
+        <form id="choicesForm">
 
-            <div class="col">
+          <div id="choices"></div>
 
-                <h2 id="title"></h2>
-                <br>
+          <br>
+          <button type="submit" id="submitButton" class="btn-dark">submit</button>
 
-                <form id="choicesForm">
-
-                    <div id="choices"></div>
-
-                    <br>
-                    <button type="submit" id="submitButton" class="btn-dark">submit</button>
-
-                </form>
-            </div>
-        </div>
-
-
+        </form>
+      </div>
     </div>
+
+
+  </div>
 
 </body>
 
