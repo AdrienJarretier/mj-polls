@@ -25,23 +25,35 @@ function _executePrepared(stmt, executionMethod, bindParameters, expand) {
 
 }
 
-function executeLoop(sqlString, executionMethod, arrayOfBindParameters, expand) {
+function executeLoop(sqlString, arrayOfBindParameters) {
 
-    expand = expand || false;
+
+    // console.log('executeLoop');
 
     const db = new Database(config.db.database, { verbose: console.log });
 
-    let arrayOfResults = []
+    // console.log('db opened');
+    let arrayOfResults = [];
 
-    for (let bindParameters of arrayOfBindParameters) {
+    const stmt = db.prepare(sqlString);
+    // console.log('stmt prepared');
 
-        bindParameters = bindParameters || [];
+    const runMany = db.transaction((arrayOfBindParameters) => {
 
-        const stmt = db.prepare(sqlString);
+        // console.log('run many with :', arrayOfBindParameters)
 
-        arrayOfResults.push(_executePrepared(stmt, executionMethod, bindParameters, expand));
+        for (let bindParameters of arrayOfBindParameters) {
+            bindParameters = bindParameters || [];
 
-    }
+            // console.log('run with', bindParameters);
+            arrayOfResults.push(stmt.run(bindParameters));
+        }
+
+    });
+
+    // console.log('arrayOfBindParameters', arrayOfBindParameters);
+    runMany(arrayOfBindParameters);
+
 
     db.close();
 
@@ -51,7 +63,18 @@ function executeLoop(sqlString, executionMethod, arrayOfBindParameters, expand) 
 
 function executeStatement(sqlString, executionMethod, bindParameters, expand) {
 
-    return executeLoop(sqlString, executionMethod, [bindParameters], expand)[0];
+    bindParameters = bindParameters || [];
+    expand = expand || false;
+
+    const db = new Database(config.db.database, { verbose: console.log });
+    const stmt = db.prepare(sqlString);
+
+    let results = _executePrepared(stmt, executionMethod, bindParameters, expand);
+
+    db.close();
+
+    return results;
+
 
 }
 

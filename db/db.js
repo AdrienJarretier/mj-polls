@@ -152,7 +152,7 @@ exports.addVote = function (vote) {
     WHERE poll_choice_id = ?
     AND grade_id = ?
     ;`,
-        'run', voteEntries);
+        voteEntries);
 
 
     // update unsuccessfull
