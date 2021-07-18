@@ -2,7 +2,7 @@
 
 // Palettes definition
 const COLORS_7 = [
-    "#df8568", "#feb39a", "#f6d3a2", "#f8e6b5", "#c1dbb3", "#7ebc89", "#54a062"
+    "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
 ];
 
 const COLORS_3 = [
