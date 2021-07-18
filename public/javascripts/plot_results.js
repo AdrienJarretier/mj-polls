@@ -83,12 +83,14 @@ $(async function () {
     };
 
 
+
     // Configurating the plot
     const config = {
         type: 'bar',
         data: data,
         options: {
             plugins: {
+
                 title: {
                     display: true,
                     text: 'Vote results for poll : ' + parsedPoll.title
@@ -98,6 +100,7 @@ $(async function () {
                     text: 'Number of voters : ' + VOTERS_COUNT
                 },
                 autocolors: false,
+
                 annotation: {
                     annotations: [{
                         type: 'line',
@@ -113,14 +116,19 @@ $(async function () {
                             content: 'Median'
                         }
                     }],
-                    drawTime: 'afterDraw'
-                }
+                    drawTime: 'afterDatasetsDraw'
+                },
+                tooltip: {
+                    position: 'nearest'
+                },
             },
             layout: {
                 padding: {
                     bottom: 200
                 }
             },
+
+            interaction: true,
             responsive: true,
             scales: {
                 x: {
@@ -140,7 +148,6 @@ $(async function () {
         document.getElementById('results_plot'),
         config
     );
-
 });
 
 
