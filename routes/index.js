@@ -20,9 +20,12 @@ router.get('/poll/:id', function (req, res, next) {
 
   let poll = db.getPoll(req.params.id);
 
-  const pollJSONstr = JSON.stringify(poll).replace("'", "\\'");
+  // console.log(poll);
 
-  // console.log(pollJSONstr);
+  const pollJSONstr = JSON.stringify(poll)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, "\\\"");
 
   res.render('poll', Object.assign(
     {

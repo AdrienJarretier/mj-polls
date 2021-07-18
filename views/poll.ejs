@@ -9,7 +9,10 @@
       'use strict';
 
       const pollJSONstr = '<%- poll %>';
+
       const infiniteVoteEnabledStr = '<%- infiniteVoteEnabled %>';
+
+      // console.log(pollJSONstr);
 
       const parsedPoll = JSON.parse(pollJSONstr);
       const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
