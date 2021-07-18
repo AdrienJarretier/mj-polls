@@ -50,9 +50,6 @@ $(async function () {
     if (values.length <= 5 & values.length > 3) {
         palette = COLORS_5;
     }
-    if (values.length <= 7 & values.length > 5) {
-        palette = COLORS_7;
-    }
 
 
     // Creating the data structure as needed by Chartjs to be plotted
