@@ -28,11 +28,11 @@
           let idAttr = input.attr('id');
           // console.log(idAttr);
 
+          ++choices;
           label.attr('for', idAttr + choices);
           input.attr('id', idAttr + choices);
           label.text(choices);
 
-          ++choices;
           $('#choices').append(cloned);
 
         }
@@ -119,8 +119,7 @@
 
               <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <textarea id="title" name="title" type=" text" class="form-control">
-              </textarea>
+                <textarea id="title" name="title" type=" text" class="form-control"></textarea>
               </div>
 
             </div>
