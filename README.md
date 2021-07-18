@@ -1,11 +1,10 @@
-# Majority judgment web application
+![alt text](public/images/logo.png "Title")
 
 
-
-This project is a web application for creating, running and visualizing **majority judgment** polls.
-
-### Principle of majority judgment
+## This project is a web application for creating, running and visualizing **majority judgment** polls.
 ---
+### Principle of majority judgment
+
 
 Majority judgment is a voting system designed to elect a single winner, based on a highest median rule. It was introduced by two INRIA researcher in 2007, Michel Balinski and Rida Laraki.
 
@@ -29,8 +28,9 @@ This procedure offers several advantages against existing alternatives :
 
 [Balinski M. and R. Laraki (2007), A Theory of Measuring, Electing and Ranking, PNAS, 104(2), 8720-8725.](https://www.pnas.org/content/104/21/8720)
 
-### Use the app
 ---
+### Use the app
+
 
 wip
 

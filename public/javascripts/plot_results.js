@@ -97,7 +97,6 @@ $(async function () {
                     text: 'Number of voters : ' + VOTERS_COUNT
                 },
                 autocolors: false,
-
                 annotation: {
                     annotations: [{
                         type: 'line',
