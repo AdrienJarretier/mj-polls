@@ -1,4 +1,4 @@
-# Majority jugment web application
+# Majority judgment web application
 
 
 
@@ -32,7 +32,8 @@ This procedure offers several advantages against existing alternatives :
 ### Use the app
 ---
 
+wip
 
-
+---
 
 By sirsanga and takama
