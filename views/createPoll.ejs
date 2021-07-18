@@ -30,7 +30,7 @@
 
           label.attr('for', idAttr + choices);
           input.attr('id', idAttr + choices);
-          label.text(choices + ' : ');
+          label.text(choices);
 
           ++choices;
           $('#choices').append(cloned);
@@ -110,55 +110,75 @@
     <br>
 
     <div class="row">
+      <div class="col">
 
-      <form>
+        <form>
 
-        <div class="row">
-          <div class="col">
+          <div class="row">
+            <div class="col">
 
-            <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <textarea id="title" name="title" type=" text" class="form-control">
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <textarea id="title" name="title" type=" text" class="form-control">
               </textarea>
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-3">
+              <label for="inputMaxVotes" class="form-label">Max votes</label>
+              <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max">
             </div>
 
-          </div>
-        </div>
+
+            <div class="col-1">
+            </div>
 
 
-        <div class="row">
-          <div class="col">
-            <label for="inputMaxVotes" class="form-label">Max votes</label>
-            <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max">
-          </div>
+            <div class="col">
 
+              <label for="inputMaxDate" class="form-label">Max Date and Time</label>
+              <div class="input-group">
+                <input id="inputMaxDate" type="date" class="form-control" min="" aria-label="Max Date">
+                <span class="input-group-text">at</span>
+                <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time">
+              </div>
+            </div>
 
-          <div class="col">
-            <label for="inputMaxDate" class="form-label">Max Date</label>
-            <input id="inputMaxDate" type="date" class="form-control" placeholder="No max" min="2021-07-18">
-          </div>
-
-          <div class="col">
-            <label for="inputMaxtime" class="form-label">Max Time</label>
-            <input id="inputMaxtime" type="time" class="form-control" placeholder="No max">
-          </div>
-        </div>
-
-        <fieldset id="choices" class="mt-4">
-          <legend>Choices</legend>
-
-          <input type="number" id="addChoice" class="form-control" min="1" value="1">
-
-          <div id="choicesList">
 
           </div>
 
-        </fieldset>
+          <div class="row">
+            <div class="col">
+              <fieldset id="choices" class="mt-4">
+                <legend>Choices</legend>
 
-        <button type="button" id="submitButton" class="btn-dark mt-3">Submit</button>
+                <div class="row">
+                  <div class="col-3">
+                    <input type="number" id="addChoice" class="form-control mb-3" min="1" value="1">
+                  </div>
+                </div>
+                <div id="choicesList">
 
-      </form>
+                </div>
 
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <button type="button" id="submitButton" class="btn btn-secondary btn-lg">Create poll</button>
+
+            </div>
+          </div>
+
+        </form>
+
+      </div>
     </div>
 
 
@@ -168,10 +188,10 @@
 
 <template id="choiceInputTemplate">
 
-  <p>
-    <label for="choice-"></label>
-    <input id="choice-" name="choices[]" type="text">
-  </p>
+  <div class="my-2 input-group">
+    <label for="choice-" class="input-group-text"></label>
+    <input id="choice-" name="choices[]" type="text" class="form-control">
+  </div>
 
 </template>
 
