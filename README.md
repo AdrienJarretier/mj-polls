@@ -25,7 +25,7 @@ This procedure offers several advantages against existing alternatives :
 
 + It was shown to significantly reduce strategic and dishonest votes
 
-+ In contrast with more classical approches, it does not encounters paradoxes such as Condorcet's and Arrow's, .
++ In contrast with more classical approches, it does not encounter paradoxes such as Condorcet's and Arrow's, .
 
 [Balinski M. and R. Laraki (2007), A Theory of Measuring, Electing and Ranking, PNAS, 104(2), 8720-8725.](https://www.pnas.org/content/104/21/8720)
 
