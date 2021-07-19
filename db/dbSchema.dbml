@@ -13,6 +13,11 @@ Table "polls" {
   "datetime_closed" DATETIME
 }
 
+Table "duplicate_vote_check_methods" {
+  "id" INTEGER [pk]
+  "name" VARCHAR(255) [unique, not null]
+}
+
 Table "polls_choices" {
   "id" INTEGER [pk]
   "poll_id" INTEGER [unique, not null]
