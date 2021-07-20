@@ -8,7 +8,6 @@ var testApiRouter = require('./routes/testApi');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 
-
 const common = require("./common.js");
 
 var app = express();
