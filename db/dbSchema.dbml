@@ -20,14 +20,22 @@ Table "duplicate_vote_check_methods" {
 
 Table "polls_choices" {
   "id" INTEGER [pk]
-  "poll_id" INTEGER [unique, not null]
-  "name" VARCHAR(255) [unique, not null]
+  "poll_id" INTEGER [not null]
+  "name" VARCHAR(255) [not null]
+
+  indexes {
+    (poll_id, name) [unique]
+  }
 }
 
 Table "polls_votes" {
-  "poll_choice_id" INTEGER [unique, not null]
-  "grade_id" INTEGER [unique, not null]
+  "poll_choice_id" INTEGER [not null]
+  "grade_id" INTEGER [not null]
   "count" INTEGER [default: 0]
+
+  indexes {
+    (poll_choice_id, grade_id) [unique]
+  }
 }
 
 Ref:"polls"."id" < "polls_choices"."poll_id"
