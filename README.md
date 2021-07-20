@@ -32,7 +32,32 @@ This procedure offers several advantages against existing alternatives :
 ### Use the app
 
 
-wip
+Download [Node.js](https://nodejs.org/en/download/) (preferably LTS version)
+
+Download or clone and enter the project :
+
+```
+git clone https://github.com/AdrienJarretier/mj-polls
+cd mj-polls
+```
+
+Install required dependencies:
+
+```
+npm install
+```
+
+Create poll database:
+```
+node db/createDb.js
+```
+
+Start the app:
+```
+npm start
+```
+
+You will be asked which adress and port should be used to run the app. (default is 127.0.0.1:3000).
 
 ---
 
