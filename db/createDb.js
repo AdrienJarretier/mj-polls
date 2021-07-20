@@ -9,6 +9,9 @@ const Database = require('better-sqlite3');
 const fs = require('fs');
 var path = require('path');
 
+// Polls will close when either voters_count > max_voters
+// or max_date has been exceeded
+
 function createDb() {
 
     const db = new Database(config.db.database, { verbose: console.log });
