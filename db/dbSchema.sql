@@ -4,15 +4,6 @@ CREATE TABLE IF NOT EXISTS "grades" (
         "order" INTEGER NOT NULL UNIQUE
         );
 
-INSERT INTO grades("value", "order") VALUES('Excellent', 60);
-INSERT INTO grades("value", "order") VALUES('Very good', 50);
-INSERT INTO grades("value", "order") VALUES('Good', 40);
-INSERT INTO grades("value", "order") VALUES('Passable', 30);
-INSERT INTO grades("value", "order") VALUES('Inadequate', 20);
-INSERT INTO grades("value", "order") VALUES('Mediocre', 10);
-INSERT INTO grades("value", "order") VALUES('Bad', 0);
-
-
     -- // Polls will close when either voters_count > max_voters
     -- // or max_date has been exceeded
 CREATE TABLE IF NOT EXISTS "polls" (
