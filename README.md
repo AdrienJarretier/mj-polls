@@ -32,7 +32,7 @@ This procedure offers several advantages against existing alternatives :
 ### Use the app
 
 
-Download [Node.js](https://nodejs.org/en/download/) (preferably LTS version)
+Download [Node.js](https://nodejs.org/en/download/) (v14.17)
 
 Download or clone and enter the project :
 
@@ -58,6 +58,9 @@ npm start
 ```
 
 You will be asked which adress and port should be used to run the app. (default is 127.0.0.1:3000).
+
+
+Now, go ahead and spread the world that majority judgment should replace current systems to allow more honest and mathematically sound votes!
 
 ---
 
