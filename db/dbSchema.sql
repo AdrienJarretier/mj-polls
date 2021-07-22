@@ -16,7 +16,7 @@ CREATE TABLE "polls" (
   "max_datetime" DATETIME,
   "datetime_opened" DATETIME DEFAULT (CURRENT_TIMESTAMP),
   "datetime_closed" DATETIME,
-  "duplicate_vote_check_method_id",
+  "duplicate_vote_check_method_id" INTEGER,
   FOREIGN KEY("duplicate_vote_check_method_id") REFERENCES "duplicate_vote_check_methods" ("id")
 );
 
