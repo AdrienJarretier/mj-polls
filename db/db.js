@@ -248,7 +248,7 @@ exports.getFullPoll = function (poll_id) {
 
 }
 
-// alternateVersion chere choices are the raw list from db inner join result
+// alternate Version, choices are the raw list from db inner join result
 // exports.getVotes = function (poll_id) {
 
 //     return Object.assign(exports.getPoll(poll_id),
@@ -264,6 +264,14 @@ exports.getFullPoll = function (poll_id) {
 
 // }
 
+
+exports.getDuplicateCheckMethods = function () {
+
+    return executeStatement(`
+    SELECT * FROM duplicate_vote_check_methods`
+        , 'all');
+
+}
 
 
 // ---------------------- Used for testing ----------------------
