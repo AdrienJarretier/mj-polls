@@ -4,18 +4,20 @@ CREATE TABLE "grades" (
   "order" INTEGER UNIQUE NOT NULL
 );
 
+CREATE TABLE "duplicate_vote_check_methods" (
+  "id" INTEGER PRIMARY KEY,
+  "name" VARCHAR(255) UNIQUE NOT NULL
+);
+
 CREATE TABLE "polls" (
   "id" INTEGER PRIMARY KEY,
   "title" VARCHAR(255) NOT NULL,
   "max_voters" INTEGER,
   "max_datetime" DATETIME,
   "datetime_opened" DATETIME DEFAULT (CURRENT_TIMESTAMP),
-  "datetime_closed" DATETIME
-);
-
-CREATE TABLE "duplicate_vote_check_methods" (
-  "id" INTEGER PRIMARY KEY,
-  "name" VARCHAR(255) UNIQUE NOT NULL
+  "datetime_closed" DATETIME,
+  "duplicate_vote_check_method_id",
+  FOREIGN KEY("duplicate_vote_check_method_id") REFERENCES "duplicate_vote_check_methods" ("id")
 );
 
 CREATE TABLE "polls_choices" (

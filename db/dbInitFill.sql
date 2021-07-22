@@ -11,5 +11,4 @@ INSERT INTO grades("value", "order") VALUES
 INSERT INTO duplicate_vote_check_methods("name") VALUES
 ('ip'),
 ('browser'),
-('account'),
-('none');
+('account');
