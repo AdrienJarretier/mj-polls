@@ -9,8 +9,9 @@ CREATE TABLE "duplicate_vote_check_methods" (
   "name" VARCHAR(255) UNIQUE NOT NULL
 );
 
+-- to generate dbml, remove AUTOINCREMENT
 CREATE TABLE "polls" (
-  "id" INTEGER PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
   "title" VARCHAR(255) NOT NULL,
   "max_voters" INTEGER,
   "max_datetime" DATETIME,
