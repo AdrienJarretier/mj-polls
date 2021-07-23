@@ -78,9 +78,9 @@
 
 
             let formData = parseForm('form');
-            console.log(formData);
+            // console.log(formData);
 
-            // let pollId = await post('/polls', formData);
+            let pollId = await post('/polls', formData);
 
             // console.log(pollId);
 
@@ -103,6 +103,13 @@
           $('#duplicateCheckMethod').append(duplicateCheckMethodOption);
 
         }
+
+        // ------------------------------------------------
+
+
+
+        $('#inputMaxDate')
+        .attr('min', formatDate(new Date()));
 
       });
 
@@ -163,7 +170,7 @@
 
               <label for="inputMaxDate" class="form-label">Max Date and Time</label>
               <div class="input-group">
-                <input id="inputMaxDate" type="date" class="form-control" min="" aria-label="Max Date" name="maxDate">
+                <input id="inputMaxDate" type="date" class="form-control" aria-label="Max Date" name="maxDate">
                 <span class="input-group-text">at</span>
                 <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time" name="maxTime">
               </div>
