@@ -75,12 +75,13 @@
         $('#submitButton').click(async () => {
 
           let formData = parseForm('form');
+          console.log(formData);
 
-          let pollId = await post('/polls', formData);
+          // let pollId = await post('/polls', formData);
 
-          console.log(pollId);
+          // console.log(pollId);
 
-          window.location.href = 'poll/' + pollId;
+          // window.location.href = 'poll/' + pollId;
 
         });
 
@@ -147,7 +148,7 @@
           <div class="row">
             <div class="col-3">
               <label for="inputMaxVotes" class="form-label">Max votes</label>
-              <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max">
+              <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max" name="maxVotes">
             </div>
 
 
@@ -159,9 +160,9 @@
 
               <label for="inputMaxDate" class="form-label">Max Date and Time</label>
               <div class="input-group">
-                <input id="inputMaxDate" type="date" class="form-control" min="" aria-label="Max Date">
+                <input id="inputMaxDate" type="date" class="form-control" min="" aria-label="Max Date" name="maxDate">
                 <span class="input-group-text">at</span>
-                <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time">
+                <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time" name="maxTime">
               </div>
             </div>
 
@@ -174,7 +175,7 @@
 
               <select class="form-select" name="duplicateCheckMethod" id="duplicateCheckMethod"
                 aria-label="Optional duplicate vote check method">
-                <option selected>Optional duplicate vote check</option>
+                <option selected value="">Optional duplicate vote check</option>
               </select>
 
             </div>
