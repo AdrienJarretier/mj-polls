@@ -115,14 +115,6 @@ function insertPoll(data) {
     if (data.maxVotes == '')
         data.maxVotes = null;
 
-    // if(data.maxDate == '')
-    //     data.maxDate = null;
-
-    let max_datetime = new Date();
-    max_datetime = max_datetime.toISOString();
-
-    console.log('exports.insertPoll');
-    console.log(data);
 
     // ----------------------------------------------------------------
 
@@ -133,8 +125,8 @@ function insertPoll(data) {
 
         pollsInsertResult = executeStatement(`
         INSERT INTO polls(title, max_voters, max_datetime)
-        VALUES(?, ?, ?);
-        `, 'run', [data.title, data.maxVotes, max_datetime]);
+        VALUES(?, ?, datetime(?));
+        `, 'run', [data.title, data.maxVotes, data.max_datetime]);
 
     }
     catch (e) {
