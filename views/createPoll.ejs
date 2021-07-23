@@ -86,6 +86,20 @@
 
         updateChoicesInputs();
 
+        // -------------------------------
+        // fill select : duplicate vote check methods
+        // -------------------------------
+
+        for (let method of duplicateCheckMethods) {
+
+          let duplicateCheckMethodOption = $('<option>')
+            .attr('value', method.id)
+            .text(method.name);
+
+          $('#duplicateCheckMethod').append(duplicateCheckMethodOption);
+
+        }
+
       });
 
 
