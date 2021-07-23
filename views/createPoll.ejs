@@ -72,18 +72,21 @@
 
         $('#addChoice').change(updateChoicesInputs);
 
-        $('#submitButton').click(async () => {
+        $('form')
+          .submit(async function (event) {
+            event.preventDefault();
 
-          let formData = parseForm('form');
-          console.log(formData);
 
-          // let pollId = await post('/polls', formData);
+            let formData = parseForm('form');
+            console.log(formData);
 
-          // console.log(pollId);
+            // let pollId = await post('/polls', formData);
 
-          // window.location.href = 'poll/' + pollId;
+            // console.log(pollId);
 
-        });
+            // window.location.href = 'poll/' + pollId;
+
+          });
 
         updateChoicesInputs();
 
@@ -201,7 +204,7 @@
 
           <div class="row mt-3">
             <div class="col">
-              <button type="button" id="submitButton" class="btn btn-secondary btn-lg">Create poll</button>
+              <button type="submit" id="submitButton" class="btn btn-secondary btn-lg">Create poll</button>
 
             </div>
           </div>
