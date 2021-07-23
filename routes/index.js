@@ -41,7 +41,12 @@ router.get('/createPoll', function (req, res, next) {
 
   const duplicateCheckMethods = db.getDuplicateCheckMethods();
 
-  res.render('createPoll', pageOptions('Create Poll'));
+  res.render('createPoll', pageOptions('Create Poll', {
+
+    duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
+
+  }));
+
 });
 
 router.get('/poll/:id', function (req, res, next) {
