@@ -138,45 +138,47 @@
 
   <div class="container">
 
-    <div class="row">
+    <%- include('partials/header.ejs') %>
 
-      <nav>
+      <div class="row">
 
-        <a href="/">home</a>
+        <nav>
 
-      </nav>
+          <a href="/">home</a>
 
-      <div class="col">
+        </nav>
 
-      </div>
-    </div>
+        <div class="col">
 
-    <br>
-
-
-    <div class="row">
-
-      <div class="col">
-
-        <h2 id="title"></h2>
-        <br>
-
-        <div id="choices">
         </div>
-        <form id="choicesForm">
-
-        </form>
-
-        <br>
-
-        <div class="alert alert-success" role="alert" id="hasVotedAlert">
-          <h4 class="alert-heading">Has voted</h4>
-          <p>You have voted on this poll.</p>
-        </div>
-
-
       </div>
-    </div>
+
+      <br>
+
+
+      <div class="row">
+
+        <div class="col">
+
+          <h2 id="title"></h2>
+          <br>
+
+          <div id="choices">
+          </div>
+          <form id="choicesForm">
+
+          </form>
+
+          <br>
+
+          <div class="alert alert-success" role="alert" id="hasVotedAlert">
+            <h4 class="alert-heading">Has voted</h4>
+            <p>You have voted on this poll.</p>
+          </div>
+
+
+        </div>
+      </div>
 
 
   </div>
