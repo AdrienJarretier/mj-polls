@@ -31,7 +31,7 @@ $(async function () {
 
 
             let formData = parseForm('form');
-            
+
             prepareFormData(formData);
 
             console.log(formData);
@@ -40,7 +40,7 @@ $(async function () {
 
             // console.log(pollId);
 
-            // window.location.href = 'poll/' + pollId;
+            window.location.href = 'poll/' + pollId;
 
         });
 
