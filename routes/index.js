@@ -7,33 +7,63 @@ const common = require("../common.js");
 
 const GLOBAL_OPTIONS = { globalTitle: 'MJ-Voting' }
 
+function prepareObjectForFrontend(object) {
+
+  return JSON.stringify(object)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, "\\\"");
+
+}
+
+function pageOptions(pageTitle, otherOptions) {
+
+  let options = {};
+
+  if (pageTitle)
+    Object.assign(options, { 'pageTitle': pageTitle });
+
+  if (otherOptions)
+    Object.assign(options, otherOptions);
+
+  Object.assign(options, GLOBAL_OPTIONS);
+
+  return options;
+
+}
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', GLOBAL_OPTIONS);
+  res.render('index', pageOptions());
 });
 
 
 /* GET poll creation page. */
 router.get('/createPoll', function (req, res, next) {
-  res.render('createPoll', Object.assign({ 'pageTitle': 'Create Poll' }, GLOBAL_OPTIONS));
+
+  const duplicateCheckMethods = db.getDuplicateCheckMethods();
+
+  res.render('createPoll', pageOptions('Create Poll', {
+
+    duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
+
+  }));
+
 });
 
 router.get('/poll/:id', function (req, res, next) {
 
   let poll = db.getPoll(req.params.id);
 
-  const pollJSONstr = JSON.stringify(poll)
-    .replace(/\\/g, "\\\\")
-    .replace(/'/g, "\\'")
-    .replace(/"/g, "\\\"");
+  const pollJSONstr = prepareObjectForFrontend(poll);
 
-  res.render('poll', Object.assign(
-    {
-      'pageTitle': poll.title,
-      poll: pollJSONstr,
-      infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
-    },
-    GLOBAL_OPTIONS));
+  res.render('poll', pageOptions(poll.title, {
+
+    poll: pollJSONstr,
+    infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
+
+  }));
+
 });
 
 
@@ -42,17 +72,12 @@ router.get('/poll_results/:id', function (req, res, next) {
 
   let poll = db.getFullPoll(req.params.id);
 
-  const pollJSONstr = JSON.stringify(poll)
-    .replace(/\\/g, "\\\\")
-    .replace(/'/g, "\\'")
-    .replace(/"/g, "\\\"");
+  const pollJSONstr = prepareObjectForFrontend(poll);
 
-  res.render('poll_results', Object.assign(
-    {
-      'pageTitle': "results " + poll.title,
-      poll: pollJSONstr
-    },
-    GLOBAL_OPTIONS));
+  res.render('poll_results', pageOptions('results ' + poll.title, {
+    poll: pollJSONstr
+  }));
+
 });
 
 /* GET context page. */

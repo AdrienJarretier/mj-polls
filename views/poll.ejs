@@ -59,13 +59,17 @@
 
         }
 
+        let divSubmitButton = $('<div>')
+          .addClass('d-grid col-6 mx-auto');
+
         let submitButton = $('<button type="submit" id="submitButton">')
-          .addClass("btn-dark")
-          .addClass("btn-block")
+          .addClass("btn")
+          .addClass("btn-secondary")
           .text('Vote')
 
+        divSubmitButton.append(submitButton);
 
-        $('#choicesForm').append(submitButton)
+        $('#choicesForm').append(divSubmitButton)
           .submit(async function (event) {
             event.preventDefault();
 

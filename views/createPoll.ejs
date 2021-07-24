@@ -9,6 +9,8 @@
 
       'use strict';
 
+      const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
+
       var choices = 0;
 
       $(async function () {
@@ -69,24 +71,33 @@
 
         $('#addChoice').change(updateChoicesInputs);
 
-        $('#submitButton').click(async () => {
-
-          let formData = parseForm('form');
-
-          let pollId = await post('/polls', formData);
-
-          console.log(pollId);
-
-          window.location.href = 'poll/' + pollId;
-
-        });
-
         updateChoicesInputs();
+
+        // -------------------------------
+        // fill select : duplicate vote check methods
+        // -------------------------------
+
+        for (let method of duplicateCheckMethods) {
+
+          let duplicateCheckMethodOption = $('<option>')
+            .attr('value', method.id)
+            .text(method.name);
+
+          $('#duplicateCheckMethod').append(duplicateCheckMethodOption);
+
+        }
+
+        // ------------------------------------------------
+
+        $('#inputMaxDate')
+          .attr('min', formatDate(new Date()));
 
       });
 
 
     </script>
+
+    <script src="/javascripts/postPollCreation.js"></script>
 
 </head>
 
@@ -126,7 +137,8 @@
             <div class="row">
               <div class="col-3">
                 <label for="inputMaxVotes" class="form-label">Max votes</label>
-                <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max">
+                <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max" name="maxVotes"
+                  min="1">
               </div>
 
 
@@ -138,39 +150,50 @@
 
                 <label for="inputMaxDate" class="form-label">Max Date and Time</label>
                 <div class="input-group">
-                  <input id="inputMaxDate" type="date" class="form-control" min="" aria-label="Max Date">
+                  <input id="inputMaxDate" type="date" class="form-control" aria-label="Max Date" name="maxDate">
                   <span class="input-group-text">at</span>
-                  <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time">
+                  <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time" name="maxTime">
+                </div>
+
+
+              </div>
+
+
+              <div class="row mt-3">
+                <div class="col">
+
+                  <select class="form-select" name="duplicateCheckMethod" id="duplicateCheckMethod"
+                    aria-label="Optional duplicate vote check method">
+                    <option selected value="">Optional duplicate vote check</option>
+                  </select>
+
                 </div>
               </div>
 
+              <div class="row">
+                <div class="col">
+                  <fieldset id="choices" class="mt-4">
+                    <legend>Choices</legend>
 
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <fieldset id="choices" class="mt-4">
-                  <legend>Choices</legend>
-
-                  <div class="row">
-                    <div class="col-3">
-                      <input type="number" id="addChoice" class="form-control mb-3" min="1" value="1">
+                    <div class="row">
+                      <div class="col-3">
+                        <input type="number" id="addChoice" class="form-control mb-3" min="1" value="1">
+                      </div>
                     </div>
-                  </div>
-                  <div id="choicesList">
+                    <div id="choicesList">
 
-                  </div>
+                    </div>
 
-                </fieldset>
+                  </fieldset>
+                </div>
               </div>
-            </div>
 
-            <div class="row mt-3">
-              <div class="col">
-                <button type="button" id="submitButton" class="btn btn-secondary btn-lg">Create poll</button>
+              <div class="row mt-3">
+                <div class="col">
+                  <button type="submit" id="submitButton" class="btn btn-secondary btn-lg">Create poll</button>
 
+                </div>
               </div>
-            </div>
 
           </form>
 
