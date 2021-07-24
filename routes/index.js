@@ -12,6 +12,8 @@ router.get('/', function (req, res, next) {
   res.render('index', GLOBAL_OPTIONS);
 });
 
+
+/* GET poll creation page. */
 router.get('/createPoll', function (req, res, next) {
   res.render('createPoll', Object.assign({ 'pageTitle': 'Create Poll' }, GLOBAL_OPTIONS));
 });
@@ -34,6 +36,8 @@ router.get('/poll/:id', function (req, res, next) {
     GLOBAL_OPTIONS));
 });
 
+
+/* GET poll results page. */
 router.get('/poll_results/:id', function (req, res, next) {
 
   let poll = db.getFullPoll(req.params.id);
@@ -50,5 +54,11 @@ router.get('/poll_results/:id', function (req, res, next) {
     },
     GLOBAL_OPTIONS));
 });
+
+/* GET context page. */
+router.get('/context', function (req, res, next) {
+  res.render('context', GLOBAL_OPTIONS);
+});
+
 
 module.exports = router;
