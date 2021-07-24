@@ -2,7 +2,7 @@
 
 // Palettes definition
 const COLORS_7 = [
-    "#df8568", "#feb39a", "#f6d3a2", "#f8e6b5", "#c1dbb3", "#7ebc89", "#54a062"
+    "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
 ];
 
 const COLORS_3 = [
@@ -50,9 +50,6 @@ $(async function () {
     if (values.length <= 5 & values.length > 3) {
         palette = COLORS_5;
     }
-    if (values.length <= 7 & values.length > 5) {
-        palette = COLORS_7;
-    }
 
 
     // Creating the data structure as needed by Chartjs to be plotted
@@ -83,12 +80,14 @@ $(async function () {
     };
 
 
+
     // Configurating the plot
     const config = {
         type: 'bar',
         data: data,
         options: {
             plugins: {
+
                 title: {
                     display: true,
                     text: 'Vote results for poll : ' + parsedPoll.title
@@ -113,14 +112,19 @@ $(async function () {
                             content: 'Median'
                         }
                     }],
-                    drawTime: 'afterDraw'
-                }
+                    drawTime: 'afterDatasetsDraw'
+                },
+                tooltip: {
+                    position: 'nearest'
+                },
             },
             layout: {
                 padding: {
                     bottom: 200
                 }
             },
+
+            interaction: true,
             responsive: true,
             scales: {
                 x: {
@@ -140,7 +144,6 @@ $(async function () {
         document.getElementById('results_plot'),
         config
     );
-
 });
 
 

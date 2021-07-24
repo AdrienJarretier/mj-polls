@@ -4,12 +4,14 @@
 
 <title>
     <%= globalTitle %>
-    <% if(locals.pageTitle) { %>
-        - <%= pageTitle %>
-    <% } %>
+        <% if(locals.pageTitle) { %>
+            - <%= pageTitle %>
+                <% } %>
 </title>
 
 <link rel="stylesheet" href="/extLibs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+
+
 
 
 <script src="/extLibs/jquery-3.4.1.min.js"></script>
@@ -23,9 +25,8 @@
 <!-- -->
 <link rel="stylesheet" href="/stylesheets/style.css" />
 
+<link rel="icon" href="/images/favicon96.png">
 
+<link rel="apple-touch-icon" sizes="96*96" href="/images/favicon96.png">
 
-
-<!-- <link rel="icon" href="images/favicon.svg"> -->
-
-<!-- <link rel="apple-touch-icon" sizes="96x96" href="images/favicon96.png"> -->
+<meta name="description" content="Create polls using the Majority Judgement voting system.">
