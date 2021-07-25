@@ -36,29 +36,19 @@
 
   <div class="container">
 
-    <div class="row">
+    <%- include('partials/header.ejs') %>
 
-      <div class="col">
 
-        <nav>
 
-          <a href="createPoll">Create a poll</a>
+      <br>
 
-        </nav>
+      <div class="row">
+
+        <div class="col" id="mostRecent"></div>
 
       </div>
 
-    </div>
-
-    <br>
-
-    <div class="row">
-
-      <div class="col" id="mostRecent"></div>
-
-    </div>
-
-
+      <%- include('partials/footer.ejs') %>
   </div>
 
 </body>

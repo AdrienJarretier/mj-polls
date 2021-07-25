@@ -37,6 +37,8 @@ router.get('/', function (req, res, next) {
   res.render('index', pageOptions());
 });
 
+
+/* GET poll creation page. */
 router.get('/createPoll', function (req, res, next) {
 
   const duplicateCheckMethods = db.getDuplicateCheckMethods();
@@ -64,6 +66,8 @@ router.get('/poll/:id', function (req, res, next) {
 
 });
 
+
+/* GET poll results page. */
 router.get('/poll_results/:id', function (req, res, next) {
 
   let poll = db.getFullPoll(req.params.id);
@@ -75,5 +79,11 @@ router.get('/poll_results/:id', function (req, res, next) {
   }));
 
 });
+
+/* GET context page. */
+router.get('/context', function (req, res, next) {
+  res.render('context', GLOBAL_OPTIONS);
+});
+
 
 module.exports = router;
