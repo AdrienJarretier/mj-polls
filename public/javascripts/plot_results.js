@@ -32,11 +32,8 @@ $(async function () {
     // funtion that addes to choices the majority grade of each candidate, and its order
     get_majority_grades(choices, majority);
 
-    console.log("after function, outside :");
-    console.log(choices);
 
-
-
+    handle_ties(choices);
 
 
     // Names of choices, eg candidates, in the poll
