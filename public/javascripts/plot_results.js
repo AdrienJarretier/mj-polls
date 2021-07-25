@@ -79,7 +79,13 @@ $(async function () {
         datasets: dataset
     };
 
-
+    var majority;
+    if (VOTERS_COUNT % 2 == 0) {
+        majority = (VOTERS_COUNT - 1) / 2
+    }
+    else {
+        majority = VOTERS_COUNT / 2
+    }
 
     // Configurating the plot
     const config = {
@@ -101,15 +107,15 @@ $(async function () {
                     annotations: [{
                         type: 'line',
                         xScaleID: 'x',
-                        yMin: VOTERS_COUNT / 2,
-                        yMax: VOTERS_COUNT / 2,
+                        yMin: majority,
+                        yMax: majority,
                         xMin: labels[0],
                         xMax: labels[labels.length - 1],
                         borderColor: 'rgb(240, 240, 240)',
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: 'Median'
+                            content: 'Majority grade'
                         }
                     }],
                     drawTime: 'afterDatasetsDraw'
