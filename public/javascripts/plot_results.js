@@ -36,29 +36,39 @@ function get_majority_line_for_plot(VOTERS_COUNT) {
     return (majority);
 }
 
+function compare(a, b) {
+    if (a.majority_grade_order < b.majority_grade_order) {
+        return 1;
+    }
+    if (a.majority_grade_order > b.majority_grade_order) {
+        return -1;
+    }
+    return 0;
+}
+
 function get_majority_grades(choices, majority) {
-    console.log(choices);
-    console.log(majority);
-    var results = [];
+    // funtion that addes to choices the majority grade of each candidate, and its order
     for (const choice of choices) {
-        console.log("Computing majority grade for " + choice.name);
 
         var votes = choice.votes;
         var cpt = 0;
 
         for (const vote of Object.keys(votes).reverse()) {
+
             cpt += votes[vote].count;
             var entry;
+
             if (cpt >= majority) {
-                console.log("Majority grade for " + choice.name + " is " + votes[vote].value);
-                entry = { "choice": choice.name, "majority grade": votes[vote].value, "order": votes[vote].order };
-                results.push(entry);
+
+                choice["majority_grade"] = votes[vote].value;
+                choice["majority_grade_order"] = votes[vote].order;
                 break;
+
             }
         }
     }
-    console.log(results);
-    return (results);
+    //reordering choices according to their majority grades
+    choices.sort(compare);
 }
 
 
@@ -82,11 +92,21 @@ function color(index, palette) {
 
 $(async function () {
 
-    const choices = parsedPoll["choices"];
+    var choices = parsedPoll["choices"];
+
     const VOTERS_COUNT = get_voters_count(choices);
     const majority = get_majority(VOTERS_COUNT);
     const majority_plot = get_majority_line_for_plot(VOTERS_COUNT);
+
+    // funtion that addes to choices the majority grade of each candidate, and its order
     get_majority_grades(choices, majority);
+
+    console.log("after function, outside :");
+    console.log(choices);
+
+
+
+
 
     // Names of choices, eg candidates, in the poll
     const labels = [];
@@ -133,12 +153,16 @@ $(async function () {
         }
     }
 
+    console.log(dataset);
+
 
     // data to be plotted
     const data = {
         labels: labels,
         datasets: dataset
     };
+
+    Chart.defaults.font.size = 18;
 
 
 
@@ -178,6 +202,14 @@ $(async function () {
                 tooltip: {
                     position: 'nearest'
                 },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 20
+                        }
+                    }
+                }
             },
             layout: {
                 padding: {
