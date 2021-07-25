@@ -9,7 +9,10 @@
       'use strict';
 
       const pollJSONstr = '<%- poll %>';
+
       const infiniteVoteEnabledStr = '<%- infiniteVoteEnabled %>';
+
+      // console.log(pollJSONstr);
 
       const parsedPoll = JSON.parse(pollJSONstr);
       const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
@@ -56,13 +59,17 @@
 
         }
 
+        let divSubmitButton = $('<div>')
+          .addClass('d-grid col-6 mx-auto');
+
         let submitButton = $('<button type="submit" id="submitButton">')
-          .addClass("btn-dark")
-          .addClass("btn-block")
+          .addClass("btn")
+          .addClass("btn-secondary")
           .text('Vote')
 
+        divSubmitButton.append(submitButton);
 
-        $('#choicesForm').append(submitButton)
+        $('#choicesForm').append(divSubmitButton)
           .submit(async function (event) {
             event.preventDefault();
 
@@ -119,6 +126,15 @@
 
     </script>
 
+    <style>
+      #choices .row,
+      #choicesForm .row {
+        border: solid black 2px;
+        margin-top: -2px;
+        margin-bottom: -2px;
+      }
+    </style>
+
 </head>
 
 
@@ -126,45 +142,43 @@
 
   <div class="container">
 
-    <div class="row">
+    <%- include('partials/header.ejs') %>
 
-      <nav>
+      <div class="row">
 
-        <a href="/">home</a>
+        <div class="col">
 
-      </nav>
-
-      <div class="col">
-
-      </div>
-    </div>
-
-    <br>
-
-
-    <div class="row">
-
-      <div class="col">
-
-        <h2 id="title"></h2>
-        <br>
-
-        <div id="choices">
         </div>
-        <form id="choicesForm">
-
-        </form>
-
-        <br>
-
-        <div class="alert alert-success" role="alert" id="hasVotedAlert">
-          <h4 class="alert-heading">Has voted</h4>
-          <p>You have voted on this poll.</p>
-        </div>
-
-
       </div>
-    </div>
+
+      <br>
+
+
+      <div class="row">
+
+        <div class="col">
+
+          <h2 id="title"></h2>
+          <br>
+
+          <div id="choices">
+          </div>
+          <form id="choicesForm">
+
+          </form>
+
+          <br>
+
+          <div class="alert alert-success" role="alert" id="hasVotedAlert">
+            <h4 class="alert-heading">Has voted</h4>
+            <p>You have voted on this poll.</p>
+          </div>
+
+
+        </div>
+      </div>
+
+      <%- include('partials/footer.ejs') %>
 
 
   </div>

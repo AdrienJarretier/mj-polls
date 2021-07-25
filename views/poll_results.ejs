@@ -29,14 +29,18 @@
 
     <div class="container">
 
-        <div class="row">
+        <%- include('partials/header.ejs') %>
 
-            <div class="col">
+            <div class="row">
 
-                <canvas id="results_plot" width="400" height="400"></canvas>
+                <div class="col">
 
+                    <canvas id="results_plot" width="400" height="400"></canvas>
+
+                </div>
             </div>
-        </div>
+
+            <%- include('partials/footer.ejs') %>
 
     </div>
 

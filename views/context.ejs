@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('partials/head.ejs') %>
+
+    <script type="module" src="/extLibs/zero-md.legacy.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <%- include('partials/header.ejs') %>
+
+      <div class="row">
+
+        <div class="col">
+
+          <zero-md src="/context.md">
+            <template>
+              <link rel="stylesheet" href="/stylesheets/style.css">
+            </template>
+          </zero-md>
+
+        </div>
+      </div>
+
+      <%- include('partials/footer.ejs') %>
+
+  </div>
+
+</body>
+
+</html>

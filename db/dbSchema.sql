@@ -1,42 +1,43 @@
-CREATE TABLE IF NOT EXISTS "grades" (
-        "id" INTEGER PRIMARY KEY,
-        "value" VARCHAR(255) NOT NULL UNIQUE,
-        "order" INTEGER NOT NULL UNIQUE
-        );
+CREATE TABLE "grades" (
+  "id" INTEGER PRIMARY KEY,
+  "value" VARCHAR(255) UNIQUE NOT NULL,
+  "order" INTEGER UNIQUE NOT NULL
+);
 
-INSERT INTO grades("value", "order") VALUES('Excellent', 60);
-INSERT INTO grades("value", "order") VALUES('Very good', 50);
-INSERT INTO grades("value", "order") VALUES('Good', 40);
-INSERT INTO grades("value", "order") VALUES('Passable', 30);
-INSERT INTO grades("value", "order") VALUES('Inadequate', 20);
-INSERT INTO grades("value", "order") VALUES('Mediocre', 10);
-INSERT INTO grades("value", "order") VALUES('Bad', 0);
+CREATE TABLE "duplicate_vote_check_methods" (
+  "id" INTEGER PRIMARY KEY,
+  "name" VARCHAR(255) UNIQUE NOT NULL
+);
 
+-- to generate dbml, remove AUTOINCREMENT
+CREATE TABLE "polls" (
+  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "title" VARCHAR(255) NOT NULL,
+  "max_voters" INTEGER,
+  "max_datetime" DATETIME,
+  "datetime_opened" DATETIME DEFAULT (CURRENT_TIMESTAMP),
+  "datetime_closed" DATETIME,
+  "duplicate_vote_check_method_id" INTEGER,
+  FOREIGN KEY("duplicate_vote_check_method_id") REFERENCES "duplicate_vote_check_methods" ("id"),
+  CHECK("max_voters">0 AND "max_voters"<>''),
+  CHECK("max_datetime" > CURRENT_TIMESTAMP)
+);
 
-    -- // Polls will close when either voters_count > max_voters
-    -- // or max_date has been exceeded
-CREATE TABLE IF NOT EXISTS "polls" (
-        "id" INTEGER PRIMARY KEY,
-        "title" VARCHAR(255) NOT NULL,
-        "max_voters" INTEGER,
-        "max_datetime" DATETIME,
-        "datetime_opened" DATETIME DEFAULT CURRENT_TIMESTAMP,
-        "datetime_closed" DATETIME
-        );
+CREATE TABLE "polls_choices" (
+  "id" INTEGER PRIMARY KEY,
+  "poll_id" INTEGER NOT NULL,
+  "name" VARCHAR(255) NOT NULL,
+  FOREIGN KEY("poll_id") REFERENCES "polls" ("id")
+);
 
-CREATE TABLE IF NOT EXISTS "polls_choices" (
-        "id" INTEGER PRIMARY KEY,
-        "poll_id" INTEGER NOT NULL,
-        "name" VARCHAR(255) NOT NULL,
-        FOREIGN KEY(poll_id) REFERENCES polls(id),
-        UNIQUE(poll_id,name)
-        );
+CREATE TABLE "polls_votes" (
+  "poll_choice_id" INTEGER NOT NULL,
+  "grade_id" INTEGER NOT NULL,
+  "count" INTEGER DEFAULT 0,
+  FOREIGN KEY("poll_choice_id") REFERENCES "polls_choices" ("id"),
+  FOREIGN KEY("grade_id") REFERENCES "grades" ("id")
+);
 
-CREATE TABLE IF NOT EXISTS "polls_votes" (
-        "poll_choice_id" INTEGER NOT NULL,
-        "grade_id" INTEGER NOT NULL,
-        "count" INTEGER DEFAULT 0,
-        FOREIGN KEY(poll_choice_id) REFERENCES polls_choices(id),
-        FOREIGN KEY(grade_id) REFERENCES grades(id),
-        UNIQUE(poll_choice_id,grade_id)
-        );
+CREATE UNIQUE INDEX unique_choice_per_poll ON "polls_choices" ("poll_id", "name");
+
+CREATE UNIQUE INDEX unique_vote_per_grade_per_choice ON "polls_votes" ("poll_choice_id", "grade_id");

@@ -4,9 +4,12 @@
 <head>
   <%- include('partials/head.ejs') %>
 
+
     <script>
 
       'use strict';
+
+      const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
 
       var choices = 0;
 
@@ -28,11 +31,11 @@
           let idAttr = input.attr('id');
           // console.log(idAttr);
 
+          ++choices;
           label.attr('for', idAttr + choices);
           input.attr('id', idAttr + choices);
-          label.text(choices + ' : ');
+          label.text(choices);
 
-          ++choices;
           $('#choices').append(cloned);
 
         }
@@ -68,24 +71,33 @@
 
         $('#addChoice').change(updateChoicesInputs);
 
-        $('#submitButton').click(async () => {
-
-          let formData = parseForm('form');
-
-          let pollId = await post('/polls', formData);
-
-          console.log(pollId);
-
-          window.location.href = 'poll/' + pollId;
-
-        });
-
         updateChoicesInputs();
+
+        // -------------------------------
+        // fill select : duplicate vote check methods
+        // -------------------------------
+
+        for (let method of duplicateCheckMethods) {
+
+          let duplicateCheckMethodOption = $('<option>')
+            .attr('value', method.id)
+            .text(method.name);
+
+          $('#duplicateCheckMethod').append(duplicateCheckMethodOption);
+
+        }
+
+        // ------------------------------------------------
+
+        $('#inputMaxDate')
+          .attr('min', formatDate(new Date()));
 
       });
 
 
     </script>
+
+    <script src="/javascripts/postPollCreation.js"></script>
 
 </head>
 
@@ -94,46 +106,101 @@
 
   <div class="container">
 
-    <div class="row">
+    <%- include('partials/header.ejs') %>
 
-      <nav>
+      <div class="row">
 
-        <a href="/">home</a>
+        <div class="col">
 
-      </nav>
-
-      <div class="col">
-
+        </div>
       </div>
-    </div>
 
-    <br>
+      <br>
 
-    <div class="row">
+      <div class="row">
+        <div class="col">
 
-      <form>
+          <form>
 
-        <label for="title">Title : </label>
-        <textarea id="title" name="title" type=" text"></textarea>
+            <div class="row">
+              <div class="col">
 
-        <br>
-        <br>
+                <div class="mb-3">
+                  <label for="title" class="form-label">Title</label>
+                  <textarea id="title" name="title" type=" text" class="form-control"></textarea>
+                </div>
 
-        <fieldset id="choices">
-          <legend>Choices</legend>
+              </div>
+            </div>
 
-          <input type="number" id="addChoice">
 
-        </fieldset>
+            <div class="row">
+              <div class="col-3">
+                <label for="inputMaxVotes" class="form-label">Max votes</label>
+                <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max" name="maxVotes"
+                  min="1">
+              </div>
 
-        <br>
-        <br>
 
-        <button type="button" id="submitButton">submit</button>
+              <div class="col-1">
+              </div>
 
-      </form>
 
-    </div>
+              <div class="col">
+
+                <label for="inputMaxDate" class="form-label">Max Date and Time</label>
+                <div class="input-group">
+                  <input id="inputMaxDate" type="date" class="form-control" aria-label="Max Date" name="maxDate">
+                  <span class="input-group-text">at</span>
+                  <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time" name="maxTime">
+                </div>
+
+
+              </div>
+
+
+              <div class="row mt-3">
+                <div class="col">
+
+                  <select class="form-select" name="duplicateCheckMethod" id="duplicateCheckMethod"
+                    aria-label="Optional duplicate vote check method">
+                    <option selected value="">Optional duplicate vote check</option>
+                  </select>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <fieldset id="choices" class="mt-4">
+                    <legend>Choices</legend>
+
+                    <div class="row">
+                      <div class="col-3">
+                        <input type="number" id="addChoice" class="form-control mb-3" min="1" value="1">
+                      </div>
+                    </div>
+                    <div id="choicesList">
+
+                    </div>
+
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col">
+                  <button type="submit" id="submitButton" class="btn btn-secondary btn-lg">Create poll</button>
+
+                </div>
+              </div>
+
+          </form>
+
+        </div>
+      </div>
+
+      <%- include('partials/footer.ejs') %>
 
 
   </div>
@@ -142,10 +209,10 @@
 
 <template id="choiceInputTemplate">
 
-  <p>
-    <label for="choice-"></label>
-    <input id="choice-" name="choices[]" type="text">
-  </p>
+  <div class="my-2 input-group">
+    <label for="choice-" class="input-group-text"></label>
+    <input id="choice-" name="choices[]" type="text" class="form-control">
+  </div>
 
 </template>
 

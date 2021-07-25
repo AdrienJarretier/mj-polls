@@ -108,15 +108,31 @@ exports.getPoll = function (id) {
 
 }
 
-exports.insertPoll = function (data) {
+function insertPoll(data) {
 
-    // console.log('exports.insertPoll');
-    // console.log(data);
+    // ------------------------- prepare Data -------------------------
 
-    let pollsInsertResult = executeStatement(`
-    INSERT INTO polls(title)
-    VALUES(?);
-    `, 'run', [data.title]);
+    if (data.maxVotes == '')
+        data.maxVotes = null;
+
+
+    // ----------------------------------------------------------------
+
+
+    let pollsInsertResult;
+
+    try {
+
+        pollsInsertResult = executeStatement(`
+        INSERT INTO polls(title, max_voters, max_datetime)
+        VALUES(?, ?, datetime(?));
+        `, 'run', [data.title, data.maxVotes, data.max_datetime]);
+
+    }
+    catch (e) {
+        console.error('error inserting into polls');
+        console.error(e);
+    }
 
     let pollId = pollsInsertResult.lastInsertRowid;
 
@@ -132,10 +148,17 @@ exports.insertPoll = function (data) {
 
     // console.log('pcs_inserts_params', pcs_inserts_params);
 
-    let pcs_insertsResults = executeLoop(`
+    let pcs_insertsResults
+    try {
+        pcs_insertsResults = executeLoop(`
         INSERT INTO polls_choices(poll_id, name)
         VALUES(?, ?);
         `, pcs_inserts_params);
+    }
+    catch (e) {
+        console.error('error inserting into polls_choices');
+        console.error(e);
+    }
 
     // ----------------------------------------------------------------
 
@@ -155,18 +178,32 @@ exports.insertPoll = function (data) {
 
     // console.log('pvs_inserts_params', pvs_inserts_params);
 
-    executeLoop(`
-    INSERT INTO polls_votes(poll_choice_id, grade_id)
-    VALUES(?, ?);
-    `,
-        pvs_inserts_params
-    );
+    try {
+        executeLoop(`
+        INSERT INTO polls_votes(poll_choice_id, grade_id)
+        VALUES(?, ?);
+        `,
+            pvs_inserts_params
+        );
+    }
+    catch (e) {
+        console.error('error inserting into polls_votes');
+        console.error(e);
+    }
 
     // ----------------------------------------------------------------
 
     return pollsInsertResult.lastInsertRowid;
 
 }
+
+function dummyInsertPoll(data) {
+
+    console.log(data);
+
+}
+
+exports.insertPoll = insertPoll;
 
 exports.addVote = function (vote) {
 
@@ -248,7 +285,7 @@ exports.getFullPoll = function (poll_id) {
 
 }
 
-// alternateVersion chere choices are the raw list from db inner join result
+// alternate Version, choices are the raw list from db inner join result
 // exports.getVotes = function (poll_id) {
 
 //     return Object.assign(exports.getPoll(poll_id),
@@ -264,6 +301,14 @@ exports.getFullPoll = function (poll_id) {
 
 // }
 
+
+exports.getDuplicateCheckMethods = function () {
+
+    return executeStatement(`
+    SELECT * FROM duplicate_vote_check_methods`
+        , 'all');
+
+}
 
 
 // ---------------------- Used for testing ----------------------

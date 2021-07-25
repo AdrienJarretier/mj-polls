@@ -4,6 +4,11 @@ Table "grades" {
   "order" INTEGER [unique, not null]
 }
 
+Table "duplicate_vote_check_methods" {
+  "id" INTEGER [pk]
+  "name" VARCHAR(255) [unique, not null]
+}
+
 Table "polls" {
   "id" INTEGER [pk]
   "title" VARCHAR(255) [not null]
@@ -11,19 +16,30 @@ Table "polls" {
   "max_datetime" DATETIME
   "datetime_opened" DATETIME [default: `CURRENT_TIMESTAMP`]
   "datetime_closed" DATETIME
+  "duplicate_vote_check_method_id" INTEGER
 }
 
 Table "polls_choices" {
   "id" INTEGER [pk]
-  "poll_id" INTEGER [unique, not null]
-  "name" VARCHAR(255) [unique, not null]
+  "poll_id" INTEGER [not null]
+  "name" VARCHAR(255) [not null]
+
+Indexes {
+  (poll_id, name) [unique, name: "unique_choice_per_poll"]
+}
 }
 
 Table "polls_votes" {
-  "poll_choice_id" INTEGER [unique, not null]
-  "grade_id" INTEGER [unique, not null]
+  "poll_choice_id" INTEGER [not null]
+  "grade_id" INTEGER [not null]
   "count" INTEGER [default: 0]
+
+Indexes {
+  (poll_choice_id, grade_id) [unique, name: "unique_vote_per_grade_per_choice"]
 }
+}
+
+Ref:"duplicate_vote_check_methods"."id" < "polls"."duplicate_vote_check_method_id"
 
 Ref:"polls"."id" < "polls_choices"."poll_id"
 
