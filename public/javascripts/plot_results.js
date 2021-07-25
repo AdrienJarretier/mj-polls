@@ -1,5 +1,67 @@
 'use strict';
 
+
+
+function get_voters_count(choices) {
+    var choice = choices[0];
+    var votes = choice.votes;
+    var VOTERS_COUNT = 0;
+    for (const vote of Object.keys(votes)) {
+        VOTERS_COUNT += votes[vote].count;
+    }
+    return (VOTERS_COUNT);
+}
+
+
+function get_majority(VOTERS_COUNT) {
+    var majority;
+    if (VOTERS_COUNT % 2 == 0) {
+        majority = VOTERS_COUNT / 2
+    }
+    else {
+        majority = (VOTERS_COUNT + 1) / 2
+    }
+    return (majority);
+}
+
+
+function get_majority_line_for_plot(VOTERS_COUNT) {
+    var majority;
+    if (VOTERS_COUNT % 2 == 0) {
+        majority = (VOTERS_COUNT - 1) / 2
+    }
+    else {
+        majority = VOTERS_COUNT / 2
+    }
+    return (majority);
+}
+
+function get_majority_grades(choices, majority) {
+    console.log(choices);
+    console.log(majority);
+    var results = [];
+    for (const choice of choices) {
+        console.log("Computing majority grade for " + choice.name);
+
+        var votes = choice.votes;
+        var cpt = 0;
+
+        for (const vote of Object.keys(votes).reverse()) {
+            cpt += votes[vote].count;
+            var entry;
+            if (cpt >= majority) {
+                console.log("Majority grade for " + choice.name + " is " + votes[vote].value);
+                entry = { "choice": choice.name, "majority grade": votes[vote].value, "order": votes[vote].order };
+                results.push(entry);
+                break;
+            }
+        }
+    }
+    console.log(results);
+    return (results);
+}
+
+
 // Palettes definition
 const COLORS_7 = [
     "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
@@ -21,10 +83,10 @@ function color(index, palette) {
 $(async function () {
 
     const choices = parsedPoll["choices"];
-    var VOTERS_COUNT = 0;
-
-    // Number of choices, eg candidates, in the poll
-    const DATA_COUNT = choices.length;
+    const VOTERS_COUNT = get_voters_count(choices);
+    const majority = get_majority(VOTERS_COUNT);
+    const majority_plot = get_majority_line_for_plot(VOTERS_COUNT);
+    get_majority_grades(choices, majority);
 
     // Names of choices, eg candidates, in the poll
     const labels = [];
@@ -60,7 +122,6 @@ $(async function () {
         const entry = { "label": votes[vote].value, "data": [votes[vote].count], "backgroundColor": color(cpt, palette), };
         dataset.push(entry);
         cpt += 1;
-        VOTERS_COUNT += votes[vote].count;
     }
 
     for (choice of choices.slice(-choices.length + 1)) {
@@ -79,13 +140,7 @@ $(async function () {
         datasets: dataset
     };
 
-    var majority;
-    if (VOTERS_COUNT % 2 == 0) {
-        majority = (VOTERS_COUNT - 1) / 2
-    }
-    else {
-        majority = VOTERS_COUNT / 2
-    }
+
 
     // Configurating the plot
     const config = {
@@ -107,8 +162,8 @@ $(async function () {
                     annotations: [{
                         type: 'line',
                         xScaleID: 'x',
-                        yMin: majority,
-                        yMax: majority,
+                        yMin: majority_plot,
+                        yMax: majority_plot,
                         xMin: labels[0],
                         xMax: labels[labels.length - 1],
                         borderColor: 'rgb(240, 240, 240)',
