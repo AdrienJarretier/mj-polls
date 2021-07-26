@@ -14,7 +14,12 @@ var path = require('path');
 
 function createDb() {
 
-    const db = new Database(config.db.database, { verbose: console.log });
+    let newDbOption = {};
+
+    if (require.main === module) {
+        newDbOption.verbose = console.log;
+    }
+    const db = new Database(config.db.database, newDbOption);
 
     const sqlSchema = fs.readFileSync(
         path.resolve(__dirname, 'dbSchema.sql'),
@@ -31,8 +36,11 @@ function createDb() {
 
     db.close();
 
-    console.log('db closed');
-    console.log('db ' + config.db.database + ' created');
+
+    if (require.main === module) {
+        console.log('db closed');
+        console.log('db ' + config.db.database + ' created');
+    }
 
 }
 

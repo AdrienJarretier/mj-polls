@@ -3,12 +3,15 @@ var db = require('../db/db.js');
 
 var assert = require('chai').assert;
 
+const fs = require('fs');
+const path = require('path');
+
 describe('db', function () {
 
   before(function () {
 
-    common.serverConfig.db.database = 'test.db';
-
+    common.serverConfig.db.database = path.resolve(__dirname, 'test.db');
+    fs.rmSync(common.serverConfig.db.database);
     require('../db/createDb.js');
 
   });
