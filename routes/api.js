@@ -94,6 +94,13 @@ router.get('/:id', function (req, res, next) {
 router.post('/:id/vote', function (req, res, next) {
 
     console.log('post new vote');
+    console.log(req.body);
+
+    // if(db.isClosed()) {
+    //     console.error('vote on closed poll', req.body);
+    //     res.json(false);
+    // }
+
     let addVoteReturn = db.addVote(req.body);
 
     res.json({ 'voteSuccessfull': addVoteReturn });
