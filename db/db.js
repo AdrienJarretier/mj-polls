@@ -334,7 +334,7 @@ exports.closePoll = function (pollId, reason) {
 
         default:
 
-            throw "arg : reason,  must be an integer with value in {1,2}";
+            throw 'arg : reason,  must be an integer with value in {1,2}';
     }
 
 }
