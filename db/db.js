@@ -310,5 +310,34 @@ exports.getDuplicateCheckMethods = function () {
 
 }
 
+/*
+    There are only 2 instances when a poll will close
+    1 - the number of votes exceed max_voters   =>  datetime_closed <- CURRENT_TIMESTAMP
+    2 - the max_datetime has expired            =>  datetime_closed <- max_datetime 
+
+    reason : in, value of 1 or 2 as stated above.
+*/
+exports.closePoll = function (pollId, reason) {
+
+    switch (reason) {
+        case 1:
+
+            return executeStatement(`
+            UPDATE polls SET datetime_closed=CURRENT_TIMESTAMP WHERE id=?;
+            `, 'run', [pollId]);
+
+        case 2:
+
+            return executeStatement(`
+            UPDATE polls SET datetime_closed=max_datetime WHERE id=?;
+            `, 'run', [pollId]);
+
+        default:
+
+            throw "arg : reason,  must be an integer with value in {1,2}";
+    }
+
+}
+
 
 // ---------------------- Used for testing ----------------------
