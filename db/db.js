@@ -117,6 +117,8 @@ exports.getPoll = function (id) {
         choices: array of strings : [choiceName1, ...]
         duplicateCheckMethod: null or int (id of method)
     }
+
+    Returns the id of the inserted poll
 */
 function insertPoll(data) {
 
@@ -152,8 +154,8 @@ function insertPoll(data) {
 
     let pcs_inserts_params = [];
 
-    console.log('data.choices');
-    console.log(data.choices);
+    // console.log('data.choices');
+    // console.log(data.choices);
 
     for (let choiceName of data.choices) {
         pcs_inserts_params.push([pollId, choiceName])
