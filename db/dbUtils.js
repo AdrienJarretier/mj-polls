@@ -1,10 +1,18 @@
 'use strict';
 
+module.exports = function (opts) {
+
+let exports = {};
+
 const common = require("../common.js");
 
 const config = common.serverConfig;
 
 const Database = require('better-sqlite3');
+
+let verboseFun = null;
+if (opts.verbose)
+    verboseFun = console.log;
 
 function _executePrepared(stmt, executionMethod, bindParameters, expand) {
 
@@ -66,7 +74,7 @@ function executeStatement(sqlString, executionMethod, bindParameters, expand) {
     bindParameters = bindParameters || [];
     expand = expand || false;
 
-    const db = new Database(config.db.database, { verbose: console.log });
+    const db = new Database(config.db.database, { verbose: verboseFun });
     const stmt = db.prepare(sqlString);
 
     let results = _executePrepared(stmt, executionMethod, bindParameters, expand);
@@ -80,3 +88,7 @@ function executeStatement(sqlString, executionMethod, bindParameters, expand) {
 
 exports.executeStatement = executeStatement;
 exports.executeLoop = executeLoop;
+
+return exports;
+
+};

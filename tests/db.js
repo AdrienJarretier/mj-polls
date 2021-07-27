@@ -1,5 +1,7 @@
 var common = require("../common.js");
-var db = require('../db/db.js');
+var db = require('../db/db.js')({
+  verbose: false
+});
 
 var assert = require('chai').assert;
 
@@ -26,7 +28,6 @@ describe('db', function () {
       choices: ['testChoice1'],
       duplicateCheckMethod: null
     });
-    console.log('inserted poll id', pollId);
 
   });
 

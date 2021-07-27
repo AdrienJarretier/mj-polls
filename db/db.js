@@ -1,6 +1,12 @@
 "use strict";
 
-const dbUtils = require('./dbUtils.js');
+module.exports = function (opts) {
+
+let exports = {};
+
+const dbUtils = require('./dbUtils.js')({
+    verbose: opts.verbose
+});
 
 let executeStatement = dbUtils.executeStatement;
 let executeLoop = dbUtils.executeLoop;
@@ -354,5 +360,8 @@ exports.closePoll = function (pollId, reason) {
 
 }
 
+return exports;
+
+};
 
 // ---------------------- Used for testing ----------------------
