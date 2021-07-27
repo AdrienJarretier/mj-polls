@@ -30,7 +30,7 @@ function executeLoop(sqlString, arrayOfBindParameters) {
 
     // console.log('executeLoop');
 
-    const db = new Database(config.db.database, { verbose: console.log });
+    const db = new Database(config.db.database);
 
     // console.log('db opened');
     let arrayOfResults = [];

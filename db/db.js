@@ -108,6 +108,16 @@ exports.getPoll = function (id) {
 
 }
 
+/*
+    data should be an object with at least those params :
+    {
+        title: string
+        maxVotes: null or int
+        max_datetime: null or string 'YYYY-MM-DD HH:MM:SS'
+        choices: array of strings : [choiceName1, ...]
+        duplicateCheckMethod: null or int (id of method)
+    }
+*/
 function insertPoll(data) {
 
     // ------------------------- prepare Data -------------------------
@@ -142,8 +152,11 @@ function insertPoll(data) {
 
     let pcs_inserts_params = [];
 
-    for (let choiceId of data.choices) {
-        pcs_inserts_params.push([pollId, choiceId])
+    console.log('data.choices');
+    console.log(data.choices);
+
+    for (let choiceName of data.choices) {
+        pcs_inserts_params.push([pollId, choiceName])
     }
 
     // console.log('pcs_inserts_params', pcs_inserts_params);
