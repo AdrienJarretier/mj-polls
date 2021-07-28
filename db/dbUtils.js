@@ -69,23 +69,30 @@ module.exports = function (opts) {
 
     }
 
-    function executeStatement(sqlString, executionMethod, bindParameters, expand) {
+    function prepareAndExecute(db, sqlString, executionMethod, bindParameters, expand) {
 
         bindParameters = bindParameters || [];
         expand = expand || false;
 
-        const db = new Database(config.db.database, { verbose: verboseFun });
         const stmt = db.prepare(sqlString);
 
-        let results = _executePrepared(stmt, executionMethod, bindParameters, expand);
+        return _executePrepared(stmt, executionMethod, bindParameters, expand);
+
+    }
+
+    function executeStatement(sqlString, executionMethod, bindParameters, expand) {
+
+        const db = new Database(config.db.database, { verbose: verboseFun });
+
+        let results = prepareAndExecute(db, sqlString, executionMethod, bindParameters, expand);
 
         db.close();
 
         return results;
 
-
     }
 
+    exports.prepareAndExecute = prepareAndExecute;
     exports.executeStatement = executeStatement;
     exports.executeLoop = executeLoop;
 
