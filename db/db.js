@@ -339,9 +339,11 @@ module.exports = function (opts) {
         else
             localDbConnection = db;
 
-        let datetime_closed = prepareAndExecute(localDbConnection, `
-        SELECT datetime_closed FROM polls WHERE id=?;
-        `, 'get', [pollId]).datetime_closed;
+        let row = prepareAndExecute(localDbConnection, `
+        SELECT max_datetime, datetime_closed FROM polls WHERE id=?;
+        `, 'get', [pollId]);
+
+        let datetime_closed = row.datetime_closed;
 
         if (!db)
             close(localDbConnection);
