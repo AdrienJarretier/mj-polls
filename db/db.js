@@ -352,6 +352,14 @@ module.exports = function (opts) {
 
             db = connect();
 
+            let datetime_closed = prepareAndExecute(db, `
+            SELECT datetime_closed FROM polls WHERE id=?;
+            `, 'get', [pollId]).datetime_closed;
+
+            if (datetime_closed !== null) {
+                throw 'poll is already closed';
+            }
+
         } else {
 
             throw 'arg : reason,  must be an integer with value in ' + possibleReasons;
