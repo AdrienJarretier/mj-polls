@@ -34,8 +34,11 @@ function createDb() {
     db.exec(sqlSchema);
     db.exec(sqlInitFill);
 
-    db.close();
+    if (config.db.database == ':memory:') {
+        common.dbBuffer = db.serialize();
+    }
 
+    db.close();
 
     if (require.main === module) {
         console.log('db closed');

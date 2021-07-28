@@ -12,8 +12,12 @@ describe('db', function () {
 
   before(function () {
 
-    common.serverConfig.db.database = path.resolve(__dirname, 'test.db');
-    fs.rmSync(common.serverConfig.db.database);
+    // common.serverConfig.db.database = path.resolve(__dirname, 'test.db');
+    common.serverConfig.db.database = ':memory:';
+
+    if (common.serverConfig.db.database != ':memory:')
+      fs.rmSync(common.serverConfig.db.database);
+
     require('../db/createDb.js');
 
   });

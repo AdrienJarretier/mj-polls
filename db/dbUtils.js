@@ -15,7 +15,20 @@ module.exports = function (opts) {
         verboseFun = console.log;
 
     function connect() {
-        return new Database(config.db.database, { verbose: verboseFun });
+
+        if (config.db.database == ':memory:')
+            return new Database(common.dbBuffer, { verbose: verboseFun });
+        else
+            return new Database(config.db.database, { verbose: verboseFun });
+    }
+
+    function close(db) {
+
+        if (config.db.database == ':memory:') {
+            common.dbBuffer = db.serialize();
+        }
+
+        db.close();
     }
 
     function _executePrepared(stmt, executionMethod, bindParameters, expand) {
@@ -42,7 +55,7 @@ module.exports = function (opts) {
 
         // console.log('executeLoop');
 
-        const db = new Database(config.db.database);
+        const db = connect();
 
         // console.log('db opened');
         let arrayOfResults = [];
@@ -67,7 +80,7 @@ module.exports = function (opts) {
         runMany(arrayOfBindParameters);
 
 
-        db.close();
+        close(db);
 
         return arrayOfResults;
 
@@ -90,13 +103,14 @@ module.exports = function (opts) {
 
         let results = prepareAndExecute(db, sqlString, executionMethod, bindParameters, expand);
 
-        db.close();
+        close(db);
 
         return results;
 
     }
 
     exports.connect = connect;
+    exports.close = close;
     exports.prepareAndExecute = prepareAndExecute;
     exports.executeStatement = executeStatement;
     exports.executeLoop = executeLoop;

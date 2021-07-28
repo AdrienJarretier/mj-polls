@@ -8,7 +8,7 @@ module.exports = function (opts) {
         verbose: opts.verbose
     });
 
-    const { connect, prepareAndExecute, executeStatement, executeLoop } = dbUtils;
+    const { connect, close, prepareAndExecute, executeStatement, executeLoop } = dbUtils;
 
     exports.getPollsIds = function () {
 
@@ -400,7 +400,7 @@ module.exports = function (opts) {
                 break;
         }
 
-        db.close();
+        close(db);
 
         return results;
 
