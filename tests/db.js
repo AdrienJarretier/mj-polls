@@ -34,8 +34,9 @@ describe('db', function () {
   describe('#closePoll()', function () {
 
 
-    it('should throw an error if no reason given', function () {
-      assert.throws(db.closePoll, 'arg : reason,  must be an integer with value in {1,2}');
+    it('should throw an error if reason is invalid', function () {
+      const possibleReasons = [1, 2];
+      assert.throws(db.closePoll, 'arg : reason,  must be an integer with value in ' + possibleReasons);
     });
 
 
@@ -60,6 +61,21 @@ describe('db', function () {
 
       assert.isAtLeast(dateClosed, dateBefore);
       assert.isAtMost(dateClosed, dateAfter);
+    });
+
+  });
+
+  describe('#closePoll(pollId, 2)', function () {
+
+    it('should set datetime_closed to max_datetime', function () {
+
+      db.closePoll(pollId, 2);
+
+      let poll = db.getPoll(pollId);
+      let dateClosed = (new Date(poll.datetime_closed + 'Z'));
+      let dateMax = (new Date(poll.max_datetime + 'Z'));
+
+      assert.equal(dateClosed, dateMax);
     });
 
   });

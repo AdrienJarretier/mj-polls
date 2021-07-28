@@ -14,6 +14,10 @@ module.exports = function (opts) {
     if (opts.verbose)
         verboseFun = console.log;
 
+    function connect() {
+        return new Database(config.db.database, { verbose: verboseFun });
+    }
+
     function _executePrepared(stmt, executionMethod, bindParameters, expand) {
 
         switch (executionMethod) {
@@ -82,7 +86,7 @@ module.exports = function (opts) {
 
     function executeStatement(sqlString, executionMethod, bindParameters, expand) {
 
-        const db = new Database(config.db.database, { verbose: verboseFun });
+        const db = connect();
 
         let results = prepareAndExecute(db, sqlString, executionMethod, bindParameters, expand);
 
@@ -92,6 +96,7 @@ module.exports = function (opts) {
 
     }
 
+    exports.connect = connect;
     exports.prepareAndExecute = prepareAndExecute;
     exports.executeStatement = executeStatement;
     exports.executeLoop = executeLoop;

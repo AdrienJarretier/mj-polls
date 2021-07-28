@@ -8,8 +8,7 @@ module.exports = function (opts) {
         verbose: opts.verbose
     });
 
-    let executeStatement = dbUtils.executeStatement;
-    let executeLoop = dbUtils.executeLoop;
+    const { connect, prepareAndExecute, executeStatement, executeLoop } = dbUtils;
 
     exports.getPollsIds = function () {
 
@@ -337,26 +336,51 @@ module.exports = function (opts) {
         2 - the max_datetime has expired            =>  datetime_closed <- max_datetime 
 
         reason : in, value of 1 or 2 as stated above.
+
+        errors throwns :
+            - no reason given
+            - reason 1, if max_voters is null
+            - reason 2, if max_datetime is null
     */
     exports.closePoll = function (pollId, reason) {
+
+        const possibleReasons = [1, 2];
+
+        let db;
+
+        if (possibleReasons.includes(reason)) {
+
+            db = connect();
+
+        } else {
+
+            throw 'arg : reason,  must be an integer with value in ' + possibleReasons;
+
+        }
+
+        let results;
 
         switch (reason) {
             case 1:
 
-                return executeStatement(`
-            UPDATE polls SET datetime_closed=CURRENT_TIMESTAMP WHERE id=?;
-            `, 'run', [pollId]);
+                results = prepareAndExecute(db, `
+                UPDATE polls SET datetime_closed=CURRENT_TIMESTAMP WHERE id=?;
+                `, 'run', [pollId]);
+
+                break;
 
             case 2:
 
-                return executeStatement(`
-            UPDATE polls SET datetime_closed=max_datetime WHERE id=?;
-            `, 'run', [pollId]);
+                results = prepareAndExecute(db, `
+                UPDATE polls SET datetime_closed=max_datetime WHERE id=?;
+                `, 'run', [pollId]);
 
-            default:
-
-                throw 'arg : reason,  must be an integer with value in {1,2}';
+                break;
         }
+
+        db.close();
+
+        return results;
 
     }
 
