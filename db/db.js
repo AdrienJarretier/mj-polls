@@ -330,6 +330,25 @@ module.exports = function (opts) {
 
     }
 
+    exports.isClosed = function (pollId, db) {
+
+        let localDbConnection;
+        if (!db) {
+            localDbConnection = connect();
+        }
+        else
+            localDbConnection = db;
+
+        let datetime_closed = prepareAndExecute(localDbConnection, `
+        SELECT datetime_closed FROM polls WHERE id=?;
+        `, 'get', [pollId]).datetime_closed;
+
+        if (!db)
+            close(localDbConnection);
+
+        return datetime_closed != null;
+    }
+
     /*
         There are only 2 instances when a poll will close
         1 - the number of votes exceed max_voters   =>  datetime_closed <- CURRENT_TIMESTAMP
@@ -352,13 +371,8 @@ module.exports = function (opts) {
 
             db = connect();
 
-            let datetime_closed = prepareAndExecute(db, `
-            SELECT datetime_closed FROM polls WHERE id=?;
-            `, 'get', [pollId]).datetime_closed;
-
-            if (datetime_closed !== null) {
+            if (exports.isClosed(pollId, db))
                 throw 'poll is already closed';
-            }
 
         } else {
 

@@ -123,5 +123,38 @@ describe('db', function () {
 
   });
 
+  describe('#isClosed', function () {
+
+    it('should return false if date_closed is null', function () {
+
+      let pollId = db.insertPoll({
+        title: 'testPoll invalid reason',
+        maxVotes: 1,
+        max_datetime: null,
+        choices: ['testChoice1'],
+        duplicateCheckMethod: null
+      });
+
+      assert.isFalse(db.isClosed(pollId));
+
+    });
+
+    it('should return true if date_closed is not null', function () {
+
+      let pollId = db.insertPoll({
+        title: 'testPoll invalid reason',
+        maxVotes: 1,
+        max_datetime: null,
+        choices: ['testChoice1'],
+        duplicateCheckMethod: null
+      });
+      db.closePoll(pollId, 1);
+
+      assert.isTrue(db.isClosed(pollId));
+
+    });
+
+  });
+
 });
 
