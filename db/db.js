@@ -363,6 +363,13 @@ module.exports = function (opts) {
         switch (reason) {
             case 1:
 
+                let max_voters = prepareAndExecute(db, `
+                SELECT max_voters FROM polls WHERE id=?;
+                `, 'get', [pollId]).max_voters;
+
+                if (max_voters === null)
+                    throw 'Can\'t close poll, max_voters is NULL';
+
                 results = prepareAndExecute(db, `
                 UPDATE polls SET datetime_closed=CURRENT_TIMESTAMP WHERE id=?;
                 `, 'run', [pollId]);
@@ -370,6 +377,13 @@ module.exports = function (opts) {
                 break;
 
             case 2:
+
+                let max_datetime = prepareAndExecute(db, `
+                SELECT max_datetime FROM polls WHERE id=?;
+                `, 'get', [pollId]).max_datetime;
+
+                if (max_datetime === null)
+                    throw 'Can\'t close poll, max_datetime is NULL';
 
                 results = prepareAndExecute(db, `
                 UPDATE polls SET datetime_closed=max_datetime WHERE id=?;
