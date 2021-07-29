@@ -139,7 +139,16 @@ describe('db', function () {
         duplicateCheckMethod: null
       });
 
+      let pollId2 = db.insertPoll({
+        title: 'testPoll invalid reason',
+        maxVotes: 1,
+        max_datetime: '2100-01-01 00:00:00',
+        choices: ['testChoice1'],
+        duplicateCheckMethod: null
+      });
+
       assert.isFalse(db.isClosed(pollId));
+      assert.isFalse(db.isClosed(pollId2));
 
     });
 
