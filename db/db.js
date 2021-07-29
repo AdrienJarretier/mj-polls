@@ -330,6 +330,23 @@ module.exports = function (opts) {
 
     }
 
+    function _closePoll(db, pollId, reason) {
+
+        switch (reason) {
+            case 1:
+
+                return prepareAndExecute(db, `
+                UPDATE polls SET datetime_closed=CURRENT_TIMESTAMP WHERE id=?;
+                `, 'run', [pollId]);
+
+            case 2:
+
+                return prepareAndExecute(db, `
+                UPDATE polls SET datetime_closed=max_datetime WHERE id=?;
+                `, 'run', [pollId]);
+        }
+    }
+
     exports.isClosed = function (pollId, db) {
 
         let localDbConnection;
@@ -382,8 +399,6 @@ module.exports = function (opts) {
 
         }
 
-        let results;
-
         switch (reason) {
             case 1:
 
@@ -393,10 +408,6 @@ module.exports = function (opts) {
 
                 if (max_voters === null)
                     throw 'Can\'t close poll, max_voters is NULL';
-
-                results = prepareAndExecute(db, `
-                UPDATE polls SET datetime_closed=CURRENT_TIMESTAMP WHERE id=?;
-                `, 'run', [pollId]);
 
                 break;
 
@@ -409,12 +420,10 @@ module.exports = function (opts) {
                 if (max_datetime === null)
                     throw 'Can\'t close poll, max_datetime is NULL';
 
-                results = prepareAndExecute(db, `
-                UPDATE polls SET datetime_closed=max_datetime WHERE id=?;
-                `, 'run', [pollId]);
-
                 break;
         }
+
+        let results = _closePoll(db, pollId, reason);
 
         close(db);
 
