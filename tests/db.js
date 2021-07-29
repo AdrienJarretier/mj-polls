@@ -15,10 +15,14 @@ describe('db', function () {
     // common.serverConfig.db.database = path.resolve(__dirname, 'test.db');
     common.serverConfig.db.database = ':memory:';
 
+    require('../db/createDb.js');
+
+  });
+
+  after(function () {
+
     if (common.serverConfig.db.database != ':memory:')
       fs.rmSync(common.serverConfig.db.database);
-
-    require('../db/createDb.js');
 
   });
 
@@ -149,6 +153,21 @@ describe('db', function () {
         duplicateCheckMethod: null
       });
       db.closePoll(pollId, 1);
+
+      assert.isTrue(db.isClosed(pollId));
+
+    });
+
+
+    it('should return true if max_datetime is expired', function () {
+
+      let pollId = db.insertPoll({
+        title: 'testPoll invalid reason',
+        maxVotes: 1,
+        max_datetime: '2021-07-01 00:00:00',
+        choices: ['testChoice1'],
+        duplicateCheckMethod: null
+      });
 
       assert.isTrue(db.isClosed(pollId));
 
