@@ -137,87 +137,79 @@ module.exports = function (opts) {
 
         // ----------------------------------------------------------------
 
+        let db = dbUtils.connect();
+        let pollId;
 
-        let pollsInsertResult;
+        db.transaction(() => {
 
-        try {
+            try {
 
-            pollsInsertResult = executeStatement(`
-        INSERT INTO polls(title, max_voters, max_datetime)
-        VALUES(?, ?, datetime(?));
-        `, 'run', [data.title, data.maxVotes, data.max_datetime]);
+                if (ignoreConstraints)
+                    db.pragma('ignore_check_constraints = 1');
 
-        }
-        catch (e) {
-            if (e.code == 'SQLITE_CONSTRAINT_CHECK')
-                throw "Can't insert poll, constraint violated";
-            else
-                throw e;
-        }
+                let pollsInsertResult = prepareAndExecute(db, `
+                INSERT INTO polls(title, max_voters, max_datetime)
+                VALUES(?, ?, datetime(?));
+                `, 'run', [data.title, data.maxVotes, data.max_datetime]);
 
-        let pollId = pollsInsertResult.lastInsertRowid;
+                pollId = pollsInsertResult.lastInsertRowid;
 
-        // ------------------------ INSERT choices ------------------------
-
-        let gradesIds = exports.getGrades().map(g => g.id);
-
-        let pcs_inserts_params = [];
-
-        // console.log('data.choices');
-        // console.log(data.choices);
-
-        for (let choiceName of data.choices) {
-            pcs_inserts_params.push([pollId, choiceName])
-        }
-
-        // console.log('pcs_inserts_params', pcs_inserts_params);
-
-        let pcs_insertsResults
-        try {
-            pcs_insertsResults = executeLoop(`
-        INSERT INTO polls_choices(poll_id, name)
-        VALUES(?, ?);
-        `, pcs_inserts_params);
-        }
-        catch (e) {
-            console.error('error inserting into polls_choices');
-            console.error(e);
-        }
-
-        // ----------------------------------------------------------------
-
-        // ---------------------- INSERT polls_votes ----------------------
-
-        let pvs_inserts_params = [];
-
-        for (let pc_insertResult of pcs_insertsResults) {
-
-            let pcId = pc_insertResult.lastInsertRowid;
-
-            for (let gradeId of gradesIds) {
-                pvs_inserts_params.push([pcId, gradeId]);
+            }
+            catch (e) {
+                if (e.code == 'SQLITE_CONSTRAINT_CHECK')
+                    throw "Can't insert poll, constraint violated";
+                else
+                    throw e;
             }
 
-        }
+            // ------------------------ INSERT choices ------------------------
 
-        // console.log('pvs_inserts_params', pvs_inserts_params);
+            let gradesIds = exports.getGrades().map(g => g.id);
 
-        try {
-            executeLoop(`
-        INSERT INTO polls_votes(poll_choice_id, grade_id)
-        VALUES(?, ?);
-        `,
-                pvs_inserts_params
-            );
-        }
-        catch (e) {
-            console.error('error inserting into polls_votes');
-            console.error(e);
-        }
+            let stmt = db.prepare(`INSERT INTO polls_choices(poll_id, name) VALUES(?, ?);`);
+            let pcs_insertsResults = [];
+
+            try {
+                for (let choiceName of data.choices) {
+
+                    pcs_insertsResults.push(stmt.run([pollId, choiceName]));
+                }
+            }
+            catch (e) {
+                console.error('error inserting into polls_choices');
+                console.error(e);
+            }
+
+            // ----------------------------------------------------------------
+
+            // ---------------------- INSERT polls_votes ----------------------
+
+            stmt = db.prepare(`INSERT INTO polls_votes(poll_choice_id, grade_id) VALUES(?, ?);`);
+            try {
+                for (let pc_insertResult of pcs_insertsResults) {
+
+                    let pcId = pc_insertResult.lastInsertRowid;
+
+                    for (let gradeId of gradesIds) {
+                        stmt.run([pcId, gradeId]);
+                    }
+
+                }
+            }
+            catch (e) {
+                console.error('error inserting into polls_votes');
+                console.error(e);
+            }
+
+            // ----------------------------------------------------------------
+
+        })();
+
+        dbUtils.close(db);
 
         // ----------------------------------------------------------------
 
-        return pollsInsertResult.lastInsertRowid;
+        return pollId;
 
     }
 
