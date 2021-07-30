@@ -234,56 +234,68 @@ module.exports = function (opts) {
 
         console.log('adding vote');
 
-        let choices_ids = dbUtils.executeStatement(
-            `SELECT id
+        let db = dbUtils.connect();
+
+        let updateSuccess = false;
+
+        db.transaction(() => {
+
+            let choices_ids = dbUtils.prepareAndExecute(db,
+                `SELECT id
             FROM polls_choices AS pc
             WHERE pc.poll_id = ?;`,
-            'all', [pollId], false, true
-        ).flat();
+                'all', [pollId], false, true
+            ).flat();
 
-        let voteEntries = Object.entries(vote);
+            let voteEntries = Object.entries(vote);
 
-        if (voteEntries.length != choices_ids.length)
-            throw 'number of votes does not match number of choices in ' + pollId;
+            if (voteEntries.length != choices_ids.length)
+                throw 'number of votes does not match number of choices in ' + pollId;
 
-        for (let voteEntry of voteEntries) {
-            let choice_id = parseInt(voteEntry[0]);
-            if (!choices_ids.includes(choice_id)) {
-                throw 'choice ' + choice_id + ' does not belong to poll ' + pollId;
+            for (let voteEntry of voteEntries) {
+                let choice_id = parseInt(voteEntry[0]);
+                if (!choices_ids.includes(choice_id)) {
+                    throw 'choice ' + choice_id + ' does not belong to poll ' + pollId;
+                }
             }
-        }
 
-        let updatesResults = executeLoop(`
+            let updatesResults = executeLoop(`
             UPDATE polls_votes
             SET count = count+1
             WHERE poll_choice_id = ?
             AND grade_id = ?
             ;`,
-            voteEntries);
+                voteEntries);
 
 
-        // update unsuccessfull
-        if (updatesResults.length < voteEntries.length)
-            return false;
-
-        for (let updateResult of updatesResults) {
             // update unsuccessfull
-            if (updateResult.changes != 1)
+            if (updatesResults.length < voteEntries.length)
                 return false;
-        }
 
-        // `SELECT sum(count) as votes_count
-        // FROM polls AS p
-        // INNER JOIN polls_choices AS pc
-        // ON p.id = pc.poll_id
-        // INNER JOIN polls_votes AS pv
-        // ON pc.id = pv.poll_choice_id
-        // WHERE p.id = 8
-        // GROUP BY pc.id
-        // LIMIT 1;`
+            for (let updateResult of updatesResults) {
+                // update unsuccessfull
+                if (updateResult.changes != 1)
+                    return false;
+            }
+
+            updateSuccess = true;
+
+            // `SELECT sum(count) as votes_count
+            // FROM polls AS p
+            // INNER JOIN polls_choices AS pc
+            // ON p.id = pc.poll_id
+            // INNER JOIN polls_votes AS pv
+            // ON pc.id = pv.poll_choice_id
+            // WHERE p.id = 8
+            // GROUP BY pc.id
+            // LIMIT 1;`
+
+        })();
+
+        dbUtils.close(db);
 
         // update success
-        return true;
+        return updateSuccess;
 
     }
 
