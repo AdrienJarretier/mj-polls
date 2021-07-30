@@ -220,6 +220,16 @@ module.exports = function (opts) {
 
     exports.insertPoll = insertPoll;
 
+    exports.get_poll_id_From_poll_choice_id = function (poll_choice_id) {
+
+        return dbUtils.executeStatement(`
+        SELECT poll_id
+        FROM polls_choices
+        WHERE id = ?;`,
+            'get', [poll_choice_id]).poll_id;
+
+    };
+
     exports.addVote = function (vote) {
 
         console.log('adding vote');

@@ -51,6 +51,23 @@ router.get('/createPoll', function (req, res, next) {
 
 });
 
+function renderPollResults(req, res) {
+
+  try {
+    let poll = db.getFullPoll(req.params.id);
+
+    const pollJSONstr = prepareObjectForFrontend(poll);
+
+    res.render('poll_results', pageOptions('results ' + poll.title, {
+      poll: pollJSONstr
+    }));
+  }
+  catch (e) {
+    console.error(e);
+  }
+
+}
+
 router.get('/poll/:id', function (req, res, next) {
 
   try {
@@ -78,22 +95,12 @@ router.get('/poll/:id', function (req, res, next) {
     console.error(e);
   }
 
-}, function (req, res) {
+}, renderPollResults);
 
-  try {
-    let poll = db.getFullPoll(req.params.id);
 
-    const pollJSONstr = prepareObjectForFrontend(poll);
-
-    res.render('poll_results', pageOptions('results ' + poll.title, {
-      poll: pollJSONstr
-    }));
-  }
-  catch (e) {
-    console.error(e);
-  }
-
-});
+if (common.serverConfig.testConfig.testApiEnabled) {
+  router.get('/poll_results/:id', renderPollResults);
+}
 
 
 /* GET context page. */

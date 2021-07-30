@@ -96,14 +96,33 @@ router.post('/:id/vote', function (req, res, next) {
     console.log('post new vote');
     console.log(req.body);
 
-    // if(db.isClosed()) {
-    //     console.error('vote on closed poll', req.body);
-    //     res.json(false);
-    // }
+    try {
 
-    let addVoteReturn = db.addVote(req.body);
+        let responseObject = {
+            'voteSuccessfull': undefined
+        };
 
-    res.json({ 'voteSuccessfull': addVoteReturn });
+        let choices_ids = Object.keys(req.body);
+        let pollId = db.get_poll_id_From_poll_choice_id(choices_ids[0]);
+
+        console.log('polldId : ' + pollId);
+
+        if (db.isClosed(pollId)) {
+            console.error('vote on closed poll', req.body);
+            responseObject.voteSuccessfull = false;
+            responseObject.cause = 'poll closed';
+        }
+        else {
+            responseObject.voteSuccessfull = db.addVote(req.body);
+            if (!responseObject.voteSuccessfull)
+                responseObject.cause = 'unknown';
+        }
+
+        res.json(responseObject);
+
+    } catch (e) {
+        console.error(e);
+    }
 
 });
 
