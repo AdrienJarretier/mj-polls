@@ -53,34 +53,45 @@ router.get('/createPoll', function (req, res, next) {
 
 router.get('/poll/:id', function (req, res, next) {
 
-  // if poll is closed, send results, else send poll choices;
-  if (db.isClosed(req.params.id)) {
-    next();
+  try {
+
+    // if poll is closed, send results, else send poll choices;
+    if (db.isClosed(req.params.id)) {
+      next();
+    }
+    else {
+
+      let poll = db.getPoll(req.params.id);
+
+      const pollJSONstr = prepareObjectForFrontend(poll);
+
+      res.render('poll', pageOptions(poll.title, {
+
+        poll: pollJSONstr,
+        infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
+
+      }));
+    }
+
   }
-  else {
-
-    let poll = db.getPoll(req.params.id);
-
-    const pollJSONstr = prepareObjectForFrontend(poll);
-
-    res.render('poll', pageOptions(poll.title, {
-
-      poll: pollJSONstr,
-      infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
-
-    }));
-
+  catch (e) {
+    console.error(e);
   }
 
 }, function (req, res) {
 
-  let poll = db.getFullPoll(req.params.id);
+  try {
+    let poll = db.getFullPoll(req.params.id);
 
-  const pollJSONstr = prepareObjectForFrontend(poll);
+    const pollJSONstr = prepareObjectForFrontend(poll);
 
-  res.render('poll_results', pageOptions('results ' + poll.title, {
-    poll: pollJSONstr
-  }));
+    res.render('poll_results', pageOptions('results ' + poll.title, {
+      poll: pollJSONstr
+    }));
+  }
+  catch (e) {
+    console.error(e);
+  }
 
 });
 

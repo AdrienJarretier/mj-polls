@@ -62,11 +62,11 @@ module.exports = function (opts) {
     exports.getFullPolls = function () {
 
         let rows = executeStatement(`
-    SELECT *
-    FROM polls
-    INNER JOIN polls_choices
-    ON polls.id=polls_choices.poll_id;
-    `,
+        SELECT *
+        FROM polls
+        INNER JOIN polls_choices
+        ON polls.id=polls_choices.poll_id;
+        `,
             'all', null, true);
 
         let polls = aggregateChoices(rows);
@@ -78,16 +78,15 @@ module.exports = function (opts) {
     exports.getMostRecentPolls = function (limit) {
 
         let rows = executeStatement(`
-
-    SELECT *
-    FROM
-        (SELECT *
-        FROM polls
-        ORDER BY datetime_opened DESC
-        LIMIT ?) as subq
-    INNER JOIN polls_choices
-    ON subq.id=polls_choices.poll_id;
-    `,
+        SELECT *
+        FROM
+            (SELECT *
+            FROM polls
+            ORDER BY datetime_opened DESC
+            LIMIT ?) as subq
+        INNER JOIN polls_choices
+        ON subq.id=polls_choices.poll_id;
+        `,
             'all', [limit], true);
 
         let polls = aggregateChoices(rows);
@@ -99,12 +98,12 @@ module.exports = function (opts) {
     exports.getPoll = function (id) {
 
         let rows = executeStatement(`
-    SELECT *
-    FROM polls
-    INNER JOIN polls_choices
-    ON polls.id=polls_choices.poll_id
-    WHERE polls.id = ?;
-    `,
+        SELECT *
+        FROM polls
+        INNER JOIN polls_choices
+        ON polls.id=polls_choices.poll_id
+        WHERE polls.id = ?;
+        `,
             'all', [id], true);
 
         let poll = aggregateChoices(rows)[id];
@@ -228,11 +227,11 @@ module.exports = function (opts) {
         let voteEntries = Object.entries(vote);
 
         let updatesResults = executeLoop(`
-    UPDATE polls_votes
-    SET count = count+1
-    WHERE poll_choice_id = ?
-    AND grade_id = ?
-    ;`,
+            UPDATE polls_votes
+            SET count = count+1
+            WHERE poll_choice_id = ?
+            AND grade_id = ?
+            ;`,
             voteEntries);
 
 
@@ -351,6 +350,9 @@ module.exports = function (opts) {
     }
 
     exports.isClosed = function (pollId, db) {
+
+        if (!Number.isInteger(parseInt(pollId)) || pollId < 1)
+            throw 'argError : pollId';
 
         let localDbConnection;
         if (!db) {
