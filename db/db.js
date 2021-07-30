@@ -125,7 +125,9 @@ module.exports = function (opts) {
 
         Returns the id of the inserted poll
     */
-    function insertPoll(data) {
+    function insertPoll(data, ignoreConstraints) {
+
+        ignoreConstraints = ignoreConstraints || false;
 
         // ------------------------- prepare Data -------------------------
 
@@ -147,8 +149,10 @@ module.exports = function (opts) {
 
         }
         catch (e) {
-            console.error('error inserting into polls');
-            console.error(e);
+            if (e.code == 'SQLITE_CONSTRAINT_CHECK')
+                throw "Can't insert poll, constraint violated";
+            else
+                throw e;
         }
 
         let pollId = pollsInsertResult.lastInsertRowid;
