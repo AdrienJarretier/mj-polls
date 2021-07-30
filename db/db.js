@@ -247,6 +247,9 @@ module.exports = function (opts) {
 
         let voteEntries = Object.entries(vote);
 
+        if (voteEntries.length != choices_ids.length)
+            throw 'number of votes does not match number of choices in ' + pollId;
+
         for (let voteEntry of voteEntries) {
             let choice_id = parseInt(voteEntry[0]);
             // console.log('choice_id : ' + choice_id);
@@ -274,6 +277,16 @@ module.exports = function (opts) {
             if (updateResult.changes != 1)
                 return false;
         }
+
+        // `SELECT sum(count) as votes_count
+        // FROM polls AS p
+        // INNER JOIN polls_choices AS pc
+        // ON p.id = pc.poll_id
+        // INNER JOIN polls_votes AS pv
+        // ON pc.id = pv.poll_choice_id
+        // WHERE p.id = 8
+        // GROUP BY pc.id
+        // LIMIT 1;`
 
         // update success
         return true;
