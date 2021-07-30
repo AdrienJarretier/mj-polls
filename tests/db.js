@@ -28,7 +28,7 @@ describe('db', function () {
 
   describe('#insertPoll', function () {
 
-    it('should not ignore constraints if ignoreConstraints is not given and throw an error if violated', function () {
+    it('should not ignore constraints if ignoreConstraints is not given', function () {
 
       assert.throws(function () {
 
@@ -44,17 +44,17 @@ describe('db', function () {
 
     });
 
-    it('should ignore constraints if ignoreConstraints is true, and should not throw an error', function () {
+    it('should ignore constraints if ignoreConstraints is true', function () {
 
       assert.doesNotThrow(function () {
 
         db.insertPoll({
           title: 'testPoll invalid reason',
           maxVotes: null,
-          max_datetime: null, // constraint violation, max date on insert can't be earleir than now
+          max_datetime: '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
           choices: ['testChoice1'],
           duplicateCheckMethod: null
-        });
+        }, true);
 
       });
 
