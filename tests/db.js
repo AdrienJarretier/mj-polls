@@ -62,6 +62,10 @@ describe('db', function () {
 
   });
 
+  describe('#addVote', function () {
+
+  });
+
   describe('#isClosed', function () {
 
     it('should return false if date_closed is null', function () {
