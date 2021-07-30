@@ -326,6 +326,13 @@ module.exports = function (opts) {
 
     }
 
+    /**
+     * 
+     * @param {dbConnection object} db 
+     * @param {number} pollId 
+     * @param {(1|2)} reason - 1, number of votes exceed max_voters <br>
+     * - 2, max_datetime expired
+     */
     function _closePoll(db, pollId, reason) {
 
         switch (reason) {
@@ -358,6 +365,12 @@ module.exports = function (opts) {
 
         let datetime_closed = row.datetime_closed;
 
+        let maxDatetime = new Date(row.max_datetime + 'Z');
+        if (maxDatetime < new Date()) {
+            _closePoll(localDbConnection, pollId, 2);
+            datetime_closed = maxDatetime;
+        }
+
         if (!db)
             close(localDbConnection);
 
@@ -369,6 +382,7 @@ module.exports = function (opts) {
         1 - the number of votes exceed max_voters   =>  datetime_closed <- CURRENT_TIMESTAMP
         2 - the max_datetime has expired            =>  datetime_closed <- max_datetime 
 
+        @ 
         reason : in, value of 1 or 2 as stated above.
 
         errors throwns :

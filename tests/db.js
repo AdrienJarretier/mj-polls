@@ -168,7 +168,7 @@ describe('db', function () {
     it('should return false if date_closed is null', function () {
 
       let pollId = db.insertPoll({
-        title: 'testPoll invalid reason',
+        title: 'test isClosed, date_closed is null',
         maxVotes: 1,
         max_datetime: null,
         choices: ['testChoice1'],
@@ -176,7 +176,7 @@ describe('db', function () {
       });
 
       let pollId2 = db.insertPoll({
-        title: 'testPoll invalid reason',
+        title: 'test isClosed, date_closed is null, max_datetime not expired',
         maxVotes: 1,
         max_datetime: '2100-01-01 00:00:00',
         choices: ['testChoice1'],
@@ -191,7 +191,7 @@ describe('db', function () {
     it('should return true if date_closed is not null', function () {
 
       let pollId = db.insertPoll({
-        title: 'testPoll invalid reason',
+        title: 'test isClosed, date_closed is not null',
         maxVotes: 1,
         max_datetime: null,
         choices: ['testChoice1'],
@@ -204,19 +204,19 @@ describe('db', function () {
     });
 
 
-    // it('should return true if max_datetime is expired', function () {
+    it('should return true if max_datetime is expired', function () {
 
-    //   let pollId = db.insertPoll({
-    //     title: 'testPoll invalid reason',
-    //     maxVotes: 1,
-    //     max_datetime: '2021-07-01 00:00:00',
-    //     choices: ['testChoice1'],
-    //     duplicateCheckMethod: null
-    //   });
+      let pollId = db.insertPoll({
+        title: 'test isClosed, max_datetime is expired',
+        maxVotes: 1,
+        max_datetime: '2021-07-01 00:00:00',
+        choices: ['testChoice1'],
+        duplicateCheckMethod: null
+      }, true);
 
-    //   assert.isTrue(db.isClosed(pollId));
+      assert.isTrue(db.isClosed(pollId));
 
-    // });
+    });
 
   });
 
