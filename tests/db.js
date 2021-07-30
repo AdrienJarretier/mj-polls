@@ -15,16 +15,16 @@ describe('db', function () {
     // common.serverConfig.db.database = path.resolve(__dirname, 'test.db');
     common.serverConfig.db.database = ':memory:';
 
+    if (common.serverConfig.db.database != ':memory:') {
+      try {
+        fs.rmSync(common.serverConfig.db.database);
+      } finally { }
+    }
+
     require('../db/createDb.js');
 
   });
 
-  after(function () {
-
-    if (common.serverConfig.db.database != ':memory:')
-      fs.rmSync(common.serverConfig.db.database);
-
-  });
 
   describe('#insertPoll', function () {
 
