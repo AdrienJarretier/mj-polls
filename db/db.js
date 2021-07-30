@@ -241,10 +241,6 @@ module.exports = function (opts) {
             'all', [pollId], false, true
         ).flat();
 
-        // console.log();
-        // console.log('choices_ids');
-        // console.log(choices_ids);
-
         let voteEntries = Object.entries(vote);
 
         if (voteEntries.length != choices_ids.length)
@@ -252,8 +248,6 @@ module.exports = function (opts) {
 
         for (let voteEntry of voteEntries) {
             let choice_id = parseInt(voteEntry[0]);
-            // console.log('choice_id : ' + choice_id);
-            // console.log(typeof (choice_id), typeof (choices_ids[0]))
             if (!choices_ids.includes(choice_id)) {
                 throw 'choice ' + choice_id + ' does not belong to poll ' + pollId;
             }
