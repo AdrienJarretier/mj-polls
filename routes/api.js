@@ -8,7 +8,7 @@ var router = express.Router();
 
 const common = require('../common.js');
 
-const db = require('../db/db.js');
+const db = require('../db/db.js')({});
 
 
 
@@ -111,8 +111,13 @@ router.post('/', function (req, res, next) {
 
     console.log('post new poll');
     console.log(req.body);
-    let lastInsertRowid = db.insertPoll(req.body);
-    res.json(lastInsertRowid);
+    try {
+        let lastInsertRowid = db.insertPoll(req.body);
+        res.json(lastInsertRowid);
+    }
+    catch (e) {
+        console.log(e);
+    }
 
 });
 

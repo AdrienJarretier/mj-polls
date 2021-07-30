@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../db/db.js');
+var db = require('../db/db.js')({});
 
 const common = require("../common.js");
 
@@ -53,22 +53,26 @@ router.get('/createPoll', function (req, res, next) {
 
 router.get('/poll/:id', function (req, res, next) {
 
-  let poll = db.getPoll(req.params.id);
+  // if poll is closed, send results, else send poll choices;
+  if (db.isClosed(req.params.id)) {
+    next();
+  }
+  else {
 
-  const pollJSONstr = prepareObjectForFrontend(poll);
+    let poll = db.getPoll(req.params.id);
 
-  res.render('poll', pageOptions(poll.title, {
+    const pollJSONstr = prepareObjectForFrontend(poll);
 
-    poll: pollJSONstr,
-    infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
+    res.render('poll', pageOptions(poll.title, {
 
-  }));
+      poll: pollJSONstr,
+      infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
 
-});
+    }));
 
+  }
 
-/* GET poll results page. */
-router.get('/poll_results/:id', function (req, res, next) {
+}, function (req, res) {
 
   let poll = db.getFullPoll(req.params.id);
 
@@ -79,6 +83,7 @@ router.get('/poll_results/:id', function (req, res, next) {
   }));
 
 });
+
 
 /* GET context page. */
 router.get('/context', function (req, res, next) {
