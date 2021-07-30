@@ -230,11 +230,31 @@ module.exports = function (opts) {
 
     };
 
-    exports.addVote = function (vote) {
+    exports.addVote = function (pollId, vote) {
 
         console.log('adding vote');
 
+        let choices_ids = dbUtils.executeStatement(
+            `SELECT id
+            FROM polls_choices AS pc
+            WHERE pc.poll_id = ?;`,
+            'all', [pollId], false, true
+        ).flat();
+
+        // console.log();
+        // console.log('choices_ids');
+        // console.log(choices_ids);
+
         let voteEntries = Object.entries(vote);
+
+        for (let voteEntry of voteEntries) {
+            let choice_id = parseInt(voteEntry[0]);
+            // console.log('choice_id : ' + choice_id);
+            // console.log(typeof (choice_id), typeof (choices_ids[0]))
+            if (!choices_ids.includes(choice_id)) {
+                throw 'choice ' + choice_id + ' does not belong to poll ' + pollId;
+            }
+        }
 
         let updatesResults = executeLoop(`
             UPDATE polls_votes

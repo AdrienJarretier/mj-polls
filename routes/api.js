@@ -94,6 +94,7 @@ router.get('/:id', function (req, res, next) {
 router.post('/:id/vote', function (req, res, next) {
 
     console.log('post new vote');
+    console.log('poll id : ' + req.params.id);
     console.log(req.body);
 
     try {
@@ -102,18 +103,13 @@ router.post('/:id/vote', function (req, res, next) {
             'voteSuccessfull': undefined
         };
 
-        let choices_ids = Object.keys(req.body);
-        let pollId = db.get_poll_id_From_poll_choice_id(choices_ids[0]);
-
-        console.log('polldId : ' + pollId);
-
-        if (db.isClosed(pollId)) {
+        if (db.isClosed(req.params.id)) {
             console.error('vote on closed poll', req.body);
             responseObject.voteSuccessfull = false;
             responseObject.cause = 'poll closed';
         }
         else {
-            responseObject.voteSuccessfull = db.addVote(req.body);
+            responseObject.voteSuccessfull = db.addVote(req.params.id, req.body);
             if (!responseObject.voteSuccessfull)
                 responseObject.cause = 'unknown';
         }
