@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "nyc mocha tests -b"
+    "test": "mocha tests -b"
   },
   "dependencies": {
     "better-sqlite3": "^7.4.1",
