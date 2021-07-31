@@ -498,7 +498,13 @@ module.exports = function (opts) {
 
     }
 
-    return exports;
+    return {
+        getPoll: exports.getPoll,
+        insertPoll: exports.insertPoll,
+        addVote: exports.addVote,
+        isClosed: exports.isClosed,
+        closePoll: exports.closePoll
+    };
 
 };
 
