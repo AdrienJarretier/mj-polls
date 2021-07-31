@@ -95,7 +95,25 @@ module.exports = function (opts) {
 
     }
 
-    exports.getPoll = function (id) {
+    /**
+     * 
+     * @param {number} id - poll id
+     * @returns {{seeBelow}} \{
+     * - id: integer
+     * - title: string
+     * - max_voters: integer | null
+     * - max_datetime: string | null
+     * - datetime_opened: string
+     * - datetime_closed: string | null
+     * - duplicate_vote_check_method_id: integer | null
+     * - choices: Array
+     * - [ 
+     * - - {id: integer, poll_id: integer, name: string}
+     * - ]
+     * 
+     * }
+     */
+    function getPoll(id) {
 
         let rows = executeStatement(`
         SELECT *
@@ -218,8 +236,6 @@ module.exports = function (opts) {
 
     }
 
-    exports.insertPoll = insertPoll;
-
     exports.get_poll_id_From_poll_choice_id = function (poll_choice_id) {
 
         return dbUtils.executeStatement(`
@@ -236,7 +252,7 @@ module.exports = function (opts) {
      * @param {object} vote - { poll_choice_id : grade_id , ... }
      * @returns {boolean} - true if vote successfull | false otherwise
      */
-    exports.addVote = function (pollId, vote) {
+    function addVote(pollId, vote) {
 
         console.log('adding vote');
 
@@ -404,7 +420,7 @@ module.exports = function (opts) {
         }
     }
 
-    exports.isClosed = function (pollId, db) {
+    function isClosed(pollId, db) {
 
         if (!Number.isInteger(parseInt(pollId)) || pollId < 1)
             throw 'argError : pollId';
@@ -447,7 +463,7 @@ module.exports = function (opts) {
             - reason 1, if max_voters is null
             - reason 2, if max_datetime is null
     */
-    exports.closePoll = function (pollId, reason) {
+    function closePoll(pollId, reason) {
 
         const possibleReasons = [1, 2];
 
@@ -499,11 +515,11 @@ module.exports = function (opts) {
     }
 
     return {
-        getPoll: exports.getPoll,
-        insertPoll: exports.insertPoll,
-        addVote: exports.addVote,
-        isClosed: exports.isClosed,
-        closePoll: exports.closePoll
+        getPoll: getPoll,
+        insertPoll: insertPoll,
+        addVote: addVote,
+        isClosed: isClosed,
+        closePoll: closePoll
     };
 
 };
