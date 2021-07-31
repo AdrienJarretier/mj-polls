@@ -230,6 +230,12 @@ module.exports = function (opts) {
 
     };
 
+    /**
+     * 
+     * @param {number} pollId - the id of the poll on which to vote 
+     * @param {object} vote - { poll_choice_id : grade_id , ... }
+     * @returns {boolean} - true if vote successfull | false otherwise
+     */
     exports.addVote = function (pollId, vote) {
 
         console.log('adding vote');
