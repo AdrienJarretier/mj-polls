@@ -64,6 +64,37 @@ describe('db', function () {
 
   describe('#addVote', function () {
 
+    let pollId;
+    before("insert a poll", function () {
+
+      pollId = db.insertPoll({
+        title: 'test addVote',
+        maxVotes: null,
+        max_datetime: null,
+        choices: ['testChoice1', 'b', 'c'],
+        duplicateCheckMethod: null
+      });
+
+    })
+
+    it('Throws error if number of votes is different than number of choices', function () {
+
+      assert.throws(function () {
+
+        let poll = db.getPoll(pollId);
+
+        // poll_choice_id : grade_id , ... 
+        let vote = {};
+
+        for (let i = 0; i < poll.choices.length + 1; ++i) {
+          vote[i] = 1;
+        }
+
+        db.addVote(pollId, vote);
+
+      }, 'number of votes does not match number of choices in ' + pollId);
+    });
+
   });
 
   describe('#isClosed', function () {
