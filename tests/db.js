@@ -71,7 +71,7 @@ describe('db', function () {
         title: 'test addVote',
         maxVotes: null,
         max_datetime: null,
-        choices: ['testChoice1', 'b', 'c'],
+        choices: ['testChoice1'],
         duplicateCheckMethod: null
       });
 
@@ -94,6 +94,26 @@ describe('db', function () {
 
       }, 'number of votes does not match number of choices in ' + pollId);
     });
+
+    it('Throws error if choice is not a part of poll', function () {
+
+      let poll = db.getPoll(pollId);
+      let choices = poll.choices;
+      let fakeId = choices[0].id + 1;
+      assert.throws(function () {
+
+        // poll_choice_id : grade_id , ... 
+        let vote = {};
+        vote[fakeId] = 1;
+
+        db.addVote(pollId, vote);
+
+      }, 'choice ' + fakeId + ' does not belong to poll ' + pollId);
+
+    });
+
+
+
 
   });
 

@@ -257,8 +257,6 @@ module.exports = function (opts) {
      */
     function addVote(pollId, vote) {
 
-        console.log('adding vote');
-
         let db = dbUtils.connect();
 
         let updateSuccess = false;
