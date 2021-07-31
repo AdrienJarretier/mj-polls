@@ -108,7 +108,7 @@ module.exports = function (opts) {
      * - duplicate_vote_check_method_id: integer | null
      * - choices: Array
      * - [ 
-     * - - {id: integer, poll_id: integer, name: string}
+     * - - {id: integer, name: string}
      * - ]
      * 
      * }
@@ -125,6 +125,9 @@ module.exports = function (opts) {
             'all', [id], true);
 
         let poll = aggregateChoices(rows)[id];
+
+        for (let choice of poll.choices)
+            delete choice.poll_id;
 
         return poll;
 
@@ -473,7 +476,7 @@ module.exports = function (opts) {
 
             db = connect();
 
-            if (exports.isClosed(pollId, db))
+            if (isClosed(pollId, db))
                 throw 'poll is already closed';
 
         } else {
