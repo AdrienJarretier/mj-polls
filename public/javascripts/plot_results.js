@@ -1,5 +1,8 @@
 'use strict';
 
+
+
+
 // Palettes definition
 const COLORS_7 = [
     "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
@@ -20,11 +23,18 @@ function color(index, palette) {
 
 $(async function () {
 
-    const choices = parsedPoll["choices"];
-    var VOTERS_COUNT = 0;
+    var choices = parsedPoll["choices"];
 
-    // Number of choices, eg candidates, in the poll
-    const DATA_COUNT = choices.length;
+    const VOTERS_COUNT = get_voters_count(choices);
+    const majority = get_majority(VOTERS_COUNT);
+    const majority_plot = get_majority_line_for_plot(VOTERS_COUNT);
+
+    // funtion that addes to choices the majority grade of each candidate, and its order
+    get_majority_grades(choices, majority);
+
+
+    handle_ties(choices);
+
 
     // Names of choices, eg candidates, in the poll
     const labels = [];
@@ -60,7 +70,6 @@ $(async function () {
         const entry = { "label": votes[vote].value, "data": [votes[vote].count], "backgroundColor": color(cpt, palette), };
         dataset.push(entry);
         cpt += 1;
-        VOTERS_COUNT += votes[vote].count;
     }
 
     for (choice of choices.slice(-choices.length + 1)) {
@@ -72,12 +81,16 @@ $(async function () {
         }
     }
 
+    console.log(dataset);
+
 
     // data to be plotted
     const data = {
         labels: labels,
         datasets: dataset
     };
+
+    Chart.defaults.font.size = 18;
 
 
 
@@ -101,15 +114,15 @@ $(async function () {
                     annotations: [{
                         type: 'line',
                         xScaleID: 'x',
-                        yMin: VOTERS_COUNT / 2,
-                        yMax: VOTERS_COUNT / 2,
+                        yMin: majority_plot,
+                        yMax: majority_plot,
                         xMin: labels[0],
                         xMax: labels[labels.length - 1],
                         borderColor: 'rgb(240, 240, 240)',
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: 'Median'
+                            content: 'Majority grade'
                         }
                     }],
                     drawTime: 'afterDatasetsDraw'
@@ -117,6 +130,14 @@ $(async function () {
                 tooltip: {
                     position: 'nearest'
                 },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 20
+                        }
+                    }
+                }
             },
             layout: {
                 padding: {
