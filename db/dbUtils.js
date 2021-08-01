@@ -1,82 +1,131 @@
 'use strict';
 
-const common = require("../common.js");
+module.exports = function (opts) {
 
-const config = common.serverConfig;
+    let exports = {};
 
-const Database = require('better-sqlite3');
+    const common = require("../common.js");
 
-function _executePrepared(stmt, executionMethod, bindParameters, expand) {
+    const config = common.serverConfig;
 
-    switch (executionMethod) {
+    const Database = require('better-sqlite3');
 
-        case 'all':
-            stmt.expand(expand);
-            return stmt.all(bindParameters);
+    let verboseFun = null;
+    if (opts.verbose)
+        verboseFun = console.log;
 
-        case 'get':
-            stmt.expand(expand);
-            return stmt.get(bindParameters);
+    function connect() {
 
-        case 'run':
-            return stmt.run(bindParameters);
+        if (config.db.database == ':memory:')
+            return new Database(common.dbBuffer, { verbose: verboseFun });
+        else
+            return new Database(config.db.database, { verbose: verboseFun });
+    }
+
+    function close(db) {
+
+        if (config.db.database == ':memory:') {
+            common.dbBuffer = db.serialize();
+        }
+
+        db.close();
+    }
+
+    function _executePrepared(stmt, executionMethod, bindParameters, expand) {
+
+        switch (executionMethod) {
+
+            case 'all':
+                stmt.expand(expand);
+                return stmt.all(bindParameters);
+
+            case 'get':
+                stmt.expand(expand);
+                return stmt.get(bindParameters);
+
+            case 'run':
+                return stmt.run(bindParameters);
+
+        }
 
     }
 
-}
-
-function executeLoop(sqlString, arrayOfBindParameters) {
+    function executeLoop(sqlString, arrayOfBindParameters) {
 
 
-    // console.log('executeLoop');
+        // console.log('executeLoop');
 
-    const db = new Database(config.db.database, { verbose: console.log });
+        const db = connect();
 
-    // console.log('db opened');
-    let arrayOfResults = [];
+        // console.log('db opened');
+        let arrayOfResults = [];
 
-    const stmt = db.prepare(sqlString);
-    // console.log('stmt prepared');
+        const stmt = db.prepare(sqlString);
+        // console.log('stmt prepared');
 
-    const runMany = db.transaction((arrayOfBindParameters) => {
+        const runMany = db.transaction((arrayOfBindParameters) => {
 
-        // console.log('run many with :', arrayOfBindParameters)
+            // console.log('run many with :', arrayOfBindParameters)
 
-        for (let bindParameters of arrayOfBindParameters) {
-            bindParameters = bindParameters || [];
+            for (let bindParameters of arrayOfBindParameters) {
+                bindParameters = bindParameters || [];
 
-            // console.log('run with', bindParameters);
-            arrayOfResults.push(stmt.run(bindParameters));
-        }
+                // console.log('run with', bindParameters);
+                arrayOfResults.push(stmt.run(bindParameters));
+            }
 
-    });
+        });
 
-    // console.log('arrayOfBindParameters', arrayOfBindParameters);
-    runMany(arrayOfBindParameters);
-
-
-    db.close();
-
-    return arrayOfResults;
-
-}
-
-function executeStatement(sqlString, executionMethod, bindParameters, expand) {
-
-    bindParameters = bindParameters || [];
-    expand = expand || false;
-
-    const db = new Database(config.db.database, { verbose: console.log });
-    const stmt = db.prepare(sqlString);
-
-    let results = _executePrepared(stmt, executionMethod, bindParameters, expand);
-
-    db.close();
-
-    return results;
+        // console.log('arrayOfBindParameters', arrayOfBindParameters);
+        runMany(arrayOfBindParameters);
 
 
-}
+        close(db);
 
-exports.executeStatement = executeStatement;
-exports.executeLoop = executeLoop;
+        return arrayOfResults;
+
+    }
+
+    function prepareAndExecute(db, sqlString, executionMethod,
+        bindParameters, expand, returnRaw) {
+
+        bindParameters = bindParameters || [];
+        expand = expand || false;
+
+        const stmt = db.prepare(sqlString);
+
+        if (returnRaw)
+            stmt.raw(true);
+
+        let returnValue = _executePrepared(stmt, executionMethod, bindParameters, expand);
+
+        if (returnRaw)
+            stmt.raw(false);
+
+        return returnValue;
+
+    }
+
+    function executeStatement(sqlString, executionMethod,
+        bindParameters, expand, returnRaw) {
+
+        const db = connect();
+
+        let results = prepareAndExecute(db, sqlString, executionMethod,
+            bindParameters, expand, returnRaw);
+
+        close(db);
+
+        return results;
+
+    }
+
+    exports.connect = connect;
+    exports.close = close;
+    exports.prepareAndExecute = prepareAndExecute;
+    exports.executeStatement = executeStatement;
+    exports.executeLoop = executeLoop;
+
+    return exports;
+
+};
