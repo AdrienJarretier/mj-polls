@@ -300,8 +300,8 @@ module.exports = function (opts) {
 
             updateSuccess = true;
 
-            let {votes_count, max_voters} = dbUtils.prepareAndExecute(db,
-            `SELECT sum(count) as votes_count, max_voters
+            let { votes_count, max_voters } = dbUtils.prepareAndExecute(db,
+                `SELECT sum(count) as votes_count, max_voters
             FROM polls AS p
             INNER JOIN polls_choices AS pc
             ON p.id = pc.poll_id
@@ -310,9 +310,9 @@ module.exports = function (opts) {
             WHERE p.id = ?
             GROUP BY pc.id
             LIMIT 1;`,
-            'get', [pollId]);
-            
-            if(votes_count >= max_voters) {
+                'get', [pollId]);
+
+            if (max_voters !== null && votes_count >= max_voters) {
                 closePoll(pollId, 1, db);
             }
 
@@ -512,7 +512,7 @@ module.exports = function (opts) {
 
         let results = _closePoll(localDbConnection, pollId, reason);
 
-        if(!db)
+        if (!db)
             close(localDbConnection);
 
         return results;

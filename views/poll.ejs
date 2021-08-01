@@ -121,6 +121,13 @@
           hasVoted(true);
         }
 
+        if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
+          $('#toResultsButton')
+            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.id).append($('<button class="btn btn-secondary">')
+              .text('To Results'))
+            );
+        }
+
       });
 
 
@@ -147,6 +154,8 @@
       <div class="row">
 
         <div class="col">
+
+          <div id="toResultsButton"></div>
 
         </div>
       </div>
