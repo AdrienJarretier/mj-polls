@@ -50,20 +50,20 @@ module.exports = function (opts) {
 
     }
 
-    function executeLoop(sqlString, arrayOfBindParameters) {
+    function executeLoop(sqlString, arrayOfBindParameters, db) {
 
 
         // console.log('executeLoop');
 
-        const db = connect();
+        let localDbConnection = db || connect();
 
         // console.log('db opened');
         let arrayOfResults = [];
 
-        const stmt = db.prepare(sqlString);
+        const stmt = localDbConnection.prepare(sqlString);
         // console.log('stmt prepared');
 
-        const runMany = db.transaction((arrayOfBindParameters) => {
+        const runMany = localDbConnection.transaction((arrayOfBindParameters) => {
 
             // console.log('run many with :', arrayOfBindParameters)
 
@@ -79,8 +79,8 @@ module.exports = function (opts) {
         // console.log('arrayOfBindParameters', arrayOfBindParameters);
         runMany(arrayOfBindParameters);
 
-
-        close(db);
+        if (!db)
+            close(localDbConnection);
 
         return arrayOfResults;
 

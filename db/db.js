@@ -182,7 +182,7 @@ module.exports = function (opts) {
 
             // ------------------------ INSERT choices ------------------------
 
-            let gradesIds = exports.getGrades().map(g => g.id);
+            let gradesIds = getGrades().map(g => g.id);
 
             let stmt = db.prepare(`INSERT INTO polls_choices(poll_id, name) VALUES(?, ?);`);
             let pcs_insertsResults = [];
@@ -286,8 +286,7 @@ module.exports = function (opts) {
             WHERE poll_choice_id = ?
             AND grade_id = ?
             ;`,
-                voteEntries);
-
+                voteEntries, db);
 
             // update unsuccessfull
             if (updatesResults.length < voteEntries.length)
