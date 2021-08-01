@@ -98,9 +98,18 @@ router.get('/poll/:id', function (req, res, next) {
 }, renderPollResults);
 
 
-if (common.serverConfig.testConfig.testApiEnabled) {
-  router.get('/poll_results/:id', renderPollResults);
-}
+router.get('/poll_results/:id', function (req, res, next) {
+
+  let poll = db.getPoll(req.params.id);
+  console.log(poll);
+  console.log(common.serverConfig.testConfig.testApiEnabled);
+
+  if (common.serverConfig.testConfig.testApiEnabled ||
+    (poll.max_voters === null && poll.max_datetime === null)) {
+
+    renderPollResults(req, res);
+  }
+});
 
 
 /* GET context page. */
