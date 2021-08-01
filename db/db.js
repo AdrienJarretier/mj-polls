@@ -2,8 +2,6 @@
 
 module.exports = function (opts) {
 
-    let exports = {};
-
     const dbUtils = require('./dbUtils.js')({
         verbose: opts.verbose
     });
@@ -75,7 +73,7 @@ module.exports = function (opts) {
 
     }
 
-    exports.getMostRecentPolls = function (limit) {
+    function getMostRecentPolls(limit) {
 
         let rows = executeStatement(`
         SELECT *
@@ -322,7 +320,7 @@ module.exports = function (opts) {
 
     }
 
-    exports.getGrades = function () {
+    function getGrades() {
 
         return executeStatement(`
     SELECT * FROM grades ORDER BY "order";
@@ -333,9 +331,9 @@ module.exports = function (opts) {
 
 
 
-    exports.getFullPoll = function (poll_id) {
+    function getFullPoll(poll_id) {
 
-        let poll = exports.getPoll(poll_id);
+        let poll = getPoll(poll_id);
 
         let polls_votes = executeStatement(`
     SELECT pv.* FROM polls_votes AS pv
@@ -343,7 +341,7 @@ module.exports = function (opts) {
     WHERE pc.poll_id = ?;
     `, 'all', [poll_id]);
 
-        let grades = exports.getGrades();
+        let grades = getGrades();
 
         for (let choice of poll.choices) {
 
@@ -389,7 +387,7 @@ module.exports = function (opts) {
     // }
 
 
-    exports.getDuplicateCheckMethods = function () {
+    function getDuplicateCheckMethods() {
 
         return executeStatement(`
     SELECT * FROM duplicate_vote_check_methods`
@@ -520,7 +518,11 @@ module.exports = function (opts) {
         insertPoll: insertPoll,
         addVote: addVote,
         isClosed: isClosed,
-        closePoll: closePoll
+        closePoll: closePoll,
+        getDuplicateCheckMethods: getDuplicateCheckMethods,
+        getMostRecentPolls: getMostRecentPolls,
+        getGrades: getGrades,
+        getFullPoll: getFullPoll
     };
 
 };
