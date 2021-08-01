@@ -300,15 +300,21 @@ module.exports = function (opts) {
 
             updateSuccess = true;
 
-            // `SELECT sum(count) as votes_count
-            // FROM polls AS p
-            // INNER JOIN polls_choices AS pc
-            // ON p.id = pc.poll_id
-            // INNER JOIN polls_votes AS pv
-            // ON pc.id = pv.poll_choice_id
-            // WHERE p.id = 8
-            // GROUP BY pc.id
-            // LIMIT 1;`
+            let {votes_count, max_voters} = dbUtils.prepareAndExecute(db,
+            `SELECT sum(count) as votes_count, max_voters
+            FROM polls AS p
+            INNER JOIN polls_choices AS pc
+            ON p.id = pc.poll_id
+            INNER JOIN polls_votes AS pv
+            ON pc.id = pv.poll_choice_id
+            WHERE p.id = ?
+            GROUP BY pc.id
+            LIMIT 1;`,
+            'get', [pollId]);
+            
+            if(votes_count >= max_voters) {
+                closePoll(pollId, 1, db);
+            }
 
         })();
 
@@ -461,17 +467,17 @@ module.exports = function (opts) {
             - reason 1, if max_voters is null
             - reason 2, if max_datetime is null
     */
-    function closePoll(pollId, reason) {
+    function closePoll(pollId, reason, db) {
 
         const possibleReasons = [1, 2];
 
-        let db;
+        let localDbConnection;
 
         if (possibleReasons.includes(reason)) {
 
-            db = connect();
+            localDbConnection = db || connect();
 
-            if (isClosed(pollId, db))
+            if (isClosed(pollId, localDbConnection))
                 throw 'poll is already closed';
 
         } else {
@@ -483,7 +489,7 @@ module.exports = function (opts) {
         switch (reason) {
             case 1:
 
-                let max_voters = prepareAndExecute(db, `
+                let max_voters = prepareAndExecute(localDbConnection, `
                 SELECT max_voters FROM polls WHERE id=?;
                 `, 'get', [pollId]).max_voters;
 
@@ -494,7 +500,7 @@ module.exports = function (opts) {
 
             case 2:
 
-                let max_datetime = prepareAndExecute(db, `
+                let max_datetime = prepareAndExecute(localDbConnection, `
                 SELECT max_datetime FROM polls WHERE id=?;
                 `, 'get', [pollId]).max_datetime;
 
@@ -504,9 +510,10 @@ module.exports = function (opts) {
                 break;
         }
 
-        let results = _closePoll(db, pollId, reason);
+        let results = _closePoll(localDbConnection, pollId, reason);
 
-        close(db);
+        if(!db)
+            close(localDbConnection);
 
         return results;
 
