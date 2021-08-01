@@ -2,8 +2,6 @@
 
 module.exports = function (opts) {
 
-    let exports = {};
-
     const dbUtils = require('./dbUtils.js')({
         verbose: opts.verbose
     });
@@ -75,7 +73,7 @@ module.exports = function (opts) {
 
     }
 
-    exports.getMostRecentPolls = function (limit) {
+    function getMostRecentPolls(limit) {
 
         let rows = executeStatement(`
         SELECT *
@@ -184,7 +182,7 @@ module.exports = function (opts) {
 
             // ------------------------ INSERT choices ------------------------
 
-            let gradesIds = exports.getGrades().map(g => g.id);
+            let gradesIds = getGrades().map(g => g.id);
 
             let stmt = db.prepare(`INSERT INTO polls_choices(poll_id, name) VALUES(?, ?);`);
             let pcs_insertsResults = [];
@@ -288,8 +286,7 @@ module.exports = function (opts) {
             WHERE poll_choice_id = ?
             AND grade_id = ?
             ;`,
-                voteEntries);
-
+                voteEntries, db);
 
             // update unsuccessfull
             if (updatesResults.length < voteEntries.length)
@@ -303,15 +300,21 @@ module.exports = function (opts) {
 
             updateSuccess = true;
 
-            // `SELECT sum(count) as votes_count
-            // FROM polls AS p
-            // INNER JOIN polls_choices AS pc
-            // ON p.id = pc.poll_id
-            // INNER JOIN polls_votes AS pv
-            // ON pc.id = pv.poll_choice_id
-            // WHERE p.id = 8
-            // GROUP BY pc.id
-            // LIMIT 1;`
+            let {votes_count, max_voters} = dbUtils.prepareAndExecute(db,
+            `SELECT sum(count) as votes_count, max_voters
+            FROM polls AS p
+            INNER JOIN polls_choices AS pc
+            ON p.id = pc.poll_id
+            INNER JOIN polls_votes AS pv
+            ON pc.id = pv.poll_choice_id
+            WHERE p.id = ?
+            GROUP BY pc.id
+            LIMIT 1;`,
+            'get', [pollId]);
+            
+            if(votes_count >= max_voters) {
+                closePoll(pollId, 1, db);
+            }
 
         })();
 
@@ -322,7 +325,7 @@ module.exports = function (opts) {
 
     }
 
-    exports.getGrades = function () {
+    function getGrades() {
 
         return executeStatement(`
     SELECT * FROM grades ORDER BY "order";
@@ -333,9 +336,9 @@ module.exports = function (opts) {
 
 
 
-    exports.getFullPoll = function (poll_id) {
+    function getFullPoll(poll_id) {
 
-        let poll = exports.getPoll(poll_id);
+        let poll = getPoll(poll_id);
 
         let polls_votes = executeStatement(`
     SELECT pv.* FROM polls_votes AS pv
@@ -343,7 +346,7 @@ module.exports = function (opts) {
     WHERE pc.poll_id = ?;
     `, 'all', [poll_id]);
 
-        let grades = exports.getGrades();
+        let grades = getGrades();
 
         for (let choice of poll.choices) {
 
@@ -389,7 +392,7 @@ module.exports = function (opts) {
     // }
 
 
-    exports.getDuplicateCheckMethods = function () {
+    function getDuplicateCheckMethods() {
 
         return executeStatement(`
     SELECT * FROM duplicate_vote_check_methods`
@@ -464,17 +467,17 @@ module.exports = function (opts) {
             - reason 1, if max_voters is null
             - reason 2, if max_datetime is null
     */
-    function closePoll(pollId, reason) {
+    function closePoll(pollId, reason, db) {
 
         const possibleReasons = [1, 2];
 
-        let db;
+        let localDbConnection;
 
         if (possibleReasons.includes(reason)) {
 
-            db = connect();
+            localDbConnection = db || connect();
 
-            if (isClosed(pollId, db))
+            if (isClosed(pollId, localDbConnection))
                 throw 'poll is already closed';
 
         } else {
@@ -486,7 +489,7 @@ module.exports = function (opts) {
         switch (reason) {
             case 1:
 
-                let max_voters = prepareAndExecute(db, `
+                let max_voters = prepareAndExecute(localDbConnection, `
                 SELECT max_voters FROM polls WHERE id=?;
                 `, 'get', [pollId]).max_voters;
 
@@ -497,7 +500,7 @@ module.exports = function (opts) {
 
             case 2:
 
-                let max_datetime = prepareAndExecute(db, `
+                let max_datetime = prepareAndExecute(localDbConnection, `
                 SELECT max_datetime FROM polls WHERE id=?;
                 `, 'get', [pollId]).max_datetime;
 
@@ -507,9 +510,10 @@ module.exports = function (opts) {
                 break;
         }
 
-        let results = _closePoll(db, pollId, reason);
+        let results = _closePoll(localDbConnection, pollId, reason);
 
-        close(db);
+        if(!db)
+            close(localDbConnection);
 
         return results;
 
@@ -520,7 +524,11 @@ module.exports = function (opts) {
         insertPoll: insertPoll,
         addVote: addVote,
         isClosed: isClosed,
-        closePoll: closePoll
+        closePoll: closePoll,
+        getDuplicateCheckMethods: getDuplicateCheckMethods,
+        getMostRecentPolls: getMostRecentPolls,
+        getGrades: getGrades,
+        getFullPoll: getFullPoll
     };
 
 };
