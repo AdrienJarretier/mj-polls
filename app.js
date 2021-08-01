@@ -16,6 +16,33 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+function authorizer(req, res, next) {
+  function reject() {
+    res.setHeader('www-authenticate', 'Basic');
+    res.sendStatus(401);
+  };
+
+  const authorization = req.headers.authorization;
+
+  if (!authorization) {
+    return reject();
+  }
+
+  const [username, password] = Buffer.from(authorization.replace('Basic ', ''), 'base64').toString().split(':');
+
+  let pwdAccess = common.serverConfig.passwordAccess;
+  if (
+    !(username === pwdAccess.username
+      && password === pwdAccess.password)
+  ) {
+    return reject();
+  }
+
+  next();
+}
+
+app.use(authorizer)
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

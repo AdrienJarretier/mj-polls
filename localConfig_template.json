@@ -1,4 +1,8 @@
 {
     "port": 3000,
-    "listeningInterface": "127.0.0.1"
+    "listeningInterface": "127.0.0.1",
+    "passwordAccess": {
+        "username": "username",
+        "password": "password"
+    }
 }
