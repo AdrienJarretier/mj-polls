@@ -29,23 +29,11 @@ $(async function () {
     const majority = get_majority(VOTERS_COUNT);
     const majority_plot = get_majority_line_for_plot(VOTERS_COUNT);
 
-    // funtion that addes to choices the majority grade of each candidate, and its order
-
-    // get winner
-
-    // console.log(return_winner(choices, majority, false));
+    // ranking candidates according to the votes
 
     const ranking = order_candidates(choices, majority);
 
-    console.log(choices);
-
-
-    // const ordered_choices = mapOrder(choices, ranking, 'name');
-
-    // console.log(ordered_choices);
-
-
-
+    mapOrder(choices, ranking, 'name');
 
     // Names of choices, eg candidates, in the poll
     const labels = [];
