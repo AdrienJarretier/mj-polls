@@ -1,11 +1,21 @@
 'use strict';
 
-function get_voters_count(choices) {
+function get_voters_count(choices, for_ties) {
+
+    for_ties = for_ties || false;
+
     var choice = choices[0];
     var votes = choice.votes;
     var VOTERS_COUNT = 0;
+
     for (const vote of Object.keys(votes)) {
-        VOTERS_COUNT += votes[vote].count;
+
+        if (for_ties) {
+            VOTERS_COUNT += votes[vote].count_for_ties;
+        }
+        else {
+            VOTERS_COUNT += votes[vote].count;
+        }
     }
     return (VOTERS_COUNT);
 }
@@ -54,6 +64,7 @@ function get_majority_grades(choices, majority, for_ties) {
 
         var votes = choice.votes;
         var cpt = 0;
+        var majority_found = false;
 
         for (const vote of Object.keys(votes).reverse()) {
 
@@ -63,15 +74,16 @@ function get_majority_grades(choices, majority, for_ties) {
             }
             else {
                 cpt += votes[vote].count;
+                // adding new count field to be used later for removing votes and discriminate ties
                 votes[vote].count_for_ties = votes[vote].count;
             }
 
 
-            if (cpt >= majority) {
+            if (cpt >= majority & !majority_found) {
 
                 choice["majority_grade"] = votes[vote].value;
                 choice["majority_grade_order"] = votes[vote].order;
-                break;
+                majority_found = true;
 
             }
         }
@@ -94,9 +106,6 @@ function handle_ties(choices) {
     else {
         console.log("There are " + ties.length + " ties");
         // removes one vote for each winning grade in the tied candidates
-        console.log("before removing votes");
-        console.log(ties);
-
 
         for (const choice of ties) {
 
@@ -105,31 +114,30 @@ function handle_ties(choices) {
             for (const vote of Object.keys(votes)) {
 
                 if (votes[vote].value == winning_grade) {
+                    // console.log("Count for ties of " + choice.name + " was " + votes[vote].count_for_ties)
                     votes[vote].count_for_ties -= 1;
+                    // console.log("Count for ties of " + choice.name + " is now " + votes[vote].count_for_ties)
                 }
 
             }
         }
-        console.log("after removing votes");
 
-        console.log(ties);
-
-        var VOTERS_COUNT = get_voters_count(ties);
+        var VOTERS_COUNT = get_voters_count(ties, true);
         var majority = get_majority(VOTERS_COUNT);
 
+        // console.log("Voters count for ties :" + VOTERS_COUNT);
+        // console.log("Majority for ties :" + majority);
 
         // see if there are still ties
 
         get_majority_grades(ties, majority, true);
 
-        console.log("after reordering");
+        // recursive call, that will continue until there are different majority grade between ties
 
-        console.log(ties);
+        console.log("Removed counts to handle ties")
 
-        // handle_ties(ties);
+        handle_ties(ties);
 
-
-        // adding new count field to be used for removing votes and discriminate ties
     }
 }
 

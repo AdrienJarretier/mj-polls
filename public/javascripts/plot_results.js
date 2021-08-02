@@ -81,8 +81,6 @@ $(async function () {
         }
     }
 
-    console.log(dataset);
-
 
     // data to be plotted
     const data = {
