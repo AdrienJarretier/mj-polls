@@ -92,8 +92,14 @@ function get_majority_grades(choices, majority, for_ties) {
     choices.sort(compare);
 }
 
-function handle_ties(choices) {
+function return_winner(choices, majority, for_ties) {
+
+    for_ties = for_ties || false;
+
+    get_majority_grades(choices, majority, for_ties)
+
     const winning_grade = choices[0].majority_grade;
+
     const ties = choices.filter(function (el) {
         return el.majority_grade == winning_grade;
     }
@@ -101,10 +107,13 @@ function handle_ties(choices) {
 
     if (ties.length == 1) {
         console.log("No ties, the winner is : " + choices[0].name);
-        return (choices[0].name);
+
+        // console.log(choices);
+        return choices[0].name;
     }
     else {
         console.log("There are " + ties.length + " ties");
+
         // removes one vote for each winning grade in the tied candidates
 
         for (const choice of ties) {
@@ -114,32 +123,57 @@ function handle_ties(choices) {
             for (const vote of Object.keys(votes)) {
 
                 if (votes[vote].value == winning_grade) {
-                    // console.log("Count for ties of " + choice.name + " was " + votes[vote].count_for_ties)
                     votes[vote].count_for_ties -= 1;
-                    // console.log("Count for ties of " + choice.name + " is now " + votes[vote].count_for_ties)
                 }
-
             }
         }
 
         var VOTERS_COUNT = get_voters_count(ties, true);
         var majority = get_majority(VOTERS_COUNT);
 
-        // console.log("Voters count for ties :" + VOTERS_COUNT);
-        // console.log("Majority for ties :" + majority);
+        // recursive call, that will continue until there are different majority grades between ties
 
-        // see if there are still ties
+        console.log("Removed counts once to handle ties")
 
-        get_majority_grades(ties, majority, true);
-
-        // recursive call, that will continue until there are different majority grade between ties
-
-        console.log("Removed counts to handle ties")
-
-        handle_ties(ties);
+        return return_winner(ties, majority, true);
 
     }
 }
+
+function order_candidates(choices, majority) {
+
+    if (choices.length == 1)
+        return [choices[0].name];
+
+
+
+    let winner = return_winner(choices, majority);
+    let the_rest = choices.filter(function (el) {
+        return el.name != winner;
+    })
+
+    return [winner].concat(order_candidates(the_rest));
+
+}
+
+
+
+function mapOrder(array, order, key) {
+
+    array.sort(function (a, b) {
+        var A = a[key], B = b[key];
+
+        if (order.indexOf(A) > order.indexOf(B)) {
+            return 1;
+        } else {
+            return -1;
+        }
+
+    });
+
+    return array;
+};
+
 
 
 $(async function () {
