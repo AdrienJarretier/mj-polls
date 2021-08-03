@@ -5,24 +5,23 @@
   <meta charset="utf-8" />
   <title>Mocha Tests</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/mocha/mocha.css" />
+  <link rel="stylesheet" href="/extlibs/mocha/mocha.css" />
 </head>
 
 <body>
   <div id="mocha"></div>
 
-  <script src="/chai/chai.js"></script>
-  <script src="/mocha/mocha.js"></script>
+  <script src="/extlibs/chai/chai.js"></script>
+  <script src="/extlibs/mocha/mocha.js"></script>
 
   <script class="mocha-init">
     mocha.setup('bdd');
-    mocha.checkLeaks();
   </script>
 
 
   <script>
 
-    var assert = require('chai');
+    var assert =chai.assert;
     describe('Array', function () {
       describe('#indexOf()', function () {
         it('should return -1 when the value is not present', function () {
