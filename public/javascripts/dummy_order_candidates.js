@@ -5,6 +5,6 @@ function order_candidates(choices) {
         ordered.push(choice.name);
     }
 
-    return ordered;
+    return ['best', 'middle', 'last'];
 
 }
