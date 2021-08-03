@@ -1,5 +1,28 @@
 'use strict';
 
+// const { checkout } = require("superagent");
+
+
+function checkout_voters_count(choices) {
+    var VOTERS_COUNT_OLD = 0;
+    var VOTERS_COUNT;
+
+    for (const choice of choices) {
+
+        VOTERS_COUNT = 0;
+
+        for (const vote of Object.keys(choice.votes)) {
+            VOTERS_COUNT += choice.votes[vote].count;
+        }
+
+        if (choice.name != choices[0].name && VOTERS_COUNT_OLD != VOTERS_COUNT)
+            throw "the number of votes by candidate is not the same";
+
+        VOTERS_COUNT_OLD = VOTERS_COUNT;
+
+    }
+}
+
 function get_voters_count(choices, for_ties) {
 
     for_ties = for_ties || false;
@@ -173,6 +196,7 @@ function order_candidates_(choices, majority) {
 
 function order_candidates(choices) {
 
+    checkout_voters_count(choices);
 
     const VOTERS_COUNT = get_voters_count(choices);
     const majority = get_majority(VOTERS_COUNT);
