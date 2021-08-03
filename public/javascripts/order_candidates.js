@@ -22,12 +22,22 @@ function get_voters_count(choices, for_ties) {
 
 
 function get_majority(VOTERS_COUNT) {
+    // var majority;
+    // if (VOTERS_COUNT % 2 == 0) {
+    //     majority = VOTERS_COUNT / 2
+    // }
+    // else {
+    //     majority = (VOTERS_COUNT + 1) / 2
+    // }
+    // return (majority);
+
+
     var majority;
     if (VOTERS_COUNT % 2 == 0) {
-        majority = VOTERS_COUNT / 2
+        majority = (VOTERS_COUNT - 1) / 2
     }
     else {
-        majority = (VOTERS_COUNT + 1) / 2
+        majority = VOTERS_COUNT / 2
     }
     return (majority);
 }
@@ -129,6 +139,10 @@ function return_winner(choices, majority, for_ties) {
         }
 
         var VOTERS_COUNT = get_voters_count(ties, true);
+
+        if (VOTERS_COUNT == 0)
+            return choices[0].name;
+
         var majority = get_majority(VOTERS_COUNT);
 
         // recursive call, that will continue until there are different majority grades between ties
@@ -153,6 +167,17 @@ function order_candidates(choices, majority) {
     })
 
     return [winner].concat(order_candidates(the_rest));
+
+}
+
+
+function get_results(choices) {
+
+
+    const VOTERS_COUNT = get_voters_count(choices);
+    const majority = get_majority(VOTERS_COUNT);
+
+    return order_candidates(choices, majority);
 
 }
 
