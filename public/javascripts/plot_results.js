@@ -26,12 +26,12 @@ $(async function () {
     var choices = parsedPoll["choices"];
 
     const VOTERS_COUNT = get_voters_count(choices);
-    const majority = get_majority(VOTERS_COUNT);
+    // const majority = get_majority(VOTERS_COUNT);
     const majority_plot = get_majority_line_for_plot(VOTERS_COUNT);
 
     // ranking candidates according to the votes
 
-    const ranking = order_candidates(choices, majority);
+    const ranking = order_candidates(choices);
 
     mapOrder(choices, ranking, 'name');
 

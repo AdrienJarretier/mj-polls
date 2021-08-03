@@ -349,7 +349,7 @@ describe('order_candidates()', function () {
 
     });
 
-    describe('Testing time to sort out equalities', function () {
+    describe('Testing time to sort out equalities on a 4000 votes poll', function () {
 
         it('perfect equality, should return the candidates in the original order', function () {
 
@@ -431,7 +431,7 @@ describe('order_candidates()', function () {
                 }
             ];
 
-            assert.deepEqual(order_candidates(choices), ["best", "middle", "last"]);
+            assert.deepEqual(order_candidates(choices), ["last", "best", "middle"]);
 
         });
 

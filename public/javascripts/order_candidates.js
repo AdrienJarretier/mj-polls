@@ -154,7 +154,7 @@ function return_winner(choices, majority, for_ties) {
     }
 }
 
-function order_candidates(choices, majority) {
+function order_candidates_(choices, majority) {
 
     if (choices.length == 1)
         return [choices[0].name];
@@ -166,18 +166,18 @@ function order_candidates(choices, majority) {
         return el.name != winner;
     })
 
-    return [winner].concat(order_candidates(the_rest));
+    return [winner].concat(order_candidates_(the_rest));
 
 }
 
 
-function get_results(choices) {
+function order_candidates(choices) {
 
 
     const VOTERS_COUNT = get_voters_count(choices);
     const majority = get_majority(VOTERS_COUNT);
 
-    return order_candidates(choices, majority);
+    return order_candidates_(choices, majority);
 
 }
 
