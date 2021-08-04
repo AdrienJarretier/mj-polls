@@ -73,7 +73,7 @@ router.get('/full', function (req, res, next) {
 
 router.get('/recent', function (req, res, next) {
 
-    res.json(db.getMostRecentPolls(3));
+    res.json(db.getMostRecentPolls(8));
 
 });
 
