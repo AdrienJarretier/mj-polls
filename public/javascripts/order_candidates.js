@@ -112,9 +112,7 @@ function get_majority_grades(choices, majority, for_ties) {
         for (const vote of Object.keys(votes).reverse()) {
 
             if (for_ties) {
-                console.log("passing in for ties for candidate " + choice.name)
                 cpt += votes[vote].count_for_ties;
-
             }
             else {
                 cpt += votes[vote].count;
