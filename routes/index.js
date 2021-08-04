@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 var express = require('express');
 var router = express.Router();
 
@@ -109,8 +110,7 @@ router.get('/poll_results/:id', function (req, res, next) {
     renderPollResults(req, res);
   }
   else {
-    console.error('status 404');
-    next();
+    next(createError(403));
   }
 });
 
