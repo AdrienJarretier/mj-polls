@@ -45,16 +45,6 @@ function get_voters_count(choices, for_ties) {
 
 
 function get_majority(VOTERS_COUNT) {
-    // var majority;
-    // if (VOTERS_COUNT % 2 == 0) {
-    //     majority = VOTERS_COUNT / 2
-    // }
-    // else {
-    //     majority = (VOTERS_COUNT + 1) / 2
-    // }
-    // return (majority);
-
-
     var majority;
     if (VOTERS_COUNT % 2 == 0) {
         majority = (VOTERS_COUNT - 1) / 2
@@ -65,17 +55,6 @@ function get_majority(VOTERS_COUNT) {
     return (majority);
 }
 
-
-function get_majority_line_for_plot(VOTERS_COUNT) {
-    var majority;
-    if (VOTERS_COUNT % 2 == 0) {
-        majority = (VOTERS_COUNT - 1) / 2
-    }
-    else {
-        majority = VOTERS_COUNT / 2
-    }
-    return (majority);
-}
 
 function compare(a, b) {
     if (a.majority_grade_order < b.majority_grade_order) {
@@ -118,7 +97,6 @@ function get_majority_grades(choices, majority, for_ties) {
                 cpt += votes[vote].count;
                 // adding new count field to be used later for removing votes and discriminate ties
                 votes[vote].count_for_ties = votes[vote].count;
-                // console.log("adding " + votes[vote].count + " votes on grade " + votes[vote].value + " and candidate " + choice.name);
             }
 
 
@@ -140,7 +118,6 @@ function get_majority_grades(choices, majority, for_ties) {
         }
     }
     //reordering choices according to their majority grades
-
     if (for_ties)
         choices.sort(compare_for_ties);
     else

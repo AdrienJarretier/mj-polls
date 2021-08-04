@@ -26,11 +26,9 @@ $(async function () {
     var choices = parsedPoll["choices"];
 
     const VOTERS_COUNT = get_voters_count(choices);
-    // const majority = get_majority(VOTERS_COUNT);
-    const majority_plot = get_majority_line_for_plot(VOTERS_COUNT);
+    const majority_plot = get_majority(VOTERS_COUNT);
 
     // ranking candidates according to the votes
-
     const ranking = order_candidates(choices);
 
     mapOrder(choices, ranking, 'name');
@@ -129,7 +127,6 @@ $(async function () {
                 },
                 legend: {
                     labels: {
-                        // This more specific font property overrides the global property
                         font: {
                             size: 20
                         }
@@ -156,6 +153,10 @@ $(async function () {
             }
         }
     };
+
+    $('#title').text("Results for poll : " + parsedPoll.title);
+
+    $('#subtitle').text("The winner of this poll is " + ranking[0]);
 
     // drawing the plot, finally
     var myChart = new Chart(
