@@ -8,7 +8,7 @@ var router = express.Router();
 
 const common = require('../common.js');
 
-const db = require('../db/db.js');
+const db = require('../db/db.js')({});
 
 
 
@@ -94,9 +94,31 @@ router.get('/:id', function (req, res, next) {
 router.post('/:id/vote', function (req, res, next) {
 
     console.log('post new vote');
-    let addVoteReturn = db.addVote(req.body);
+    console.log('poll id : ' + req.params.id);
+    console.log(req.body);
 
-    res.json({ 'voteSuccessfull': addVoteReturn });
+    try {
+
+        let responseObject = {
+            'voteSuccessfull': undefined
+        };
+
+        if (db.isClosed(req.params.id)) {
+            console.error('vote on closed poll', req.body);
+            responseObject.voteSuccessfull = false;
+            responseObject.cause = 'poll closed';
+        }
+        else {
+            responseObject.voteSuccessfull = db.addVote(req.params.id, req.body);
+            if (!responseObject.voteSuccessfull)
+                responseObject.cause = 'unknown';
+        }
+
+        res.json(responseObject);
+
+    } catch (e) {
+        console.error(e);
+    }
 
 });
 
@@ -104,8 +126,13 @@ router.post('/', function (req, res, next) {
 
     console.log('post new poll');
     console.log(req.body);
-    let lastInsertRowid = db.insertPoll(req.body);
-    res.json(lastInsertRowid);
+    try {
+        let lastInsertRowid = db.insertPoll(req.body);
+        res.json(lastInsertRowid);
+    }
+    catch (e) {
+        console.log(e);
+    }
 
 });
 

@@ -1,7 +1,8 @@
+const createError = require('http-errors');
 var express = require('express');
 var router = express.Router();
 
-var db = require('../db/db.js');
+var db = require('../db/db.js')({});
 
 const common = require("../common.js");
 
@@ -51,34 +52,68 @@ router.get('/createPoll', function (req, res, next) {
 
 });
 
+function renderPollResults(req, res) {
+
+  try {
+    let poll = db.getFullPoll(req.params.id);
+
+    const pollJSONstr = prepareObjectForFrontend(poll);
+
+    res.render('poll_results', pageOptions('results ' + poll.title, {
+      poll: pollJSONstr
+    }));
+  }
+  catch (e) {
+    console.error(e);
+  }
+
+}
+
 router.get('/poll/:id', function (req, res, next) {
 
-  let poll = db.getPoll(req.params.id);
+  try {
 
-  const pollJSONstr = prepareObjectForFrontend(poll);
+    // if poll is closed, send results, else send poll choices;
+    if (db.isClosed(req.params.id)) {
+      next();
+    }
+    else {
 
-  res.render('poll', pageOptions(poll.title, {
+      let poll = db.getPoll(req.params.id);
 
-    poll: pollJSONstr,
-    infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
+      const pollJSONstr = prepareObjectForFrontend(poll);
 
-  }));
+      res.render('poll', pageOptions(poll.title, {
 
-});
+        poll: pollJSONstr,
+        infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
+
+      }));
+    }
+
+  }
+  catch (e) {
+    console.error(e);
+  }
+
+}, renderPollResults);
 
 
-/* GET poll results page. */
 router.get('/poll_results/:id', function (req, res, next) {
 
-  let poll = db.getFullPoll(req.params.id);
+  let poll = db.getPoll(req.params.id);
+  console.log(poll);
 
-  const pollJSONstr = prepareObjectForFrontend(poll);
+  if (common.serverConfig.testConfig.testApiEnabled ||
+    (poll.max_voters === null && poll.max_datetime === null)) {
 
-  res.render('poll_results', pageOptions('results ' + poll.title, {
-    poll: pollJSONstr
-  }));
-
+    renderPollResults(req, res);
+  }
+  else {
+    next(createError(403));
+  }
 });
+
 
 /* GET context page. */
 router.get('/context', function (req, res, next) {
