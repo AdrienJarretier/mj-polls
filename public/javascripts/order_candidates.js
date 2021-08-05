@@ -88,6 +88,10 @@ function get_majority_grades(choices, majority, for_ties) {
         var cpt = 0;
         var majority_found = false;
 
+        if (!('perfect_tie' in choice)) {
+            choice.perfect_tie = false;
+        }
+
         for (const vote of Object.keys(votes).reverse()) {
 
             if (for_ties) {
@@ -128,9 +132,7 @@ function return_winner(choices, majority, for_ties) {
 
     for_ties = for_ties || false;
 
-
     get_majority_grades(choices, majority, for_ties);
-
 
     var winning_grade;
     var ties;
@@ -173,14 +175,23 @@ function return_winner(choices, majority, for_ties) {
 
         var VOTERS_COUNT = get_voters_count(ties, true);
 
-        if (VOTERS_COUNT == 0)
+
+        // case where all the votes of perfect ties were removed
+        if (VOTERS_COUNT == 0) {
+            if (for_ties) {
+                for (const tie of ties) {
+
+                    tie.perfect_tie = true;
+
+                }
+            }
             return choices[0].name;
+        }
+
 
         var majority = get_majority(VOTERS_COUNT);
 
         // recursive call, that will continue until there are different majority grades between ties
-
-        // console.log("Removed counts once to handle ties")
 
         return return_winner(ties, majority, true);
 
@@ -239,6 +250,28 @@ function mapOrder(array, order, key) {
 
     return array;
 };
+
+
+// Possible outcomes for a poll are : 
+// 1 winner (with or without ties)
+// Winners (perfect equality between some candidates)
+// No winner (Perfect equality between all candidates, no votes on poll)
+function detect_outcome(choices) {
+
+    if (get_voters_count(choices) == 0) {
+        return ("No winner, as there is no vote on the poll")
+    }
+
+    perfect_tie = true;
+    for (choice of choices) {
+        perfect_tie = perfect_tie && choice.perfect_tie;
+    }
+    if (perfect_tie)
+        return ("No winner, all candidates are ties");
+
+    jhg
+
+}
 
 
 

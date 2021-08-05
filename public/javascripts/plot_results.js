@@ -154,6 +154,8 @@ $(async function () {
         }
     };
 
+    console.log(choices);
+
     $('#title').text("Results for poll : " + parsedPoll.title);
 
     $('#subtitle').text("The winner of this poll is " + ranking[0]);
