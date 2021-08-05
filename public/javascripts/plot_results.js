@@ -33,6 +33,9 @@ $(async function () {
 
     mapOrder(choices, ranking, 'name');
 
+
+    const outcome = detect_outcome(choices, ranking);
+
     // Names of choices, eg candidates, in the poll
     const labels = [];
     for (const choice of choices) {
@@ -158,7 +161,7 @@ $(async function () {
 
     $('#title').text("Results for poll : " + parsedPoll.title);
 
-    $('#subtitle').text("The winner of this poll is " + ranking[0]);
+    $('#subtitle').text(outcome);
 
     // drawing the plot, finally
     var myChart = new Chart(

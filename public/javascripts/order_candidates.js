@@ -256,20 +256,54 @@ function mapOrder(array, order, key) {
 // 1 winner (with or without ties)
 // Winners (perfect equality between some candidates)
 // No winner (Perfect equality between all candidates, no votes on poll)
-function detect_outcome(choices) {
+function detect_outcome(choices, ranking) {
+
+    // 0 votes
 
     if (get_voters_count(choices) == 0) {
-        return ("No winner, as there is no vote on the poll")
+        return "No winner : there is no vote on this poll";
     }
 
-    perfect_tie = true;
-    for (choice of choices) {
+    // all candidates are perfect ties
+
+    var perfect_tie = true;
+    for (var choice of choices) {
         perfect_tie = perfect_tie && choice.perfect_tie;
     }
     if (perfect_tie)
-        return ("No winner, all candidates are ties");
+        return "No winner : all candidates are perfectly equal";
 
-    jhg
+    // Several winners that are perfectly equal
+
+    const perfect_ties = choices.filter(function (el) {
+        return el.perfect_tie == true;
+    })
+
+    const winner_infos = choices.filter(function (el) {
+        return el.name == ranking[0];
+    })
+
+    if (perfect_ties.length >= 2) {
+        if (perfect_ties[0].majority_grade == winner_infos[0].majority_grade) {
+            let names = perfect_ties.map(a => a.name);
+            return "The winners are " + names.join(' and ') + ". There is perfect equality between them.";
+        }
+    }
+
+    // One winner that was separated from some other candidate(s)
+
+    const winner_ties = choices.filter(function (el) {
+        return el.majority_grade == winner_infos[0].majority_grade && el.name != ranking[0];
+    })
+
+    if (winner_ties.length >= 1) {
+        const winner_ties_names = winner_ties.map(a => a.name);
+        return "The winner is " + ranking[0] + ". It was separated from " + winner_ties_names.join(' and ') + " that had the same majority grade.";
+    }
+
+    // One winner that did not have to be separated
+
+    return "The winner is " + ranking[0] + ". All majority grades were different so no candidates had to be separated by removing votes."
 
 }
 
