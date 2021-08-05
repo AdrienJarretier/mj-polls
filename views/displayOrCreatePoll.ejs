@@ -6,8 +6,12 @@
 
     <script>
       'use strict';
-      const pollJSONstr = '<%- poll %>';
-      const infiniteVoteEnabledStr = '<%- infiniteVoteEnabled %>';
+
+      <% if (typeof poll != 'undefined') { %>
+        const pollJSONstr = '<%- poll %>';
+        const infiniteVoteEnabledStr = '<%- infiniteVoteEnabled %>';
+      <% } %>
+
     </script>
 
     <script src="/javascripts/displayPoll.js"></script>
