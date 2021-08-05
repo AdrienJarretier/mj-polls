@@ -66,6 +66,15 @@
                 </div>`);
 
               $('#choicesArea #choices div').append(`
+              <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
+              `);
+
+
+              // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
+              // $('#choicesArea #choices div').addClass('form-floating');
+
+              $('#choicesArea #choices').append(`
+              <div class="col" id="choicesList"></div>
               `);
 
               break;
@@ -148,5 +157,13 @@
   </div>
 
 </body>
+
+<% if (typeof poll=='undefined' ) { %>
+  <template id="choiceInputTemplate">
+
+    <input id="choice-" name="choices[]" type="text" class="form-control">
+
+  </template>
+  <% } %>
 
 </html>
