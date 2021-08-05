@@ -38,20 +38,6 @@ router.get('/', function (req, res, next) {
   res.render('index', pageOptions());
 });
 
-
-/* GET poll creation page. */
-router.get('/createPoll', function (req, res, next) {
-
-  const duplicateCheckMethods = db.getDuplicateCheckMethods();
-
-  res.render('createPoll', pageOptions('Create Poll', {
-
-    duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
-
-  }));
-
-});
-
 function renderPollResults(req, res) {
 
   try {
@@ -69,34 +55,57 @@ function renderPollResults(req, res) {
 
 }
 
-router.get('/poll/:id', function (req, res, next) {
+function handleCreatePoll(viewName) {
 
-  try {
+  return function (req, res, next) {
 
-    // if poll is closed, send results, else send poll choices;
-    if (db.isClosed(req.params.id)) {
-      next();
-    }
-    else {
+    const duplicateCheckMethods = db.getDuplicateCheckMethods();
 
-      let poll = db.getPoll(req.params.id);
+    res.render(viewName, pageOptions('Create Poll', {
 
-      const pollJSONstr = prepareObjectForFrontend(poll);
+      duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
 
-      res.render('poll', pageOptions(poll.title, {
-
-        poll: pollJSONstr,
-        infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
-
-      }));
-    }
-
+    }));
   }
-  catch (e) {
-    console.error(e);
-  }
+}
 
-}, renderPollResults);
+function handlePollView(viewName) {
+
+  return function (req, res, next) {
+    try {
+
+      // if poll is closed, send results, else send poll choices;
+      if (db.isClosed(req.params.id)) {
+        next();
+      }
+      else {
+
+        let poll = db.getPoll(req.params.id);
+
+        const pollJSONstr = prepareObjectForFrontend(poll);
+
+        res.render(viewName, pageOptions(poll.title, {
+
+          poll: pollJSONstr,
+          infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
+
+        }));
+      }
+
+    }
+    catch (e) {
+      console.error(e);
+    }
+  }
+}
+
+/* GET poll creation page. */
+router.get('/createPoll', handleCreatePoll('createPoll'));
+router.get('/poll/:id', handlePollView('poll'), renderPollResults);
+
+
+router.get('/newCreate', handleCreatePoll('createPoll'), renderPollResults);
+router.get('/newPoll/:id', handlePollView('poll'), renderPollResults);
 
 
 router.get('/poll_results/:id', function (req, res, next) {
