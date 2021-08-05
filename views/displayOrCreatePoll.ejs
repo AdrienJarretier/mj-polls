@@ -8,22 +8,94 @@
       'use strict';
 
       <% if (typeof poll != 'undefined') { %>
+
         const pollJSONstr = '<%- poll %>';
         const infiniteVoteEnabledStr = '<%- infiniteVoteEnabled %>';
-      <% } %>
+
+        const PAGE_TYPE = 'displayPoll';
+
+      <% } else { %>
+
+        const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
+
+        const PAGE_TYPE = 'createPoll';
+
+        <% } %>
+
+
+        $(function () {
+
+          switch (PAGE_TYPE) {
+
+            case 'displayPoll':
+
+              $('main').append(`
+            <div class="alert alert-success" role="alert" id="hasVotedAlert">
+              <h4 class="alert-heading">Has voted</h4>
+              <p>You have voted on this poll.</p>
+            </div>
+            `);
+
+              $('#titleArea').append(`
+              <h2 id="title"></h2>
+              <br>`);
+
+              $('#choicesArea').append(`
+              <div id="choices">
+              </div>
+              `);
+
+              $('#gradesArea').append(`
+              <form id="choicesForm">
+              </form>
+              <br>
+              `);
+
+              break;
+
+            case 'createPoll':
+
+              $('main').wrapInner('<form>');
+
+              $('#titleArea').append(`
+              <div class="form-floating">
+                  <textarea id="title" name="title" class="form-control" placeholder="Formulate your question"></textarea>
+                  <label for="title" class="form-label">Formulate your question or your sentence indicating what the
+                    choices correspond to.</label>
+                </div>`);
+
+              break;
+
+          }
+
+        });
 
     </script>
 
-    <script src="/javascripts/displayPoll.js"></script>
 
-    <style>
-      #choices .row,
-      #choicesForm .row {
-        border: solid black 2px;
-        margin-top: -2px;
-        margin-bottom: -2px;
-      }
-    </style>
+    <% if (typeof poll !='undefined' ) { %>
+
+      <script src="/javascripts/displayPoll.js"></script>
+
+      <% } else { %>
+
+        <script src="/javascripts/makePollCreationForm.js"></script>
+        <script src="/javascripts/postPollCreation.js"></script>
+
+        <% } %>
+
+          <style>
+            #choices .row,
+            #choicesForm .row {
+              border: solid black 2px;
+              margin-top: -2px;
+              margin-bottom: -2px;
+            }
+
+            label {
+              color: black;
+            }
+          </style>
 
 </head>
 
@@ -50,22 +122,18 @@
 
         <div class="col">
 
-          <h2 id="title"></h2>
-          <br>
+          <main>
 
-          <div id="choices">
-          </div>
-          <form id="choicesForm">
+            <div id="titleArea">
+            </div>
 
-          </form>
+            <div id="choicesArea">
+            </div>
 
-          <br>
+            <div id="gradesArea">
+            </div>
 
-          <div class="alert alert-success" role="alert" id="hasVotedAlert">
-            <h4 class="alert-heading">Has voted</h4>
-            <p>You have voted on this poll.</p>
-          </div>
-
+          </main>
 
         </div>
       </div>
