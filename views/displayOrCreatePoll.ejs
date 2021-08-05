@@ -25,25 +25,26 @@
 
         $(function () {
 
+          $('#choicesArea').append(`
+          <div id="choices" class="row">
+            <div class="col"></div>
+          </div>
+          `);
+
           switch (PAGE_TYPE) {
 
             case 'displayPoll':
 
               $('main').append(`
-            <div class="alert alert-success" role="alert" id="hasVotedAlert">
-              <h4 class="alert-heading">Has voted</h4>
-              <p>You have voted on this poll.</p>
-            </div>
-            `);
-
-              $('#titleArea').append(`
-              <h2 id="title"></h2>
-              <br>`);
-
-              $('#choicesArea').append(`
-              <div id="choices">
+              <div class="alert alert-success" role="alert" id="hasVotedAlert">
+                <h2 class="alert-heading">Has voted</h2>
+                <p>You have voted on this poll.</p>
               </div>
               `);
+
+              $('#titleArea').append(`
+              <h1 id="title"></h1>
+              <br>`);
 
               $('#gradesArea').append(`
               <form id="choicesForm">
@@ -64,6 +65,9 @@
                     choices correspond to.</label>
                 </div>`);
 
+              $('#choicesArea #choices div').append(`
+              `);
+
               break;
 
           }
@@ -75,7 +79,7 @@
 
     <% if (typeof poll !='undefined' ) { %>
 
-      <script src="/javascripts/displayPoll.js"></script>
+      <script src="/javascripts/displayOrCreatePoll/displayPoll.js"></script>
 
       <% } else { %>
 
@@ -85,7 +89,7 @@
         <% } %>
 
           <style>
-            #choices .row,
+            #choices,
             #choicesForm .row {
               border: solid black 2px;
               margin-top: -2px;
