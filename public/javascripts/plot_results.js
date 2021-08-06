@@ -1,8 +1,5 @@
 'use strict';
 
-
-
-
 // Palettes definition
 const COLORS_7 = [
     "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
@@ -35,6 +32,9 @@ $(async function () {
 
 
     const outcome = detect_outcome(choices, ranking);
+
+    console.log(choices);
+    console.log(get_majority(VOTERS_COUNT));
 
     // Names of choices, eg candidates, in the poll
     const labels = [];

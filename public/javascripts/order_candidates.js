@@ -1,8 +1,5 @@
 'use strict';
 
-// const { checkout } = require("superagent");
-
-
 function checkout_voters_count(choices) {
     var VOTERS_COUNT_OLD = 0;
     var VOTERS_COUNT;
@@ -92,7 +89,7 @@ function get_majority_grades(choices, majority, for_ties) {
             choice.perfect_tie = false;
         }
 
-        for (const vote of Object.values(votes).sort((a, b) => b.order - a.order)) {
+        for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
 
             // for (const vote of Object.keys(votes).reverse()) {
 
@@ -105,18 +102,15 @@ function get_majority_grades(choices, majority, for_ties) {
                 vote.count_for_ties = vote.count;
             }
 
-
             if (cpt >= majority & !majority_found) {
 
                 if (for_ties) {
                     choice["majority_grade_for_ties"] = vote.value;
                     choice["majority_grade_for_ties_order"] = vote.order;
-                    console.log("In ties : majority grade is " + vote.value + " for candidate " + choice.name);
                 }
                 else {
                     choice["majority_grade"] = vote.value;
                     choice["majority_grade_order"] = vote.order;
-                    console.log("majority grade is " + vote.value + " for candidate " + choice.name);
                 }
                 majority_found = true;
 
@@ -155,11 +149,9 @@ function return_winner(choices, majority, for_ties) {
     }
 
     if (ties.length == 1) {
-        // console.log("No ties, the winner is : " + choices[0].name);
         return choices[0].name;
     }
     else {
-        // console.log("There are " + ties.length + " ties");
 
         // removes one vote for each winning grade in the tied candidates
 
@@ -216,8 +208,6 @@ function order_candidates_(choices, majority) {
     let the_rest = choices.filter(function (el) {
         return el.name != winner;
     })
-
-    // console.log("Winner is now " + winner);
 
     return [winner].concat(order_candidates_(the_rest));
 
