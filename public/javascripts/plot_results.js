@@ -157,7 +157,7 @@ $(async function () {
         }
     };
 
-    $('#results_alert_header').text("Results for poll : " + parsedPoll.title);
+    // $('#results_alert_header').text("Results for poll : " + parsedPoll.title);
     $('#results_alert_text').text(outcome);
 
 
