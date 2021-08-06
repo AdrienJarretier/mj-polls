@@ -25,7 +25,13 @@ async function makeVoteForm() {
     for (let grade of grades.sort((a, b) => b.order - a.order)) {
 
         let row = $('<div>').addClass('row');
-        row.append($('<div>').addClass('col').text(grade.value));
+        let col = cloneTemplate('firstColTemplate');
+        // console.log($(col));
+        // console.log($('<div>').addClass('col'));
+        // console.log('-------');
+        // row.append($('<div>').addClass('col').text(grade.value));
+        // col.append(grade.value);
+        row.append(col.text(grade.value));
 
         for (let choice of parsedPoll.choices) {
 

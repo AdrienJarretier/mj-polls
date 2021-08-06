@@ -27,9 +27,9 @@
 
           $('#choicesArea').append(`
           <div id="choices" class="row">
-            <div class="col"></div>
           </div>
           `);
+          cloneTemplate('firstColTemplate').appendTo('#choices');
 
           switch (PAGE_TYPE) {
 
@@ -74,7 +74,6 @@
               // $('#choicesArea #choices div').addClass('form-floating');
 
               $('#choicesArea #choices').append(`
-              <div class="col" id="choicesList"></div>
               `);
 
               break;
@@ -92,7 +91,7 @@
 
       <% } else { %>
 
-        <script src="/javascripts/makePollCreationForm.js"></script>
+        <script src="/javascripts/displayOrCreatePoll/makePollCreationForm.js"></script>
         <script src="/javascripts/postPollCreation.js"></script>
 
         <% } %>
@@ -160,10 +159,14 @@
 
 <% if (typeof poll=='undefined' ) { %>
   <template id="choiceInputTemplate">
-
-    <input id="choice-" name="choices[]" type="text" class="form-control">
-
+    <div class="col">
+      <input id="choice-" name="choices[]" type="text" class="form-control">
+    </div>
   </template>
   <% } %>
+
+    <template id="firstColTemplate">
+      <div class="col-2"></div>
+    </template>
 
 </html>
