@@ -1,4 +1,4 @@
-![# Majority Judgment](/public/images/logo.png "Title")
+# ![Majority Judgment](/static/public/images/logo.png "Title")
 
 
 ## This project is a web application for creating, running and visualizing **majority judgment** polls.
