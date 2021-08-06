@@ -1,9 +1,6 @@
-![# Majority Judgment](/public/images/logo.png "Title")
 
-
-## This project is a web application for creating, running and visualizing **majority judgment** polls.
 ---
-### Principle of majority judgment
+## Principle of majority judgment
 
 
 Majority judgment is a voting system designed to elect a single winner, based on a highest median rule. It was introduced by two INRIA researcher in 2007, Michel Balinski and Rida Laraki.
@@ -29,7 +26,7 @@ This procedure offers several advantages against existing alternatives :
 [Balinski M. and R. Laraki (2007), A Theory of Measuring, Electing and Ranking, PNAS, 104(2), 8720-8725.](https://www.pnas.org/content/104/21/8720)
 
 ---
-### Use the app
+## Use the app
 
 
 Download [Node.js](https://nodejs.org/en/download/) (v14.17)
@@ -41,12 +38,10 @@ git clone https://github.com/AdrienJarretier/mj-polls
 cd mj-polls
 ```
 
-#### For Prod :
-
 Install required dependencies:
 
 ```
-npm install --production
+npm install
 ```
 
 Create poll database:
@@ -56,28 +51,15 @@ node db/createDb.js
 
 Start the app:
 ```
-npm run startProd
+npm start
 ```
 
 You will be asked which adress and port should be used to run the app. (default is 127.0.0.1:3000).
 
 
-Now, go ahead and spread the word that majority judgment should replace current systems to allow more honest and mathematically sound votes!
+Now, go ahead and spread the world that majority judgment should replace current systems to allow more honest and mathematically sound votes!
+
 
 ---
-
-#### For Dev :
-
-Install required dependencies:
-
-```
-npm install
-```
-
-Run tests:
-
-```
-npm test
-```
 
 By sirsanga and takama

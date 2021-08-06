@@ -20,7 +20,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'static/public')));
+
+if (process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'development') {
+  app.use('/tests', express.static(path.join(__dirname, 'static/tests')));
+}
 
 if (common.serverConfig.testConfig.testApiEnabled) {
   // api for tests during dev, DISABLE for prod
