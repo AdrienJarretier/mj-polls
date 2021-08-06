@@ -92,6 +92,8 @@ $(async function () {
     $('#title').text(parsedPoll.title);
 
     let row = $('#choices');
+
+    parsedPoll.choices.sort((a, b) => a.name.localeCompare(b.name));
     for (let choice of parsedPoll.choices) {
 
         row.append($('<div>').addClass('col').text(choice.name));
