@@ -54,7 +54,7 @@ node db/createDb.js
 
 Start the app:
 ```
-npm start
+npm run startProd
 ```
 
 You will be asked which adress and port should be used to run the app. (default is 127.0.0.1:3000).
