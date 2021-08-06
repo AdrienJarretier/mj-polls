@@ -92,29 +92,31 @@ function get_majority_grades(choices, majority, for_ties) {
             choice.perfect_tie = false;
         }
 
-        for (const vote of Object.keys(votes).reverse()) {
+        for (const vote of Object.values(votes).sort((a, b) => b.order - a.order)) {
+
+            // for (const vote of Object.keys(votes).reverse()) {
 
             if (for_ties) {
-                cpt += votes[vote].count_for_ties;
+                cpt += vote.count_for_ties;
             }
             else {
-                cpt += votes[vote].count;
+                cpt += vote.count;
                 // adding new count field to be used later for removing votes and discriminate ties
-                votes[vote].count_for_ties = votes[vote].count;
+                vote.count_for_ties = vote.count;
             }
 
 
             if (cpt >= majority & !majority_found) {
 
                 if (for_ties) {
-                    choice["majority_grade_for_ties"] = votes[vote].value;
-                    choice["majority_grade_for_ties_order"] = votes[vote].order;
-                    console.log("In ties : majority grade is " + votes[vote].value + " for candidate " + choice.name);
+                    choice["majority_grade_for_ties"] = vote.value;
+                    choice["majority_grade_for_ties_order"] = vote.order;
+                    console.log("In ties : majority grade is " + vote.value + " for candidate " + choice.name);
                 }
                 else {
-                    choice["majority_grade"] = votes[vote].value;
-                    choice["majority_grade_order"] = votes[vote].order;
-                    console.log("majority grade is " + votes[vote].value + " for candidate " + choice.name);
+                    choice["majority_grade"] = vote.value;
+                    choice["majority_grade_order"] = vote.order;
+                    console.log("majority grade is " + vote.value + " for candidate " + choice.name);
                 }
                 majority_found = true;
 

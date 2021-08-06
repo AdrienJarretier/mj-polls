@@ -46,8 +46,8 @@ $(async function () {
     const values = [];
     var choice = choices[0];
     var votes = choice.votes;
-    for (const vote of Object.keys(votes)) {
-        values.push(votes[vote].value);
+    for (const vote of Object.values(votes).sort((a, b) => b.order - a.order)) {
+        values.push(vote.value);
     }
 
 
@@ -66,8 +66,8 @@ $(async function () {
     var dataset = [];
     var cpt = 0;
 
-    for (const vote of Object.keys(votes).reverse()) {
-        const entry = { "label": votes[vote].value, "data": [votes[vote].count], "backgroundColor": color(cpt, palette), };
+    for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
+        const entry = { "label": vote.value, "data": [vote.count], "backgroundColor": color(cpt, palette), };
         dataset.push(entry);
         cpt += 1;
     }
@@ -75,8 +75,8 @@ $(async function () {
     for (choice of choices.slice(-choices.length + 1)) {
         var votes = choice.votes;
         var cpt = 0;
-        for (const vote of Object.keys(votes).reverse()) {
-            dataset[cpt].data.push(votes[vote].count);
+        for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
+            dataset[cpt].data.push(vote.count);
             cpt += 1;
         }
     }
@@ -157,11 +157,9 @@ $(async function () {
         }
     };
 
-    console.log(choices);
+    $('#results_alert_header').text("Results for poll : " + parsedPoll.title);
+    $('#results_alert_text').text(outcome);
 
-    $('#title').text("Results for poll : " + parsedPoll.title);
-
-    $('#subtitle').text(outcome);
 
     // drawing the plot, finally
     var myChart = new Chart(
