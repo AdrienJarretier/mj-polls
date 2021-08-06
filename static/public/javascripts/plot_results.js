@@ -1,9 +1,15 @@
 'use strict';
 
 // Palettes definition
+// const COLORS_7 = [
+//     "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
+// ];
+
 const COLORS_7 = [
-    "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
+    "#C96251", "#EB8565", "#F2B573", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
 ];
+
+
 
 const COLORS_3 = [
     "#df8568", "#f8e6b5", "#54a062"
