@@ -1,4 +1,4 @@
-![alt text](/public/images/logo.png "Title")
+![# Majority Judgment](/public/images/logo.png "Title")
 
 
 ## This project is a web application for creating, running and visualizing **majority judgment** polls.
@@ -41,10 +41,12 @@ git clone https://github.com/AdrienJarretier/mj-polls
 cd mj-polls
 ```
 
+#### For Prod :
+
 Install required dependencies:
 
 ```
-npm install
+npm install --production
 ```
 
 Create poll database:
@@ -63,5 +65,19 @@ You will be asked which adress and port should be used to run the app. (default 
 Now, go ahead and spread the word that majority judgment should replace current systems to allow more honest and mathematically sound votes!
 
 ---
+
+#### For Dev :
+
+Install required dependencies:
+
+```
+npm install
+```
+
+Run tests:
+
+```
+npm test
+```
 
 By sirsanga and takama
