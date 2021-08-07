@@ -296,10 +296,3 @@ function detect_outcome(choices, ranking) {
     return "The winner is " + ranking[0] + ". All majority grades were different so no candidates had to be separated by removing votes."
 
 }
-
-
-
-$(async function () {
-
-
-});
