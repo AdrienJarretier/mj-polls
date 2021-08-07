@@ -296,7 +296,7 @@ function detect_outcome(choices, ranking) {
 
     // One winner that did not have to be separated
 
-    return "The winner is " + ranking[0] + ". All majority grades were different so no candidates had to be separated by removing votes."
+    return "The winner is " + ranking[0] + ". All other candidates had lesser majority grade."
 
 }
 
