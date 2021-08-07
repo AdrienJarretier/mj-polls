@@ -137,15 +137,13 @@ function return_winner(choices, majority, for_ties) {
         winning_grade = choices[0].majority_grade_for_ties;
         ties = choices.filter(function (el) {
             return el.majority_grade_for_ties == winning_grade;
-        }
-        )
+        });
     }
     else {
         winning_grade = choices[0].majority_grade;
         ties = choices.filter(function (el) {
             return el.majority_grade == winning_grade;
-        }
-        )
+        });
     }
 
     if (ties.length == 1) {
