@@ -137,15 +137,13 @@ function return_winner(choices, majority, for_ties) {
         winning_grade = choices[0].majority_grade_for_ties;
         ties = choices.filter(function (el) {
             return el.majority_grade_for_ties == winning_grade;
-        }
-        )
+        });
     }
     else {
         winning_grade = choices[0].majority_grade;
         ties = choices.filter(function (el) {
             return el.majority_grade == winning_grade;
-        }
-        )
+        });
     }
 
     if (ties.length == 1) {
@@ -176,6 +174,7 @@ function return_winner(choices, majority, for_ties) {
                 for (const tie of ties) {
 
                     tie.perfect_tie = true;
+                    tie.majority_grade_for_ties = null;
 
                 }
             }
@@ -276,7 +275,7 @@ function detect_outcome(choices, ranking) {
     })
 
     if (perfect_ties.length >= 2) {
-        if (perfect_ties[0].majority_grade == winner_infos[0].majority_grade) {
+        if (perfect_ties[0].majority_grade == winner_infos[0].majority_grade && winner_infos[0].majority_grade_for_ties == null) {
             let names = perfect_ties.map(a => a.name);
             return "The winners are " + names.join(' and ') + ". There is perfect equality between them.";
         }
@@ -295,13 +294,6 @@ function detect_outcome(choices, ranking) {
 
     // One winner that did not have to be separated
 
-    return "The winner is " + ranking[0] + ". All majority grades were different so no candidates had to be separated by removing votes."
+    return "The winner is " + ranking[0] + ". All other candidates had lesser majority grade."
 
 }
-
-
-
-$(async function () {
-
-
-});

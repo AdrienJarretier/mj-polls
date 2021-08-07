@@ -1,9 +1,15 @@
 'use strict';
 
 // Palettes definition
+// const COLORS_7 = [
+//     "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
+// ];
+
+// new color palette
 const COLORS_7 = [
-    "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
+    '#00935e', '#50b67f', '#9fd99f', '#effcc0', '#FBD989', '#e29e6d', '#c96251'
 ];
+
 
 const COLORS_3 = [
     "#df8568", "#f8e6b5", "#54a062"
@@ -51,7 +57,7 @@ $(async function () {
     }
 
 
-    var palette = COLORS_7;
+    var palette = COLORS_7.reverse();
 
     // Getting the appropriate color palette
     if (values.length <= 3) {
