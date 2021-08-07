@@ -20,11 +20,21 @@ function color(index, palette) {
 
 $(async function () {
 
-    const choices = parsedPoll["choices"];
-    var VOTERS_COUNT = 0;
+    var choices = parsedPoll["choices"];
 
-    // Number of choices, eg candidates, in the poll
-    const DATA_COUNT = choices.length;
+    const VOTERS_COUNT = get_voters_count(choices);
+    const majority_plot = get_majority(VOTERS_COUNT);
+
+    // ranking candidates according to the votes
+    const ranking = order_candidates(choices);
+
+    mapOrder(choices, ranking, 'name');
+
+
+    const outcome = detect_outcome(choices, ranking);
+
+    console.log(choices);
+    console.log(get_majority(VOTERS_COUNT));
 
     // Names of choices, eg candidates, in the poll
     const labels = [];
@@ -36,8 +46,8 @@ $(async function () {
     const values = [];
     var choice = choices[0];
     var votes = choice.votes;
-    for (const vote of Object.keys(votes)) {
-        values.push(votes[vote].value);
+    for (const vote of Object.values(votes).sort((a, b) => b.order - a.order)) {
+        values.push(vote.value);
     }
 
 
@@ -56,18 +66,17 @@ $(async function () {
     var dataset = [];
     var cpt = 0;
 
-    for (const vote of Object.keys(votes).reverse()) {
-        const entry = { "label": votes[vote].value, "data": [votes[vote].count], "backgroundColor": color(cpt, palette), };
+    for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
+        const entry = { "label": vote.value, "data": [vote.count], "backgroundColor": color(cpt, palette), };
         dataset.push(entry);
         cpt += 1;
-        VOTERS_COUNT += votes[vote].count;
     }
 
     for (choice of choices.slice(-choices.length + 1)) {
         var votes = choice.votes;
         var cpt = 0;
-        for (const vote of Object.keys(votes).reverse()) {
-            dataset[cpt].data.push(votes[vote].count);
+        for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
+            dataset[cpt].data.push(vote.count);
             cpt += 1;
         }
     }
@@ -78,6 +87,8 @@ $(async function () {
         labels: labels,
         datasets: dataset
     };
+
+    Chart.defaults.font.size = 18;
 
 
 
@@ -101,15 +112,15 @@ $(async function () {
                     annotations: [{
                         type: 'line',
                         xScaleID: 'x',
-                        yMin: VOTERS_COUNT / 2,
-                        yMax: VOTERS_COUNT / 2,
+                        yMin: majority_plot,
+                        yMax: majority_plot,
                         xMin: labels[0],
                         xMax: labels[labels.length - 1],
                         borderColor: 'rgb(240, 240, 240)',
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: 'Median'
+                            content: 'Majority grade'
                         }
                     }],
                     drawTime: 'afterDatasetsDraw'
@@ -117,6 +128,13 @@ $(async function () {
                 tooltip: {
                     position: 'nearest'
                 },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 20
+                        }
+                    }
+                }
             },
             layout: {
                 padding: {
@@ -138,6 +156,10 @@ $(async function () {
             }
         }
     };
+
+    // $('#results_alert_header').text("Results for poll : " + parsedPoll.title);
+    $('#results_alert_text').text(outcome);
+
 
     // drawing the plot, finally
     var myChart = new Chart(

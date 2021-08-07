@@ -1,4 +1,4 @@
-![alt text](/public/images/logo.png "Title")
+![# Majority Judgment](/public/images/logo.png "Title")
 
 
 ## This project is a web application for creating, running and visualizing **majority judgment** polls.
@@ -32,8 +32,52 @@ This procedure offers several advantages against existing alternatives :
 ### Use the app
 
 
-wip
+Download [Node.js](https://nodejs.org/en/download/) (v14.17)
+
+Download or clone and enter the project :
+
+```
+git clone https://github.com/AdrienJarretier/mj-polls
+cd mj-polls
+```
+
+#### For Prod :
+
+Install required dependencies:
+
+```
+npm install --production
+```
+
+Create poll database:
+```
+node db/createDb.js
+```
+
+Start the app:
+```
+npm run startProd
+```
+
+You will be asked which adress and port should be used to run the app. (default is 127.0.0.1:3000).
+
+
+Now, go ahead and spread the word that majority judgment should replace current systems to allow more honest and mathematically sound votes!
 
 ---
+
+#### For Dev :
+
+Install required dependencies:
+
+```
+npm install
+```
+
+Run tests:
+
+```
+npm test
+```
 
 By sirsanga and takama
