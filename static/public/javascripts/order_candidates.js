@@ -255,6 +255,11 @@ function detect_outcome(choices, ranking) {
         return "No winner : there is no vote on this poll";
     }
 
+    // only one candidate
+
+    if (choices.length == 1)
+        return "The winner is " + ranking[0] + ". It was the only running candidate.";
+
     // all candidates are perfect ties
 
     var perfect_tie = true;
@@ -294,7 +299,7 @@ function detect_outcome(choices, ranking) {
 
     // One winner that did not have to be separated
 
-    return "The winner is " + ranking[0] + ". All other candidates had lesser majority grade."
+    return "The winner is " + ranking[0] + ". All other candidates had lesser majority grades."
 
 }
 

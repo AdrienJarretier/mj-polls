@@ -1,5 +1,5 @@
 var assert = chai.assert;
-describe('order_candidates()', function () {
+describe('Tests on get_ranking_and_outcome()', function () {
 
 
 
@@ -54,7 +54,7 @@ describe('order_candidates()', function () {
         ];
 
         assert.throws(function () {
-            order_candidates(choices);
+            get_ranking_and_outcome(choices);
         }, "the number of votes by candidate is not the same");
 
     });
@@ -64,7 +64,7 @@ describe('order_candidates()', function () {
 
     describe('Only one candidate, one grade and 0 vote', function () {
 
-        it('should return the only candidate', function () {
+        it('Ranking should be the only candidate', function () {
 
             let choices = [
                 {
@@ -79,7 +79,68 @@ describe('order_candidates()', function () {
                 }
             ];
 
-            assert.deepEqual(order_candidates(choices), ["a"]);
+            assert.deepEqual(get_ranking_and_outcome(choices).ranking, ["a"]);
+
+        });
+
+        it('Outcome should be no winner', function () {
+
+            let choices = [
+                {
+                    "name": "a",
+                    "votes": {
+                        "1": {
+                            "value": "Excellent",
+                            "order": 60,
+                            "count": 0,
+                        }
+                    }
+                }
+            ];
+            assert.deepEqual(get_ranking_and_outcome(choices).outcome, "No winner : there is no vote on this poll");
+
+        });
+
+    });
+
+
+
+    describe('Only one candidate, one grade and 10 votes', function () {
+
+        it('Ranking should be the only candidate', function () {
+
+            let choices = [
+                {
+                    "name": "a",
+                    "votes": {
+                        "1": {
+                            "value": "Excellent",
+                            "order": 60,
+                            "count": 10,
+                        }
+                    }
+                }
+            ];
+
+            assert.deepEqual(get_ranking_and_outcome(choices).ranking, ["a"]);
+
+        });
+
+        it('Outcome should be a is the winner, it was the only running candidate', function () {
+
+            let choices = [
+                {
+                    "name": "a",
+                    "votes": {
+                        "1": {
+                            "value": "Excellent",
+                            "order": 60,
+                            "count": 10,
+                        }
+                    }
+                }
+            ];
+            assert.deepEqual(get_ranking_and_outcome(choices).outcome, "The winner is a. It was the only running candidate.");
 
         });
 
