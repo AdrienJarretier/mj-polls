@@ -252,7 +252,7 @@ function detect_outcome(choices, ranking) {
     // 0 votes
 
     if (get_voters_count(choices) == 0) {
-        return "No winner : there is no vote on this poll";
+        return "No winner. There is no vote on this poll";
     }
 
     // only one candidate
@@ -267,7 +267,7 @@ function detect_outcome(choices, ranking) {
         perfect_tie = perfect_tie && choice.perfect_tie;
     }
     if (perfect_tie)
-        return "No winner : all candidates are perfectly equal";
+        return "No winner. All candidates are perfectly equal";
 
     // Several winners that are perfectly equal
 

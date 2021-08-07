@@ -64,20 +64,20 @@ describe('Tests on get_ranking_and_outcome()', function () {
 
     describe('Only one candidate, one grade and 0 vote', function () {
 
-        it('Ranking should be the only candidate', function () {
-
-            let choices = [
-                {
-                    "name": "a",
-                    "votes": {
-                        "1": {
-                            "value": "Excellent",
-                            "order": 60,
-                            "count": 0,
-                        }
+        let choices = [
+            {
+                "name": "a",
+                "votes": {
+                    "1": {
+                        "value": "Excellent",
+                        "order": 60,
+                        "count": 0,
                     }
                 }
-            ];
+            }
+        ];
+
+        it('Ranking should be the only candidate', function () {
 
             assert.deepEqual(get_ranking_and_outcome(choices).ranking, ["a"]);
 
@@ -85,19 +85,7 @@ describe('Tests on get_ranking_and_outcome()', function () {
 
         it('Outcome should be no winner', function () {
 
-            let choices = [
-                {
-                    "name": "a",
-                    "votes": {
-                        "1": {
-                            "value": "Excellent",
-                            "order": 60,
-                            "count": 0,
-                        }
-                    }
-                }
-            ];
-            assert.deepEqual(get_ranking_and_outcome(choices).outcome, "No winner : there is no vote on this poll");
+            assert.deepEqual(get_ranking_and_outcome(choices).outcome, "No winner. There is no vote on this poll");
 
         });
 
@@ -107,39 +95,27 @@ describe('Tests on get_ranking_and_outcome()', function () {
 
     describe('Only one candidate, one grade and 10 votes', function () {
 
-        it('Ranking should be the only candidate', function () {
-
-            let choices = [
-                {
-                    "name": "a",
-                    "votes": {
-                        "1": {
-                            "value": "Excellent",
-                            "order": 60,
-                            "count": 10,
-                        }
+        let choices = [
+            {
+                "name": "a",
+                "votes": {
+                    "1": {
+                        "value": "Excellent",
+                        "order": 60,
+                        "count": 10,
                     }
                 }
-            ];
+            }
+        ];
+
+        it('Ranking should be the only candidate', function () {
 
             assert.deepEqual(get_ranking_and_outcome(choices).ranking, ["a"]);
 
         });
 
-        it('Outcome should be a is the winner, it was the only running candidate', function () {
+        it('Outcome should be that a is the winner, it was the only running candidate', function () {
 
-            let choices = [
-                {
-                    "name": "a",
-                    "votes": {
-                        "1": {
-                            "value": "Excellent",
-                            "order": 60,
-                            "count": 10,
-                        }
-                    }
-                }
-            ];
             assert.deepEqual(get_ranking_and_outcome(choices).outcome, "The winner is a. It was the only running candidate.");
 
         });
@@ -148,85 +124,85 @@ describe('Tests on get_ranking_and_outcome()', function () {
 
     describe('All candidates have a unique majority grade', function () {
 
-        it('should return an array with the candidate sorted by their majority grade', function () {
-
-            let choices = [
-                {
-                    "name": "last",
-                    "votes": {
-                        "1": {
-                            "value": "Excellent",
-                            "order": 60,
-                            "count": 0,
-                        },
-                        "2": {
-                            "value": "Good",
-                            "order": 40,
-                            "count": 0,
-                        },
-                        "3": {
-                            "value": "Passble",
-                            "order": 20,
-                            "count": 0,
-                        },
-                        "4": {
-                            "value": "Bad",
-                            "order": 0,
-                            "count": 10,
-                        }
-                    }
-                },
-                {
-                    "name": "best",
-                    "votes": {
-                        "1": {
-                            "value": "Excellent",
-                            "order": 60,
-                            "count": 10,
-                        },
-                        "2": {
-                            "value": "Good",
-                            "order": 40,
-                            "count": 0,
-                        },
-                        "3": {
-                            "value": "Passble",
-                            "order": 20,
-                            "count": 0,
-                        },
-                        "4": {
-                            "value": "Bad",
-                            "order": 0,
-                            "count": 0,
-                        }
-                    }
-                },
-                {
-                    "name": "middle",
-                    "votes": {
-                        "1": {
-                            "value": "Excellent",
-                            "order": 60,
-                            "count": 0,
-                        },
-                        "2": {
-                            "value": "Good",
-                            "order": 40,
-                            "count": 0,
-                        },
-                        "3": {
-                            "value": "Passble",
-                            "order": 20,
-                            "count": 10,
-                        },
-                        "4": {
-                            "value": "Bad",
-                            "order": 0,
-                            "count": 0,
-                        }
+        let choices = [
+            {
+                "name": "last",
+                "votes": {
+                    "1": {
+                        "value": "Excellent",
+                        "order": 60,
+                        "count": 0,
+                    },
+                    "2": {
+                        "value": "Good",
+                        "order": 40,
+                        "count": 0,
+                    },
+                    "3": {
+                        "value": "Passble",
+                        "order": 20,
+                        "count": 0,
+                    },
+                    "4": {
+                        "value": "Bad",
+                        "order": 0,
+                        "count": 10,
                     }
                 }
-            ];
+            },
+            {
+                "name": "best",
+                "votes": {
+                    "1": {
+                        "value": "Excellent",
+                        "order": 60,
+                        "count": 10,
+                    },
+                    "2": {
+                        "value": "Good",
+                        "order": 40,
+                        "count": 0,
+                    },
+                    "3": {
+                        "value": "Passble",
+                        "order": 20,
+                        "count": 0,
+                    },
+                    "4": {
+                        "value": "Bad",
+                        "order": 0,
+                        "count": 0,
+                    }
+                }
+            },
+            {
+                "name": "middle",
+                "votes": {
+                    "1": {
+                        "value": "Excellent",
+                        "order": 60,
+                        "count": 0,
+                    },
+                    "2": {
+                        "value": "Good",
+                        "order": 40,
+                        "count": 0,
+                    },
+                    "3": {
+                        "value": "Passble",
+                        "order": 20,
+                        "count": 10,
+                    },
+                    "4": {
+                        "value": "Bad",
+                        "order": 0,
+                        "count": 0,
+                    }
+                }
+            }
+        ];
+
+        it('Ranking should return an array with the candidates sorted by their majority grade', function () {
 
             assert.deepEqual(order_candidates(choices), ["best", "middle", "last"]);
 
