@@ -503,7 +503,6 @@ describe('Tests on get_ranking_and_outcome()', function () {
 
 
 
-
     describe('Winning ties do not get beaten by third lower MM candidate after MM removal', function () {
 
         let choices = [{ "id": 8, "poll_id": 4, "name": "a", "votes": { "1": { "id": 1, "value": "Excellent", "order": 60, "count": 3 }, "2": { "id": 2, "value": "Very good", "order": 50, "count": 2 }, "3": { "id": 3, "value": "Good", "order": 40, "count": 3 }, "4": { "id": 4, "value": "Passable", "order": 30, "count": 0 }, "5": { "id": 5, "value": "Inadequate", "order": 20, "count": 3 }, "6": { "id": 6, "value": "Mediocre", "order": 10, "count": 2 }, "7": { "id": 7, "value": "Bad", "order": 0, "count": 0 } } }, { "id": 9, "poll_id": 4, "name": "b", "votes": { "1": { "id": 1, "value": "Excellent", "order": 60, "count": 0 }, "2": { "id": 2, "value": "Very good", "order": 50, "count": 1 }, "3": { "id": 3, "value": "Good", "order": 40, "count": 7 }, "4": { "id": 4, "value": "Passable", "order": 30, "count": 0 }, "5": { "id": 5, "value": "Inadequate", "order": 20, "count": 0 }, "6": { "id": 6, "value": "Mediocre", "order": 10, "count": 5 }, "7": { "id": 7, "value": "Bad", "order": 0, "count": 0 } } }, { "id": 10, "poll_id": 4, "name": "c", "votes": { "1": { "id": 1, "value": "Excellent", "order": 60, "count": 5 }, "2": { "id": 2, "value": "Very good", "order": 50, "count": 1 }, "3": { "id": 3, "value": "Good", "order": 40, "count": 0 }, "4": { "id": 4, "value": "Passable", "order": 30, "count": 1 }, "5": { "id": 5, "value": "Inadequate", "order": 20, "count": 0 }, "6": { "id": 6, "value": "Mediocre", "order": 10, "count": 1 }, "7": { "id": 7, "value": "Bad", "order": 0, "count": 5 } } }];
@@ -517,6 +516,25 @@ describe('Tests on get_ranking_and_outcome()', function () {
         it('should say that a was separated from b', function () {
 
             assert.deepEqual(get_ranking_and_outcome(choices).outcome, "The winner is a. It was separated from b that had the same majority grade.");
+
+        });
+
+    });
+
+
+    describe('Candidates with same MM as the winner are not mistaken for ties if they are not perfectly equals.', function () {
+
+        let choices = [{ "id": 22, "name": "a", "votes": { "1": { "id": 1, "value": "Excellent", "order": 60, "count": 2 }, "2": { "id": 2, "value": "Very good", "order": 50, "count": 0 }, "3": { "id": 3, "value": "Good", "order": 40, "count": 0 }, "4": { "id": 4, "value": "Passable", "order": 30, "count": 0 }, "5": { "id": 5, "value": "Inadequate", "order": 20, "count": 0 }, "6": { "id": 6, "value": "Mediocre", "order": 10, "count": 0 }, "7": { "id": 7, "value": "Bad", "order": 0, "count": 2 } } }, { "id": 23, "name": "b", "votes": { "1": { "id": 1, "value": "Excellent", "order": 60, "count": 1 }, "2": { "id": 2, "value": "Very good", "order": 50, "count": 0 }, "3": { "id": 3, "value": "Good", "order": 40, "count": 0 }, "4": { "id": 4, "value": "Passable", "order": 30, "count": 0 }, "5": { "id": 5, "value": "Inadequate", "order": 20, "count": 0 }, "6": { "id": 6, "value": "Mediocre", "order": 10, "count": 0 }, "7": { "id": 7, "value": "Bad", "order": 0, "count": 3 } } }, { "id": 24, "name": "c", "votes": { "1": { "id": 1, "value": "Excellent", "order": 60, "count": 1 }, "2": { "id": 2, "value": "Very good", "order": 50, "count": 0 }, "3": { "id": 3, "value": "Good", "order": 40, "count": 0 }, "4": { "id": 4, "value": "Passable", "order": 30, "count": 0 }, "5": { "id": 5, "value": "Inadequate", "order": 20, "count": 0 }, "6": { "id": 6, "value": "Mediocre", "order": 10, "count": 0 }, "7": { "id": 7, "value": "Bad", "order": 0, "count": 3 } } }];
+
+        it('should return the candidates in the order a, b, c', function () {
+
+            assert.deepEqual(get_ranking_and_outcome(choices).ranking, ["a", "b", "c"]);
+
+        });
+
+        it('should say that a was separated from b and c', function () {
+
+            assert.deepEqual(get_ranking_and_outcome(choices).outcome, "The winner is a. It was separated from b and c that had the same majority grade.");
 
         });
 
