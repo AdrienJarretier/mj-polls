@@ -36,7 +36,6 @@ $(async function () {
 
     mapOrder(choices, ranking, 'name');
 
-
     const outcome = detect_outcome(choices, ranking);
 
     console.log(choices);

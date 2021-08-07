@@ -297,3 +297,18 @@ function detect_outcome(choices, ranking) {
     return "The winner is " + ranking[0] + ". All other candidates had lesser majority grade."
 
 }
+
+// function that will be the object of unit tests
+// to test at the same time the ranking, and the
+// textual description of the outcome
+function get_ranking_and_outcome(choices) {
+
+    const ranking = order_candidates(choices);
+
+    mapOrder(choices, ranking, 'name');
+
+    const outcome = detect_outcome(choices, ranking);
+
+    return { ranking: ranking, outcome: outcome };
+
+}
