@@ -104,7 +104,6 @@ $(async function () {
     // supprimer la disparition quand click sur légende
 
 
-
     // Configurating the plot
     const config = {
         type: 'bar',
@@ -171,7 +170,7 @@ $(async function () {
     };
 
     // $('#results_alert_header').text("Results for poll : " + parsedPoll.title);
-    $('#results_alert_text').text(outcome);
+    $('#results_alert_text').text("    " + outcome);
 
 
     // drawing the plot, finally
