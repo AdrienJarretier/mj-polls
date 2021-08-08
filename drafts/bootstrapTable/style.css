@@ -1,3 +1,8 @@
 .table {
     width: max-content;
 }
+
+.firstCol {
+    left: 0;
+    position: sticky;
+}

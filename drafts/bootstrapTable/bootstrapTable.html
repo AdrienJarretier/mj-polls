@@ -12,18 +12,18 @@
         boostrap table tests
     </title>
 
-    <link rel="stylesheet" href="extLibs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/public/extLibs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
 
 
-    <script src="extLibs/jquery-3.4.1.min.js"></script>
+    <script src="../../static/public/extLibs/jquery-3.4.1.min.js"></script>
     <!-- <script src="extLibs/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
-    <script src="extLibs/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+    <script src="../../static/public/extLibs/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
 
 
     <!-- <link href="/extLibs/open-iconic-1.1.1/font/css/open-iconic-bootstrap.css" rel="stylesheet"> -->
 
     <!-- -->
-    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="style.css" />
 
 
 
@@ -36,7 +36,7 @@
     <script>
 
         const STATIC_COLS = 2;
-        const TOTAL_COLS = 5;
+        const TOTAL_COLS = 10;
 
         function getMaxWidth(table) {
 
@@ -47,7 +47,7 @@
             for (let j = 1; j < tableCols.length; ++j) {
                 let width = tableCols.eq(j).width();
                 maxW = Math.max(width, maxW);
-                console.log(width);
+
             }
 
             return maxW;
@@ -58,9 +58,9 @@
             let tableCols = table.find('tr').eq(0).find('td,th');
 
             for (let j = 1; j < tableCols.length; ++j) {
-                console.log(tableCols.eq(j));
+
                 tableCols.eq(j).width(colWidth);
-                console.log(tableCols.eq(j));
+
             }
         }
 
@@ -92,6 +92,9 @@
             let maxWidth = getMaxWidth(table);
             setColsWidth(table, maxWidth);
 
+            let firstColCells = table.find('tbody tr th:first-child');
+            firstColCells.addClass('firstCol');
+
         });
 
     </script>
@@ -108,7 +111,7 @@
 
             <div class="col">
                 <div class="table-responsive">
-                    <table class="table table-bordered  table-dark table-striped table-hover">
+                    <table class="table table-dark table-striped table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
