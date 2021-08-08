@@ -97,6 +97,13 @@ $(async function () {
     Chart.defaults.font.size = 18;
 
 
+    // order legende
+    // hauteur du graphe
+    // icone inline
+    // voir si l'alerte est pertinente
+    // supprimer la disparition quand click sur légende
+
+
 
     // Configurating the plot
     const config = {
