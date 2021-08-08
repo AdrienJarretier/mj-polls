@@ -20,6 +20,7 @@
         <script src="/extLibs/chart.min.js"></script>
         <script src="/extLibs/chartjs-plugin-annotation.min.js"></script>
         <script src="/javascripts/order_candidates.js"></script>
+        <script src="/javascripts/draw_global_results.js"></script>
         <script src="/javascripts/plot_results.js"></script>
 
 
@@ -36,6 +37,10 @@
 
                 <div class="col">
 
+                    <h1 id="title"></h1>
+
+                    <br>
+
                     <div class="alert alert-success shadow-lg p-3 mb-5 rounded" role="alert" id="results_alert">
 
                         <!-- <h2 class="alert-heading" id="results_alert_header"></h2> -->
@@ -44,7 +49,12 @@
                                 style="font-size:32px;"></i><span id="results_alert_text"> </span> </p>
                     </div>
 
-                    <canvas id="results_plot" width="400" height="400"></canvas>
+                    <canvas id="results_plot" width="400" height="300"></canvas>
+
+
+                    <h1>Details per candidates</h1>
+
+                    <canvas id="results_per_candidate" width="400" height="400"></canvas>
 
 
                 </div>
