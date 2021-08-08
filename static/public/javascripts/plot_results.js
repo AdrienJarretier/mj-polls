@@ -140,6 +140,8 @@ $(async function () {
                     position: 'nearest'
                 },
                 legend: {
+                    reverse: true,
+                    onClick: (e) => e.stopPropagation(),
                     labels: {
                         font: {
                             size: 20
@@ -152,7 +154,6 @@ $(async function () {
                     bottom: 200
                 }
             },
-
             interaction: true,
             responsive: true,
             scales: {
