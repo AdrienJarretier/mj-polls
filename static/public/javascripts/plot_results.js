@@ -97,26 +97,57 @@ $(async function () {
     Chart.defaults.font.size = 18;
 
 
-    // order legende
+    /**
+     * Custom positioner
+     * @function Tooltip.positioners.myCustomPositioner
+     * @param elements {Chart.Element[]} the tooltip elements
+     * @param eventPosition {Point} the position of the event in canvas coordinates
+     * @returns {Point} the tooltip position
+     */
+    const tooltipPlugin = Chart.registry.getPlugin('tooltip');
+    tooltipPlugin.positioners.myCustomPositioner = function (elements, eventPosition) {
+        /** @type {Tooltip} */
+        return eventPosition;
+    };
+
+
     // hauteur du graphe
     // voir si l'alerte est pertinente
-    // supprimer la disparition quand click sur légende
-
 
     // Configurating the plot
     const config = {
         type: 'bar',
         data: data,
         options: {
+
+            // onClick: (e) => {
+            //     const canvasPosition = Chart.helpers.getRelativePosition(e, myChart);
+
+            //     // Substitute the appropriate scale IDs
+            //     const dataX = myChart.scales.x.getValueForPixel(canvasPosition.x);
+            //     const dataY = myChart.scales.y.getValueForPixel(canvasPosition.y);
+
+            //     // $('#modal-title').text(dataX);
+            //     // $('#myModal').modal('show');
+
+            //     // console.log(choices[dataX].name);
+            // },
+
             plugins: {
 
                 title: {
                     display: true,
-                    text: 'Vote results for poll : ' + parsedPoll.title
+                    text: 'Graphical results for poll : ' + parsedPoll.title,
+                    font: {
+                        size: 30
+                    }
                 },
                 subtitle: {
                     display: true,
-                    text: 'Number of voters : ' + VOTERS_COUNT
+                    text: 'Number of voters : ' + VOTERS_COUNT,
+                    font: {
+                        size: 25
+                    }
                 },
                 autocolors: false,
                 annotation: {
@@ -137,21 +168,22 @@ $(async function () {
                     drawTime: 'afterDatasetsDraw'
                 },
                 tooltip: {
-                    position: 'nearest'
+                    reverse: true,
+                    position: 'myCustomPositioner'
                 },
                 legend: {
                     reverse: true,
-                    onClick: (e) => e.stopPropagation(),
+                    onClick: null,
                     labels: {
                         font: {
-                            size: 20
+                            size: 22
                         }
                     }
                 }
             },
             layout: {
                 padding: {
-                    bottom: 200
+                    bottom: 0
                 }
             },
             interaction: true,
