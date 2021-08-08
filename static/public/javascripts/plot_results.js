@@ -99,7 +99,6 @@ $(async function () {
 
     // order legende
     // hauteur du graphe
-    // icone inline
     // voir si l'alerte est pertinente
     // supprimer la disparition quand click sur légende
 
