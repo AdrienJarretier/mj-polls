@@ -1,5 +1,7 @@
 .table {
     width: max-content;
+    border-collapse: separate;
+    border-spacing: 0px;
 }
 
 .position-sticky {
