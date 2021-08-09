@@ -1,52 +1,23 @@
-'use strict';
-
-const COLORS_7 = [
-    '#00935e', '#50b67f', '#9fd99f', '#effcc0', '#FBD989', '#e29e6d', '#c96251'
-].reverse();
-
-
-const COLORS_3 = [
-    "#df8568", "#f8e6b5", "#54a062"
-].reverse();
-
-const COLORS_5 = [
-    "#df8568", "#feb39a", "#f8e6b5", "#7ebc89", "#54a062"
-].reverse();
-
-function color(index, palette) {
-    return palette[index % palette.length];
-}
-
-Chart.defaults.font.size = 20;
-
-/**
- * Custom positioner
- * @function Tooltip.positioners.myCustomPositioner
- * @param elements {Chart.Element[]} the tooltip elements
- * @param eventPosition {Point} the position of the event in canvas coordinates
- * @returns {Point} the tooltip position
- */
-const tooltipPlugin = Chart.registry.getPlugin('tooltip');
-tooltipPlugin.positioners.myCustomPositioner = function (elements, eventPosition) {
-    /** @type {Tooltip} */
-    return eventPosition;
-};
-
-function draw_global_results(choices) {
+function draw_candidate_results(choices, candidate) {
 
     const VOTERS_COUNT = get_voters_count(choices);
     const majority_plot = get_majority(VOTERS_COUNT);
 
-    // Names of choices, eg candidates, in the poll
-    const labels = [];
-    for (const choice of choices) {
-        labels.push(choice.name);
-    }
+    // Name of the choice of interest
+    const labels = [candidate];
 
     // Getting possible values
+
+    const choice = choices.filter(function (el) {
+        return el.name == candidate;
+    })
+
+
+
     const values = [];
-    var choice = choices[0];
-    var votes = choice.votes;
+    var votes = choice[0].votes;
+    console.log(votes);
+
     for (const vote of Object.values(votes).sort((a, b) => b.order - a.order)) {
         values.push(vote.value);
     }
@@ -62,7 +33,6 @@ function draw_global_results(choices) {
         palette = COLORS_5;
     }
 
-
     // Creating the data structure as needed by Chartjs to be plotted
     var dataset = [];
     var cpt = 0;
@@ -73,14 +43,6 @@ function draw_global_results(choices) {
         cpt += 1;
     }
 
-    for (choice of choices.slice(-choices.length + 1)) {
-        var votes = choice.votes;
-        var cpt = 0;
-        for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
-            dataset[cpt].data.push(vote.count);
-            cpt += 1;
-        }
-    }
 
     // data to be plotted
     const data = {
@@ -96,7 +58,7 @@ function draw_global_results(choices) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Number of voters : ' + VOTERS_COUNT,
+                    text: 'The majority grade of ' + candidate + ' is ' + choice[0].majority_grade,
                     font: {
                         size: 35
                     }
@@ -109,12 +71,12 @@ function draw_global_results(choices) {
                         yMin: majority_plot,
                         yMax: majority_plot,
                         xMin: labels[0],
-                        xMax: labels[labels.length - 1],
+                        xMax: labels[0],
                         borderColor: 'rgb(240, 240, 240)',
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: 'Majority grade'
+                            content: 'Majority grade : ' + choice[0].majority_grade
                         }
                     }],
                     drawTime: 'afterDatasetsDraw'
@@ -155,7 +117,7 @@ function draw_global_results(choices) {
 
     // drawing the plot, finally
     var myChart = new Chart(
-        document.getElementById('results_plot'),
+        document.getElementById('results_per_candidate'),
         config
     );
 }

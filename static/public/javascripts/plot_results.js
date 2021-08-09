@@ -31,6 +31,8 @@ $(async function () {
     $('#title').text('Graphical results for poll : ' + parsedPoll.title);
     $('#results_alert_text').text("    " + outcome);
 
+    draw_candidate_results(choices, choices[0].name);
+
 
 });
 
