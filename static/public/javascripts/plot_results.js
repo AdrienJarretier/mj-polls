@@ -31,6 +31,45 @@ $(async function () {
     $('#title').text('Graphical results for poll : ' + parsedPoll.title);
     $('#results_alert_text').text("    " + outcome);
 
+
+
+    //     console.log(choice.name);
+    //     $('<input type="radio" class="btn-check" name="btnradio"+choice.name+" id="btnradio+choice.name+" autocomplete="off">').appendTo('#Candidate_choice');
+    // }
+
+
+    for (var choice of choices) {
+
+        const id = "radio_btn_candidate_selection_" + choice.name;
+
+        let radio_group = $('#Candidate_choice')
+
+        let checked = false;
+
+        if (choice.name == ranking[0]) {
+            checked = true;
+        }
+
+        let radio_btn = $('<input>').prop({
+            type: 'radio',
+            id: id,
+            name: "radio_btn_candidate_selection",
+            class: "btn-check",
+            autocomplete: "off",
+            checked: checked
+        });
+
+        radio_group.append(radio_btn);
+
+        radio_group.append(
+            $('<label>').prop({
+                for: id,
+                class: "btn btn-lg btn-outline-secondary"
+            }).text(choice.name)
+        )
+    }
+
+
     draw_candidate_results(choices, choices[0].name);
 
 
