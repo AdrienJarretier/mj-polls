@@ -36,13 +36,21 @@ function draw_candidate_results(choices, candidate) {
     // Creating the data structure as needed by Chartjs to be plotted
     var dataset = [];
     var cpt = 0;
+    var yMin = 0;
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
         const entry = { "label": vote.value, "data": [vote.count], "backgroundColor": color(cpt, palette), };
         dataset.push(entry);
         cpt += 1;
-    }
+        if (choice[0].majority_grade_order > vote.order)
+            yMin += vote.count;
 
+
+    }
+    const yMax = VOTERS_COUNT;
+
+
+    const percentage_above = Math.round((VOTERS_COUNT - yMin) / VOTERS_COUNT * 100, 2);
 
     // data to be plotted
     const data = {
@@ -76,9 +84,17 @@ function draw_candidate_results(choices, candidate) {
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: 'Majority grade : ' + choice[0].majority_grade
+                            content: percentage_above + ' % of voters gave ' + candidate + ' the grade ' + choice[0].majority_grade + ' or above.'
                         }
-                    }],
+                    },
+                    {
+                        type: 'box',
+                        yMin: yMin,
+                        yMax: yMax,
+                        backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                        borderColor: 'rgba(255, 255, 255, 1)'
+                    }
+                    ],
                     drawTime: 'afterDatasetsDraw'
                 },
                 tooltip: {
