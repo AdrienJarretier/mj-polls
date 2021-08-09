@@ -14,9 +14,9 @@ $(async function () {
 
 
     const VOTERS_COUNT = get_voters_count(choices);
-    // const majority_plot = get_majority(VOTERS_COUNT);
 
     // ranking candidates according to the votes
+
     const ranking = order_candidates(choices);
 
     mapOrder(choices, ranking, 'name');
@@ -32,11 +32,7 @@ $(async function () {
     $('#results_alert_text').text("    " + outcome);
 
 
-
-    //     console.log(choice.name);
-    //     $('<input type="radio" class="btn-check" name="btnradio"+choice.name+" id="btnradio+choice.name+" autocomplete="off">').appendTo('#Candidate_choice');
-    // }
-
+    // define radio buttons to select a candidate
 
     for (var choice of choices) {
 
@@ -56,7 +52,8 @@ $(async function () {
             name: "radio_btn_candidate_selection",
             class: "btn-check",
             autocomplete: "off",
-            checked: checked
+            checked: checked,
+            value: choice.name
         });
 
         radio_group.append(radio_btn);
@@ -69,8 +66,13 @@ $(async function () {
         )
     }
 
+    $('#formRadiosCandidate_selection').change(function (e) {
+        update_candidate_results(choices, $(e.target).val());
+    })
 
-    draw_candidate_results(choices, choices[0].name);
+    // graph with a focus on the chosen candidate
+
+    draw_candidate_results(choices, $("input:radio[name='radio_btn_candidate_selection']:checked").val());
 
 
 });

@@ -44,8 +44,6 @@
 
                     <div class="alert alert-success shadow-lg p-3 mb-5 rounded" role="alert" id="results_alert">
 
-                        <!-- <h2 class="alert-heading" id="results_alert_header"></h2> -->
-
                         <p class="fs-3"> <i class="bi-trophy-fill" role="img" aria-label="GitHub"
                                 style="font-size:32px;"></i><span id="results_alert_text"> </span> </p>
                     </div>
@@ -56,9 +54,11 @@
 
             </div>
 
+            <hr>
+
             <div class="row">
 
-                <h1>Details per candidates</h1>
+                <h1>Details for each candidate</h1>
 
                 <div class="col">
 
@@ -68,16 +68,18 @@
 
                     <br>
 
-                    <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group"
-                        id="Candidate_choice">
+                    <form id="formRadiosCandidate_selection">
+                        <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group"
+                            id="Candidate_choice">
 
-                    </div>
+                        </div>
+                    </form>
 
                 </div>
 
                 <div class="col">
 
-                    <canvas id="results_per_candidate" width="2" height="3"></canvas>
+                    <canvas id="results_per_candidate" width="2" height="2"></canvas>
 
                 </div>
             </div>
