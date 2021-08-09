@@ -2,7 +2,6 @@
     width: max-content;
 }
 
-.firstCol {
+.position-sticky {
     left: 0;
-    position: sticky;
 }
