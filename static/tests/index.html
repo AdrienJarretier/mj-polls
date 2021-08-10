@@ -9,21 +9,38 @@
 </head>
 
 <body>
-  <div id="mocha"></div>
 
-  <script src="/extlibs/chai/chai.js"></script>
-  <script src="/extlibs/mocha/mocha.js"></script>
+  <header>
+  </header>
 
-  <script class="mocha-init">
-    mocha.setup('bdd');
-  </script>
+  <main>
 
-  <script src="/javascripts/order_candidates.js"></script>
-  <script src="order_candidates.js"></script>
+    <div id="mocha"></div>
 
-  <script class="mocha-exec">
-    mocha.run();
-  </script>
+    <script src="/extlibs/chai/chai.js"></script>
+    <script src="/extlibs/mocha/mocha.js"></script>
+
+    <script class="mocha-init">
+      mocha.setup('bdd');
+    </script>
+
+    <script src="/javascripts/Table.js"></script>
+    <script src="/javascripts/order_candidates.js"></script>
+
+    <script>
+      'use strict';
+      const assert = chai.assert;
+    </script>
+
+    <script src="Table.js"></script>
+    <script src="order_candidates.js"></script>
+
+    <script class="mocha-exec">
+      mocha.run();
+    </script>
+
+  </main>
+
 </body>
 
 </html>

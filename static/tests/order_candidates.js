@@ -1,4 +1,5 @@
-var assert = chai.assert;
+'use strict';
+
 describe('order_candidates()', function () {
 
 
