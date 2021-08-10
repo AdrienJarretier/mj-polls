@@ -2,13 +2,13 @@
 
 describe('Table', function () {
 
-    before(function(){
+    before(function () {
 
 
 
     });
 
-    after(function () {});
+    after(function () { });
 
     describe('#addCol', function () {
 

@@ -6,6 +6,14 @@
   <title>Mocha Tests</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/extlibs/mocha/mocha.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+
+  <style>
+    #mocha-stats em {
+      color: rgb(196, 196, 196);
+    }
+  </style>
+
 </head>
 
 <body>
@@ -37,6 +45,15 @@
 
     <script class="mocha-exec">
       mocha.run();
+    </script>
+
+    <script>
+
+      let canvas = document.getElementById('mocha-stats')
+        .getElementsByTagName('canvas')[0]
+        .getContext('2d');
+
+      canvas.fillStyle = 'white';
     </script>
 
   </main>
