@@ -1,3 +1,7 @@
+const name = 'Table';
+
+import "/extLibs/jquery-3.4.1.min.js";
+
 class Table {
 
     constructor(tableElement) {
@@ -46,3 +50,5 @@ class Table {
         return this.tableElement.find('tr').length;
     }
 }
+
+export { name, Table };
