@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Manual tests - Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+
+    <script src="/extLibs/jquery-3.4.1.min.js"></script>
+
+    <script src="/javascripts/Table.js"></script>
+
+    <script>
+
+        $(() => {
+
+            let table = new Table();
+
+            table.appendTo('body');
+
+            table.addRow();
+
+            console.log(table.rowsCount);
+
+        })
+
+    </script>
+
+</head>
+
+<body>
+
+
+
+</body>
+
+</html>
