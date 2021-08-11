@@ -1,7 +1,7 @@
 class Table {
 
     constructor(tableElement) {
-        this.tableElement = tableElement;
+        this.tableElement = tableElement || $('<table>');
     }
 
     getMaxWidth() {
@@ -28,5 +28,21 @@ class Table {
             tableCols.eq(j).width(colWidth);
 
         }
+    }
+
+    addRow() {
+
+        let row = $('<tr>');
+        this.tableElement.append(row);
+    }
+
+    appendTo(selector) {
+
+        this.tableElement.appendTo(selector);
+    }
+
+    get rowsCount() {
+
+        return this.tableElement.find('tr').length;
     }
 }
