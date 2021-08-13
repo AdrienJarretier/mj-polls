@@ -193,8 +193,11 @@ function return_winner(choices, majority, for_ties) {
 
 function order_candidates_(choices, majority) {
 
-    if (choices.length == 1)
+    if (choices.length == 1) {
+        return_winner(choices, majority)
         return [choices[0].name];
+    }
+
 
     const VOTERS_COUNT = get_voters_count(choices);
 

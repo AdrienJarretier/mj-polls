@@ -35,12 +35,7 @@ $(async function () {
     else {
         Chart.defaults.font.size = 20;
         Chart.defaults.plugins.title.font.size = 28;
-
     }
-
-
-
-
 
     draw_global_results(choices);
 
