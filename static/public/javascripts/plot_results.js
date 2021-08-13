@@ -26,6 +26,22 @@ $(async function () {
     console.log(choices);
     console.log(get_majority(VOTERS_COUNT));
 
+    var width = $(window).width();
+
+    if (width < 1500) {
+        Chart.defaults.font.size = 12;
+        Chart.defaults.plugins.title.font.size = 15;
+    }
+    else {
+        Chart.defaults.font.size = 20;
+        Chart.defaults.plugins.title.font.size = 28;
+
+    }
+
+
+
+
+
     draw_global_results(choices);
 
     $('#title').text('Graphical results for poll : ' + parsedPoll.title);

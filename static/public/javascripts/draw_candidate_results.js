@@ -64,10 +64,7 @@ function draw_candidate_results(choices, candidate) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'The majority grade of ' + candidate + ' is ' + choice[0].majority_grade,
-                    font: {
-                        size: 35
-                    }
+                    text: 'The majority grade of ' + candidate + ' is ' + choice[0].majority_grade
                 },
                 autocolors: false,
                 annotation: {
@@ -82,7 +79,7 @@ function draw_candidate_results(choices, candidate) {
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: percentage_above + ' % of voters gave ' + candidate + ' the grade ' + choice[0].majority_grade + ' or above.'
+                            content: percentage_above + ' % of voters gave ' + choice[0].majority_grade + ' or above.'
                         }
                     },
                     {
@@ -101,12 +98,7 @@ function draw_candidate_results(choices, candidate) {
                 },
                 legend: {
                     reverse: true,
-                    onClick: null,
-                    labels: {
-                        font: {
-                            size: 22
-                        }
-                    }
+                    onClick: null
                 }
             },
             layout: {
@@ -115,6 +107,7 @@ function draw_candidate_results(choices, candidate) {
                 }
             },
             interaction: true,
+            aspectRatio: 1,
             responsive: true,
             scales: {
                 x: {
@@ -207,7 +200,7 @@ function update_candidate_results(choices, candidate) {
         borderWidth: 4,
         label: {
             enabled: true,
-            content: percentage_above + ' % of voters gave ' + candidate + ' the grade ' + choice[0].majority_grade + ' or above.'
+            content: percentage_above + ' % of voters gave the grade ' + choice[0].majority_grade + ' or above.'
         }
     },
     {

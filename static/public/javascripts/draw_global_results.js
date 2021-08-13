@@ -17,7 +17,7 @@ function color(index, palette) {
     return palette[index % palette.length];
 }
 
-Chart.defaults.font.size = 20;
+
 
 /**
  * Custom positioner
@@ -96,10 +96,7 @@ function draw_global_results(choices) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Number of voters : ' + VOTERS_COUNT,
-                    font: {
-                        size: 35
-                    }
+                    text: 'Number of voters : ' + VOTERS_COUNT
                 },
                 autocolors: false,
                 annotation: {
@@ -125,12 +122,7 @@ function draw_global_results(choices) {
                 },
                 legend: {
                     reverse: true,
-                    onClick: null,
-                    labels: {
-                        font: {
-                            size: 22
-                        }
-                    }
+                    onClick: null
                 }
             },
             layout: {
@@ -139,6 +131,7 @@ function draw_global_results(choices) {
                 }
             },
             interaction: true,
+            aspectRatio: 1.2,
             responsive: true,
             scales: {
                 x: {

@@ -42,13 +42,17 @@
 
                     <br>
 
-                    <div class="alert alert-success shadow-lg p-3 mb-5 rounded" role="alert" id="results_alert">
+                    <div class="alert alert-success shadow-md p-3 mb-5 rounded" role="alert" id="results_alert">
 
-                        <p class="fs-3"> <i class="bi-trophy-fill" role="img" aria-label="GitHub"
+                        <p class="fs-4"> <i class="bi-trophy-fill" role="img" aria-label="GitHub"
                                 style="font-size:32px;"></i><span id="results_alert_text"> </span> </p>
                     </div>
 
-                    <canvas id="results_plot" width="400" height="300"></canvas>
+                    <div class="col w-100 vh-80">
+
+                        <canvas id="results_plot"></canvas>
+
+                    </div>
 
                 </div>
 
@@ -59,27 +63,28 @@
             <div class="row">
 
                 <h1>Details for each candidate</h1>
+                <br>
 
-                <div class="col">
+                <div class="row">
 
                     <br>
-
-                    <h2>Select a candidate : </h2>
 
                     <br>
 
                     <form id="formRadiosCandidate_selection">
-                        <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group"
-                            id="Candidate_choice">
+                        <div class="btn-group position-relative top-50 start-50 translate-middle" role="group"
+                            aria-label="Basic radio toggle button group" id="Candidate_choice">
 
                         </div>
                     </form>
 
                 </div>
 
-                <div class="col">
+                <br>
 
-                    <canvas id="results_per_candidate" width="2" height="2"></canvas>
+                <div class="row">
+
+                    <canvas id="results_per_candidate"></canvas>
 
                 </div>
             </div>
