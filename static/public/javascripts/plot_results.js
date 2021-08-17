@@ -16,8 +16,7 @@ import draw_candidate_results from './draw_candidate_results.js';
 
 // new color palette
 
-
-$(async function () {
+export default function () {
 
     var choices = parsedPoll["choices"];
 
@@ -95,6 +94,4 @@ $(async function () {
     draw_candidate_results(choices, $("input:radio[name='radio_btn_candidate_selection']:checked").val());
 
 
-});
-
-
+};

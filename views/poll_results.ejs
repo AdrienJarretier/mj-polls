@@ -20,7 +20,11 @@
         <script src="/extLibs/chart.js/chart.js-3.5.0.min.js"></script>
         <script src="/extLibs/chart.js/chartjs-plugin-annotation-1.0.2.min.js"></script>
 
-        <script type="module" src="/javascripts/plot_results.js"></script>
+        <script type="module">
+            import plot_results from '/javascripts/plot_results.js';
+
+            $(plot_results);
+        </script>
 
 
 
