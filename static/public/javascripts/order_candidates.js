@@ -320,3 +320,8 @@ function get_ranking_and_outcome(choices) {
     return { ranking: ranking, outcome: outcome };
 
 }
+
+export {
+    get_voters_count, order_candidates,
+    mapOrder, detect_outcome, get_majority
+};
