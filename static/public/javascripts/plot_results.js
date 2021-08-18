@@ -2,19 +2,13 @@
 
 import {
     get_voters_count, order_candidates,
-    mapOrder, detect_outcome, get_majority
+    mapOrder, detect_outcome
 } from './order_candidates.js';
 
 import draw_global_results from './draw_global_results.js';
 
-import draw_candidate_results from './draw_candidate_results.js';
-
-// Palettes definition
-// const COLORS_7 = [
-//     "#df8568", "#F7A578", "#FBC789", "#FBD989", "#c1dbb3", "#7ebc89", "#54a062"
-// ];
-
-// new color palette
+import { draw_candidate_results, update_candidate_results }
+    from './draw_candidate_results.js';
 
 export default function () {
 
@@ -30,9 +24,6 @@ export default function () {
     mapOrder(choices, ranking, 'name');
 
     const outcome = detect_outcome(choices, ranking);
-
-    // console.log(choices);
-    // console.log(get_majority(VOTERS_COUNT));
 
     let width = $(window).width();
 

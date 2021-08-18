@@ -1,4 +1,4 @@
-var myChart;
+let myChart;
 
 import { get_voters_count, get_majority } from "./order_candidates.js";
 import colorPalettes from './colorPalettes.js';
@@ -159,15 +159,15 @@ function update_candidate_results(choices, candidate) {
         values.push(vote.value);
     }
 
-    var palette = COLORS_7;
+    var palette = colorPalettes.COLORS_7;
 
-    // Getting the appropriate color palette
-    if (values.length <= 3) {
-        palette = COLORS_3;
-    }
-    if (values.length <= 5 & values.length > 3) {
-        palette = COLORS_5;
-    }
+    // // Getting the appropriate color palette
+    // if (values.length <= 3) {
+    //     palette = COLORS_3;
+    // }
+    // if (values.length <= 5 & values.length > 3) {
+    //     palette = COLORS_5;
+    // }
 
     // Creating the data structure as needed by Chartjs to be plotted
     var dataset = [];
@@ -175,7 +175,7 @@ function update_candidate_results(choices, candidate) {
     var yMin = 0;
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
-        const entry = { "label": vote.value, "data": [vote.count], "backgroundColor": color(cpt, palette), };
+        const entry = { "label": vote.value, "data": [vote.count], "backgroundColor": colorPalettes.color(cpt, palette), };
         dataset.push(entry);
         cpt += 1;
         if (choice[0].majority_grade_order > vote.order)
@@ -220,4 +220,4 @@ function update_candidate_results(choices, candidate) {
     myChart.update();
 }
 
-export default draw_candidate_results;
+export { draw_candidate_results, update_candidate_results };
