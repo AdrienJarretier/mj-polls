@@ -8,19 +8,18 @@
 
             'use strict';
 
-            $(async function () {
-
-
-            });
-
             const parsedPoll = JSON.parse('<%- poll %>');
 
         </script>
 
-        <script src="/extLibs/chart.min.js"></script>
-        <script src="/extLibs/chartjs-plugin-annotation.min.js"></script>
-        <script src="/javascripts/order_candidates.js"></script>
-        <script src="/javascripts/plot_results.js"></script>
+        <script src="/extLibs/chart.js/chart.js-3.5.0.min.js"></script>
+        <script src="/extLibs/chart.js/chartjs-plugin-annotation-1.0.2.min.js"></script>
+
+        <script type="module">
+            import plot_results from '/javascripts/plot_results.js';
+
+            $(plot_results);
+        </script>
 
 
 
@@ -35,23 +34,54 @@
             <div class="row">
 
                 <div class="col">
+
+                    <h1 id="title"></h1>
+
                     <br>
 
-                    <h2 id="title"></h2>
-                    <br>
+                    <div class="alert alert-success shadow-md p-3 mb-5 rounded" role="alert" id="results_alert">
 
-                    <h3 id="subtitle"></h3>
-                    <br>
-
-                    <div class="alert alert-success" role="alert" id="results_alert">
-                        <i class="bi-trophy-fill" role="img" aria-label="GitHub" style="font-size:32px;"></i>
-                        <!-- <h2 class="alert-heading" id="results_alert_header"></h2> -->
-                        <hr>
-
-                        <h3 id="results_alert_text"></h3>
+                        <p class="fs-4"> <i class="bi-trophy-fill" role="img" aria-label="GitHub"
+                                style="font-size:32px;"></i><span id="results_alert_text"> </span> </p>
                     </div>
 
-                    <canvas id="results_plot" width="400" height="400"></canvas>
+                    <div class="col w-100 vh-80">
+
+                        <canvas id="results_plot"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="row">
+
+                <h1>Details for each candidate</h1>
+                <br>
+
+                <div class="row">
+
+                    <br>
+
+                    <br>
+
+                    <form id="formRadiosCandidate_selection">
+                        <div class="btn-group position-relative top-50 start-50 translate-middle" role="group"
+                            aria-label="Basic radio toggle button group" id="Candidate_choice">
+
+                        </div>
+                    </form>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <canvas id="results_per_candidate"></canvas>
 
                 </div>
             </div>

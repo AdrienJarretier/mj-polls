@@ -193,8 +193,11 @@ function return_winner(choices, majority, for_ties) {
 
 function order_candidates_(choices, majority) {
 
-    if (choices.length == 1)
+    if (choices.length == 1) {
+        return_winner(choices, majority)
         return [choices[0].name];
+    }
+
 
     const VOTERS_COUNT = get_voters_count(choices);
 
@@ -252,8 +255,13 @@ function detect_outcome(choices, ranking) {
     // 0 votes
 
     if (get_voters_count(choices) == 0) {
-        return "No winner : there is no vote on this poll";
+        return "No winner. There is no vote on this poll";
     }
+
+    // only one candidate
+
+    if (choices.length == 1)
+        return "The winner is " + ranking[0] + ". It was the only running candidate.";
 
     // all candidates are perfect ties
 
@@ -262,7 +270,7 @@ function detect_outcome(choices, ranking) {
         perfect_tie = perfect_tie && choice.perfect_tie;
     }
     if (perfect_tie)
-        return "No winner : all candidates are perfectly equal";
+        return "No winner. All candidates are perfectly equal";
 
     // Several winners that are perfectly equal
 
@@ -294,6 +302,26 @@ function detect_outcome(choices, ranking) {
 
     // One winner that did not have to be separated
 
-    return "The winner is " + ranking[0] + ". All other candidates had lesser majority grade."
+    return "The winner is " + ranking[0] + ". All other candidates had lesser majority grades."
 
 }
+
+// function that will be the object of unit tests
+// to test at the same time the ranking, and the
+// textual description of the outcome
+function get_ranking_and_outcome(choices) {
+
+    const ranking = order_candidates(choices);
+
+    mapOrder(choices, ranking, 'name');
+
+    const outcome = detect_outcome(choices, ranking);
+
+    return { ranking: ranking, outcome: outcome };
+
+}
+
+export {
+    get_voters_count, order_candidates,
+    mapOrder, detect_outcome, get_majority
+};
