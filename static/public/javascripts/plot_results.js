@@ -18,7 +18,7 @@ import draw_candidate_results from './draw_candidate_results.js';
 
 export default function () {
 
-    var choices = parsedPoll["choices"];
+    let choices = parsedPoll["choices"];
 
 
     const VOTERS_COUNT = get_voters_count(choices);
@@ -34,7 +34,7 @@ export default function () {
     // console.log(choices);
     // console.log(get_majority(VOTERS_COUNT));
 
-    var width = $(window).width();
+    let width = $(window).width();
 
     if (width < 1500) {
         Chart.defaults.font.size = 12;
