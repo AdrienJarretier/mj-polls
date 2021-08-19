@@ -63,6 +63,37 @@ class Table {
 
         this.tableElement.find('tbody').append(row);
         ++this._rows;
+
+        return row;
+    }
+
+    /**
+     * Set the content the cell i,j
+     * @param {number} i line of the cell
+     * @param {number} j column of the cell
+     * @param {*} content content to put in the cell
+     */
+    setContent(i, j, content) {
+        i = parseInt(i);
+        j = parseInt(j);
+
+        let rows = this._tableElement.find('tr');
+        let row = rows.eq(i);
+
+        for (let k = rows.length - 1; k < i; ++k) {
+            row = this.addRow();
+        }
+
+        for (let l = row.find('td,th').length - 1; l < j; ++l) {
+            console.log('addCol');
+            this.addCol();
+        }
+
+        console.log(row);
+
+        let cell = row.find('td, th').eq(j);
+        cell.html(content);
+
     }
 
     /**
@@ -72,6 +103,11 @@ class Table {
     addCol(header) {
 
         this._tableElement.find('thead tr').append($('<th scope="col">').text(header));
+
+        let rows = this._tableElement.find('tbody tr');
+        for (let i = 0; i < rows.length; ++i) {
+            rows.eq(i).append($('<td>'));
+        }
 
         ++this._cols;
     }
