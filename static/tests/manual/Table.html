@@ -6,7 +6,12 @@
     <title>Manual tests - Table</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+
+    <link rel="stylesheet" href="/extLibs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <script src="/extLibs/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
 
     <script type="module">
 
@@ -15,12 +20,26 @@
         $(() => {
 
             let table = new Table();
+            // let table = new Table($('#fuckTable'));
 
-            table.appendTo('body');
+            table.appendTo('#mainContainer');
 
-            table.addRow();
+            // $('body').append('table');
 
-            console.log(table.rowsCount);
+            const TOTAL_COLS = 4;
+
+            const numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+                'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eightenn', 'nineteen'];
+
+
+            table.addCol('#');
+            for (let j = 0; j < TOTAL_COLS; ++j) {
+                let n = numbers[j];
+                table.addCol(n + ' ' + n + n + n);
+            }
+
+            console.log('rows', table.rows);
+            console.log('cols', table.cols);
 
         })
 
@@ -30,6 +49,20 @@
 
 <body>
 
+
+    <div id="mainContainer" class="container">
+
+
+        <!-- <table id="existingTable">
+            <thead>
+
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table> -->
+
+    </div>
 
 
 </body>
