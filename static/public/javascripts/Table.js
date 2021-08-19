@@ -16,6 +16,9 @@ class Table {
         if (this._tableElement.find('thead tr').length == 0)
             this._tableElement.find('thead').append($('<tr>'));
 
+        if (this._tableElement.find('tbody').length == 0)
+            this._tableElement.append($('<tbody>'));
+
         this._rows = this._tableElement.find('tr').length;
         this._cols = this._tableElement.find('tr').eq(0).find('td,th').length;
     }
@@ -46,10 +49,20 @@ class Table {
         }
     }
 
+    /**
+     * add an empty row to the table
+     */
     addRow() {
 
         let row = $('<tr>');
-        this.tableElement.append(row);
+
+        row.append($('<th scope="row">'));
+        for (let j = 1; j < this.cols; ++j) {
+            row.append($('<td>'));
+        }
+
+        this.tableElement.find('tbody').append(row);
+        ++this._rows;
     }
 
     /**
@@ -60,6 +73,7 @@ class Table {
 
         this._tableElement.find('thead tr').append($('<th scope="col">').text(header));
 
+        ++this._cols;
     }
 
     appendTo(selector) {
