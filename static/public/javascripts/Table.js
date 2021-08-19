@@ -1,5 +1,3 @@
-const name = 'Table';
-
 import "/extLibs/jquery-3.4.1.min.js";
 
 class Table {
@@ -51,4 +49,4 @@ class Table {
     }
 }
 
-export { name, Table };
+export default Table;
