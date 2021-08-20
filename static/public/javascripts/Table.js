@@ -85,11 +85,8 @@ class Table {
         }
 
         for (let l = row.find('td,th').length - 1; l < j; ++l) {
-            console.log('addCol');
             this.addCol();
         }
-
-        console.log(row);
 
         let cell = row.find('td, th').eq(j);
         cell.html(content);
@@ -114,7 +111,17 @@ class Table {
 
     appendTo(selector) {
 
-        this.tableElement.appendTo(selector);
+        $('<div class="table-responsive">')
+            .append(this._tableElement)
+            .appendTo(selector);
+    }
+
+    /**
+     * Add css class to table
+     * @param {string} cssClass css class
+     */
+    addClass(cssClass) {
+        this._tableElement.addClass(cssClass);
     }
 
     get rows() {

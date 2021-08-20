@@ -22,21 +22,50 @@
             let table = new Table();
             // let table = new Table($('#fuckTable'));
 
+            table.addClass('text-center');
+
             table.appendTo('#mainContainer');
 
             // $('body').append('table');
 
-            const TOTAL_COLS = 4;
+            const TOTAL_COLS = 5;
 
-            const numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+            const numbers = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
                 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eightenn', 'nineteen'];
 
 
             table.addCol('#');
-            for (let j = 0; j < TOTAL_COLS; ++j) {
+            for (let j = 1; j < TOTAL_COLS + 1; ++j) {
                 let n = numbers[j];
                 table.addCol(n + ' ' + n + n + n);
             }
+
+
+            for (let i = 1; i < 4; ++i) {
+
+                table.setContent(i, 0, i);
+                for (let j = 1; j < TOTAL_COLS + 1; ++j) {
+
+                    let text = i + ' - ' + numbers[j];
+                    table.setContent(i, j, text);
+                }
+            }
+
+            table.setColsWidth(table.getMaxWidth());
+
+            // table.find('td, th').addClass('text-center');
+
+            // let maxWidth = getMaxWidth(table);
+            // setColsWidth(table, maxWidth);
+
+            // let firstColCells = table.find('tbody tr th:first-child');
+            // firstColCells
+            //     .addClass('position-sticky')
+            //     .addClass('firstCol');
+
+
+
+
 
             console.log('rows', table.rows);
             console.log('cols', table.cols);
@@ -50,7 +79,13 @@
 <body>
 
 
-    <div id="mainContainer" class="container">
+    <div class="container">
+
+        <div class="row">
+            <div id="mainContainer" class="col">
+
+            </div>
+        </div>
 
 
         <!-- <table id="existingTable">
