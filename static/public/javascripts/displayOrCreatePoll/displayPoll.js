@@ -6,6 +6,9 @@ import Table from '/javascripts/Table.js';
 
 function hasVoted(hasVoted, infiniteVoteEnabled) {
 
+    if (infiniteVoteEnabled == undefined)
+        throw 'infiniteVoteEnabled is undefined';
+
     if (hasVoted && !infiniteVoteEnabled) {
 
         $('#choicesForm').hide();
@@ -200,7 +203,7 @@ function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
                     .append(pollTable.responsiveDiv)
                 )
             )
-            .append($('<div class="row">')
+            .append($('<div class="row my-3">')
                 .append($('<div class="col">')
                     .append(divSubmitButton)
                 )
@@ -223,7 +226,7 @@ function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
 
                     localStorage.setItem(parsedPoll.id, true);
 
-                    hasVoted(true);
+                    hasVoted(true, infiniteVoteEnabled);
 
                 }
 
