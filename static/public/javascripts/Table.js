@@ -74,11 +74,11 @@ class Table {
     /**
      * add an empty row to the table
      */
-    addRow() {
+    addRow(header) {
 
         let row = $('<tr>');
 
-        let firstColCell = $('<th scope="row">');
+        let firstColCell = $('<th scope="row">').text(header);
         firstColCell.css(
             {
                 'left': '0',
