@@ -125,12 +125,7 @@ function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
 
     const parsedPoll = JSON.parse(pollJSONstr);
     const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
-
-    $('#title').text(parsedPoll.title);
-
     let pollTable = new Table();
-    pollTable.setUniformColsWidth(true);
-    pollTable.addClass('text-center');
 
     async function newMakeVoteForm() {
 
@@ -156,6 +151,11 @@ function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
         }
     }
 
+    $('#title').text(parsedPoll.title);
+
+    pollTable.setUniformColsWidth(true);
+    pollTable.addClass('text-center');
+
     parsedPoll.choices.sort((a, b) => a.name.localeCompare(b.name));
 
     if (!localStorage.getItem(parsedPoll.id) || infiniteVoteEnabled) {
@@ -177,9 +177,59 @@ function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
             );
     }
 
-    let colDiv = $('<div class="col">');
-    pollTable.appendTo(colDiv);
-    return colDiv;
+    // ---------------------------------------------------------------
+    // ------------------------ Submit Button ------------------------
+
+    let divSubmitButton = $('<div>')
+        .addClass('d-grid col-6 mx-auto');
+
+    let submitButton = $('<button type="submit" id="submitButton">')
+        .addClass("btn")
+        .addClass("btn-secondary")
+        .text('Vote')
+
+    divSubmitButton.append(submitButton);
+
+    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
+
+    let pollForm =
+        $('<form id="choicesForm">')
+            .append($('<div class="row">')
+                .append($('<div class="col">')
+                    .append(pollTable.responsiveDiv)
+                )
+            )
+            .append($('<div class="row">')
+                .append($('<div class="col">')
+                    .append(divSubmitButton)
+                )
+            )
+            .submit(async function (event) {
+                event.preventDefault();
+
+                let formData = parseForm($(this));
+
+                console.log(formData);
+
+                let voteOk = await post(
+                    '/polls/' + parsedPoll.id + '/vote',
+                    formData
+                );
+
+                console.log(voteOk);
+
+                if (voteOk) {
+
+                    localStorage.setItem(parsedPoll.id, true);
+
+                    hasVoted(true);
+
+                }
+
+            });;
+
+    return pollForm;
 }
 
 export default newDiplayPoll;

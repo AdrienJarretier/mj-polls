@@ -161,8 +161,7 @@ class Table {
 
     appendTo(selector) {
 
-        $('<div class="table-responsive">')
-            .append(this._tableElement)
+        this.responsiveDiv
             .appendTo(selector);
     }
 
@@ -182,6 +181,13 @@ class Table {
     get cols() {
 
         return this._cols;
+    }
+
+    get responsiveDiv() {
+
+        return $('<div class="table-responsive">')
+            .append(this._tableElement);
+
     }
 }
 
