@@ -20,7 +20,6 @@
         $(() => {
 
             let table = new Table();
-            // let table = new Table($('#fuckTable'));
 
             table.addClass('text-center');
 
@@ -40,7 +39,6 @@
                 table.addCol(n + ' ' + n + n + n);
             }
 
-
             for (let i = 1; i < 4; ++i) {
 
                 table.setContent(i, 0, i);
@@ -52,20 +50,6 @@
             }
 
             table.setColsWidth(table.getMaxWidth());
-
-            // table.find('td, th').addClass('text-center');
-
-            // let maxWidth = getMaxWidth(table);
-            // setColsWidth(table, maxWidth);
-
-            // let firstColCells = table.find('tbody tr th:first-child');
-            // firstColCells
-            //     .addClass('position-sticky')
-            //     .addClass('firstCol');
-
-
-
-
 
             console.log('rows', table.rows);
             console.log('cols', table.cols);
@@ -86,16 +70,6 @@
 
             </div>
         </div>
-
-
-        <!-- <table id="existingTable">
-            <thead>
-
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table> -->
 
     </div>
 

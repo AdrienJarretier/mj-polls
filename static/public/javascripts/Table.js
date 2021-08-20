@@ -11,6 +11,12 @@ class Table {
 
         this._tableElement = this.tableElement;
 
+        this._tableElement.css({
+            'width': 'max-content',
+            'border-collapse': 'separate',
+            'border-spacing': '0px'
+        });
+
         if (this._tableElement.find('thead').length == 0)
             this._tableElement.append($('<thead>'));
         if (this._tableElement.find('thead tr').length == 0)
@@ -56,7 +62,16 @@ class Table {
 
         let row = $('<tr>');
 
-        row.append($('<th scope="row">'));
+        let firstColCell = $('<th scope="row">');
+        firstColCell.css(
+            {
+                'left': '0',
+                'border-right': '1px solid #6c757d'
+            }
+        );
+        firstColCell.addClass('position-sticky');
+
+        row.append(firstColCell);
         for (let j = 1; j < this.cols; ++j) {
             row.append($('<td>'));
         }

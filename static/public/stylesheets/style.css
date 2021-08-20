@@ -8,14 +8,3 @@ body {
   margin-top: 40px;
   text-align: center;
 } */
-
-.table {
-  width: max-content;
-  border-collapse: separate;
-  border-spacing: 0px;
-}
-
-.firstCol {
-  left: 0;
-  border-right : 1px solid #6c757d;
-}
