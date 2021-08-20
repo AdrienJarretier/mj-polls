@@ -4,7 +4,7 @@ import Table from '/javascripts/Table.js';
 
 // console.log(pollJSONstr);
 
-function hasVoted(hasVoted) {
+function hasVoted(hasVoted, infiniteVoteEnabled) {
 
     if (hasVoted && !infiniteVoteEnabled) {
 
@@ -121,10 +121,6 @@ function oldDisplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
     }
 }
 
-
-function newMakeVoteForm(parsedPoll) {
-}
-
 function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
 
     const parsedPoll = JSON.parse(pollJSONstr);
@@ -133,20 +129,45 @@ function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
     $('#title').text(parsedPoll.title);
 
     let pollTable = new Table();
+    pollTable.setUniformColsWidth(true);
+    pollTable.addClass('text-center');
+
+    async function newMakeVoteForm() {
+
+        let grades = await get('/polls/grades');
+        grades.sort((a, b) => b.order - a.order);
+
+        pollTable.addCol();
+        for (let choice of parsedPoll.choices) {
+            pollTable.addCol(choice.name);
+        }
+        for (let i = 0; i < grades.length; ++i) {
+
+            pollTable.addRow(grades[i].value);
+
+            for (let j = 0; j < parsedPoll.choices.length; ++j) {
+
+                let radioBtn = $('<input type="radio" required>')
+                    .attr('value', grades[i].id)
+                    .attr('name', parsedPoll.choices[j].id);
+
+                pollTable.setContent(i + 1, j + 1, radioBtn);
+            }
+        }
+    }
 
     parsedPoll.choices.sort((a, b) => a.name.localeCompare(b.name));
 
-    pollTable.addCol();
-    for (let choice of parsedPoll.choices) {
-        pollTable.addCol(choice.name);
-    }
-
     if (!localStorage.getItem(parsedPoll.id) || infiniteVoteEnabled) {
         newMakeVoteForm(parsedPoll);
-        hasVoted(false);
+        hasVoted(false, infiniteVoteEnabled);
     }
     else {
-        hasVoted(true);
+        pollTable.addCol();
+        for (let choice of parsedPoll.choices) {
+            pollTable.addCol(choice.name);
+        }
+        hasVoted(true, infiniteVoteEnabled);
     }
 
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {

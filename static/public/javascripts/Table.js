@@ -72,6 +72,19 @@ class Table {
     }
 
     /**
+     * enable or disable uniformization of columns width
+     * @param {bool} enableUniformColsWidth 
+     */
+    setUniformColsWidth(enableUniformColsWidth) {
+
+        this._options.uniformColsWidth = !!enableUniformColsWidth;
+
+        if (this._options.uniformColsWidth)
+            this.setColsWidth(this.getMaxWidth());
+
+    }
+
+    /**
      * add an empty row to the table
      */
     addRow(header) {
@@ -121,6 +134,9 @@ class Table {
 
         let cell = row.find('td, th').eq(j);
         cell.html(content);
+
+        if (this._options.uniformColsWidth)
+            this.setColsWidth(this.getMaxWidth());
 
     }
 
