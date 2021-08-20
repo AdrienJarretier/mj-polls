@@ -16,7 +16,7 @@ class Table {
 
         args = args || {};
 
-        let tableElement = args.tableElement || null;
+        this._tableElement = args.tableElement || $('<table class="table table-dark table-striped table-hover mx-auto">');
 
         let options = args.options || {};
 
@@ -24,12 +24,8 @@ class Table {
             uniformColsWidth: options.uniformColsWidth || false
         };
 
-        if (tableElement && tableElement.length == 0)
+        if (this._tableElement && this._tableElement.length == 0)
             throw 'table element is empty';
-
-        this.tableElement = tableElement || $('<table class="table table-dark table-striped table-hover mx-auto">');
-
-        this._tableElement = this.tableElement;
 
         this._tableElement.css({
             'width': 'max-content',
@@ -51,7 +47,7 @@ class Table {
 
     getMaxWidth() {
 
-        let tableCols = this.tableElement.find('tr').eq(0).find('td,th');
+        let tableCols = this._tableElement.find('tr').eq(0).find('td,th');
 
         let maxW = 0;
 
@@ -66,7 +62,7 @@ class Table {
 
     setColsWidth(colWidth) {
 
-        let tableCols = this.tableElement.find('tr').eq(0).find('td,th');
+        let tableCols = this._tableElement.find('tr').eq(0).find('td,th');
 
         for (let j = 1; j < tableCols.length; ++j) {
 
@@ -96,7 +92,7 @@ class Table {
             row.append($('<td>'));
         }
 
-        this.tableElement.find('tbody').append(row);
+        this._tableElement.find('tbody').append(row);
         ++this._rows;
 
         return row;
