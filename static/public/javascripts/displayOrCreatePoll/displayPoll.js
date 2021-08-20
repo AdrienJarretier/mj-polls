@@ -2,9 +2,6 @@
 
 // console.log(pollJSONstr);
 
-const parsedPoll = JSON.parse(pollJSONstr);
-const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
-
 function hasVoted(hasVoted) {
 
     if (hasVoted && !infiniteVoteEnabled) {
@@ -18,7 +15,7 @@ function hasVoted(hasVoted) {
     }
 }
 
-async function makeVoteForm() {
+async function makeVoteForm(parsedPoll) {
 
     let grades = await get('/polls/grades');
 
@@ -87,7 +84,10 @@ async function makeVoteForm() {
 
 }
 
-$(async function () {
+export default function (pollJSONstr, infiniteVoteEnabledStr) {
+
+    const parsedPoll = JSON.parse(pollJSONstr);
+    const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
 
     $('#title').text(parsedPoll.title);
 
@@ -104,7 +104,7 @@ $(async function () {
 
     if (!localStorage.getItem(parsedPoll.id) || infiniteVoteEnabled) {
 
-        makeVoteForm();
+        makeVoteForm(parsedPoll);
         hasVoted(false);
     }
     else {
@@ -118,4 +118,4 @@ $(async function () {
             );
     }
 
-});
+};
