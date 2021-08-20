@@ -19,7 +19,9 @@
 
         $(() => {
 
-            let table = new Table();
+            let table = new Table({
+                options: { uniformColsWidth: true }
+            });
 
             table.addClass('text-center');
 
@@ -29,7 +31,7 @@
 
             const TOTAL_COLS = 5;
 
-            const numbers = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+            const numbers = ['zero', '1', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
                 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eightenn', 'nineteen'];
 
 
@@ -48,8 +50,6 @@
                     table.setContent(i, j, text);
                 }
             }
-
-            table.setColsWidth(table.getMaxWidth());
 
             console.log('rows', table.rows);
             console.log('cols', table.cols);

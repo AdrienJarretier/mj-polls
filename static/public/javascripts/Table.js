@@ -2,7 +2,27 @@ import "/extLibs/jquery-3.4.1.min.js";
 
 class Table {
 
-    constructor(tableElement) {
+    /**
+     * 
+     * @param {} args optional object containg optional properties :
+     * - {
+     * - - tableElement : a jquery table object : (null)
+     * - - options : {
+     * - - - uniformColsWidth : Bool : True to set all cols to same width (false)
+     * - - } (null)
+     * - } 
+     */
+    constructor(args) {
+
+        args = args || {};
+
+        let tableElement = args.tableElement || null;
+
+        let options = args.options || {};
+
+        this._options = {
+            uniformColsWidth: options.uniformColsWidth || false
+        };
 
         if (tableElement && tableElement.length == 0)
             throw 'table element is empty';
@@ -120,6 +140,9 @@ class Table {
         for (let i = 0; i < rows.length; ++i) {
             rows.eq(i).append($('<td>'));
         }
+
+        if (this._options.uniformColsWidth)
+            this.setColsWidth(this.getMaxWidth());
 
         ++this._cols;
     }
