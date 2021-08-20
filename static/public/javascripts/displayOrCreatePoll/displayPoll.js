@@ -1,5 +1,7 @@
 'use strict';
 
+import Table from '/javascripts/Table.js';
+
 // console.log(pollJSONstr);
 
 function hasVoted(hasVoted) {
@@ -84,7 +86,7 @@ async function makeVoteForm(parsedPoll) {
 
 }
 
-export default function (pollJSONstr, infiniteVoteEnabledStr) {
+function oldDisplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
 
     const parsedPoll = JSON.parse(pollJSONstr);
     const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
@@ -117,5 +119,46 @@ export default function (pollJSONstr, infiniteVoteEnabledStr) {
                 .text('To Results'))
             );
     }
+}
 
-};
+
+function newMakeVoteForm(parsedPoll) {
+}
+
+function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
+
+    const parsedPoll = JSON.parse(pollJSONstr);
+    const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
+
+    $('#title').text(parsedPoll.title);
+
+    let pollTable = new Table();
+
+    parsedPoll.choices.sort((a, b) => a.name.localeCompare(b.name));
+
+    pollTable.addCol();
+    for (let choice of parsedPoll.choices) {
+        pollTable.addCol(choice.name);
+    }
+
+    if (!localStorage.getItem(parsedPoll.id) || infiniteVoteEnabled) {
+        newMakeVoteForm(parsedPoll);
+        hasVoted(false);
+    }
+    else {
+        hasVoted(true);
+    }
+
+    if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
+        $('#toResultsButton')
+            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.id).append($('<button class="btn btn-secondary">')
+                .text('To Results'))
+            );
+    }
+
+    let colDiv = $('<div class="col">');
+    pollTable.appendTo(colDiv);
+    return colDiv;
+}
+
+export default newDiplayPoll;

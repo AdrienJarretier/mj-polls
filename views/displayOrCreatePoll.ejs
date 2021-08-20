@@ -53,7 +53,9 @@
               <br>
               `);
 
-              displayPoll(pollJSONstr, infiniteVoteEnabledStr);
+              $('#pollVoteArea').append(
+                displayPoll(pollJSONstr, infiniteVoteEnabledStr)
+              );
 
               break;
 
@@ -140,11 +142,8 @@
         </div>
 
 
-        <div class="row">
+        <div class="row" id="pollVoteArea">
 
-          <div class="col" id="pollTableArea">
-
-          </div>
         </div>
 
         <%- include('partials/footer.ejs') %>
