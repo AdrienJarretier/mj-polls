@@ -104,8 +104,8 @@ router.get('/createPoll', handleCreatePoll('createPoll'));
 router.get('/poll/:id', handlePollView('poll'), renderPollResults);
 
 
-router.get('/newCreate', handleCreatePoll('displayOrCreatePoll'), renderPollResults);
-router.get('/newPoll/:id', handlePollView('displayOrCreatePoll'), renderPollResults);
+router.get('/newCreate', handleCreatePoll('display_create_poll'), renderPollResults);
+router.get('/newPoll/:id', handlePollView('display_create_poll'), renderPollResults);
 
 
 router.get('/poll_results/:id', function (req, res, next) {
