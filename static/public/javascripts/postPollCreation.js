@@ -1,5 +1,4 @@
-
-$(async function () {
+export default function () {
     function toDateTime(date, time) {
 
         if (date == '' && time == '')
@@ -44,4 +43,4 @@ $(async function () {
 
         });
 
-});
+};

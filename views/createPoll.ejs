@@ -11,7 +11,12 @@
 
     <script src="/javascripts/makePollCreationForm.js"></script>
 
-    <script src="/javascripts/postPollCreation.js"></script>
+    <script type="module">
+
+      import postPollCreation from '/javascripts/postPollCreation.js';
+      postPollCreation();
+
+    </script>
 
 </head>
 

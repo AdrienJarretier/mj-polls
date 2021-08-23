@@ -124,10 +124,8 @@ function oldDisplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
     }
 }
 
-function newDiplayPoll(pollJSONstr, infiniteVoteEnabledStr) {
+function newDiplayPoll(parsedPoll, infiniteVoteEnabled) {
 
-    const parsedPoll = JSON.parse(pollJSONstr);
-    const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
     let pollTable = new Table();
 
     async function newMakeVoteForm() {

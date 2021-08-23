@@ -11,12 +11,15 @@
         
         import displayPoll from "/javascripts/poll_display_create/displayPoll.js";
 
-        const pollJSONstr = '<%- poll %>';
-        const infiniteVoteEnabledStr = '<%- infiniteVoteEnabled %>';
+        const pollJSONstr = JSON.parse('<%- poll %>');
+        const infiniteVoteEnabledStr = JSON.parse('<%- infiniteVoteEnabled %>');
 
         const PAGE_TYPE = 'displayPoll';
 
       <% } else { %>
+        
+        import makePollCreationForm from "/javascripts/poll_display_create/makePollCreationForm.js";
+        import postPollCreation from "/javascripts/postPollCreation.js";
 
         const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
 
@@ -33,6 +36,8 @@
           `);
           cloneTemplate('firstColTemplate').appendTo('#choices');
 
+          let title;
+
           switch (PAGE_TYPE) {
 
             case 'displayPoll':
@@ -44,8 +49,8 @@
               </div>
               `);
 
-              $('#titleArea').append(`
-              <h1 id="title" class="text-center mb-3"></h1>`);
+              title = $('<h1 id="title" class="text-center mb-3">');
+              $('#titleArea').append(title);
 
               $('#gradesArea').append(`
               <form id="choicesForm">
@@ -81,6 +86,8 @@
               $('#choicesArea #choices').append(`
               `);
 
+              makePollCreationForm(duplicateCheckMethods);
+
               break;
 
           }
@@ -89,17 +96,7 @@
 
     </script>
 
-
-    <% if (typeof poll !='undefined' ) { %>
-
-      <% } else { %>
-
-        <script src="/javascripts/displayOrCreatePoll/makePollCreationForm.js"></script>
-        <script src="/javascripts/postPollCreation.js"></script>
-
-        <% } %>
-
-          <!-- <style>
+    <!-- <style>
             #choices,
             #choicesForm .row {
               border: solid black 2px;

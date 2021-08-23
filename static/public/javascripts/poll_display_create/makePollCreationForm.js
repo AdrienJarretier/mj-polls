@@ -2,7 +2,7 @@
 
 var choices = 0;
 
-$(async function () {
+export default function (duplicateCheckMethods) {
 
     function addChoiceInput() {
 
@@ -81,4 +81,4 @@ $(async function () {
     $('#inputMaxDate')
         .attr('min', formatDate(new Date()));
 
-});
+};
