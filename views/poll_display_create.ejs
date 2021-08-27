@@ -11,8 +11,8 @@
         
         import { displayPoll } from "/javascripts/poll_display_create/displayPoll.js";
 
-        const pollJSONstr = JSON.parse('<%- poll %>');
-        const infiniteVoteEnabledStr = JSON.parse('<%- infiniteVoteEnabled %>');
+        const parsedPoll = JSON.parse('<%- poll %>');
+        const infiniteVoteEnabled = JSON.parse('<%- infiniteVoteEnabled %>');
 
         const PAGE_TYPE = 'displayPoll';
 
@@ -43,10 +43,10 @@
               // </div>
               // `);
 
-              title = $('<h1 id="title" class="text-center mb-3">');
+              title = $('<h1 id="title" class="text-center mb-3">').text(parsedPoll.title);
               $('#titleArea').append(title);
 
-              displayPoll(pollJSONstr, infiniteVoteEnabledStr);
+              displayPoll(parsedPoll, infiniteVoteEnabled);
 
               break;
 

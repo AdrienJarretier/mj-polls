@@ -48,8 +48,6 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
         }
     }
 
-    $('#title').text(parsedPoll.title);
-
     pollTable.setUniformColsWidth(true);
     pollTable.addClass('text-center');
 
