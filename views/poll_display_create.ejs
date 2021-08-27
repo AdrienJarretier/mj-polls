@@ -36,19 +36,17 @@
 
             case 'displayPoll':
 
-              $('main').append(`
-              <div class="alert alert-success" role="alert" id="hasVotedAlert">
-                <h2 class="alert-heading">Has voted</h2>
-                <p>You have voted on this poll.</p>
-              </div>
-              `);
+              // $('main').append(`
+              // <div class="alert alert-success" role="alert" id="hasVotedAlert">
+              //   <h2 class="alert-heading">Has voted</h2>
+              //   <p>You have voted on this poll.</p>
+              // </div>
+              // `);
 
               title = $('<h1 id="title" class="text-center mb-3">');
               $('#titleArea').append(title);
 
-              $('#pollVoteArea').append(
-                displayPoll(pollJSONstr, infiniteVoteEnabledStr)
-              );
+              displayPoll(pollJSONstr, infiniteVoteEnabledStr);
 
               break;
 
@@ -106,34 +104,39 @@
 
     <%- include('partials/header.ejs') %>
 
+      <div class="row">
+        <div class="col">
+          <main>
+
+            <div class="row">
+              <div class="col">
+                <div id="toResultsButton"></div>
+              </div>
+            </div>
+
+            <form id="choicesForm">
+
+              <div class="row">
+                <div class="col">
+                  <div id="titleArea">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col" id="pollVoteArea">
+                </div>
+              </div>
+
+            </form>
+
+          </main>
+        </div>
+      </div>
+
       <main>
 
-        <div class="row">
-
-          <div class="col">
-
-            <div id="toResultsButton"></div>
-
-          </div>
-        </div>
-
-
-        <div class="row">
-
-          <div class="col">
-            <div id="titleArea">
-            </div>
-          </div>
-        </div>
-
-
-        <div class="row">
-          <div class="col" id="pollVoteArea"></div>
-        </div>
-
         <%- include('partials/footer.ejs') %>
-
-      </main>
 
   </div>
 

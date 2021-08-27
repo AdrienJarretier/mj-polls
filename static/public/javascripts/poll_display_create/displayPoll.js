@@ -195,7 +195,7 @@ function newDiplayPoll(parsedPoll, infiniteVoteEnabled) {
     // ---------------------------------------------------------------
 
     let pollForm =
-        $('<form id="choicesForm">')
+        $('#choicesForm')
             .append($('<div class="row">')
                 .append($('<div class="col">')
                     .append(pollTable.responsiveDiv)
@@ -229,8 +229,6 @@ function newDiplayPoll(parsedPoll, infiniteVoteEnabled) {
                 }
 
             });;
-
-    return pollForm;
 }
 
 export default newDiplayPoll;
