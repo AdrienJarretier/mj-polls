@@ -32,16 +32,10 @@
       mocha.setup('bdd');
     </script>
 
-    <script src="/javascripts/Table.js"></script>
-    <script src="/javascripts/order_candidates.js"></script>
-
-    <script>
+    <script type="module">
       'use strict';
-      const assert = chai.assert;
+      import './order_candidates.js';
     </script>
-
-    <script src="Table.js"></script>
-    <script src="order_candidates.js"></script>
 
     <script class="mocha-exec">
       mocha.run();

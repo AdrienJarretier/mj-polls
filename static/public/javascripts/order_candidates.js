@@ -323,5 +323,5 @@ function get_ranking_and_outcome(choices) {
 
 export {
     get_voters_count, order_candidates,
-    mapOrder, detect_outcome, get_majority
+    mapOrder, detect_outcome, get_majority, get_ranking_and_outcome
 };
