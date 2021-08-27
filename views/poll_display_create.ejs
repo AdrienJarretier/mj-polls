@@ -9,7 +9,7 @@
 
       <% if (typeof poll != 'undefined') { %>
         
-        import displayPoll from "/javascripts/poll_display_create/displayPoll.js";
+        import { displayPoll } from "/javascripts/poll_display_create/displayPoll.js";
 
         const pollJSONstr = JSON.parse('<%- poll %>');
         const infiniteVoteEnabledStr = JSON.parse('<%- infiniteVoteEnabled %>');
