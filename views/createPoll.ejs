@@ -20,112 +20,111 @@
 
 </head>
 
-    <!-- Includes Body and container div opening tags as well as <header> -->
-    <%- include('partials/header.ejs') %>
+<!-- Includes Body and container div opening tags as well as <header> -->
+<%- include('partials/header.ejs') %>
 
-      <div class="row">
+  <div class="row">
 
-        <div class="col">
+    <div class="col">
 
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col">
+
+      <form>
+
+        <div class="row">
+          <div class="col">
+
+            <div class="mb-3">
+              <label for="title" class="form-label">Formulate your question or your sentence indicating what the
+                choices correspond to.</label>
+              <textarea id="title" name="title" type=" text" class="form-control"></textarea>
+            </div>
+
+          </div>
         </div>
-      </div>
 
-      <br>
 
-      <div class="row">
-        <div class="col">
+        <div class="row">
+          <div class="col-3">
+            <label for="inputMaxVotes" class="form-label">Max votes</label>
+            <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max" name="maxVotes" min="1">
+          </div>
 
-          <form>
 
-            <div class="row">
-              <div class="col">
+          <div class="col-1">
+          </div>
 
-                <div class="mb-3">
-                  <label for="title" class="form-label">Formulate your question or your sentence indicating what the
-                    choices correspond to.</label>
-                  <textarea id="title" name="title" type=" text" class="form-control"></textarea>
-                </div>
 
-              </div>
+          <div class="col">
+
+            <label for="inputMaxDate" class="form-label">Max Date and Time</label>
+            <div class="input-group">
+              <input id="inputMaxDate" type="date" class="form-control" aria-label="Max Date" name="maxDate">
+              <span class="input-group-text">at</span>
+              <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time" name="maxTime">
             </div>
 
 
-            <div class="row">
-              <div class="col-3">
-                <label for="inputMaxVotes" class="form-label">Max votes</label>
-                <input id="inputMaxVotes" type="number" class="form-control" placeholder="No max" name="maxVotes"
-                  min="1">
-              </div>
+          </div>
 
 
-              <div class="col-1">
-              </div>
+          <div class="row mt-3">
+            <div class="col">
 
+              <select class="form-select" name="duplicateCheckMethod" id="duplicateCheckMethod"
+                aria-label="Optional duplicate vote check method">
+                <option selected value="">Optional duplicate vote check</option>
+              </select>
 
-              <div class="col">
+            </div>
+          </div>
 
-                <label for="inputMaxDate" class="form-label">Max Date and Time</label>
-                <div class="input-group">
-                  <input id="inputMaxDate" type="date" class="form-control" aria-label="Max Date" name="maxDate">
-                  <span class="input-group-text">at</span>
-                  <input id="inputMaxtime" type="time" class="form-control" aria-label="Max Time" name="maxTime">
+          <div class="row">
+            <div class="col">
+              <fieldset id="choices" class="mt-4">
+                <legend>Choices</legend>
+
+                <div class="row">
+                  <div class="col-3">
+                    <input type="number" id="addChoice" class="form-control mb-3" min="1" value="1">
+                  </div>
+                </div>
+                <div id="choicesList">
+
                 </div>
 
+              </fieldset>
+            </div>
+          </div>
 
-              </div>
+          <div class="row mt-3">
+            <div class="col">
+              <button type="submit" id="submitButton" class="btn btn-secondary btn-lg">Create poll</button>
 
+            </div>
+          </div>
 
-              <div class="row mt-3">
-                <div class="col">
+      </form>
 
-                  <select class="form-select" name="duplicateCheckMethod" id="duplicateCheckMethod"
-                    aria-label="Optional duplicate vote check method">
-                    <option selected value="">Optional duplicate vote check</option>
-                  </select>
-
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col">
-                  <fieldset id="choices" class="mt-4">
-                    <legend>Choices</legend>
-
-                    <div class="row">
-                      <div class="col-3">
-                        <input type="number" id="addChoice" class="form-control mb-3" min="1" value="1">
-                      </div>
-                    </div>
-                    <div id="choicesList">
-
-                    </div>
-
-                  </fieldset>
-                </div>
-              </div>
-
-              <div class="row mt-3">
-                <div class="col">
-                  <button type="submit" id="submitButton" class="btn btn-secondary btn-lg">Create poll</button>
-
-                </div>
-              </div>
-
-          </form>
-
-        </div>
-      </div>
-
-      <!-- Includes Body and container closing tags as well as <footer> -->
-      <%- include('partials/footer.ejs') %>
-
-<template id="choiceInputTemplate">
-
-  <div class="my-2 input-group">
-    <label for="choice-" class="input-group-text"></label>
-    <input id="choice-" name="choices[]" type="text" class="form-control">
+    </div>
   </div>
 
-</template>
+  <!-- Includes Body and container closing tags as well as <footer> -->
+  <%- include('partials/footer.ejs') %>
+
+    <template id="choiceInputTemplate">
+
+      <div class="my-2 input-group">
+        <label for="choice-" class="input-group-text"></label>
+        <input id="choice-" name="choices[]" type="text" class="form-control">
+      </div>
+
+    </template>
 
 </html>

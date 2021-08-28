@@ -23,46 +23,46 @@
 
 </head>
 
-    <!-- Includes Body and container div opening tags as well as <header> -->
-    <%- include('partials/header.ejs') %>
+<!-- Includes Body and container div opening tags as well as <header> -->
+<%- include('partials/header.ejs') %>
 
-      <div class="row">
+  <div class="row">
 
-        <div class="col">
+    <div class="col">
 
-          <div id="toResultsButton"></div>
+      <div id="toResultsButton"></div>
 
-        </div>
+    </div>
+  </div>
+
+  <br>
+
+
+  <div class="row">
+
+    <div class="col">
+
+      <h2 id="title"></h2>
+      <br>
+
+      <div id="choices">
       </div>
+      <form id="choicesForm">
+
+      </form>
 
       <br>
 
-
-      <div class="row">
-
-        <div class="col">
-
-          <h2 id="title"></h2>
-          <br>
-
-          <div id="choices">
-          </div>
-          <form id="choicesForm">
-
-          </form>
-
-          <br>
-
-          <div class="alert alert-success" role="alert" id="hasVotedAlert">
-            <h4 class="alert-heading">Has voted</h4>
-            <p>You have voted on this poll.</p>
-          </div>
-
-
-        </div>
+      <div class="alert alert-success" role="alert" id="hasVotedAlert">
+        <h4 class="alert-heading">Has voted</h4>
+        <p>You have voted on this poll.</p>
       </div>
 
-      <!-- Includes Body and container closing tags as well as <footer> -->
-      <%- include('partials/footer.ejs') %>
+
+    </div>
+  </div>
+
+  <!-- Includes Body and container closing tags as well as <footer> -->
+  <%- include('partials/footer.ejs') %>
 
 </html>
