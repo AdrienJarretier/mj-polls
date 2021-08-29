@@ -30,8 +30,6 @@
 
         $(function () {
 
-          let title;
-
           switch (PAGE_TYPE) {
 
             case 'displayPoll':
@@ -43,7 +41,7 @@
               // </div>
               // `);
 
-              title = $('<h1 id="title" class="text-center mb-3">').text(parsedPoll.title);
+              let title = $('<h1 id="title" class="text-center mb-3">').text(parsedPoll.title);
               $('#titleArea').append(title);
 
               displayPoll(parsedPoll, infiniteVoteEnabled);
@@ -54,25 +52,35 @@
 
               $('main').wrapInner('<form>');
 
-              $('#titleArea').append(`
-              <div class="form-floating">
-                  <textarea id="title" name="title" class="form-control" placeholder="Formulate your question"></textarea>
-                  <label for="title" class="form-label">Formulate your question or your sentence indicating what the
-                    choices correspond to.</label>
-                </div>`);
+              let titleId = 'title';
+              let placeholder = 'Formulez votre question ou votre phrase.';
+              let titleTextArea = $('<div class="form-floating">')
+                .append(
+                  $('<textarea name="title" class="form-control">')
+                    .attr('id', titleId)
+                    .attr('placeholder', placeholder)
+                )
+                .append(
+                  $('<label class="form-label">')
+                    .attr('for', titleId)
+                    .text(placeholder)
+                );
 
-              $('#choicesArea #choices div').append(`
-              <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
-              `);
+              $('#titleArea').append(titleTextArea);
 
 
-              // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
-              // $('#choicesArea #choices div').addClass('form-floating');
+              // $('#choicesArea #choices div').append(`
+              // <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
+              // `);
 
-              $('#choicesArea #choices').append(`
-              `);
 
-              makePollCreationForm(duplicateCheckMethods);
+              // // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
+              // // $('#choicesArea #choices div').addClass('form-floating');
+
+              // $('#choicesArea #choices').append(`
+              // `);
+
+              // makePollCreationForm(duplicateCheckMethods);
 
               break;
 
