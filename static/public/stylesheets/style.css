@@ -4,6 +4,10 @@ body {
   color: white;
 }
 
+header img {
+  max-height: 130px;
+}
+
 /* #choicesForm button{
   margin-top: 40px;
   text-align: center;
