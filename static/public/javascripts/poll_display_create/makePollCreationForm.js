@@ -2,7 +2,7 @@
 
 var choices = 0;
 
-export default function (duplicateCheckMethods) {
+function old(duplicateCheckMethods) {
 
     function addChoiceInput() {
 
@@ -82,3 +82,12 @@ export default function (duplicateCheckMethods) {
         .attr('min', formatDate(new Date()));
 
 };
+
+function makePollCreationForm(duplicateCheckMethods) {
+
+    let pollTable = new Table();
+
+    console.log('makePollCreationForm');
+}
+
+export default makePollCreationForm;
