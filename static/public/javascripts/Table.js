@@ -183,7 +183,7 @@ class Table {
         return this._cols;
     }
 
-    get responsiveDiv() {
+    get rawResponsiveDiv() {
 
         return $('<div class="table-responsive">')
             .append(this._tableElement);

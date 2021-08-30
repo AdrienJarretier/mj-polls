@@ -92,7 +92,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
         $('#choicesForm')
             .append($('<div class="row">')
                 .append($('<div class="col">')
-                    .append(pollTable.responsiveDiv)
+                    .append(pollTable.rawResponsiveDiv)
                 )
             )
             .append($('<div class="row my-3">')

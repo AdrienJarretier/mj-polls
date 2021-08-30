@@ -8,6 +8,10 @@ header img {
   max-height: 130px;
 }
 
+.form-control, .form-control:focus {
+  background-color: rgb(67, 67, 71);
+}
+
 /* #choicesForm button{
   margin-top: 40px;
   text-align: center;

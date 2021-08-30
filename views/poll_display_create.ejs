@@ -50,8 +50,6 @@
 
             case 'createPoll':
 
-              $('main').wrapInner('<form>');
-
               let titleId = 'title';
               let placeholder = 'Formulez votre question ou votre phrase.';
               let titleTextArea = $('<div class="form-floating">')
@@ -67,6 +65,8 @@
                 );
 
               $('#titleArea').append(titleTextArea);
+
+              makePollCreationForm(duplicateCheckMethods);
 
 
               // $('#choicesArea #choices div').append(`
