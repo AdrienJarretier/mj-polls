@@ -32,6 +32,8 @@
 
         $(function () {
 
+          const titleSize = 'fs-4';
+
           switch (PAGE_TYPE) {
 
             case 'displayPoll':
@@ -43,7 +45,9 @@
               // </div>
               // `);
 
-              let title = $('<h1 id="title" class="text-center mb-3">').text(parsedPoll.title);
+              let title = $('<h1 id="title" class="mb-0">')
+                .text(parsedPoll.title)
+                .addClass(titleSize);
               $('#titleArea').append(title);
 
               displayPoll(parsedPoll, infiniteVoteEnabled);
@@ -59,6 +63,7 @@
                   $('<textarea name="title" class="form-control">')
                     .attr('id', titleId)
                     .attr('placeholder', placeholder)
+                    .addClass(titleSize)
                 )
                 .append(
                   $('<label class="form-label">')
@@ -116,7 +121,7 @@
 
         <% if (typeof poll !='undefined' ) { %>
 
-          <div class="row">
+          <div class="row mb-2">
             <div class="col">
               <div id="toResultsButton"></div>
             </div>
@@ -126,15 +131,10 @@
 
             <form id="choicesForm">
 
-              <div class="row">
+              <div class="row mb-3">
                 <div class="col">
                   <div id="titleArea">
                   </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col" id="pollVoteArea">
                 </div>
               </div>
 

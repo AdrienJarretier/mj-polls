@@ -88,7 +88,6 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
 
-    let pollForm =
         $('#choicesForm')
             .append($('<div class="row">')
                 .append($('<div class="col">')

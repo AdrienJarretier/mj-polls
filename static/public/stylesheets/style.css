@@ -10,6 +10,15 @@ header img {
 
 .form-control, .form-control:focus {
   background-color: rgb(67, 67, 71);
+  color: white;
+}
+
+#titleArea * {
+  text-align: center;
+}
+
+#titleArea textarea {
+  min-height: 90px;
 }
 
 /* #choicesForm button{
