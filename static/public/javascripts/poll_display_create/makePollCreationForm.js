@@ -1,5 +1,7 @@
 'use strict';
 
+import Table from '/javascripts/Table.js';
+
 var choices = 0;
 
 function old(duplicateCheckMethods) {
@@ -83,11 +85,46 @@ function old(duplicateCheckMethods) {
 
 };
 
-function makePollCreationForm(duplicateCheckMethods) {
+function makePollCreationForm(duplicateCheckMethods, grades) {
 
     let pollTable = new Table();
 
-    console.log('makePollCreationForm');
+    pollTable.addRow();
+    for (let i = 0; i < grades.length; ++i) {
+
+        pollTable.addRow(grades[i].value);
+    }
+
+    // ---------------------------------------------------------------
+    // ------------------------ Submit Button ------------------------
+
+    let divSubmitButton = $('<div>')
+        .addClass('d-grid col-6 mx-auto');
+
+    let submitButton = $('<button type="submit" id="submitButton">')
+        .addClass("btn")
+        .addClass("btn-secondary")
+
+    submitButton.text('Create Poll');
+
+    divSubmitButton.append(submitButton);
+
+    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
+
+    $('#choicesForm')
+        .append($('<div class="row">')
+            .append($('<div class="col">')
+                .append(pollTable.rawResponsiveDiv)
+            )
+        )
+        .append($('<div class="row my-3">')
+            .append($('<div class="col">')
+                .append(divSubmitButton)
+            )
+        )
+
+    console.log(grades);
 }
 
 export default makePollCreationForm;

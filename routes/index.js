@@ -57,13 +57,14 @@ function renderPollResults(req, res) {
 
 function handleCreatePoll(viewName) {
 
-  return function (req, res, next) {
+  return function (req, res) {
 
     const duplicateCheckMethods = db.getDuplicateCheckMethods();
 
     res.render(viewName, pageOptions('Create Poll', {
 
-      duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
+      duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods()),
+      grades: prepareObjectForFrontend(db.getGrades())
 
     }));
   }
@@ -87,7 +88,8 @@ function handlePollView(viewName) {
         res.render(viewName, pageOptions(poll.title, {
 
           poll: pollJSONstr,
-          infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
+          infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled,
+          grades: prepareObjectForFrontend(db.getGrades())
 
         }));
       }
@@ -104,7 +106,7 @@ router.get('/createPoll', handleCreatePoll('createPoll'));
 router.get('/poll/:id', handlePollView('poll'), renderPollResults);
 
 
-router.get('/newCreate', handleCreatePoll('poll_display_create'), renderPollResults);
+router.get('/newCreate', handleCreatePoll('poll_display_create'));
 router.get('/newPoll/:id', handlePollView('poll_display_create'), renderPollResults);
 
 
