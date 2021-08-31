@@ -28,72 +28,72 @@
         <% } %>
 
         const grades = JSON.parse('<%- grades %>');
-        grades.sort((a, b) => b.order - a.order);
+      grades.sort((a, b) => b.order - a.order);
 
-        $(function () {
+      $(function () {
 
-          const titleSize = 'fs-4';
+        const titleSize = 'fs-4';
 
-          switch (PAGE_TYPE) {
+        switch (PAGE_TYPE) {
 
-            case 'displayPoll':
+          case 'displayPoll':
 
-              // $('main').append(`
-              // <div class="alert alert-success" role="alert" id="hasVotedAlert">
-              //   <h2 class="alert-heading">Has voted</h2>
-              //   <p>You have voted on this poll.</p>
-              // </div>
-              // `);
+            // $('main').append(`
+            // <div class="alert alert-success" role="alert" id="hasVotedAlert">
+            //   <h2 class="alert-heading">Has voted</h2>
+            //   <p>You have voted on this poll.</p>
+            // </div>
+            // `);
 
-              let title = $('<h1 id="title" class="mb-0">')
-                .text(parsedPoll.title)
-                .addClass(titleSize);
-              $('#titleArea').append(title);
+            let title = $('<h1 id="title" class="mb-0">')
+              .text(parsedPoll.title)
+              .addClass(titleSize);
+            $('#titleArea').append(title);
 
-              displayPoll(parsedPoll, infiniteVoteEnabled);
+            displayPoll(parsedPoll, infiniteVoteEnabled);
 
-              break;
+            break;
 
-            case 'createPoll':
+          case 'createPoll':
 
-              let titleId = 'title';
-              let placeholder = 'Formulez votre question ou votre phrase.';
-              let titleTextArea = $('<div class="form-floating">')
-                .append(
-                  $('<textarea name="title" class="form-control">')
-                    .attr('id', titleId)
-                    .attr('placeholder', placeholder)
-                    .addClass(titleSize)
-                )
-                .append(
-                  $('<label class="form-label">')
-                    .attr('for', titleId)
-                    .text(placeholder)
-                );
+            let titleId = 'title';
+            let placeholder = 'Formulez votre question ou votre phrase.';
+            let titleTextArea = $('<div class="form-floating">')
+              .append(
+                $('<textarea name="title" class="form-control">')
+                  .attr('id', titleId)
+                  .attr('placeholder', placeholder)
+                  .addClass(titleSize)
+              )
+              .append(
+                $('<label class="form-label">')
+                  .attr('for', titleId)
+                  .text(placeholder)
+              );
 
-              $('#titleArea').append(titleTextArea);
+            $('#titleArea').append(titleTextArea);
 
-              makePollCreationForm(duplicateCheckMethods, grades);
-
-
-              // $('#choicesArea #choices div').append(`
-              // <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
-              // `);
+            makePollCreationForm(duplicateCheckMethods, grades);
 
 
-              // // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
-              // // $('#choicesArea #choices div').addClass('form-floating');
+            // $('#choicesArea #choices div').append(`
+            // <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
+            // `);
 
-              // $('#choicesArea #choices').append(`
-              // `);
 
-              // makePollCreationForm(duplicateCheckMethods);
+            // // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
+            // // $('#choicesArea #choices div').addClass('form-floating');
 
-              break;
+            // $('#choicesArea #choices').append(`
+            // `);
 
-          }
+            // makePollCreationForm(duplicateCheckMethods);
 
-        });
+            break;
+
+        }
+
+      });
 
     </script>
 

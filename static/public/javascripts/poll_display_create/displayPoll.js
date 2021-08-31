@@ -88,40 +88,40 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
 
-        $('#choicesForm')
-            .append($('<div class="row">')
-                .append($('<div class="col">')
-                    .append(pollTable.rawResponsiveDiv)
-                )
+    $('#choicesForm')
+        .append($('<div class="row">')
+            .append($('<div class="col">')
+                .append(pollTable.rawResponsiveDiv)
             )
-            .append($('<div class="row my-3">')
-                .append($('<div class="col">')
-                    .append(divSubmitButton)
-                )
+        )
+        .append($('<div class="row my-3">')
+            .append($('<div class="col">')
+                .append(divSubmitButton)
             )
-            .submit(async function (event) {
-                event.preventDefault();
+        )
+        .submit(async function (event) {
+            event.preventDefault();
 
-                let formData = parseForm($(this));
+            let formData = parseForm($(this));
 
-                console.log(formData);
+            console.log(formData);
 
-                let voteOk = await post(
-                    '/polls/' + parsedPoll.id + '/vote',
-                    formData
-                );
+            let voteOk = await post(
+                '/polls/' + parsedPoll.id + '/vote',
+                formData
+            );
 
-                console.log(voteOk);
+            console.log(voteOk);
 
-                if (voteOk) {
+            if (voteOk) {
 
-                    localStorage.setItem(parsedPoll.id, true);
+                localStorage.setItem(parsedPoll.id, true);
 
-                    hasVoted(true, infiniteVoteEnabled);
+                hasVoted(true, infiniteVoteEnabled);
 
-                }
+            }
 
-            });;
+        });;
 }
 
 export { displayPoll };
