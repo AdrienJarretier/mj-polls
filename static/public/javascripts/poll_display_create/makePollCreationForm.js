@@ -101,38 +101,53 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     // ---------------------------------------------------------------
     // ------------------------ Choices inputs -----------------------
 
-    let emptyInputs = 1;
-
-    let choiceInput = $(`<input id="choice-" name="choices[]" type="text"
-    class="form-control">`)
-        .data('empty', true)
-        .css('width', '50px');
-
-    choiceInput.on('input', function () {
-
-        const re = /\S+/;
-        const matched = $(this).val().match(re);
-
-        // console.log('input');
-
-        if (matched) {
-            if ($(this).data('empty')) {
-                $(this).data('empty', false);
-                emptyInputs -= 1;
-                if (emptyInputs == 0) {
-                    pollTable.addCol(choiceInput.clone(true), true);
-                    ++emptyInputs;
-                }
-            }
-        } else {
-            $(this).data('empty', true);
-            ++emptyInputs;
-            console.log('emptyInputs', emptyInputs);
+    let emptyInputs = {
+        v: 0,
+        inc() {
+            ++this.v;
+            console.log('emptyInputs', this.v);
+        },
+        dec() {
+            --this.v;
+            console.log('emptyInputs', this.v);
         }
+    };
 
-    });
+    function addChoiceInput() {
 
-    pollTable.addCol(choiceInput.clone(true), true);
+        let choiceInput = $(`<input id="choice-" name="choices[]" type="text"
+        class="form-control">`)
+            .data('empty', true)
+            .css('width', '50px');
+
+        choiceInput.on('input', function () {
+
+            const re = /\S+/;
+            const matched = $(this).val().match(re);
+
+            // console.log('input');
+
+            if (matched) {
+                if ($(this).data('empty')) {
+                    $(this).data('empty', false);
+                    emptyInputs.dec();
+                    if (emptyInputs.v == 0) {
+                        addChoiceInput();
+                    }
+                }
+            } else {
+                $(this).data('empty', true);
+                emptyInputs.inc();
+            }
+
+        });
+
+        pollTable.addCol(choiceInput.clone(true), true);
+        emptyInputs.inc();
+
+    }
+
+    addChoiceInput();
 
     // console.log('rows', pollTable.rows);
     // console.log(pollTable.cols);
