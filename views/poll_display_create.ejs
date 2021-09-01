@@ -148,12 +148,4 @@
   <!-- Includes Body and container closing tags as well as <footer> -->
   <%- include('partials/footer.ejs') %>
 
-    <% if (typeof poll=='undefined' ) { %>
-      <template id="choiceInputTemplate">
-        <div class="col">
-          <input id="choice-" name="choices[]" type="text" class="form-control">
-        </div>
-      </template>
-      <% } %>
-
 </html>

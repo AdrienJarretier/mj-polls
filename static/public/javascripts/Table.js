@@ -1,5 +1,13 @@
 import "/extLibs/jquery-3.4.1.min.js";
 
+function _prepareHeader(header = '', asHtml = false) {
+
+    if (!asHtml)
+        header = document.createTextNode(header);
+
+    return header;
+}
+
 class Table {
 
     /**
@@ -35,8 +43,6 @@ class Table {
 
         if (this._tableElement.find('thead').length == 0)
             this._tableElement.append($('<thead>'));
-        if (this._tableElement.find('thead tr').length == 0)
-            this._tableElement.find('thead').append($('<tr>'));
 
         if (this._tableElement.find('tbody').length == 0)
             this._tableElement.append($('<tbody>'));
@@ -87,11 +93,15 @@ class Table {
     /**
      * add an empty row to the table
      */
-    addRow(header) {
+    addRow(header = '', asHtml = false) {
+
+        header = _prepareHeader(header, asHtml);
 
         let row = $('<tr>');
 
-        let firstColCell = $('<th scope="row">').text(header);
+        let firstColCell = $('<th scope="row">')
+            .html(header);
+
         firstColCell.css(
             {
                 'left': '0',
@@ -105,7 +115,14 @@ class Table {
             row.append($('<td>'));
         }
 
-        this._tableElement.find('tbody').append(row);
+
+        let thead = this._tableElement.find('thead');
+        if (thead.find('tr').length == 0) {
+            thead.append(row);
+        } else {
+            this._tableElement.find('tbody').append(row);
+        }
+
         ++this._rows;
 
         return row;
@@ -144,9 +161,21 @@ class Table {
      * add a column with the given header to the table
      * @param {string} header Header of the column
      */
-    addCol(header) {
+    addCol(header = '', asHtml = false) {
 
-        this._tableElement.find('thead tr').append($('<th scope="col">').text(header));
+        header = _prepareHeader(header, asHtml);
+
+        let thead = this._tableElement.find('thead');
+        let firstRow = thead.find('tr');
+        if (firstRow.length == 0) {
+            firstRow = $('<tr>');
+            thead.append(firstRow);
+        }
+
+        firstRow.append(
+            $('<th scope="col">')
+                .html(header)
+        );
 
         let rows = this._tableElement.find('tbody tr');
         for (let i = 0; i < rows.length; ++i) {

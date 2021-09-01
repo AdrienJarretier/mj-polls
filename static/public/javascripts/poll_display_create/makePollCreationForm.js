@@ -89,11 +89,25 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
 
     let pollTable = new Table();
 
+    console.log('rows', pollTable.rows);
+    console.log('rows', pollTable.rows);
+
     pollTable.addRow();
     for (let i = 0; i < grades.length; ++i) {
 
         pollTable.addRow(grades[i].value);
     }
+
+    // ---------------------------------------------------------------
+    // ------------------------ Choices inputs -----------------------
+
+    let choiceInput = $(`<input id="choice-" name="choices[]" type="text"
+    class="form-control">`);
+
+    pollTable.addCol(choiceInput, true);
+
+    console.log('rows', pollTable.rows);
+    console.log(pollTable.cols);
 
     // ---------------------------------------------------------------
     // ------------------------ Submit Button ------------------------
@@ -123,8 +137,6 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
                 .append(divSubmitButton)
             )
         )
-
-    console.log(grades);
 }
 
 export default makePollCreationForm;
