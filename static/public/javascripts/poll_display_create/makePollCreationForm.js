@@ -89,8 +89,8 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
 
     let pollTable = new Table();
 
-    console.log('rows', pollTable.rows);
-    console.log('rows', pollTable.rows);
+    // console.log('rows', pollTable.rows);
+    // console.log('rows', pollTable.rows);
 
     pollTable.addRow();
     for (let i = 0; i < grades.length; ++i) {
@@ -101,13 +101,41 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     // ---------------------------------------------------------------
     // ------------------------ Choices inputs -----------------------
 
+    let emptyInputs = 1;
+
     let choiceInput = $(`<input id="choice-" name="choices[]" type="text"
-    class="form-control">`);
+    class="form-control">`)
+        .data('empty', true)
+        .css('width', '50px');
 
-    pollTable.addCol(choiceInput, true);
+    choiceInput.on('input', function () {
 
-    console.log('rows', pollTable.rows);
-    console.log(pollTable.cols);
+        const re = /\S+/;
+        const matched = $(this).val().match(re);
+
+        // console.log('input');
+
+        if (matched) {
+            if ($(this).data('empty')) {
+                $(this).data('empty', false);
+                emptyInputs -= 1;
+                if (emptyInputs == 0) {
+                    pollTable.addCol(choiceInput.clone(true), true);
+                    ++emptyInputs;
+                }
+            }
+        } else {
+            $(this).data('empty', true);
+            ++emptyInputs;
+            console.log('emptyInputs', emptyInputs);
+        }
+
+    });
+
+    pollTable.addCol(choiceInput.clone(true), true);
+
+    // console.log('rows', pollTable.rows);
+    // console.log(pollTable.cols);
 
     // ---------------------------------------------------------------
     // ------------------------ Submit Button ------------------------
