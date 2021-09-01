@@ -111,6 +111,8 @@ class Table {
         firstColCell.addClass('position-sticky');
 
         row.append(firstColCell);
+        if (this.cols == 0)
+            ++this._cols;
         for (let j = 1; j < this.cols; ++j) {
             row.append($('<td>'));
         }
@@ -170,6 +172,7 @@ class Table {
         if (firstRow.length == 0) {
             firstRow = $('<tr>');
             thead.append(firstRow);
+            ++this._rows;
         }
 
         firstRow.append(
@@ -188,9 +191,25 @@ class Table {
         ++this._cols;
     }
 
+    /**
+     * Remove column j
+     * @param {number} j Number of the col to remove
+     */
+    removeCol(j) {
+
+        if (j < 1)
+            throw "Can't remove header column";
+
+        let rows = this._tableElement.find('tr');
+        for (let i = 0; i < rows.length; ++i) {
+            rows.eq(i).find('td, th').eq(j).remove();
+        }
+        --this._cols;
+    }
+
     appendTo(selector) {
 
-        this.responsiveDiv
+        this.rawResponsiveDiv
             .appendTo(selector);
     }
 

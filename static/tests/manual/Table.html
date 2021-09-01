@@ -35,6 +35,9 @@
                 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eightenn', 'nineteen'];
 
 
+            console.log('rows', table.rows);
+            console.log('cols', table.cols);
+
             table.addCol('#');
             for (let j = 1; j < TOTAL_COLS + 1; ++j) {
                 let n = numbers[j];
@@ -51,6 +54,9 @@
                 }
             }
 
+            table.removeCol(1);
+
+            console.log('----------');
             console.log('rows', table.rows);
             console.log('cols', table.cols);
 
