@@ -118,7 +118,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
         let choiceInput = $(`<input id="choice-" name="choices[]" type="text"
         class="form-control">`)
             .data('empty', true)
-            .css('width', '50px');
+            .css('width', '100px');
 
         choiceInput.on('input', function () {
 
@@ -136,8 +136,10 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
                     }
                 }
             } else {
-                $(this).data('empty', true);
-                emptyInputs.inc();
+                if (!$(this).data('empty')) {
+                    $(this).data('empty', true);
+                    emptyInputs.inc();
+                }
             }
 
         });
