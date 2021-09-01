@@ -137,14 +137,15 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
                 }
             } else {
                 if (!$(this).data('empty')) {
-                    $(this).data('empty', true);
-                    emptyInputs.inc();
+                    // $(this).data('empty', true);
+                    // emptyInputs.inc();
+                    pollTable.removeCol($(this).parent().index(), 'slow');
                 }
             }
 
         });
 
-        pollTable.addCol(choiceInput.clone(true), true);
+        pollTable.addCol(choiceInput.clone(true), true, 'slow');
         emptyInputs.inc();
 
     }

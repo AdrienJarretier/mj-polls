@@ -162,10 +162,17 @@ class Table {
     /**
      * add a column with the given header to the table
      * @param {string} header Header of the column
+     * @param {boolean} asHtml if True, will NOT escape html special chars
+     * @param {number | string} duration A string or number
+     * determining how long the animation will run. Default to 0
      */
-    addCol(header = '', asHtml = false) {
+    addCol(header = '', asHtml = false, duration = 0) {
 
-        header = _prepareHeader(header, asHtml);
+        header = _prepareHeader(header, asHtml, duration);
+
+        if (!asHtml) {
+            header = $('<span>').append(header);
+        }
 
         let thead = this._tableElement.find('thead');
         let firstRow = thead.find('tr');
@@ -177,16 +184,20 @@ class Table {
 
         firstRow.append(
             $('<th scope="col">')
-                .html(header)
+                .html(header
+                )
         );
 
         let rows = this._tableElement.find('tbody tr');
         for (let i = 0; i < rows.length; ++i) {
-            rows.eq(i).append($('<td>'));
+            rows.eq(i).append(
+                $('<td>')
+            );
         }
 
         if (this._options.uniformColsWidth)
             this.setColsWidth(this.getMaxWidth());
+
 
         ++this._cols;
     }
@@ -194,15 +205,23 @@ class Table {
     /**
      * Remove column j
      * @param {number} j Number of the col to remove
+     * @param {number | string} duration A string or number
+     * determining how long the animation will run. Default to 0
      */
-    removeCol(j) {
+    removeCol(j, duration = 0) {
 
         if (j < 1)
             throw "Can't remove header column";
 
         let rows = this._tableElement.find('tr');
         for (let i = 0; i < rows.length; ++i) {
-            rows.eq(i).find('td, th').eq(j).remove();
+
+            let cell = rows.eq(i).find('td, th').eq(j);
+
+            cell.hide(duration, function () {
+                cell.remove();
+            });
+
         }
         --this._cols;
     }
