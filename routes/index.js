@@ -101,13 +101,15 @@ function handlePollView(viewName) {
   }
 }
 
-/* GET poll creation page. */
-router.get('/createPoll', handleCreatePoll('createPoll'));
-router.get('/poll/:id', handlePollView('poll'), renderPollResults);
+/* Old poll creation page. */
+router.get('/oldCreate', handleCreatePoll('createPoll'));
 
 
-router.get('/newCreate', handleCreatePoll('poll_display_create'));
-router.get('/newPoll/:id', handlePollView('poll_display_create'), renderPollResults);
+router.get('/poll/:id', handlePollView('poll_display_create'), renderPollResults);
+
+
+router.get('/createPoll', handleCreatePoll('poll_display_create'));
+
 
 
 router.get('/poll_results/:id', function (req, res, next) {
