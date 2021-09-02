@@ -190,7 +190,12 @@ module.exports = function (opts) {
             try {
                 for (let choiceName of data.choices) {
 
-                    pcs_insertsResults.push(stmt.run([pollId, choiceName]));
+                    const re = /^\s*(.+?)\s*$/;
+                    // console.log('choiceName', choiceName);
+                    const matched = choiceName.match(re);
+                    // console.log(matched);
+                    if (matched)
+                        pcs_insertsResults.push(stmt.run([pollId, matched[1]]));
                 }
             }
             catch (e) {

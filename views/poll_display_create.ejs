@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('partials/head.ejs') %>
+
+    <script type="module">
+      'use strict';
+
+      <% if (typeof poll != 'undefined') { %>
+        
+        import { displayPoll } from "/javascripts/poll_display_create/displayPoll.js";
+
+        const parsedPoll = JSON.parse('<%- poll %>');
+        const infiniteVoteEnabled = JSON.parse('<%- infiniteVoteEnabled %>');
+
+        const PAGE_TYPE = 'displayPoll';
+
+      <% } else { %>
+        
+        import makePollCreationForm from "/javascripts/poll_display_create/makePollCreationForm.js";
+
+        const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
+
+        const PAGE_TYPE = 'createPoll';
+
+        <% } %>
+
+        const grades = JSON.parse('<%- grades %>');
+      grades.sort((a, b) => b.order - a.order);
+
+      $(function () {
+
+        const titleSize = 'fs-4';
+
+        switch (PAGE_TYPE) {
+
+          case 'displayPoll':
+
+            // $('main').append(`
+            // <div class="alert alert-success" role="alert" id="hasVotedAlert">
+            //   <h2 class="alert-heading">Has voted</h2>
+            //   <p>You have voted on this poll.</p>
+            // </div>
+            // `);
+
+            let title = $('<h1 id="title" class="mb-0">')
+              .text(parsedPoll.title)
+              .addClass(titleSize);
+            $('#titleArea').append(title);
+
+            displayPoll(parsedPoll, infiniteVoteEnabled);
+
+            break;
+
+          case 'createPoll':
+
+            let titleId = 'title';
+            let placeholder = 'Formulez votre question ou votre phrase.';
+            let titleTextArea = $('<div class="form-floating">')
+              .append(
+                $('<textarea name="title" class="form-control">')
+                  .attr('id', titleId)
+                  .attr('placeholder', placeholder)
+                  .addClass(titleSize)
+              )
+              .append(
+                $('<label class="form-label">')
+                  .attr('for', titleId)
+                  .text(placeholder)
+              );
+
+            $('#titleArea').append(titleTextArea);
+
+            makePollCreationForm(duplicateCheckMethods, grades);
+
+
+            // $('#choicesArea #choices div').append(`
+            // <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
+            // `);
+
+
+            // // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
+            // // $('#choicesArea #choices div').addClass('form-floating');
+
+            // $('#choicesArea #choices').append(`
+            // `);
+
+            // makePollCreationForm(duplicateCheckMethods);
+
+            break;
+
+        }
+
+      });
+
+    </script>
+
+    <!-- <style>
+            #choices,
+            #choicesForm .row {
+              border: solid black 2px;
+              margin-top: -2px;
+              margin-bottom: -2px;
+            }
+
+            label {
+              color: black;
+            }
+          </style> -->
+
+</head>
+
+<!-- Includes Body and container div opening tags as well as <header> -->
+<%- include('partials/header.ejs') %>
+
+  <div class="row">
+    <div class="col">
+      <main>
+
+        <% if (typeof poll !='undefined' ) { %>
+
+          <div class="row">
+            <div class="col">
+              <div id="toResultsButton"></div>
+            </div>
+          </div>
+
+          <% } %>
+
+            <form id="choicesForm">
+
+              <div class="row mb-3">
+                <div class="col">
+                  <div id="titleArea">
+                  </div>
+                </div>
+              </div>
+
+            </form>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- Includes Body and container closing tags as well as <footer> -->
+  <%- include('partials/footer.ejs') %>
+
+</html>

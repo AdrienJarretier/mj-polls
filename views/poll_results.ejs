@@ -25,71 +25,65 @@
 
 </head>
 
-<body>
+<!-- Includes Body and container div opening tags as well as <header> -->
+<%- include('partials/header.ejs') %>
 
-    <div class="container">
+    <div class="row">
 
-        <%- include('partials/header.ejs') %>
+        <div class="col">
 
-            <div class="row">
+            <h1 id="title"></h1>
 
-                <div class="col">
+            <br>
 
-                    <h1 id="title"></h1>
+            <div class="alert alert-success shadow-md p-3 mb-5 rounded" role="alert" id="results_alert">
 
-                    <br>
+                <p class="fs-4"> <i class="bi-trophy-fill" role="img" aria-label="GitHub"
+                        style="font-size:32px;"></i><span id="results_alert_text"> </span> </p>
+            </div>
 
-                    <div class="alert alert-success shadow-md p-3 mb-5 rounded" role="alert" id="results_alert">
+            <div class="col w-100 vh-80">
 
-                        <p class="fs-4"> <i class="bi-trophy-fill" role="img" aria-label="GitHub"
-                                style="font-size:32px;"></i><span id="results_alert_text"> </span> </p>
-                    </div>
-
-                    <div class="col w-100 vh-80">
-
-                        <canvas id="results_plot"></canvas>
-
-                    </div>
-
-                </div>
+                <canvas id="results_plot"></canvas>
 
             </div>
 
-            <hr>
-
-            <div class="row">
-
-                <h1>Details for each candidate</h1>
-                <br>
-
-                <div class="row">
-
-                    <br>
-
-                    <br>
-
-                    <form id="formRadiosCandidate_selection">
-                        <div class="btn-group position-relative top-50 start-50 translate-middle" role="group"
-                            aria-label="Basic radio toggle button group" id="Candidate_choice">
-
-                        </div>
-                    </form>
-
-                </div>
-
-                <br>
-
-                <div class="row">
-
-                    <canvas id="results_per_candidate"></canvas>
-
-                </div>
-            </div>
-
-            <%- include('partials/footer.ejs') %>
+        </div>
 
     </div>
 
-</body>
+    <hr>
+
+    <div class="row">
+
+        <h1>Details for each candidate</h1>
+        <br>
+
+        <div class="row">
+
+            <br>
+
+            <br>
+
+            <form id="formRadiosCandidate_selection">
+                <div class="btn-group position-relative top-50 start-50 translate-middle" role="group"
+                    aria-label="Basic radio toggle button group" id="Candidate_choice">
+
+                </div>
+            </form>
+
+        </div>
+
+        <br>
+
+        <div class="row">
+
+            <canvas id="results_per_candidate"></canvas>
+
+        </div>
+    </div>
+
+    <!-- Includes Body and container closing tags as well as <footer> -->
+    <%- include('partials/footer.ejs') %>
 
 </html>

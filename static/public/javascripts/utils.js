@@ -144,3 +144,15 @@ function formatDateTime(date) {
 
     return formatDate(date) + ' ' + formatTime(date);
 }
+
+function cloneTemplate(templateId) {
+
+    return $($('#' + templateId)[0].content.cloneNode(true).children);
+}
+
+// use 'await sleep(duration);'
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}

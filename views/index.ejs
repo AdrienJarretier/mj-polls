@@ -31,27 +31,17 @@
 
 </head>
 
+<!-- Includes Body and container div opening tags as well as <header> -->
+<%- include('partials/header.ejs') %>
 
-<body>
+  <div class="row">
 
-  <div class="container">
+    <div class="col" id="mostRecent"></div>
 
-    <%- include('partials/header.ejs') %>
-
-
-
-      <br>
-
-      <div class="row">
-
-        <div class="col" id="mostRecent"></div>
-
-      </div>
-
-      <%- include('partials/footer.ejs') %>
   </div>
 
-</body>
+  <!-- Includes Body and container closing tags as well as <footer> -->
+  <%- include('partials/footer.ejs') %>
 
 </html>
 

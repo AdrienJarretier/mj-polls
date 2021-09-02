@@ -1,47 +1,45 @@
 
-$(async function () {
-    function toDateTime(date, time) {
+function toDateTime(date, time) {
 
-        if (date == '' && time == '')
-            return null;
-        else {
+    if ((!date || date == '') && (!time || time == ''))
+        return null;
+    else {
 
-            let dateObject = (date != '' ? new Date(date) : new Date());
+        let dateObject = (date != '' ? new Date(date) : new Date());
 
-            if (time != '') {
+        if (time != '') {
 
-                let timeSplit = time.split(':');
-                dateObject.setHours(timeSplit[0]);
-                dateObject.setMinutes(timeSplit[1]);
-            }
-            return formatDateTime(dateObject);
+            let timeSplit = time.split(':');
+            dateObject.setHours(timeSplit[0]);
+            dateObject.setMinutes(timeSplit[1]);
         }
+        return formatDateTime(dateObject);
     }
+}
 
-    function prepareFormData(formData) {
+function prepareFormData(formData) {
 
-        formData.max_datetime = toDateTime(formData.maxDate, formData.maxTime);
-        delete formData.maxDate;
-        delete formData.maxTime;
-    }
+    formData.max_datetime = toDateTime(formData.maxDate, formData.maxTime);
+    delete formData.maxDate;
+    delete formData.maxTime;
+}
 
-    $('form')
-        .submit(async function (event) {
-            event.preventDefault();
+async function submitHandler(event) {
+    event.preventDefault();
 
 
-            let formData = parseForm('form');
+    let formData = parseForm('form');
 
-            prepareFormData(formData);
+    prepareFormData(formData);
 
-            console.log(formData);
+    console.log(formData);
 
-            let pollId = await post('/polls', formData);
+    let pollId = await post('/polls', formData);
 
-            // console.log(pollId);
+    // console.log(pollId);
 
-            window.location.href = 'poll/' + pollId;
+    window.location.href = '/newPoll/' + pollId;
 
-        });
+}
 
-});
+export { submitHandler };

@@ -5,133 +5,12 @@
   <%- include('partials/head.ejs') %>
 
     <script>
-
       'use strict';
-
       const pollJSONstr = '<%- poll %>';
-
       const infiniteVoteEnabledStr = '<%- infiniteVoteEnabled %>';
-
-      // console.log(pollJSONstr);
-
-      const parsedPoll = JSON.parse(pollJSONstr);
-      const infiniteVoteEnabled = JSON.parse(infiniteVoteEnabledStr);
-
-      function hasVoted(hasVoted) {
-
-        if (hasVoted && !infiniteVoteEnabled) {
-
-          $('#choicesForm').hide();
-          $('#hasVotedAlert').show();
-
-        } else {
-
-          $('#hasVotedAlert').hide();
-        }
-      }
-
-      function makeChoicesRow() {
-
-      }
-
-      async function makeVoteForm() {
-
-        let grades = await get('/polls/grades');
-
-        for (let grade of grades.sort((a, b) => b.order - a.order)) {
-
-          let row = $('<div>').addClass('row');
-          row.append($('<div>').addClass('col').text(grade.value));
-
-          for (let choice of parsedPoll.choices) {
-
-            let col = $('<div>').addClass('col');
-            let radioBtn = $('<input type="radio" required>')
-              .attr('name', choice.id)
-              .attr('value', grade.id);
-
-            col.append(radioBtn);
-            row.append(col);
-
-          }
-
-          $('#choicesForm').append(row);
-
-        }
-
-        let divSubmitButton = $('<div>')
-          .addClass('d-grid col-6 mx-auto');
-
-        let submitButton = $('<button type="submit" id="submitButton">')
-          .addClass("btn")
-          .addClass("btn-secondary")
-          .text('Vote')
-
-        divSubmitButton.append(submitButton);
-
-        $('#choicesForm').append(divSubmitButton)
-          .submit(async function (event) {
-            event.preventDefault();
-
-            let formData = parseForm($(this));
-
-            console.log(formData);
-
-            let voteOk = await post(
-              '/polls/' + parsedPoll.id + '/vote',
-              formData
-            );
-
-            console.log(voteOk);
-
-            if (voteOk) {
-
-              localStorage.setItem(parsedPoll.id, true);
-
-              hasVoted(true);
-
-            }
-
-          });
-
-
-      }
-
-      $(async function () {
-
-        $('#title').text(parsedPoll.title);
-
-
-        let row = $('<div>').addClass('row');
-        row.append($('<div>').addClass('col'));
-        for (let choice of parsedPoll.choices) {
-
-          row.append($('<div>').addClass('col').text(choice.name));
-
-        }
-        $('#choices').append(row);
-
-
-        if (!localStorage.getItem(parsedPoll.id) || infiniteVoteEnabled) {
-
-          makeVoteForm();
-          hasVoted(false);
-        }
-        else {
-          hasVoted(true);
-        }
-
-        if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
-          $('#toResultsButton')
-            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.id).append($('<button class="btn btn-secondary">')
-              .text('To Results'))
-            );
-        }
-
-      });
-
-
     </script>
+
+    <script src="/javascripts/displayPoll.js"></script>
 
     <style>
       #choices .row,
@@ -144,54 +23,46 @@
 
 </head>
 
+<!-- Includes Body and container div opening tags as well as <header> -->
+<%- include('partials/header.ejs') %>
 
-<body>
+  <div class="row">
 
-  <div class="container">
+    <div class="col">
 
-    <%- include('partials/header.ejs') %>
+      <div id="toResultsButton"></div>
 
-      <div class="row">
+    </div>
+  </div>
 
-        <div class="col">
+  <br>
 
-          <div id="toResultsButton"></div>
 
-        </div>
+  <div class="row">
+
+    <div class="col">
+
+      <h2 id="title"></h2>
+      <br>
+
+      <div id="choices">
       </div>
+      <form id="choicesForm">
+
+      </form>
 
       <br>
 
-
-      <div class="row">
-
-        <div class="col">
-
-          <h2 id="title"></h2>
-          <br>
-
-          <div id="choices">
-          </div>
-          <form id="choicesForm">
-
-          </form>
-
-          <br>
-
-          <div class="alert alert-success" role="alert" id="hasVotedAlert">
-            <h4 class="alert-heading">Has voted</h4>
-            <p>You have voted on this poll.</p>
-          </div>
-
-
-        </div>
+      <div class="alert alert-success" role="alert" id="hasVotedAlert">
+        <h4 class="alert-heading">Has voted</h4>
+        <p>You have voted on this poll.</p>
       </div>
 
-      <%- include('partials/footer.ejs') %>
 
-
+    </div>
   </div>
 
-</body>
+  <!-- Includes Body and container closing tags as well as <footer> -->
+  <%- include('partials/footer.ejs') %>
 
 </html>

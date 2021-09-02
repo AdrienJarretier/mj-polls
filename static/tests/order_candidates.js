@@ -1,4 +1,8 @@
-var assert = chai.assert;
+'use strict';
+
+import { get_ranking_and_outcome } from '/javascripts/order_candidates.js';
+
+const assert = chai.assert;
 describe('Tests on get_ranking_and_outcome()', function () {
 
 
