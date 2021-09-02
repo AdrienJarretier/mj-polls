@@ -16,6 +16,7 @@
     "express": "^4.16.4",
     "http-errors": "^1.6.3",
     "morgan": "^1.9.1",
+    "random-js": "^2.1.0",
     "superagent": "^6.1.0"
   },
   "devDependencies": {
