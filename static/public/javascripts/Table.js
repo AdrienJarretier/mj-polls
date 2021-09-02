@@ -182,10 +182,11 @@ class Table {
             ++this._rows;
         }
 
+        let newCell = $('<th scope="col">')
+            .html(header);
+
         firstRow.append(
-            $('<th scope="col">')
-                .html(header
-                )
+            newCell
         );
 
         let rows = this._tableElement.find('tbody tr');
@@ -198,6 +199,9 @@ class Table {
         if (this._options.uniformColsWidth)
             this.setColsWidth(this.getMaxWidth());
 
+        header
+            .hide()
+            .show(duration);
 
         ++this._cols;
     }
@@ -218,9 +222,15 @@ class Table {
 
             let cell = rows.eq(i).find('td, th').eq(j);
 
+            let children = cell.children();
+
             cell.hide(duration, function () {
                 cell.remove();
             });
+
+            if (children.length > 0) {
+                children.hide(duration);
+            }
 
         }
         --this._cols;

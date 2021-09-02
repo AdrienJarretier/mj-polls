@@ -105,20 +105,19 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
         v: 0,
         inc() {
             ++this.v;
-            console.log('emptyInputs', this.v);
+            // console.log('emptyInputs', this.v);
         },
         dec() {
             --this.v;
-            console.log('emptyInputs', this.v);
+            // console.log('emptyInputs', this.v);
         }
     };
 
-    function addChoiceInput() {
+    function addChoiceInput(duration) {
 
-        let choiceInput = $(`<input id="choice-" name="choices[]" type="text"
+        let choiceInput = $(`<input name="choices[]" type="text"
         class="form-control">`)
-            .data('empty', true)
-            .css('width', '100px');
+            .data('empty', true);
 
         choiceInput.on('input', function () {
 
@@ -132,20 +131,20 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
                     $(this).data('empty', false);
                     emptyInputs.dec();
                     if (emptyInputs.v == 0) {
-                        addChoiceInput();
+                        addChoiceInput('slow');
                     }
                 }
             } else {
                 if (!$(this).data('empty')) {
                     // $(this).data('empty', true);
                     // emptyInputs.inc();
-                    pollTable.removeCol($(this).parent().index(), 'slow');
+                    pollTable.removeCol($(this).parent().index(), 1000);
                 }
             }
 
         });
 
-        pollTable.addCol(choiceInput.clone(true), true, 'slow');
+        pollTable.addCol(choiceInput.clone(true), true, duration);
         emptyInputs.inc();
 
     }
