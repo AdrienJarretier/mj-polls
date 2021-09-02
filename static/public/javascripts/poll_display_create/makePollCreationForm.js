@@ -1,6 +1,7 @@
 'use strict';
 
 import Table from '/javascripts/Table.js';
+import { submitHandler } from '/javascripts/postPollCreation.js';
 
 var choices = 0;
 
@@ -189,6 +190,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
                 .append(divSubmitButton)
             )
         )
+        .submit(submitHandler);
 }
 
 export default makePollCreationForm;
