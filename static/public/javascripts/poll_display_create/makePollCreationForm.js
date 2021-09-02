@@ -88,6 +88,7 @@ function old(duplicateCheckMethods) {
 function makePollCreationForm(duplicateCheckMethods, grades) {
 
     let pollTable = new Table();
+    pollTable.addClass('text-center');
 
     // console.log('rows', pollTable.rows);
     // console.log('rows', pollTable.rows);
@@ -116,7 +117,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     function addChoiceInput(duration) {
 
         let choiceInput = $(`<input name="choices[]" type="text"
-        class="form-control">`)
+        class="form-control text-center">`)
             .data('empty', true);
 
         choiceInput.on('input', function () {
@@ -146,6 +147,12 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
 
         pollTable.addCol(choiceInput.clone(true), true, duration);
         emptyInputs.inc();
+
+        for (let i = 1; i < pollTable.rows; ++i) {
+            pollTable.setContent(i, pollTable.cols - 1,
+                $('<input type="radio" disabled>')
+            );
+        }
 
     }
 
