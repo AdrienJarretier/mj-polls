@@ -38,7 +38,7 @@ async function submitHandler(event) {
 
     // console.log(pollId);
 
-    window.location.href = '/newPoll/' + pollId;
+    window.location.href = '/poll/' + pollId;
 
 }
 

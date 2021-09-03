@@ -1,5 +1,7 @@
 "use strict";
 
+const { uuid4 } = require('random-js');
+
 module.exports = function (opts) {
 
     const dbUtils = require('./dbUtils.js')({
@@ -7,6 +9,8 @@ module.exports = function (opts) {
     });
 
     const { connect, close, prepareAndExecute, executeStatement, executeLoop } = dbUtils;
+
+    const { randomUUID } = require('../common.js');
 
     exports.getPollsIds = function () {
 
@@ -165,10 +169,12 @@ module.exports = function (opts) {
                 if (ignoreConstraints)
                     db.pragma('ignore_check_constraints = 1');
 
+                const uuid = randomUUID();
+
                 let pollsInsertResult = prepareAndExecute(db, `
-                INSERT INTO polls(title, max_voters, max_datetime)
-                VALUES(?, ?, datetime(?));
-                `, 'run', [data.title, data.maxVotes, data.max_datetime]);
+                INSERT INTO polls(uuid, title, max_voters, max_datetime)
+                VALUES(?, ?, ?, datetime(?));
+                `, 'run', [uuid, data.title, data.maxVotes, data.max_datetime]);
 
                 pollId = pollsInsertResult.lastInsertRowid;
 

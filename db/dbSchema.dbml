@@ -11,6 +11,7 @@ Table "duplicate_vote_check_methods" {
 
 Table "polls" {
   "id" INTEGER [pk]
+  "uuid" CHARACTER(36) [unique]
   "title" VARCHAR(255) [not null]
   "max_voters" INTEGER
   "max_datetime" DATETIME
