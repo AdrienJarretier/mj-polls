@@ -141,9 +141,13 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
                 }
             } else {
                 if (!$(this).data('empty')) {
-                    // $(this).data('empty', true);
-                    // emptyInputs.inc();
-                    pollTable.removeCol($(this).parent().index(), 1000);
+
+                    // let inputToFocus = $(this).parent().siblings().last().children();
+                    let inputToFocus = $(this).parent().next().children();
+                    console.log(inputToFocus);
+                    inputToFocus.focus();
+                    pollTable.removeCol($(this).parent().index(), 'slow');
+                    scrollPos -= inputWidth;
                 }
             }
 
