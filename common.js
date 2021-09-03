@@ -5,7 +5,7 @@ const local_config_loader = require('env-config-prompt');
 var path = require('path');
 
 const Random = require('random-js');
-const mt = Random.MersenneTwister19937.autoSeed();
+const nodeCryptoGen = Random.nodeCrypto;
 
 const serverConfig = JSON.parse(
     fs.readFileSync(
@@ -26,5 +26,5 @@ Object.assign(serverConfig, local_config);
 exports.serverConfig = serverConfig;
 
 exports.randomUUID = function () {
-    return Random.uuid4(mt);
+    return Random.uuid4(nodeCryptoGen);
 }
