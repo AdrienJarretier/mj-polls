@@ -12,28 +12,28 @@ module.exports = function (opts) {
 
     const { randomUUID } = require('../common.js');
 
-    exports.getPollsIds = function () {
+    // exports.getPollsUUIDs = function () {
 
-        let rows = executeStatement(`
-    SELECT id
-    FROM polls;
-    `,
-            'all')
+    //     let rows = executeStatement(`
+    // SELECT uuid
+    // FROM polls;
+    // `,
+    //         'all')
 
-        let pollsIds = [];
+    //     let pollsIds = [];
 
-        for (let row of rows) {
-            pollsIds.push(row.id);
-        }
+    //     for (let row of rows) {
+    //         pollsIds.push(row.id);
+    //     }
 
-        return pollsIds;
+    //     return pollsIds;
 
-    }
+    // }
 
     // for a list of results with polls and their choices
     // returns an object with polls ids as keys
     // values are the polls with an array of their choices
-    function aggregateChoices(resultRows) {
+    function _aggregateChoices(resultRows) {
 
         let polls = {};
 
@@ -61,20 +61,34 @@ module.exports = function (opts) {
     }
 
 
-    exports.getFullPolls = function () {
+    // exports.getFullPolls = function () {
 
-        let rows = executeStatement(`
-        SELECT *
-        FROM polls
-        INNER JOIN polls_choices
-        ON polls.id=polls_choices.poll_id;
-        `,
-            'all', null, true);
+    //     let rows = executeStatement(`
+    //     SELECT *
+    //     FROM polls
+    //     INNER JOIN polls_choices
+    //     ON polls.id=polls_choices.poll_id;
+    //     `,
+    //         'all', null, true);
 
-        let polls = aggregateChoices(rows);
+    //     console.log('---------------------------------')
+    //     console.log(rows)
 
-        return polls;
+    //     let polls = _aggregateChoices(rows);
 
+    //     return polls;
+
+    // }
+
+    function _removePollId(poll, propToDel = 'id') {
+
+        for (let prop in poll) {
+            if (prop == propToDel) {
+                delete poll[prop];
+            } else if (typeof poll[prop] == 'object')
+                _removePollId(poll[prop], 'poll_id');
+        }
+        return poll;
     }
 
     function getMostRecentPolls(limit) {
@@ -91,7 +105,12 @@ module.exports = function (opts) {
         `,
             'all', [limit], true);
 
-        let polls = aggregateChoices(rows);
+        let polls = _aggregateChoices(rows);
+        for (let p of Object.values(polls)) {
+            _removePollId(p);
+        }
+        // console.log('---------------------------------')
+        // console.log(polls)
 
         return polls;
 
@@ -101,7 +120,6 @@ module.exports = function (opts) {
      * 
      * @param {number} id - poll id
      * @returns {{seeBelow}} \{
-     * - id: integer
      * - uuid: string
      * - title: string
      * - max_voters: integer | null
@@ -127,10 +145,7 @@ module.exports = function (opts) {
         `,
             'all', [id], true);
 
-        let poll = aggregateChoices(rows)[id];
-
-        for (let choice of poll.choices)
-            delete choice.poll_id;
+        let poll = _removePollId(_aggregateChoices(rows)[id]);
 
         return poll;
 
@@ -153,6 +168,23 @@ module.exports = function (opts) {
         return row.id;
     }
 
+    /**
+     * 
+     * @param {number} id - poll id
+     * @returns {number} poll uuid in db
+     */
+    function getUUIDFromId(id) {
+
+        let row = executeStatement(`
+        SELECT uuid
+        FROM polls
+        WHERE polls.id = ?;
+        `,
+            'get', [id]);
+
+        return row.uuid;
+    }
+
     /*
         data should be an object with at least those params :
         {
@@ -163,7 +195,7 @@ module.exports = function (opts) {
             duplicateCheckMethod: null or int (id of method)
         }
 
-        Returns the id of the inserted poll
+        Returns the uuid of the inserted poll
     */
     function insertPoll(data, ignoreConstraints) {
 
@@ -256,7 +288,7 @@ module.exports = function (opts) {
 
         // ----------------------------------------------------------------
 
-        return pollId;
+        return getUUIDFromId(pollId);
 
     }
 
@@ -266,15 +298,15 @@ module.exports = function (opts) {
 
     }
 
-    exports.get_poll_id_From_poll_choice_id = function (poll_choice_id) {
+    // exports.get_poll_id_From_poll_choice_id = function (poll_choice_id) {
 
-        return dbUtils.executeStatement(`
-        SELECT poll_id
-        FROM polls_choices
-        WHERE id = ?;`,
-            'get', [poll_choice_id]).poll_id;
+    //     return dbUtils.executeStatement(`
+    //     SELECT poll_id
+    //     FROM polls_choices
+    //     WHERE id = ?;`,
+    //         'get', [poll_choice_id]).poll_id;
 
-    };
+    // };
 
     /**
      * 
@@ -401,7 +433,6 @@ module.exports = function (opts) {
         }
 
         return poll;
-
     }
 
     // alternate Version, choices are the raw list from db inner join result
@@ -456,7 +487,7 @@ module.exports = function (opts) {
     function isClosed(pollId, db) {
 
         if (!Number.isInteger(parseInt(pollId)) || pollId < 1)
-            throw 'argError : pollId';
+            throw 'db.isClosed() : argError : pollId';
 
         let localDbConnection;
         if (!db) {

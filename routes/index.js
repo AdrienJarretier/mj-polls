@@ -8,17 +8,6 @@ const common = require("../common.js");
 
 const GLOBAL_OPTIONS = { globalTitle: 'MJ-Voting' }
 
-function removeSensitive(object) {
-
-  for (let prop in object) {
-    if (prop.match(/^(?:.+_)?id$/)) {
-      delete object[prop];
-    } else if (typeof object[prop] == 'object')
-      removeSensitive(object[prop]);
-  }
-  return object;
-}
-
 function prepareObjectForFrontend(object) {
 
   return JSON.stringify(object)
@@ -49,9 +38,7 @@ router.get('/', function (req, res, next) {
 
   let recentPolls = prepareObjectForFrontend(
     Object.values(
-      removeSensitive(
-        db.getMostRecentPolls(8)
-      )
+      db.getMostRecentPolls(8)
     )
   );
 
@@ -63,7 +50,7 @@ router.get('/', function (req, res, next) {
 function renderPollResults(req, res) {
 
   try {
-    let poll = db.getFullPoll(req.params.id);
+    let poll = db.getFullPoll(res.locals.pollId);
 
     const pollJSONstr = prepareObjectForFrontend(poll);
 
@@ -136,20 +123,22 @@ router.get('/createPoll', handleCreatePoll('poll_display_create'));
 
 
 
-router.get('/poll_results/:id', function (req, res, next) {
+router.get('/poll_results/:uuid', function (req, res, next) {
 
-  let poll = db.getPoll(req.params.id);
-  console.log(poll);
+  res.locals.pollId = db.getIdFromUUID(req.params.uuid);
+
+  let poll = db.getPoll(res.locals.pollId);
+  // console.log(poll);
 
   if (common.serverConfig.testConfig.testApiEnabled ||
     (poll.max_voters === null && poll.max_datetime === null)) {
 
-    renderPollResults(req, res);
+    next();
   }
   else {
     next(createError(403));
   }
-});
+}, renderPollResults);
 
 
 /* GET context page. */

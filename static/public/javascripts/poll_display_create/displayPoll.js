@@ -67,7 +67,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
 
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
-            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.id).append($('<button class="btn btn-secondary">')
+            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.uuid).append($('<button class="btn btn-secondary">')
                 .text('To Results'))
             );
     }
@@ -107,7 +107,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
             console.log(formData);
 
             let voteOk = await post(
-                '/polls/' + parsedPoll.id + '/vote',
+                '/polls/vote',
                 formData
             );
 

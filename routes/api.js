@@ -91,10 +91,18 @@ router.get('/:id', function (req, res, next) {
 
 });
 
-router.post('/:id/vote', function (req, res, next) {
+router.post('/vote', function (req, res, next) {
 
     console.log('post new vote');
-    console.log('poll id : ' + req.params.id);
+
+    const referer = req.headers.referer;
+
+    const uuid = referer.substring(referer.lastIndexOf('/') + 1);
+
+    const pollId = db.getIdFromUUID(uuid);
+
+    console.log('poll uuid : ' + uuid);
+    console.log('poll id : ' + pollId);
     console.log(req.body);
 
     try {
@@ -103,13 +111,13 @@ router.post('/:id/vote', function (req, res, next) {
             'voteSuccessfull': undefined
         };
 
-        if (db.isClosed(req.params.id)) {
+        if (db.isClosed(pollId)) {
             console.error('vote on closed poll', req.body);
             responseObject.voteSuccessfull = false;
             responseObject.cause = 'poll closed';
         }
         else {
-            responseObject.voteSuccessfull = db.addVote(req.params.id, req.body);
+            responseObject.voteSuccessfull = db.addVote(pollId, req.body);
             if (!responseObject.voteSuccessfull)
                 responseObject.cause = 'unknown';
         }
@@ -117,7 +125,9 @@ router.post('/:id/vote', function (req, res, next) {
         res.json(responseObject);
 
     } catch (e) {
-        console.error(e);
+        console.error("####################################");
+        console.error("error in api.post('/:id/vote') :", e);
+        console.error("####################################");
     }
 
 });
