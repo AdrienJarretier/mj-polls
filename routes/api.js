@@ -47,7 +47,7 @@ function makeSubroutes(routeDesc, completePath) {
     return subroutesList;
 }
 
-console.table(makeSubroutes(apiDesc));
+// console.table(makeSubroutes(apiDesc));
 
 
 router.get('/grades', function (req, res, next) {
@@ -71,11 +71,11 @@ router.get('/full', function (req, res, next) {
 
 });
 
-router.get('/recent', function (req, res, next) {
+// router.get('/recent', function (req, res, next) {
 
-    res.json(db.getMostRecentPolls(8));
+//     res.json(db.getMostRecentPolls(8));
 
-});
+// });
 
 
 router.get('/:id/vote', function (req, res, next) {

@@ -8,6 +8,17 @@ const common = require("../common.js");
 
 const GLOBAL_OPTIONS = { globalTitle: 'MJ-Voting' }
 
+function removeSensitive(object) {
+
+  for (let prop in object) {
+    if (prop.match(/^(?:.+_)?id$/)) {
+      delete object[prop];
+    } else if (typeof object[prop] == 'object')
+      removeSensitive(object[prop]);
+  }
+  return object;
+}
+
 function prepareObjectForFrontend(object) {
 
   return JSON.stringify(object)
@@ -35,7 +46,18 @@ function pageOptions(pageTitle, otherOptions) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', pageOptions());
+
+  let recentPolls = prepareObjectForFrontend(
+    Object.values(
+      removeSensitive(
+        db.getMostRecentPolls(8)
+      )
+    )
+  );
+
+  res.render('index', pageOptions('', {
+    recentPolls: recentPolls
+  }));
 });
 
 function renderPollResults(req, res) {
@@ -75,13 +97,15 @@ function handlePollView(viewName) {
   return function (req, res, next) {
     try {
 
+      let pollId = db.getIdFromUUID(req.params.uuid);
+
       // if poll is closed, send results, else send poll choices;
-      if (db.isClosed(req.params.id)) {
+      if (db.isClosed(pollId)) {
         next();
       }
       else {
 
-        let poll = db.getPoll(req.params.id);
+        let poll = db.getPoll(pollId);
 
         const pollJSONstr = prepareObjectForFrontend(poll);
 
@@ -105,7 +129,7 @@ function handlePollView(viewName) {
 router.get('/oldCreate', handleCreatePoll('createPoll'));
 
 
-router.get('/poll/:id', handlePollView('poll_display_create'), renderPollResults);
+router.get('/poll/:uuid', handlePollView('poll_display_create'), renderPollResults);
 
 
 router.get('/createPoll', handleCreatePoll('poll_display_create'));

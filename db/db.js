@@ -102,6 +102,7 @@ module.exports = function (opts) {
      * @param {number} id - poll id
      * @returns {{seeBelow}} \{
      * - id: integer
+     * - uuid: string
      * - title: string
      * - max_voters: integer | null
      * - max_datetime: string | null
@@ -133,6 +134,23 @@ module.exports = function (opts) {
 
         return poll;
 
+    }
+
+    /**
+     * 
+     * @param {number} uuid - poll uuid
+     * @returns {number} poll id in db
+     */
+    function getIdFromUUID(uuid) {
+
+        let row = executeStatement(`
+        SELECT id
+        FROM polls
+        WHERE polls.uuid = ?;
+        `,
+            'get', [uuid]);
+
+        return row.id;
     }
 
     /*
@@ -532,6 +550,7 @@ module.exports = function (opts) {
 
     return {
         getPoll: getPoll,
+        getIdFromUUID: getIdFromUUID,
         insertPoll: insertPoll,
         addVote: addVote,
         isClosed: isClosed,

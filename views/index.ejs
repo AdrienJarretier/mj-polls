@@ -7,11 +7,12 @@
     <script>
       'use strict';
 
-      $(async function () {
+      $(function () {
 
-        let recentPolls = await get('/polls/recent');
+        const recentPolls = JSON.parse('<%- recentPolls %>');
+        console.log(recentPolls);
 
-        for (const [id, poll] of Object.entries(recentPolls)) {
+        for (const poll of recentPolls) {
 
           let pollPreviewTemplate = $('#pollPreviewTemplate')[0].content;
 
@@ -19,7 +20,7 @@
 
           let href = cloned.children().children().children().attr('href');
 
-          cloned.children().children().children().attr('href', href + poll.id);
+          cloned.children().children().children().attr('href', href + poll.uuid);
           cloned.children().children().children().text(poll.title);
 
           $('#mostRecent').append(cloned);
