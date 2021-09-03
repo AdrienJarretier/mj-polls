@@ -115,6 +115,9 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
         }
     };
 
+    let scrollPos = 0;
+    let inputWidth = 0;
+
     function addChoiceInput(duration) {
 
         let choiceInput = $(`<input name="choices[]" type="text"
@@ -146,7 +149,11 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
 
         });
 
-        pollTable.addCol(choiceInput.clone(true), true, duration);
+        let clonedInput = choiceInput.clone(true);
+        pollTable.addCol(clonedInput, true, duration);
+        pollTable.rawTable.parent().animate({ scrollLeft: scrollPos }, 'slow');
+        scrollPos += inputWidth;
+
         emptyInputs.inc();
 
         for (let i = 1; i < pollTable.rows; ++i) {
@@ -155,9 +162,8 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             );
         }
 
+        return clonedInput;
     }
-
-    addChoiceInput();
 
     // console.log('rows', pollTable.rows);
     // console.log(pollTable.cols);
@@ -191,6 +197,9 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             )
         )
         .submit(submitHandler);
+
+    inputWidth = Math.ceil(parseFloat(addChoiceInput().parent().css("width")));
+    console.log(inputWidth);
 }
 
 export default makePollCreationForm;

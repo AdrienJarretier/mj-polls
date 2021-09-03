@@ -168,42 +168,46 @@ class Table {
      */
     addCol(header = '', asHtml = false, duration = 0) {
 
-        header = _prepareHeader(header, asHtml, duration);
+        return new Promise((res) => {
 
-        if (!asHtml) {
-            header = $('<span>').append(header);
-        }
+            header = _prepareHeader(header, asHtml);
 
-        let thead = this._tableElement.find('thead');
-        let firstRow = thead.find('tr');
-        if (firstRow.length == 0) {
-            firstRow = $('<tr>');
-            thead.append(firstRow);
-            ++this._rows;
-        }
+            if (!asHtml) {
+                header = $('<span>').append(header);
+            }
 
-        let newCell = $('<th scope="col">')
-            .html(header);
+            let thead = this._tableElement.find('thead');
+            let firstRow = thead.find('tr');
+            if (firstRow.length == 0) {
+                firstRow = $('<tr>');
+                thead.append(firstRow);
+                ++this._rows;
+            }
 
-        firstRow.append(
-            newCell
-        );
+            let newCell = $('<th scope="col">')
+                .html(header);
 
-        let rows = this._tableElement.find('tbody tr');
-        for (let i = 0; i < rows.length; ++i) {
-            rows.eq(i).append(
-                $('<td>')
+            firstRow.append(
+                newCell
             );
-        }
 
-        if (this._options.uniformColsWidth)
-            this.setColsWidth(this.getMaxWidth());
+            let rows = this._tableElement.find('tbody tr');
+            for (let i = 0; i < rows.length; ++i) {
+                rows.eq(i).append(
+                    $('<td>')
+                );
+            }
 
-        header
-            .hide()
-            .show(duration);
+            if (this._options.uniformColsWidth)
+                this.setColsWidth(this.getMaxWidth());
 
-        ++this._cols;
+            header
+                .hide()
+                .show(duration, res);
+
+            ++this._cols;
+
+        });
     }
 
     /**
@@ -265,6 +269,10 @@ class Table {
         return $('<div class="table-responsive">')
             .append(this._tableElement);
 
+    }
+
+    get rawTable() {
+        return this._tableElement;
     }
 }
 
