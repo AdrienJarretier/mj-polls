@@ -221,6 +221,14 @@ module.exports = function (opts) {
 
                 const uuid = randomUUID();
 
+                // if title is not only whitespaces
+                const re = /^\s*(\S.*?\S?)\s*$/;
+                const matched = data.title.match(re);
+
+                if(!matched) {
+                    throw 'db.insertPoll() : title is only whitespaces';
+                }
+
                 let pollsInsertResult = prepareAndExecute(db, `
                 INSERT INTO polls(uuid, title, max_voters, max_datetime)
                 VALUES(?, ?, ?, datetime(?));
@@ -247,9 +255,7 @@ module.exports = function (opts) {
                 for (let choiceName of data.choices) {
 
                     const re = /^\s*(\S.*?\S?)\s*$/;
-                    // console.log('choiceName', choiceName);
                     const matched = choiceName.match(re);
-                    // console.log(matched);
                     if (matched) {
                         pcs_insertsResults.push(stmt.run([pollId, matched[1]]));
                     }
