@@ -141,7 +141,7 @@ router.post('/', function (req, res, next) {
         res.json(lastInsertRowid);
     }
     catch (e) {
-        console.log(e);
+        console.error(e);
     }
 
 });

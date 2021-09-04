@@ -246,17 +246,20 @@ module.exports = function (opts) {
             try {
                 for (let choiceName of data.choices) {
 
-                    const re = /^\s*(.+?)\s*$/;
+                    const re = /^\s*(\S.*?\S?)\s*$/;
                     // console.log('choiceName', choiceName);
                     const matched = choiceName.match(re);
                     // console.log(matched);
-                    if (matched)
+                    if (matched) {
                         pcs_insertsResults.push(stmt.run([pollId, matched[1]]));
+                    }
+                }
+                if (pcs_insertsResults.length == 0) {
+                    throw 'db.insertPoll() : no choices inserted, aborting poll insertion';
                 }
             }
             catch (e) {
-                console.error('error inserting into polls_choices');
-                console.error(e);
+                throw e;
             }
 
             // ----------------------------------------------------------------
