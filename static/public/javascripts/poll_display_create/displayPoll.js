@@ -91,6 +91,28 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     // ---------------------------------------------------------------
     // ------------------------ Share Button ------------------------
 
+    const windowLocOrig = window.location.origin;
+
+    const popoverContent = $('<div class="container">')
+        .append(
+            $('<div class="row">')
+                .append(
+                    $('<div class="col p-0">')
+                        .append(
+                            $('<input type="text" class="form-control form-control-sm">')
+                                .attr('readonly', true)
+                                .val(windowLocOrig + '/poll/' + parsedPoll.uuid)
+                        )
+                )
+                .append(
+                    $('<div class="col pe-0 text-end copyBtnCol">')
+                        .append($('<button type="button" class="btn btn-secondary btn-sm popoverButton">')
+                            .text('copier'))
+                )
+        );
+
+    console.log(popoverContent);
+
     let divShareButton = $('<div>')
         .addClass('d-grid col-6');
 
@@ -98,7 +120,6 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
         .attr('data-bs-container', 'body')
         .attr('data-bs-toggle', 'popover')
         .attr('data-bs-placement', 'bottom')
-        .attr('data-bs-content', 'Bottom popover')
         .addClass("btn")
         .addClass("btn-secondary")
         .append($(`<i class="bi-share-fill" role="img"
@@ -109,7 +130,12 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     divShareButton.append(shareButton);
 
     new bootstrap.Popover(shareButton, {
-        container: 'body'
+        container: 'body',
+        html: true,
+        sanitize: false,
+        content: popoverContent,
+        offset: [-200, 8],
+        customClass: 'sharePopover'
     })
 
     // ---------------------------------------------------------------
