@@ -94,23 +94,25 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     const windowLocOrig = window.location.origin;
     const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.uuid
 
+    const copiedSuccessAlert = $(`<div class="alert alert-primary p-0 mb-0" role="alert">`)
+        .text('Lien copié !')
+        .fadeTo(0, 0);
+
     const linkInput = $('<input type="text" class="form-control form-control-sm">')
         .attr('readonly', true)
         .val(pollLinkVal)
         .select(function () {
-            navigator.clipboard.writeText(pollLinkVal).then(function () {
-                console.log('copied');
-            }, function () {
-                console.error('select event on pollLinkVal error');
-            });
         });
 
     const popoverContent = $('<div class="container">')
         .append(
-            $('<div class="row' >)
-                .append($(`<div class="alert alert-primary" role="alert">
-            A simple primary alert—check it out!
-          </div>`))
+            $('<div class="row">')
+                .append(
+                    $('<div class="col p-0">')
+                        .append(copiedSuccessAlert)
+                )
+        )
+        .append(
             $('<div class="row">')
                 .append(
                     $('<div class="col p-0">')
@@ -124,6 +126,13 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
                             .text('copier')
                             .click(function () {
                                 linkInput.select();
+                                navigator.clipboard.writeText(pollLinkVal).then(function () {
+                                    copiedSuccessAlert
+                                        .fadeTo(0, 1)
+                                        .fadeTo(2400, 0);
+                                }, function () {
+                                    console.error('select event on pollLinkVal error');
+                                });
                             })
                         )
                 )
