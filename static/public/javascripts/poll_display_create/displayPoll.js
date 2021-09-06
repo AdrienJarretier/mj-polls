@@ -92,26 +92,42 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     // ------------------------ Share Button ------------------------
 
     const windowLocOrig = window.location.origin;
+    const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.uuid
+
+    const linkInput = $('<input type="text" class="form-control form-control-sm">')
+        .attr('readonly', true)
+        .val(pollLinkVal)
+        .select(function () {
+            navigator.clipboard.writeText(pollLinkVal).then(function () {
+                console.log('copied');
+            }, function () {
+                console.error('select event on pollLinkVal error');
+            });
+        });
 
     const popoverContent = $('<div class="container">')
         .append(
+            $('<div class="row' >)
+                .append($(`<div class="alert alert-primary" role="alert">
+            A simple primary alert—check it out!
+          </div>`))
             $('<div class="row">')
                 .append(
                     $('<div class="col p-0">')
                         .append(
-                            $('<input type="text" class="form-control form-control-sm">')
-                                .attr('readonly', true)
-                                .val(windowLocOrig + '/poll/' + parsedPoll.uuid)
+                            linkInput
                         )
                 )
                 .append(
                     $('<div class="col pe-0 text-end copyBtnCol">')
                         .append($('<button type="button" class="btn btn-secondary btn-sm popoverButton">')
-                            .text('copier'))
+                            .text('copier')
+                            .click(function () {
+                                linkInput.select();
+                            })
+                        )
                 )
         );
-
-    console.log(popoverContent);
 
     let divShareButton = $('<div>')
         .addClass('d-grid col-6');
