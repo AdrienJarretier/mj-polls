@@ -76,14 +76,41 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     // ------------------------ Submit Button ------------------------
 
     let divSubmitButton = $('<div>')
-        .addClass('d-grid col-6 mx-auto');
+        .addClass('d-grid mx-auto');
 
     let submitButton = $('<button type="submit" id="submitButton">')
         .addClass("btn")
-        .addClass("btn-secondary")
+        .addClass("btn-success")
         .text('Vote')
 
     divSubmitButton.append(submitButton);
+
+    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
+
+    // ---------------------------------------------------------------
+    // ------------------------ Share Button ------------------------
+
+    let divShareButton = $('<div>')
+        .addClass('d-grid col-6');
+
+    let shareButton = $(`<button type="button" id="shareButton">`)
+        .attr('data-bs-container', 'body')
+        .attr('data-bs-toggle', 'popover')
+        .attr('data-bs-placement', 'bottom')
+        .attr('data-bs-content', 'Bottom popover')
+        .addClass("btn")
+        .addClass("btn-secondary")
+        .append($(`<i class="bi-share-fill" role="img"
+        aria-label="Share">
+        </i>`))
+        .append('Partager')
+
+    divShareButton.append(shareButton);
+
+    new bootstrap.Popover(shareButton, {
+        container: 'body'
+    })
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
@@ -96,7 +123,12 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
         )
         .append($('<div class="row my-3">')
             .append($('<div class="col">')
+            )
+            .append($('<div class="col-4">')
                 .append(divSubmitButton)
+            )
+            .append($('<div class="col text-end">')
+                .append(shareButton)
             )
         )
         .submit(async function (event) {
@@ -121,7 +153,8 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
 
             }
 
-        });;
+        });
+
 }
 
 export { displayPoll };
