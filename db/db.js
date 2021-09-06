@@ -195,7 +195,7 @@ module.exports = function (opts) {
             duplicateCheckMethod: null or int (id of method)
         }
 
-        Returns the uuid of the inserted poll
+        Returns the id of the inserted poll
     */
     function insertPoll(data, ignoreConstraints) {
 
@@ -297,7 +297,7 @@ module.exports = function (opts) {
 
         // ----------------------------------------------------------------
 
-        return getUUIDFromId(pollId);
+        return pollId;
 
     }
 
@@ -591,6 +591,7 @@ module.exports = function (opts) {
     return {
         getPoll: getPoll,
         getIdFromUUID: getIdFromUUID,
+        getUUIDFromId: getUUIDFromId,
         insertPoll: insertPoll,
         addVote: addVote,
         isClosed: isClosed,

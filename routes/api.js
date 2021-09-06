@@ -137,8 +137,9 @@ router.post('/', function (req, res, next) {
     console.log('post new poll');
     console.log(req.body);
     try {
-        let lastInsertRowid = db.insertPoll(req.body);
-        res.json(lastInsertRowid);
+        const lastInsertRowid = db.insertPoll(req.body);
+        const pollUuid = db.getUUIDFromId(lastInsertRowid);
+        res.json(pollUuid);
     }
     catch (e) {
         console.error(e);
