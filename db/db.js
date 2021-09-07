@@ -1,7 +1,5 @@
 "use strict";
 
-const { uuid4 } = require('random-js');
-
 module.exports = function (opts) {
 
     const dbUtils = require('./dbUtils.js')({
@@ -109,8 +107,6 @@ module.exports = function (opts) {
         for (let p of Object.values(polls)) {
             _removePollId(p);
         }
-        // console.log('---------------------------------')
-        // console.log(polls)
 
         return polls;
 
