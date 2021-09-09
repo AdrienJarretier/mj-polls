@@ -203,7 +203,6 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
         .submit(submitHandler);
 
     inputWidth = Math.ceil(parseFloat(addChoiceInput().parent().css("width")));
-    console.log(inputWidth);
 }
 
 export default makePollCreationForm;

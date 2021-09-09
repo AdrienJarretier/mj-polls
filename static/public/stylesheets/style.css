@@ -47,26 +47,9 @@ header img {
   .sharePopover {
     width: 100%;
   } 
- /* .sharePopover input {
-    width: 100%;
-  }*/
+
   .sharePopover .copyBtnCol {
     flex: auto;
   } 
 }
 
-/* .sharePopover .copyBtnCol {
-
-  width: fit-content;
-
-} */
-
-/* .sharePopover .form-control {
-  display: inline-block;
-  width: 450px;
-} */
-
-/* #choicesForm button{
-  margin-top: 40px;
-  text-align: center;
-} */

@@ -187,14 +187,10 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
 
             let formData = parseForm($(this));
 
-            console.log(formData);
-
             let voteOk = await post(
-                '/polls/vote',
+                '/polls/' + parsedPoll.uuid + '/vote',
                 formData
             );
-
-            console.log(voteOk);
 
             if (voteOk) {
 

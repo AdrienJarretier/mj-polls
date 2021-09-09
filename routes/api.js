@@ -91,13 +91,11 @@ router.get('/:id', function (req, res, next) {
 
 });
 
-router.post('/vote', function (req, res, next) {
+router.post('/:uuid/vote', function (req, res, next) {
 
     console.log('post new vote');
 
-    const referer = req.headers.referer;
-
-    const uuid = referer.substring(referer.lastIndexOf('/') + 1);
+    const uuid = req.params.uuid;
 
     const pollId = db.getIdFromUUID(uuid);
 
