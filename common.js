@@ -31,9 +31,9 @@ exports.randomUUID = function () {
 
 exports.localesMsgs = {}
 
-for (let locale of ['fr-FR']) {
+for (const locale of ['fr-FR']) {
     exports.localesMsgs[locale] = {};
-    for (let part of ['client', 'db']) {
+    for (const part of ['client', 'db']) {
 
         const filename = path.resolve(
             __dirname, 'locales', locale, part + '.json'
@@ -41,10 +41,12 @@ for (let locale of ['fr-FR']) {
         console.log(filename);
 
         exports.localesMsgs[locale][part] =
-            fs.readFileSync(
-                filename
-                ,
-                'utf8'
+            JSON.parse(
+                fs.readFileSync(
+                    filename
+                    ,
+                    'utf8'
+                )
             );
     }
 }

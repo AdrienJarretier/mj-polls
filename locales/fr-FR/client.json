@@ -1,33 +1,33 @@
 {
-    "header": {
-      "nav": {
-        "home": "Accueil",
-        "createPoll": "Créer un sondage",
-        "context": "Constexte"
-      }
-    },
-    "createPoll": {
-      "submitButton": "Créer le sondage"
-    },
-    "Context": {
-      "title": "",
-      "content": {
-        "sections": [
-          {
-            "title": "",
-            "content": ""
-          }
-        ]
-      }
-    },
-    "poll": {
-      "toResultsLink": "Voir les résultats",
-      "submitButton": "Voter"
-    },
-    "pollResults": {
-      "title": "Résultats graphiques pour le sondage",
-      "winnerAlert": "Le gagnant est ",
-      "toResultsLink": "Voir les résultats",
-      "submitButton": "Voter"
+  "header": {
+    "nav": [
+      "Accueil",
+      "Créer un sondage",
+      "Contexte"
+    ]
+  },
+  "createPoll": {
+    "submitButton": "Créer le sondage"
+  },
+  "Context": {
+    "title": "",
+    "content": {
+      "sections": [
+        {
+          "title": "",
+          "content": ""
+        }
+      ]
     }
+  },
+  "poll": {
+    "toResultsLink": "Voir les résultats",
+    "submitButton": "Voter"
+  },
+  "pollResults": {
+    "title": "Résultats graphiques pour le sondage",
+    "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
+    "toResultsLink": "Voir les résultats",
+    "submitButton": "Voter"
   }
+}

@@ -10,7 +10,7 @@ import draw_global_results from './draw_global_results.js';
 import { draw_candidate_results, update_candidate_results }
     from './draw_candidate_results.js';
 
-export default function () {
+export default function (localeMsgs) {
 
     let choices = parsedPoll["choices"];
 
@@ -23,7 +23,7 @@ export default function () {
 
     mapOrder(choices, ranking, 'name');
 
-    const outcome = detect_outcome(choices, ranking);
+    const outcome = detect_outcome(choices, ranking, localeMsgs);
 
     let width = $(window).width();
 
@@ -38,7 +38,7 @@ export default function () {
 
     draw_global_results(choices);
 
-    $('#title').text('Graphical results for poll : ' + parsedPoll.title);
+    $('#title').text(localeMsgs.get('title') + ' : ' + parsedPoll.title);
     $('#results_alert_text').text("    " + outcome);
 
 
