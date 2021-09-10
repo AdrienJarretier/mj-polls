@@ -28,3 +28,23 @@ exports.serverConfig = serverConfig;
 exports.randomUUID = function () {
     return Random.uuid4(nodeCryptoGen);
 }
+
+exports.localesMsgs = {}
+
+for (let locale of ['fr-FR']) {
+    exports.localesMsgs[locale] = {};
+    for (let part of ['client', 'db']) {
+
+        const filename = path.resolve(
+            __dirname, 'locales', locale, part + '.json'
+        );
+        console.log(filename);
+
+        exports.localesMsgs[locale][part] =
+            fs.readFileSync(
+                filename
+                ,
+                'utf8'
+            );
+    }
+}
