@@ -18,14 +18,31 @@ class LocaleMessages {
     }
 
     get(key, params) {
-        try {
-            const value = this._msgs[key];
-            console.log(typeof value);
-            const evaluatedVal = eval('`' + value + '`');
-            console.log(evaluatedVal);
-            return evaluatedVal
+
+        function _eval(value) {
+            // console.log('typeof value:')
+            // console.log(typeof value)
+            if (typeof value == 'object') {
+                for (const key in value) {
+                    // console.log('key :', key)
+                    value[key] = _eval(value[key]);
+                }
+                return value;
+            } else {
+                return eval('`' + value + '`');
+            }
         }
-        catch(e) {
+
+        try {
+            const rawVal = this._msgs[key];
+            // console.log('rawVal:')
+            // console.log(rawVal)
+            const evaluated = _eval(rawVal);
+            // console.log('evaluated:')
+            // console.log(evaluated)
+            return evaluated
+        }
+        catch (e) {
             console.error(this._msgs[key]);
             console.error(e);
         }

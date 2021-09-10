@@ -7,9 +7,8 @@
 
         $(function () {
 
-            let nav = $('nav a')
+            let nav = $('nav a button')
             const navMsgs = localeMsgs.get('nav');
-            console.log(navMsgs);
             for (let i = 0; i < nav.length; ++i) {
 
                 nav.eq(i).text(navMsgs[i]);
