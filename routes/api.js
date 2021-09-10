@@ -103,11 +103,12 @@ router.post('/:uuid/vote', function (req, res, next) {
     console.log('poll id : ' + pollId);
     console.log(req.body);
 
-    try {
+    let responseObject = {
+        'voteSuccessfull': false,
+        'cause': 'unknown'
+    };
 
-        let responseObject = {
-            'voteSuccessfull': undefined
-        };
+    try {
 
         if (db.isClosed(pollId)) {
             console.error('vote on closed poll', req.body);
@@ -116,8 +117,8 @@ router.post('/:uuid/vote', function (req, res, next) {
         }
         else {
             responseObject.voteSuccessfull = db.addVote(pollId, req.body);
-            if (!responseObject.voteSuccessfull)
-                responseObject.cause = 'unknown';
+            if (responseObject.voteSuccessfull)
+                delete responseObject.cause;
         }
 
         res.json(responseObject);
@@ -126,6 +127,8 @@ router.post('/:uuid/vote', function (req, res, next) {
         console.error("####################################");
         console.error("error in api.post('/:id/vote') :", e);
         console.error("####################################");
+
+        res.json(responseObject);
     }
 
 });

@@ -187,17 +187,27 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
 
             let formData = parseForm($(this));
 
-            let voteOk = await post(
+            let postResponse = await post(
                 '/polls/' + parsedPoll.uuid + '/vote',
                 formData
             );
 
-            if (voteOk) {
+            submitButton.attr('disabled', true);
+            $(this).find('input').attr('disabled', true);
+            if (postResponse.voteSuccessfull) {
+
+                submitButton.text('Vote validé !');
 
                 localStorage.setItem(parsedPoll.id, true);
 
                 hasVoted(true, infiniteVoteEnabled);
 
+            } else {
+
+                submitButton.text('Erreur');
+                submitButton
+                    .removeClass("btn-success")
+                    .addClass("btn-danger");
             }
 
         });
