@@ -67,7 +67,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
 
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
-            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.id).append($('<button class="btn btn-secondary">')
+            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.uuid).append($('<button class="btn btn-secondary">')
                 .text('To Results'))
             );
     }
@@ -76,14 +76,92 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     // ------------------------ Submit Button ------------------------
 
     let divSubmitButton = $('<div>')
-        .addClass('d-grid col-6 mx-auto');
+        .addClass('d-grid mx-auto');
 
     let submitButton = $('<button type="submit" id="submitButton">')
         .addClass("btn")
-        .addClass("btn-secondary")
+        .addClass("btn-success")
         .text('Vote')
 
     divSubmitButton.append(submitButton);
+
+    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
+
+    // ---------------------------------------------------------------
+    // ------------------------ Share Button ------------------------
+
+    const windowLocOrig = window.location.origin;
+    const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.uuid
+
+    const copiedSuccessAlert = $(`<div class="alert alert-primary p-0 mb-0" role="alert">`)
+        .text('Lien copié !')
+        .fadeTo(0, 0);
+
+    const linkInput = $('<input type="text" class="form-control form-control-sm">')
+        .attr('readonly', true)
+        .val(pollLinkVal)
+        .select(function () {
+        });
+
+    const popoverContent = $('<div class="container">')
+        .append(
+            $('<div class="row">')
+                .append(
+                    $('<div class="col p-0">')
+                        .append(copiedSuccessAlert)
+                )
+        )
+        .append(
+            $('<div class="row">')
+                .append(
+                    $('<div class="col p-0">')
+                        .append(
+                            linkInput
+                        )
+                )
+                .append(
+                    $('<div class="col pe-0 text-end copyBtnCol">')
+                        .append($('<button type="button" class="btn btn-secondary btn-sm popoverButton">')
+                            .text('copier')
+                            .click(function () {
+                                linkInput.select();
+                                navigator.clipboard.writeText(pollLinkVal).then(function () {
+                                    copiedSuccessAlert
+                                        .fadeTo(0, 1)
+                                        .fadeTo(2400, 0);
+                                }, function () {
+                                    console.error('select event on pollLinkVal error');
+                                });
+                            })
+                        )
+                )
+        );
+
+    let divShareButton = $('<div>')
+        .addClass('d-grid col-6');
+
+    let shareButton = $(`<button type="button" id="shareButton">`)
+        .attr('data-bs-container', 'body')
+        .attr('data-bs-toggle', 'popover')
+        .attr('data-bs-placement', 'bottom')
+        .addClass("btn")
+        .addClass("btn-secondary")
+        .append($(`<i class="bi-share-fill" role="img"
+        aria-label="Share">
+        </i>`))
+        .append('Partager')
+
+    divShareButton.append(shareButton);
+
+    new bootstrap.Popover(shareButton, {
+        container: 'body',
+        html: true,
+        sanitize: false,
+        content: popoverContent,
+        offset: [-200, 8],
+        customClass: 'sharePopover'
+    })
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
@@ -96,7 +174,12 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
         )
         .append($('<div class="row my-3">')
             .append($('<div class="col">')
+            )
+            .append($('<div class="col-4">')
                 .append(divSubmitButton)
+            )
+            .append($('<div class="col text-end">')
+                .append(shareButton)
             )
         )
         .submit(async function (event) {
@@ -104,24 +187,31 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
 
             let formData = parseForm($(this));
 
-            console.log(formData);
-
-            let voteOk = await post(
-                '/polls/' + parsedPoll.id + '/vote',
+            let postResponse = await post(
+                '/polls/' + parsedPoll.uuid + '/vote',
                 formData
             );
 
-            console.log(voteOk);
+            submitButton.attr('disabled', true);
+            $(this).find('input').attr('disabled', true);
+            if (postResponse.voteSuccessfull) {
 
-            if (voteOk) {
+                submitButton.text('Vote validé !');
 
                 localStorage.setItem(parsedPoll.id, true);
 
                 hasVoted(true, infiniteVoteEnabled);
 
+            } else {
+
+                submitButton.text('Erreur');
+                submitButton
+                    .removeClass("btn-success")
+                    .addClass("btn-danger");
             }
 
-        });;
+        });
+
 }
 
 export { displayPoll };

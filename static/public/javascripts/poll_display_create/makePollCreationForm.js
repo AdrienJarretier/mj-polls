@@ -115,6 +115,9 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
         }
     };
 
+    let scrollPos = 0;
+    let inputWidth = 0;
+
     function addChoiceInput(duration) {
 
         let choiceInput = $(`<input name="choices[]" type="text"
@@ -138,15 +141,23 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
                 }
             } else {
                 if (!$(this).data('empty')) {
-                    // $(this).data('empty', true);
-                    // emptyInputs.inc();
-                    pollTable.removeCol($(this).parent().index(), 1000);
+
+                    // let inputToFocus = $(this).parent().siblings().last().children();
+                    let inputToFocus = $(this).parent().next().children();
+                    console.log(inputToFocus);
+                    inputToFocus.focus();
+                    pollTable.removeCol($(this).parent().index(), 'slow');
+                    scrollPos -= inputWidth;
                 }
             }
 
         });
 
-        pollTable.addCol(choiceInput.clone(true), true, duration);
+        let clonedInput = choiceInput.clone(true);
+        pollTable.addCol(clonedInput, true, duration);
+        pollTable.rawTable.parent().animate({ scrollLeft: scrollPos }, 'slow');
+        scrollPos += inputWidth;
+
         emptyInputs.inc();
 
         for (let i = 1; i < pollTable.rows; ++i) {
@@ -155,9 +166,8 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             );
         }
 
+        return clonedInput;
     }
-
-    addChoiceInput();
 
     // console.log('rows', pollTable.rows);
     // console.log(pollTable.cols);
@@ -191,6 +201,8 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             )
         )
         .submit(submitHandler);
+
+    inputWidth = Math.ceil(parseFloat(addChoiceInput().parent().css("width")));
 }
 
 export default makePollCreationForm;

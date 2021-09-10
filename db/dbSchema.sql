@@ -12,6 +12,7 @@ CREATE TABLE "duplicate_vote_check_methods" (
 -- to generate dbml, remove AUTOINCREMENT
 CREATE TABLE "polls" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "uuid" CHARACTER(36) UNIQUE,
   "title" VARCHAR(255) NOT NULL,
   "max_voters" INTEGER,
   "max_datetime" DATETIME,
@@ -20,7 +21,8 @@ CREATE TABLE "polls" (
   "duplicate_vote_check_method_id" INTEGER,
   FOREIGN KEY("duplicate_vote_check_method_id") REFERENCES "duplicate_vote_check_methods" ("id"),
   CHECK("max_voters">0 AND "max_voters"<>''),
-  CHECK("max_datetime" > CURRENT_TIMESTAMP)
+  CHECK("max_datetime" > CURRENT_TIMESTAMP),
+  CHECK("title" <> '')
 );
 
 CREATE TABLE "polls_choices" (

@@ -4,6 +4,9 @@ const fs = require('fs');
 const local_config_loader = require('env-config-prompt');
 var path = require('path');
 
+const Random = require('random-js');
+const nodeCryptoGen = Random.nodeCrypto;
+
 const serverConfig = JSON.parse(
     fs.readFileSync(
         path.resolve(__dirname, 'config.json'),
@@ -21,3 +24,7 @@ Object.assign(serverConfig, local_config);
 
 
 exports.serverConfig = serverConfig;
+
+exports.randomUUID = function () {
+    return Random.uuid4(nodeCryptoGen);
+}

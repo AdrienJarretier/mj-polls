@@ -63,6 +63,14 @@
                   .attr('id', titleId)
                   .attr('placeholder', placeholder)
                   .addClass(titleSize)
+                  .attr('required', true)
+                  .on('input', function (e) {
+                    const re = /^\s*(\S.*?\S?)\s*$/;
+                    const matched = $(this).val().match(re);
+                    if (!matched) {
+                      $(this).val('');
+                    }
+                  })
               )
               .append(
                 $('<label class="form-label">')
