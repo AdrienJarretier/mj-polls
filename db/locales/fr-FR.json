@@ -1,0 +1,11 @@
+{
+    "grades": [
+        "Excellent",
+        "Très bien",
+        "Bien",
+        "Assez bien",
+        "Passable",
+        "Insuffisante",
+        "A rejeter"
+    ]
+}
