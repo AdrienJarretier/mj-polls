@@ -72,8 +72,7 @@ function handleCreatePoll(viewName) {
 
     res.render(viewName, pageOptions('Create Poll', {
 
-      duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods()),
-      grades: prepareObjectForFrontend(db.getGrades())
+      duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
 
     }));
   }
@@ -99,8 +98,7 @@ function handlePollView(viewName) {
         res.render(viewName, pageOptions(poll.title, {
 
           poll: pollJSONstr,
-          infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled,
-          grades: prepareObjectForFrontend(db.getGrades())
+          infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
 
         }));
       }

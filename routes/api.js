@@ -56,14 +56,6 @@ router.get('/grades', function (req, res, next) {
 
 });
 
-router.get('/locale/:part/:locale', function (req, res) {
-
-    const localeMsgs = common.localesMsgs[req.params.locale]['client'][req.params.part]
-
-    res.json(localeMsgs);
-
-});
-
 router.get('/', function (req, res, next) {
 
     res.json({

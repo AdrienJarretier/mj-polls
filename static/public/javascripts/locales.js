@@ -3,7 +3,7 @@
 class LocaleMessages {
 
     static async new(part, locale) {
-        return new LocaleMessages(await get('/polls/locale/' + part + '/' + locale));
+        return new LocaleMessages(await get('/locales/' + part + '/' + locale));
     }
 
     /**
@@ -17,7 +17,7 @@ class LocaleMessages {
         this._msgs = msgs;
     }
 
-    get(key, params) {
+    get(key) {
 
         function _eval(value) {
             // console.log('typeof value:')
@@ -34,7 +34,12 @@ class LocaleMessages {
         }
 
         try {
+
             const rawVal = this._msgs[key];
+
+            if (!rawVal)
+                throw 'key "' + key + '" is ' + rawVal;
+
             // console.log('rawVal:')
             // console.log(rawVal)
             const evaluated = _eval(rawVal);

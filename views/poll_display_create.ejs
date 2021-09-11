@@ -7,6 +7,9 @@
     <script type="module">
       'use strict';
 
+      import { LocaleMessages } from "/javascripts/locales.js";
+      let localeGrades = await LocaleMessages.new('db-grades', 'fr-FR');
+
       <% if (typeof poll != 'undefined') { %>
         
         import { displayPoll } from "/javascripts/poll_display_create/displayPoll.js";
@@ -26,8 +29,17 @@
 
         <% } %>
 
-        const grades = JSON.parse('<%- grades %>');
+      const grades = await get('/polls/grades');
       grades.sort((a, b) => b.order - a.order);
+      console.log(localeGrades);
+      for (let grade of grades) {
+        try {
+          grade.value = localeGrades.get(grade.value);
+        }
+        catch (e) {
+          console.error(e);
+        }
+      }
 
       $(function () {
 
@@ -49,7 +61,7 @@
               .addClass(titleSize);
             $('#titleArea').append(title);
 
-            displayPoll(parsedPoll, infiniteVoteEnabled);
+            displayPoll(parsedPoll, infiniteVoteEnabled, grades);
 
             break;
 

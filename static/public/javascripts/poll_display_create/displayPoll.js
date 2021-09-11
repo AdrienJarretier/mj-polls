@@ -20,14 +20,11 @@ function hasVoted(hasVoted, infiniteVoteEnabled) {
     }
 }
 
-function displayPoll(parsedPoll, infiniteVoteEnabled) {
+function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
 
     let pollTable = new Table();
 
     async function newMakeVoteForm() {
-
-        let grades = await get('/polls/grades');
-        grades.sort((a, b) => b.order - a.order);
 
         pollTable.addCol();
         for (let choice of parsedPoll.choices) {

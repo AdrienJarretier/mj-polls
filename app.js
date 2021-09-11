@@ -7,6 +7,7 @@ var logger = require('morgan');
 // var testApiRouter = require('./routes/testApi');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
+const localesRouter = require('./routes/locales');
 
 const common = require("./common.js");
 
@@ -32,6 +33,7 @@ if (process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'development'
 // }
 app.use('/', indexRouter);
 app.use(Object.keys(common.serverConfig.api)[0], apiRouter);
+app.use('/locales', localesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
