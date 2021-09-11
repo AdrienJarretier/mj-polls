@@ -250,7 +250,7 @@ function mapOrder(array, order, key) {
 // 1 winner (with or without ties)
 // Winners (perfect equality between some candidates)
 // No winner (Perfect equality between all candidates, no votes on poll)
-function detect_outcome(choices, ranking) {
+function detect_outcome(choices, ranking, localeMsgs) {
 
     // 0 votes
 
@@ -297,7 +297,13 @@ function detect_outcome(choices, ranking) {
 
     if (winner_ties.length >= 1) {
         const winner_ties_names = winner_ties.map(a => a.name);
-        return "The winner is " + ranking[0] + ". It was separated from " + winner_ties_names.join(' and ') + " that had the same majority grade.";
+
+        // return "The winner is " + ranking[0] + ". It was separated from " + winner_ties_names.join(' and ') + " that had the same majority grade.";
+
+        return localeMsgs.get('winnerAlert', {
+            'winner': ranking[0],
+            'winner_ties_names': winner_ties_names
+        });
     }
 
     // One winner that did not have to be separated

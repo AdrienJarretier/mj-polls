@@ -1,6 +1,8 @@
 'use strict';
 
 import Table from '/javascripts/Table.js';
+import { LocaleMessages } from "/javascripts/locales.js";
+let localeMsgs = await LocaleMessages.new('client-poll', 'fr-FR');
 
 // console.log(pollJSONstr);
 
@@ -20,14 +22,11 @@ function hasVoted(hasVoted, infiniteVoteEnabled) {
     }
 }
 
-function displayPoll(parsedPoll, infiniteVoteEnabled) {
+function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
 
     let pollTable = new Table();
 
     async function newMakeVoteForm() {
-
-        let grades = await get('/polls/grades');
-        grades.sort((a, b) => b.order - a.order);
 
         pollTable.addCol();
         for (let choice of parsedPoll.choices) {
@@ -68,7 +67,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
             .append($('<a>').attr('href', '/poll_results/' + parsedPoll.uuid).append($('<button class="btn btn-secondary">')
-                .text('To Results'))
+                .text(localeMsgs.get('toResultsLink')))
             );
     }
 
@@ -81,7 +80,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled) {
     let submitButton = $('<button type="submit" id="submitButton">')
         .addClass("btn")
         .addClass("btn-success")
-        .text('Vote')
+        .text(localeMsgs.get('submitButton'));
 
     divSubmitButton.append(submitButton);
 

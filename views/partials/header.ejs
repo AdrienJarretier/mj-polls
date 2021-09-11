@@ -1,5 +1,22 @@
 <body>
 
+    <script type="module">
+        import { LocaleMessages } from '/javascripts/locales.js';
+
+        const localeMsgs = await LocaleMessages.new('client-header', 'fr-FR');
+
+        $(function () {
+
+            let nav = $('nav a button')
+            const navMsgs = localeMsgs.get('nav');
+            for (let i = 0; i < nav.length; ++i) {
+
+                nav.eq(i).text(navMsgs[i]);
+            }
+
+        });
+    </script>
+
     <div class="container-md">
 
         <!-- Body and container div will be closed in footer -->

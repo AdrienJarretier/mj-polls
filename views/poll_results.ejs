@@ -16,11 +16,18 @@
         <script src="/extLibs/chart.js/chartjs-plugin-annotation-1.0.2.min.js"></script>
 
         <script type="module">
+            'use strict';
+
             import plot_results from '/javascripts/plot_results.js';
+            import { LocaleMessages } from '/javascripts/locales.js';
 
-            $(plot_results);
+            const localeMsgs = await LocaleMessages.new('client-pollResults', 'fr-FR');
+
+            $(function () {
+                plot_results(localeMsgs);
+            })
+
         </script>
-
 
 
 </head>
