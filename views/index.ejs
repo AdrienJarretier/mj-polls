@@ -7,11 +7,11 @@
     <script>
       'use strict';
 
-      $(async function () {
+      $(function () {
 
-        let recentPolls = await get('/polls/recent');
+        const recentPolls = JSON.parse('<%- recentPolls %>');
 
-        for (const [id, poll] of Object.entries(recentPolls)) {
+        for (const poll of recentPolls) {
 
           let pollPreviewTemplate = $('#pollPreviewTemplate')[0].content;
 
@@ -19,7 +19,7 @@
 
           let href = cloned.children().children().children().attr('href');
 
-          cloned.children().children().children().attr('href', href + poll.id);
+          cloned.children().children().children().attr('href', href + poll.uuid);
           cloned.children().children().children().text(poll.title);
 
           $('#mostRecent').append(cloned);
@@ -31,27 +31,17 @@
 
 </head>
 
+<!-- Includes Body and container div opening tags as well as <header> -->
+<%- include('partials/header.ejs') %>
 
-<body>
+  <div class="row">
 
-  <div class="container">
+    <div class="col" id="mostRecent"></div>
 
-    <%- include('partials/header.ejs') %>
-
-
-
-      <br>
-
-      <div class="row">
-
-        <div class="col" id="mostRecent"></div>
-
-      </div>
-
-      <%- include('partials/footer.ejs') %>
   </div>
 
-</body>
+  <!-- Includes Body and container closing tags as well as <footer> -->
+  <%- include('partials/footer.ejs') %>
 
 </html>
 

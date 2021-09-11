@@ -1,38 +1,48 @@
-<div class="row">
+<body>
 
-    <div class="col">
-        <header>
+    <script type="module">
+        import { LocaleMessages } from '/javascripts/locales.js';
 
-            <img src="/images/logo.png" class="img-fluid" alt="Majority judgement banner" />
-            <p>A web application for creating, running and visualizing majority judgment polls.</p>
+        const localeMsgs = await LocaleMessages.new('client-header', 'fr-FR');
 
-        </header>
+        $(function () {
 
-    </div>
+            let nav = $('nav a button')
+            const navMsgs = localeMsgs.get('nav');
+            for (let i = 0; i < nav.length; ++i) {
 
-</div>
+                let navButton = nav.eq(i);
+                const navButtonId = navButton.attr('id');
+                navButton.text(navMsgs[navButtonId]);
+            }
 
+        });
+    </script>
 
+    <div class="container-md">
 
-<div class="row">
+        <!-- Body and container div will be closed in footer -->
 
-    <div class="col">
+        <div class="row mb-4">
+            <div class="col">
+                <header>
 
+                    <img src="/images/logo.png" class="img-fluid" alt="Majority judgement banner" />
+                    <!-- <p class="fs-4">A web application for creating, running and visualizing majority judgment polls.</p> -->
 
-        <nav class="navbar navbar-light bg-dark">
-            <div class="container-fluid">
+                    <nav class="navbar bg-dark bg-gradient shadow-lg p-2 px-3 rounded">
 
-                <a href="/"><button class="btn btn-sm btn-outline-light" type="button">Home</button></a>
+                        <!-- <a href="/"><button class="btn btn-md btn-secondary" type="button" id="Home">Home</button></a> -->
 
+                        <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button"
+                                id="Create-Poll">Create a
+                                poll</button></a>
 
-                <a href="/createPoll"><button class="btn btn-sm btn-outline-light" type="button">Create a
-                        poll</button></a>
+                        <a href="/context"><button class="btn btn-md btn-secondary" type="button"
+                                id="Context">Context</button></a>
 
-                <a href="/context"><button class="btn btn-sm btn-outline-light" type="button">Context</button></a>
+                    </nav>
 
+                </header>
             </div>
-        </nav>
-
-    </div>
-
-</div>
+        </div>

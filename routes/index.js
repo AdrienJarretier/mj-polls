@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 var express = require('express');
 var router = express.Router();
 
@@ -33,28 +34,24 @@ function pageOptions(pageTitle, otherOptions) {
 }
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', pageOptions());
-});
+router.get('/', handleCreatePoll('poll_display_create'));
+// router.get('/', function (req, res, next) {
 
+//   let recentPolls = prepareObjectForFrontend(
+//     Object.values(
+//       db.getMostRecentPolls(8)
+//     )
+//   );
 
-/* GET poll creation page. */
-router.get('/createPoll', function (req, res, next) {
-
-  const duplicateCheckMethods = db.getDuplicateCheckMethods();
-
-  res.render('createPoll', pageOptions('Create Poll', {
-
-    duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
-
-  }));
-
-});
+//   res.render('index', pageOptions('', {
+//     recentPolls: recentPolls
+//   }));
+// });
 
 function renderPollResults(req, res) {
 
   try {
-    let poll = db.getFullPoll(req.params.id);
+    let poll = db.getFullPoll(res.locals.pollId);
 
     const pollJSONstr = prepareObjectForFrontend(poll);
 
@@ -68,48 +65,79 @@ function renderPollResults(req, res) {
 
 }
 
-router.get('/poll/:id', function (req, res, next) {
+function handleCreatePoll(viewName) {
 
-  try {
+  return function (req, res) {
 
-    // if poll is closed, send results, else send poll choices;
-    if (db.isClosed(req.params.id)) {
-      next();
-    }
-    else {
+    const duplicateCheckMethods = db.getDuplicateCheckMethods();
 
-      let poll = db.getPoll(req.params.id);
+    res.render(viewName, pageOptions('Create Poll', {
 
-      const pollJSONstr = prepareObjectForFrontend(poll);
+      duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
 
-      res.render('poll', pageOptions(poll.title, {
-
-        poll: pollJSONstr,
-        infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
-
-      }));
-    }
-
+    }));
   }
-  catch (e) {
-    console.error(e);
+}
+
+function handlePollView(viewName) {
+
+  return function (req, res, next) {
+    try {
+
+      let pollId = db.getIdFromUUID(req.params.uuid);
+
+      // if poll is closed, send results, else send poll choices;
+      if (db.isClosed(pollId)) {
+        next();
+      }
+      else {
+
+        let poll = db.getPoll(pollId);
+
+        const pollJSONstr = prepareObjectForFrontend(poll);
+
+        res.render(viewName, pageOptions(poll.title, {
+
+          poll: pollJSONstr,
+          infiniteVoteEnabled: common.serverConfig.testConfig.infiniteVoteEnabled
+
+        }));
+      }
+
+    }
+    catch (e) {
+      console.error(e);
+    }
   }
+}
 
-}, renderPollResults);
+/* Old poll creation page. */
+router.get('/oldCreate', handleCreatePoll('createPoll'));
 
 
-router.get('/poll_results/:id', function (req, res, next) {
+router.get('/poll/:uuid', handlePollView('poll_display_create'), renderPollResults);
 
-  let poll = db.getPoll(req.params.id);
-  console.log(poll);
-  console.log(common.serverConfig.testConfig.testApiEnabled);
+
+router.get('/createPoll', handleCreatePoll('poll_display_create'));
+
+
+
+router.get('/poll_results/:uuid', function (req, res, next) {
+
+  res.locals.pollId = db.getIdFromUUID(req.params.uuid);
+
+  let poll = db.getPoll(res.locals.pollId);
+  // console.log(poll);
 
   if (common.serverConfig.testConfig.testApiEnabled ||
     (poll.max_voters === null && poll.max_datetime === null)) {
 
-    renderPollResults(req, res);
+    next();
   }
-});
+  else {
+    next(createError(403));
+  }
+}, renderPollResults);
 
 
 /* GET context page. */

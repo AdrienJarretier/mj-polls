@@ -3,7 +3,7 @@
         "database": "db/polls.db"
     },
     "testConfig": {
-        "infiniteVoteEnabled":false,
+        "infiniteVoteEnabled":true,
         "testApiEnabled": false
     },
     "testApi": {
