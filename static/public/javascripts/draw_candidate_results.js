@@ -24,7 +24,7 @@ function draw_candidate_results(choices, candidate) {
         values.push(vote.value);
     }
 
-    var palette = colorPalettes.COLORS_7;
+    var palette = colorPalettes.SELECTED_PALETTE;
 
     // Getting the appropriate color palette
     if (values.length <= 3) {
@@ -159,7 +159,7 @@ function update_candidate_results(choices, candidate) {
         values.push(vote.value);
     }
 
-    var palette = colorPalettes.COLORS_7;
+    var palette = colorPalettes.SELECTED_PALETTE;
 
     // // Getting the appropriate color palette
     // if (values.length <= 3) {

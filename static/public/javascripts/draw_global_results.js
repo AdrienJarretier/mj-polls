@@ -36,7 +36,7 @@ function draw_global_results(choices) {
     }
 
 
-    var palette = colorPalettes.COLORS_7;
+    var palette = colorPalettes.SELECTED_PALETTE;
 
     // Getting the appropriate color palette
     if (values.length <= 3) {
