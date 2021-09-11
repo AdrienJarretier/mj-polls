@@ -1,10 +1,10 @@
 {
     "grades": {
         "Excellent": "Excellent",
-        "VeryGood": "Very Good",
+        "Very Good": "Very Good",
         "Good": "Good",
         "Acceptable": "Acceptable",
         "Poor": "Poor",
-        "ToReject": "To Reject"
+        "To Reject": "To Reject"
     }
 }
