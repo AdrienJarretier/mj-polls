@@ -1,6 +1,8 @@
 'use strict';
 
 import Table from '/javascripts/Table.js';
+import { LocaleMessages } from "/javascripts/locales.js";
+let localeMsgs = await LocaleMessages.new('client-poll', 'fr-FR');
 
 // console.log(pollJSONstr);
 
@@ -65,7 +67,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
             .append($('<a>').attr('href', '/poll_results/' + parsedPoll.uuid).append($('<button class="btn btn-secondary">')
-                .text('To Results'))
+                .text(localeMsgs.get('toResultsLink')))
             );
     }
 
@@ -78,7 +80,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     let submitButton = $('<button type="submit" id="submitButton">')
         .addClass("btn")
         .addClass("btn-success")
-        .text('Vote')
+        .text(localeMsgs.get('submitButton'));
 
     divSubmitButton.append(submitButton);
 

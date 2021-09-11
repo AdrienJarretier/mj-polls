@@ -2,6 +2,8 @@
 
 import Table from '/javascripts/Table.js';
 import { submitHandler } from '/javascripts/postPollCreation.js';
+import { LocaleMessages } from "/javascripts/locales.js";
+let localeMsgs = await LocaleMessages.new('client-createPoll', 'fr-FR');
 
 var choices = 0;
 
@@ -182,7 +184,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
         .addClass("btn")
         .addClass("btn-secondary")
 
-    submitButton.text('Create Poll');
+    submitButton.text(localeMsgs.get('submitButton'));
 
     divSubmitButton.append(submitButton);
 
