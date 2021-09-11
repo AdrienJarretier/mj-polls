@@ -34,18 +34,19 @@ function pageOptions(pageTitle, otherOptions) {
 }
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', handleCreatePoll('poll_display_create'));
+// router.get('/', function (req, res, next) {
 
-  let recentPolls = prepareObjectForFrontend(
-    Object.values(
-      db.getMostRecentPolls(8)
-    )
-  );
+//   let recentPolls = prepareObjectForFrontend(
+//     Object.values(
+//       db.getMostRecentPolls(8)
+//     )
+//   );
 
-  res.render('index', pageOptions('', {
-    recentPolls: recentPolls
-  }));
-});
+//   res.render('index', pageOptions('', {
+//     recentPolls: recentPolls
+//   }));
+// });
 
 function renderPollResults(req, res) {
 

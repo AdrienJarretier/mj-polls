@@ -1,10 +1,10 @@
 {
   "header": {
-    "nav": [
-      "Accueil",
-      "Créer un sondage",
-      "Contexte"
-    ]
+    "nav": {
+      "Home": "Accueil",
+      "Create-Poll": "Créer un sondage",
+      "Context": "Contexte"
+    }
   },
   "createPoll": {
     "submitButton": "Créer le sondage"
