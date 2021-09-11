@@ -11,7 +11,9 @@
             const navMsgs = localeMsgs.get('nav');
             for (let i = 0; i < nav.length; ++i) {
 
-                nav.eq(i).text(navMsgs[i]);
+                let navButton = nav.eq(i);
+                const navButtonId = navButton.attr('id');
+                navButton.text(navMsgs[navButtonId]);
             }
 
         });
@@ -30,12 +32,14 @@
 
                     <nav class="navbar bg-dark bg-gradient shadow-lg p-2 px-3 rounded">
 
-                        <a href="/"><button class="btn btn-md btn-secondary" type="button">Home</button></a>
+                        <!-- <a href="/"><button class="btn btn-md btn-secondary" type="button" id="Home">Home</button></a> -->
 
-                        <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button">Create a
+                        <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button"
+                                id="Create-Poll">Create a
                                 poll</button></a>
 
-                        <a href="/context"><button class="btn btn-md btn-secondary" type="button">Context</button></a>
+                        <a href="/context"><button class="btn btn-md btn-secondary" type="button"
+                                id="Context">Context</button></a>
 
                     </nav>
 
