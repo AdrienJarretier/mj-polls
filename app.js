@@ -42,7 +42,8 @@ function authorizer(req, res, next) {
   next();
 }
 
-app.use(authorizer)
+if (common.serverConfig.passwordAccess.password != '')
+  app.use(authorizer)
 
 app.use(logger('dev'));
 app.use(express.json());
