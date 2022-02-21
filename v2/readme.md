@@ -23,7 +23,7 @@ Dependencies :
 Dev-dependencies :
 
 ```bash
-sudo apt install -y php-pgsql
+sudo apt install -y php-pgsql php-xml
 ```
 
 ## postgres config :
