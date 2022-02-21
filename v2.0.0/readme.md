@@ -53,8 +53,8 @@ sudo su - postgres
 sudo nano /etc/apache2/sites-available/mj-polls.conf
 ```
 ```
-Alias /sondage /home/ubuntu/gitRepos/mj-polls
-<Directory /home/ubuntu/gitRepos/mj-polls>
+Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2.0.0
+<Directory /home/ubuntu/gitRepos/mj-polls/v2.0.0>
     Options -Indexes +FollowSymLinks
     AllowOverride None
     Require all granted
