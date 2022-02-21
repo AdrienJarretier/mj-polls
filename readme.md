@@ -53,23 +53,19 @@ sudo su - postgres
 sudo nano /etc/apache2/sites-available/mj-polls.conf
 ```
 ```
-<VirtualHost *:80>
-    DocumentRoot ~/gitRepos/mj-polls
-
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-    <Directory ~/gitRepos/mj-polls>
-        Options -Indexes +FollowSymLinks
-        AllowOverride None
-        Require all granted
-    </Directory>
-
-</VirtualHost>
+Alias /sondage /home/ubuntu/gitRepos/mj-polls
+<Directory /home/ubuntu/gitRepos/mj-polls>
+    Options -Indexes +FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
 ```
 
 ```bash
+(
+sudo a2ensite mj-polls
 sudo systemctl restart apache2
+)
 ```
 
 ## app local dependencies
