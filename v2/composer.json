@@ -1,0 +1,5 @@
+{
+    "require": {
+        "steampixel/simple-php-router": "^0.7.0"
+    }
+}

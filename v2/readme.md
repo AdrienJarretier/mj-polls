@@ -53,10 +53,10 @@ sudo su - postgres
 sudo nano /etc/apache2/sites-available/mj-polls.conf
 ```
 ```
-Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2.0.0
-<Directory /home/ubuntu/gitRepos/mj-polls/v2.0.0>
+Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
+<Directory /home/ubuntu/gitRepos/mj-polls/v2>
     Options -Indexes +FollowSymLinks
-    AllowOverride None
+    AllowOverride All
     Require all granted
 </Directory>
 ```
@@ -75,3 +75,35 @@ sudo systemctl restart apache2
     composer install
 )
 ```
+
+<hr>
+
+## For deployment with a vhost
+
+### Apache config :
+```bash
+sudo nano /etc/apache2/sites-available/mj-polls.conf
+```
+```
+<VirtualHost *:80>
+    DocumentRoot /home/ubuntu/gitRepos/mj-polls/v2
+
+    ErrorLog ${APACHE_LOG_DIR}/mj-polls/error.log
+    CustomLog ${APACHE_LOG_DIR}/mj-polls/access.log combined    
+
+    <Directory /home/ubuntu/gitRepos/mj-polls/v2>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+</VirtualHost>
+```
+
+### .htaccess
+
+`RewriteBase /sondage` becomes `RewriteBase /`
+
+### index.php
+
+`Route::run('/sondage');` becomes `Route::run('/');`
