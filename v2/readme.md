@@ -1,5 +1,12 @@
 # Raisonnance
 
+- [Dependencies](#dependencies)
+- [postgres config](#postgres-config)
+- [apache config](#apache-config)
+- [app local dependencies](#app-local-dependencies)
+- [Running unit tests (./readme_tests.md))](./readme_tests.md)
+
+
 ## Dependencies :
 
 ```bash
@@ -120,3 +127,5 @@ sudo systemctl restart apache2
     composer install
 )
 ```
+
+
