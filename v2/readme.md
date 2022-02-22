@@ -1,6 +1,6 @@
 # Raisonnance
 
-Dependencies :
+## Dependencies :
 
 ```bash
 (
@@ -20,11 +20,13 @@ Dependencies :
 )
 ```
 
-Dev-dependencies :
+### Dev-dependencies :
 
 ```bash
 sudo apt install -y php-pgsql php-xml
 ```
+
+<hr>
 
 ## postgres config :
 
@@ -47,6 +49,10 @@ sudo su - postgres
 )
 ```
 
+<br>
+<hr>
+<hr>
+
 ## apache config :
 
 ```bash
@@ -59,21 +65,6 @@ Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
     AllowOverride All
     Require all granted
 </Directory>
-```
-
-```bash
-(
-sudo a2ensite mj-polls
-sudo systemctl restart apache2
-)
-```
-
-## app local dependencies
-
-```bash
-(
-    composer install
-)
 ```
 
 <hr>
@@ -107,3 +98,29 @@ sudo nano /etc/apache2/sites-available/mj-polls.conf
 ### index.php
 
 `Route::run('/sondage');` becomes `Route::run('/');`
+
+
+<hr>
+<hr>
+
+<br>
+
+
+```bash
+(
+sudo a2ensite mj-polls
+sudo systemctl restart apache2
+)
+```
+
+
+<br>
+
+## app local dependencies
+
+```bash
+(
+    cd v2
+    composer install
+)
+```
