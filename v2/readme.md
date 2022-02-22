@@ -48,16 +48,18 @@ sudo su - postgres
     psql -f dbInitFill.sql
 )
 ```
-
+<hr>
 <br>
-<hr>
-<hr>
 
 ## apache config :
 
 ```bash
 sudo nano /etc/apache2/sites-available/mj-polls.conf
 ```
+
+<hr>
+<hr>
+
 ```
 Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
 <Directory /home/ubuntu/gitRepos/mj-polls/v2>
@@ -69,12 +71,8 @@ Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
 
 <hr>
 
-## For deployment with a vhost
+### For deployment with a vhost
 
-### Apache config :
-```bash
-sudo nano /etc/apache2/sites-available/mj-polls.conf
-```
 ```
 <VirtualHost *:80>
     DocumentRoot /home/ubuntu/gitRepos/mj-polls/v2
@@ -103,9 +101,6 @@ sudo nano /etc/apache2/sites-available/mj-polls.conf
 <hr>
 <hr>
 
-<br>
-
-
 ```bash
 (
 sudo a2ensite mj-polls
@@ -113,8 +108,9 @@ sudo systemctl restart apache2
 )
 ```
 
-
 <br>
+<br>
+<hr>
 
 ## app local dependencies
 
