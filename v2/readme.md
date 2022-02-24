@@ -1,4 +1,6 @@
-# Raisonnance
+# MJ-polls
+
+A web application to host polls with the majority judgement voting method
 
 - [Dependencies :](#dependencies-)
 - - [Dev-dependencies :](#dev-dependencies-)
