@@ -1,9 +1,15 @@
 # Raisonnance
 
-- [Dependencies](#dependencies)
-- [postgres config](#postgres-config)
-- [apache config](#apache-config)
+- [Dependencies :](#dependencies-)
+- - [Dev-dependencies :](#dev-dependencies-)
+- [postgres config :](#postgres-config-)
+- [apache config :](#apache-config-)
+- - [For deployment with a vhost](#for-deployment-with-a-vhost)
+- - [.htaccess](#htaccess)
+- - [index.php](#indexphp)
 - [app local dependencies](#app-local-dependencies)
+
+
 - [Running unit tests (./readme_tests.md))](./readme_tests.md)
 
 
