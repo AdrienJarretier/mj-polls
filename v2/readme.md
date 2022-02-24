@@ -4,9 +4,10 @@
 - - [Dev-dependencies :](#dev-dependencies-)
 - [postgres config :](#postgres-config-)
 - [apache config :](#apache-config-)
+- - [For deployment in a subfolder](#for-deployment-in-a-subfolder)
 - - [For deployment with a vhost](#for-deployment-with-a-vhost)
-- - [.htaccess](#htaccess)
-- - [index.php](#indexphp)
+- - - [.htaccess](#htaccess)
+- - - [index.php](#indexphp)
 - [app local dependencies](#app-local-dependencies)
 
 
@@ -71,7 +72,8 @@ sudo nano /etc/apache2/sites-available/mj-polls.conf
 ```
 
 <hr>
-<hr>
+
+### For deployment in a subfolder
 
 ```
 Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
@@ -102,17 +104,18 @@ Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
 </VirtualHost>
 ```
 
-### .htaccess
+#### .htaccess
 
 `RewriteBase /sondage` becomes `RewriteBase /`
 
-### index.php
+#### index.php
 
 `Route::run('/sondage');` becomes `Route::run('/');`
 
 
 <hr>
 <hr>
+<br>
 
 ```bash
 (
@@ -121,8 +124,6 @@ sudo systemctl restart apache2
 )
 ```
 
-<br>
-<br>
 <hr>
 
 ## app local dependencies
