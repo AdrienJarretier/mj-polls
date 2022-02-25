@@ -1,5 +1,3 @@
-\c mjpollsdb;
-
 INSERT INTO grades("value", "order") VALUES
 ('Excellent', 50),
 ('Very Good', 40),

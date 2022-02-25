@@ -1,6 +1,22 @@
-# Raisonnance
 
-Dependencies :
+# MJ-polls
+
+A web application to host polls with the majority judgement voting method
+
+- [Dependencies :](#dependencies)
+    - [Dev-dependencies :](#dev-dependencies)
+- [postgres config :](#postgres-config)
+- [apache config :](#apache-config)
+    - [For deployment in a subfolder](#for-deployment-in-a-subfolder)
+    - [For deployment with a vhost](#for-deployment-with-a-vhost)
+        - [.htaccess](#htaccess)
+        - [index.php](#indexphp)
+- [app local dependencies](#app-local-dependencies)
+
+
+- [Running unit tests (./readme_tests.md))](./readme_tests.md)
+
+## Dependencies :
 
 ```bash
 (
@@ -20,11 +36,13 @@ Dependencies :
 )
 ```
 
-Dev-dependencies :
+### Dev-dependencies :
 
 ```bash
 sudo apt install -y php-pgsql php-xml
 ```
+
+<hr>
 
 ## postgres config :
 
@@ -41,17 +59,27 @@ sudo su - postgres
 
 ```bash
 (
-    cd /home/ubuntu/gitRepos/mj-polls/db
-    psql -f dbSchema.sql
-    psql -f dbInitFill.sql
+    cd /home/ubuntu/gitRepos/mj-polls/v2/db
+
+    psql -c "CREATE DATABASE mjpollsdb;"
+
+    psql -f dbSchema.sql mjpollsdb
+    psql -f dbInitFill.sql mjpollsdb
 )
 ```
+<hr>
+<br>
 
 ## apache config :
 
 ```bash
 sudo nano /etc/apache2/sites-available/mj-polls.conf
 ```
+
+<hr>
+
+### For deployment in a subfolder
+
 ```
 Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
 <Directory /home/ubuntu/gitRepos/mj-polls/v2>
@@ -61,29 +89,10 @@ Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
 </Directory>
 ```
 
-```bash
-(
-sudo a2ensite mj-polls
-sudo systemctl restart apache2
-)
-```
-
-## app local dependencies
-
-```bash
-(
-    composer install
-)
-```
-
 <hr>
 
-## For deployment with a vhost
+### For deployment with a vhost
 
-### Apache config :
-```bash
-sudo nano /etc/apache2/sites-available/mj-polls.conf
-```
 ```
 <VirtualHost *:80>
     DocumentRoot /home/ubuntu/gitRepos/mj-polls/v2
@@ -100,10 +109,35 @@ sudo nano /etc/apache2/sites-available/mj-polls.conf
 </VirtualHost>
 ```
 
-### .htaccess
+#### .htaccess
 
 `RewriteBase /sondage` becomes `RewriteBase /`
 
-### index.php
+#### index.php
 
 `Route::run('/sondage');` becomes `Route::run('/');`
+
+
+<hr>
+<hr>
+<br>
+
+```bash
+(
+sudo a2ensite mj-polls
+sudo systemctl restart apache2
+)
+```
+
+<hr>
+
+## app local dependencies
+
+```bash
+(
+    cd v2
+    composer install
+)
+```
+
+
