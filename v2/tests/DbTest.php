@@ -26,6 +26,14 @@ final class DbTest extends TestCase
   {
     $this->expectExceptionMessage("Can't insert poll, constraint violated");
 
-    $this->db->insertPoll();
+    $this->db->insertPoll(
+      [
+        'title' => 'testPoll invalid reason',
+        'maxVotes' => null,
+        'max_datetime' => '2021-07-01 00=>00=>00', // constraint violation, max date on insert can't be earleir than now
+        'choices' => ['testChoice1'],
+        'duplicateCheckMethod' => null
+      ]
+    );
   }
 }

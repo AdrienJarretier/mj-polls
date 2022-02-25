@@ -16,7 +16,7 @@ CREATE TABLE "duplicate_vote_check_methods" (
 -- to generate dbml, remove AUTOINCREMENT
 CREATE TABLE "polls" (
   "id" SERIAL PRIMARY KEY,
-  "uuid" CHARACTER(36) UNIQUE,
+  "identifier" VARCHAR(8) UNIQUE,
   "title" VARCHAR(255) NOT NULL,
   "max_voters" INTEGER,
   "max_datetime" timestamp with time zone,
