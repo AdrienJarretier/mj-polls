@@ -1,20 +1,20 @@
+
 # MJ-polls
 
 A web application to host polls with the majority judgement voting method
 
-- [Dependencies :](#dependencies-)
-- - [Dev-dependencies :](#dev-dependencies-)
-- [postgres config :](#postgres-config-)
-- [apache config :](#apache-config-)
-- - [For deployment in a subfolder](#for-deployment-in-a-subfolder)
-- - [For deployment with a vhost](#for-deployment-with-a-vhost)
-- - - [.htaccess](#htaccess)
-- - - [index.php](#indexphp)
+- [Dependencies :](#dependencies)
+    - [Dev-dependencies :](#dev-dependencies)
+- [postgres config :](#postgres-config)
+- [apache config :](#apache-config)
+    - [For deployment in a subfolder](#for-deployment-in-a-subfolder)
+    - [For deployment with a vhost](#for-deployment-with-a-vhost)
+        - [.htaccess](#htaccess)
+        - [index.php](#indexphp)
 - [app local dependencies](#app-local-dependencies)
 
 
 - [Running unit tests (./readme_tests.md))](./readme_tests.md)
-
 
 ## Dependencies :
 
