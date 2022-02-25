@@ -9,23 +9,11 @@ require 'common.php';
 
 class Db
 {
-    function __construct($user, $pass, $dbname, $opts = [
+    function __construct($dbname, $user, $pass, $opts = [
         'verbose' => false
     ])
     {
-
-        try {
-            $this->dbh = new PDO(
-                'pgsql:host=localhost;dbname=' . $dbname,
-                $user,
-                $pass,
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-            );
-        } catch (PDOException $e) {
-
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
+        $this->dbUtils = new DbUtils($dbname, $user, $pass, $opts);
     }
 
     /*
@@ -53,12 +41,12 @@ class Db
 
         $pollId = null;
 
-        $this->dbh->beginTransaction();
+        $this->dbUtils->beginTransaction();
 
         try {
 
-            if ($ignoreConstraints)
-                $this->dbh->exec('SET CONSTRAINTS ALL DEFERRED;');
+            // if ($ignoreConstraints)
+            //     $this->dbUtils->exec('SET CONSTRAINTS ALL DEFERRED;');
 
             $identifier = randomIdentifier(8);
 
@@ -70,25 +58,29 @@ class Db
                 throw new Exception('db.insertPoll() : title is only whitespaces');
             }
 
-            $pollsInsertResult = prepareAndExecute($this->dbh, '
+            $pollsInsertResult = $this->dbUtils->prepareAndExecute(
+                '
             INSERT INTO polls(identifier, title, max_voters, max_datetime)
             VALUES(?, ?, ?, ?);
-            ', 'run', [
-                $identifier,
-                $data['title'],
-                $data['maxVotes'],
-                $data['max_datetime']
-            ]);
+            ',
+                'run',
+                [
+                    $identifier,
+                    $data['title'],
+                    $data['maxVotes'],
+                    $data['max_datetime']
+                ]
+            );
 
-            $pollId = $this->dbh->lastInsertId();
+            $pollId = $this->dbUtils->lastInsertId();
         } catch (Exception $e) {
-            $this->dbh->rollBack();
+            $this->dbUtils->rollBack();
             if ($e->getCode() == 23514)
                 throw new Exception("Can't insert poll, constraint violated");
             else
                 throw $e;
         }
 
-        $this->dbh->commit();
+        $this->dbUtils->commit();
     }
 }

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 // ini_set('display_startup_errors', "1");
 // error_reporting(E_ALL);
 
-require_once 'db/db.php';
+require_once 'db/Db.php';
 
 
 final class DbTest extends TestCase
@@ -20,9 +20,9 @@ final class DbTest extends TestCase
   {
     // echo "set up\n";
     self::$dbh = new Db(
+      'mjpolls_unittests',
       'mjpolls',
       'pass',
-      'mjpolls_unittests',
       [
         'verbose' => true
       ]
