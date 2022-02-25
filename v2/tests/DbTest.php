@@ -14,9 +14,19 @@ require_once 'db/db.php';
 
 final class DbTest extends TestCase
 {
-  protected function setUp(): void
+  private static $dbh;
+
+  public static function setUpBeforeClass(): void
   {
-    $this->db = new Db('mjpolls', 'pass', 'mjpolls_unittests');
+    // echo "set up\n";
+    self::$dbh = new Db(
+      'mjpolls',
+      'pass',
+      'mjpolls_unittests',
+      [
+        'verbose' => true
+      ]
+    );
   }
 
   /**
@@ -24,9 +34,10 @@ final class DbTest extends TestCase
    */
   public function testInsertPOllFollowsConstraints(): void
   {
+    // echo "testInsertPOllFollowsConstraints\n";
     $this->expectExceptionMessage("Can't insert poll, constraint violated");
 
-    $this->db->insertPoll(
+    self::$dbh->insertPoll(
       [
         'title' => 'testPoll invalid reason',
         'maxVotes' => null,
@@ -42,9 +53,10 @@ final class DbTest extends TestCase
    */
   public function testInsertPOllIgnoreConstraints(): void
   {
-    $this->expectExceptionMessage("Can't insert poll, constraint violated");
+    // echo "testInsertPOllIgnoreConstraints\n";
+    // $this->expect("Can't insert poll, constraint violated");
 
-    $this->db->insertPoll(
+    self::$dbh->insertPoll(
       [
         'title' => 'testPoll invalid reason',
         'maxVotes' => null,

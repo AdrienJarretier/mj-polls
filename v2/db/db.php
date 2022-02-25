@@ -13,9 +13,6 @@ class Db
         'verbose' => false
     ])
     {
-        // $dbUtils = new DbUtils(
-        //     ['verbose' => $opts['verbose']]
-        // );
 
         try {
             $this->dbh = new PDO(
@@ -85,10 +82,13 @@ class Db
 
             $pollId = $this->dbh->lastInsertId();
         } catch (Exception $e) {
+            $this->dbh->rollBack();
             if ($e->getCode() == 23514)
                 throw new Exception("Can't insert poll, constraint violated");
             else
                 throw $e;
         }
+
+        $this->dbh->commit();
     }
 }
