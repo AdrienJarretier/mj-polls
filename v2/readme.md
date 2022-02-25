@@ -59,9 +59,12 @@ sudo su - postgres
 
 ```bash
 (
-    cd /home/ubuntu/gitRepos/mj-polls/db
-    psql -f dbSchema.sql
-    psql -f dbInitFill.sql
+    cd /home/ubuntu/gitRepos/mj-polls/v2/db
+
+    psql -c "CREATE DATABASE mjpollsdb;"
+
+    psql -f dbSchema.sql mjpollsdb
+    psql -f dbInitFill.sql mjpollsdb
 )
 ```
 <hr>
