@@ -6,22 +6,26 @@ function _executePrepared(
     $bindParameters
     // , $expand
 ) {
+    $success = false;
+    try {
+        switch ($executionMethod) {
 
-    switch ($executionMethod) {
+            case 'all':
+                // $stmt.expand(expand);
+                $success = $stmt->fetchAll($bindParameters);
 
-        case 'all':
-            // $stmt.expand(expand);
-            return $stmt->fetchAll($bindParameters);
+            case 'get':
+                // $stmt.expand(expand);
+                $success = $stmt->fetch($bindParameters);
 
-        case 'get':
-            // $stmt.expand(expand);
-            return $stmt->fetch($bindParameters);
+            case 'run':
 
-        case 'run':
-
-            $success = $stmt->execute($bindParameters);
-            return $success;
+                $success = $stmt->execute($bindParameters);
+        }
+    } finally {
+        // $stmt->debugDumpParams();
     }
+    return $success;
 }
 
 function prepareAndExecute(
