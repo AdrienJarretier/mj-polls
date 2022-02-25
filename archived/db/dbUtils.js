@@ -97,7 +97,8 @@ module.exports = function (opts) {
         if (returnRaw)
             stmt.raw(true);
 
-        let returnValue = _executePrepared(stmt, executionMethod, bindParameters, expand);
+        let returnValue = _executePrepared(stmt, executionMethod,
+            bindParameters,expand);
 
         if (returnRaw)
             stmt.raw(false);

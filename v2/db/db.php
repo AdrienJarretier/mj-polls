@@ -1,5 +1,9 @@
 <?php
 
+// ini_set('display_errors', "1");
+// ini_set('display_startup_errors', "1");
+// error_reporting(E_ALL);
+
 require 'DbUtils.php';
 require 'common.php';
 
@@ -9,9 +13,9 @@ class Db
         'verbose' => false
     ])
     {
-        $dbUtils = new DbUtils(
-            ['verbose' => $opts['verbose']]
-        );
+        // $dbUtils = new DbUtils(
+        //     ['verbose' => $opts['verbose']]
+        // );
 
         try {
             $this->dbh = new PDO(
@@ -54,34 +58,37 @@ class Db
 
         $this->dbh->beginTransaction();
 
-        // try {
+        try {
 
-        if ($ignoreConstraints)
-            $this->dbh->pragma('ignore_check_constraints = 1');
+            if ($ignoreConstraints)
+                $this->dbh->pragma('ignore_check_constraints = 1');
 
-        $resourceIdentifier = randomIdentifier(8);
+            $identifier = randomIdentifier(8);
 
-        //     // if title is not only whitespaces
-        //     const re = /^\s*(\S.*?\S?)\s*$/;
-        //     const matched = data.title.match(re);
+            // if title is not only whitespaces
+            $re = '/^\s*(\S.*?\S?)\s*$/';
+            $matched = preg_match($re, $data['title']);
 
-        //     if(!matched) {
-        //         throw 'db.insertPoll() : title is only whitespaces';
-        //     }
+            if (!$matched) {
+                throw new Exception('db.insertPoll() : title is only whitespaces');
+            }
 
-        //     let pollsInsertResult = prepareAndExecute(db, `
-        //     INSERT INTO polls(uuid, title, max_voters, max_datetime)
-        //     VALUES(?, ?, ?, datetime(?));
-        //     `, 'run', [uuid, data.title, data.maxVotes, data.max_datetime]);
+            $pollsInsertResult = prepareAndExecute($this->dbh, '
+            INSERT INTO polls(identifier, title, max_voters, max_datetime)
+            VALUES(?, ?, ?, ?);
+            ', 'run', [
+                $identifier,
+                $data['title'],
+                $data['maxVotes'],
+                $data['max_datetime']
+            ]);
 
-        //     pollId = pollsInsertResult.lastInsertRowid;
-
-        // }
-        // catch (e) {
-        //     if (e.code == 'SQLITE_CONSTRAINT_CHECK')
-        //         throw "Can't insert poll, constraint violated";
-        //     else
-        //         throw e;
-        // }
+            $pollId = $this->dbh->lastInsertId();
+        } catch (Exception $e) {
+            if ($e->getCode() == 23514)
+                throw new Exception("Can't insert poll, constraint violated");
+            else
+                throw $e;
+        }
     }
 }
