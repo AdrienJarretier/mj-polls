@@ -14,3 +14,8 @@ sudo su - postgres
     psql -f dbSchema.sql mjpolls_unittests
     psql -f dbInitFill.sql mjpolls_unittests
 )
+```
+
+```bash
+./vendor/bin/phpunit tests --testdox
+```
