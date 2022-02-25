@@ -61,7 +61,7 @@ class Db
         try {
 
             if ($ignoreConstraints)
-                $this->dbh->pragma('ignore_check_constraints = 1');
+                $this->dbh->exec('SET CONSTRAINTS ALL DEFERRED;');
 
             $identifier = randomIdentifier(8);
 
