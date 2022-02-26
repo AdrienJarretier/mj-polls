@@ -21,10 +21,47 @@ class Db
         );
     }
 
+    // for a list of results with polls and their choices
+    // returns an object with polls ids as keys
+    // values are the polls with an array of their choices
+    function _aggregateChoices($resultRows)
+    {
+        $polls = $resultRows;
+
+        $polls = [];
+
+        foreach ($resultRows as $row) {
+
+            $id = $row['id'][0];
+
+            if (!array_key_exists($id, $polls)) {
+
+                $polls[$id] = [];
+
+                foreach ($row as $key => $value) {
+
+                    if (!in_array($key, ['id', 'name', 'poll_id']))
+                        $polls[$id][$key] = $value;
+                }
+
+                $polls[$id]['choices'] = [];
+            }
+
+            array_push($polls[$id]['choices'], $row['name']);
+        }
+
+        // print_r($polls);
+        return $polls;
+    }
+
+    // function addVote($pollId, $vote) {
+
+    // }
+
     function getPoll($id)
     {
 
-        $row = $this->dbUtils->executeStatement(
+        $rows = $this->dbUtils->executeStatement(
             '
         SELECT *
         FROM polls
@@ -32,13 +69,24 @@ class Db
         ON polls.id=polls_choices.poll_id
         WHERE polls.id = ?;
         ',
-            'get',
+            'all',
             [$id]
         );
 
         // $poll = _removePollId(_aggregateChoices($rows)[$id]);
 
-        return $row;
+        $poll = $this->_aggregateChoices($rows)[$id];
+
+        return $poll;
+    }
+
+
+    function getGrades()
+    {
+
+        return $this->dbUtils->executeStatement('
+    SELECT * FROM grades ORDER BY "order";
+    ', 'all');
     }
 
     /*
@@ -53,7 +101,7 @@ class Db
 
         Returns the id of the inserted poll
     */
-    function insertPoll($data, $ignoreConstraints = false)
+    function insertPoll($data)
     {
 
         // ------------------------- prepare Data -------------------------
@@ -106,8 +154,43 @@ class Db
                 throw $e;
         }
 
+        // ------------------------ INSERT choices ------------------------
+
+        // $gradesIds = $this->getGrades();
+
+        // print_r($gradesIds);
+
+        $stmt = $this->dbUtils->prepare(
+            'INSERT 
+INTO polls_choices(poll_id, name) 
+VALUES(?, ?);'
+        );
+        $pcs_insertsResults = [];
+
+        try {
+            foreach ($data['choices'] as $choiceName) {
+
+                $re = '/^\s*(\S.*?\S?)\s*$/';
+                $matches = [];
+                $matched = preg_match($re, $choiceName, $matches);
+                if ($matched) {
+                    array_push($pcs_insertsResults, $stmt->execute([$pollId, $matches[1]]));
+                }
+            }
+            if (count($pcs_insertsResults) == 0) {
+                throw new Exception('Db::insertPoll() : no choices inserted, aborting poll insertion');
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        // ----------------------------------------------------------------
+
+
         $this->dbUtils->commit();
 
         return intval($pollId);
     }
 }
+
+// print_r((new Db('mjpolls_unittests'))->getGrades());

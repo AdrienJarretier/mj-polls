@@ -67,7 +67,7 @@ final class DbTest extends TestCase
       'title' => 'test addVote',
       'maxVotes' => null,
       'max_datetime' => null,
-      'choices' => 'testChoice1',
+      'choices' => ['testChoice1', 'testChoice2'],
       'duplicateCheckMethod' => null
     ]);
 
@@ -85,12 +85,10 @@ final class DbTest extends TestCase
 
     $poll = self::$dbh->getPoll($pollId);
 
-    // print_r($poll);
-
     // poll_choice_id : grade_id , ... 
     $vote = [];
 
-    for ($i = 0; $i < $poll->choices->length + 1; ++$i) {
+    for ($i = 0; $i < count($poll['choices']) + 1; ++$i) {
       $vote[$i] = 1;
     }
 

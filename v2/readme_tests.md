@@ -10,6 +10,7 @@ sudo su - postgres
 
     psql -c "DROP DATABASE mjpolls_unittests;"
     psql -c "CREATE DATABASE mjpolls_unittests;"
+    psql -c "ALTER DEFAULT PRIVILEGES GRANT ALL ON TABLES TO mjpolls;" mjpolls_unittests
 
     psql -f dbSchema.sql mjpolls_unittests
     psql -f dbInitFill.sql mjpolls_unittests

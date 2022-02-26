@@ -61,6 +61,7 @@ sudo su - postgres
 (
     cd /home/ubuntu/gitRepos/mj-polls/v2/db
 
+    psql -c "DROP DATABASE mjpollsdb;"
     psql -c "CREATE DATABASE mjpollsdb;"
 
     psql -f dbSchema.sql mjpollsdb

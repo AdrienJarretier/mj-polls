@@ -40,13 +40,13 @@ class DbUtils extends PDO
 
                 case 'all':
                     // $stmt.expand(expand);
-                    $rows = $stmt->fetchAll();
+                    $rows = $stmt->fetchAll(PDO::FETCH_NAMED);
                     break;
 
                 case 'get':
                     // $stmt.expand(expand);
                     $rows = $stmt->fetch();
-                    print_r($rows);
+                    // print_r($rows);
                     break;
 
                 case 'run':
@@ -82,7 +82,7 @@ class DbUtils extends PDO
     function executeStatement(
         $sqlString,
         $executionMethod,
-        $bindParameters
+        $bindParameters = []
     ) {
         $results = $this->prepareAndExecute(
             $sqlString,
