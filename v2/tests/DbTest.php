@@ -92,6 +92,9 @@ final class DbTest extends TestCase
       $vote[$i] = 1;
     }
 
+    // echo PHP_EOL . 'testAddVoteWrongNbOfChoices : vote' . PHP_EOL;
+    // print_r($vote);
+
     self::$dbh->addVote($pollId, $vote);
   }
 }

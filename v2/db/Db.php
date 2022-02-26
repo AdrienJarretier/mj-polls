@@ -54,9 +54,98 @@ class Db
         return $polls;
     }
 
-    // function addVote($pollId, $vote) {
+    /**
+     * @param int $pollId the id of the poll on which to vote 
+     * @param array $vote [poll_choice_id : grade_id , ...]
+     * @return boolean true if vote successfull | false otherwise
+     */
+    function addVote($pollId, $vote)
+    {
+        $updateSuccess = false;
 
-    // }
+        $this->dbUtils->beginTransaction();
+
+        $choices_ids = $this->dbUtils->prepareAndExecute(
+            'SELECT id
+            FROM polls_choices AS pc
+            WHERE pc.poll_id = ?;',
+            'all',
+            [$pollId]
+        );
+
+
+
+        // echo PHP_EOL . 'addVote : vote' . PHP_EOL;
+        // print_r($vote);
+
+        $voteEntries = [];
+        foreach ($vote as $choice_id => $voteValue) {
+            array_push($voteEntries, [$choice_id, $voteValue]);
+        }
+
+        // echo PHP_EOL . 'addVote : voteEntries' . PHP_EOL;
+        // print_r($voteEntries);
+
+        if (count($voteEntries) != count($choices_ids))
+            throw new Exception(
+                'number of votes does not match number of choices in ' . $pollId
+            );
+
+        foreach ($voteEntries as $voteEntry) {
+            $choice_id = intval($voteEntry[0]);
+            if (!in_array($choice_id, $choices_ids)) {
+                new Exception(
+                    'choice ' . $choice_id . ' does not belong to poll ' . $pollId
+                );
+            }
+        }
+
+        $updatesResults = $this->dbUtils->executeLoop(
+            'UPDATE polls_votes
+        SET count = count+1
+        WHERE poll_choice_id = ?
+        AND grade_id = ?
+        ;',
+            $voteEntries
+        );
+
+        //     // update unsuccessfull
+        //     if(count($updatesResults) < count($voteEntries))
+        //         return false;
+
+        //         foreach($updatesResults as $updatesResult)
+        //    {
+        //         // update unsuccessfull
+        //         if ($updateResult.changes != 1)
+        //             return false;
+        //     }
+
+        //     updateSuccess = true;
+
+        //     let { votes_count, max_voters } = dbUtils.prepareAndExecute(db,
+        //         `SELECT sum(count) as votes_count, max_voters
+        //     FROM polls AS p
+        //     INNER JOIN polls_choices AS pc
+        //     ON p.id = pc.poll_id
+        //     INNER JOIN polls_votes AS pv
+        //     ON pc.id = pv.poll_choice_id
+        //     WHERE p.id = ?
+        //     GROUP BY pc.id
+        //     LIMIT 1;`,
+        //         'get', [pollId]);
+
+        //     if (max_voters !== null && votes_count >= max_voters) {
+        //         closePoll(pollId, 1, db);
+        //     }
+
+
+
+
+
+        $this->dbUtils->commit();
+
+        return $updateSuccess;
+    }
 
     function getPoll($id)
     {
