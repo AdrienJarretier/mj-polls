@@ -9,11 +9,16 @@ require 'common.php';
 
 class Db
 {
-    function __construct($dbname, $user, $pass, $opts = [
-        'verbose' => false
-    ])
+    function __construct($dbname)
     {
-        $this->dbUtils = new DbUtils($dbname, $user, $pass, $opts);
+        $this->dbUtils = new DbUtils(
+            $dbname,
+            'mjpolls',
+            'pass',
+            [
+                'verbose' => false
+            ]
+        );
     }
 
     /*

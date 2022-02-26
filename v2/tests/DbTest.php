@@ -19,14 +19,7 @@ final class DbTest extends TestCase
   public static function setUpBeforeClass(): void
   {
     // echo "set up\n";
-    self::$dbh = new Db(
-      'mjpolls_unittests',
-      'mjpolls',
-      'pass',
-      [
-        'verbose' => true
-      ]
-    );
+    self::$dbh = new Db('mjpolls_unittests');
   }
 
   /**
@@ -67,4 +60,38 @@ final class DbTest extends TestCase
   //     true
   //   );
   // }
+
+  public function testInsert()
+  {
+    $insertedId = self::$dbh->insertPoll([
+      'title' => 'test addVote',
+      'maxVotes' => null,
+      'max_datetime' => null,
+      'choices' => 'testChoice1',
+      'duplicateCheckMethod' => null
+    ]);
+
+    $this->assertIsInt($insertedId);
+    return $insertedId;
+  }
+
+  /**
+   * @testdox Throws error if number of votes is different than number of choices
+   * @depends testInsert
+   */
+  public function testAddVoteWrongNbOfChoices($pollId)
+  {
+    $this->expectExceptionMessage('number of votes does not match number of choices in ' . $pollId);
+
+    $poll = self::$dbh->getPoll($pollId);
+
+    // poll_choice_id : grade_id , ... 
+    $vote = [];
+
+    for ($i = 0; $i < $poll->choices->length + 1; ++$i) {
+      $vote[$i] = 1;
+    }
+
+    self::$dbh->addVote($pollId, $vote);
+  }
 }
