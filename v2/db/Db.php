@@ -21,6 +21,26 @@ class Db
         );
     }
 
+    function getPoll($id)
+    {
+
+        $row = $this->dbUtils->executeStatement(
+            '
+        SELECT *
+        FROM polls
+        INNER JOIN polls_choices
+        ON polls.id=polls_choices.poll_id
+        WHERE polls.id = ?;
+        ',
+            'get',
+            [$id]
+        );
+
+        // $poll = _removePollId(_aggregateChoices($rows)[$id]);
+
+        return $row;
+    }
+
     /*
         data should be an array with at least those params :
         {
@@ -63,7 +83,7 @@ class Db
                 throw new Exception('db.insertPoll() : title is only whitespaces');
             }
 
-            $pollsInsertResult = $this->dbUtils->prepareAndExecute(
+            $this->dbUtils->prepareAndExecute(
                 '
             INSERT INTO polls(identifier, title, max_voters, max_datetime)
             VALUES(?, ?, ?, ?);
@@ -87,5 +107,7 @@ class Db
         }
 
         $this->dbUtils->commit();
+
+        return intval($pollId);
     }
 }

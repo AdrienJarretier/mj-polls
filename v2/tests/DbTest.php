@@ -85,6 +85,8 @@ final class DbTest extends TestCase
 
     $poll = self::$dbh->getPoll($pollId);
 
+    // print_r($poll);
+
     // poll_choice_id : grade_id , ... 
     $vote = [];
 

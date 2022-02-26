@@ -27,26 +27,38 @@ class DbUtils extends PDO
         $bindParameters
         // , $expand
     ) {
-        $success = false;
+        // echo PHP_EOL.PHP_EOL.PHP_EOL;
+        // echo '_executePrepared'.PHP_EOL;
+        // print_r($stmt);
+        // print_r($executionMethod);
+        // print_r($bindParameters);
+
+        $rows = [];
         try {
+            $stmt->execute($bindParameters);
             switch ($executionMethod) {
 
                 case 'all':
                     // $stmt.expand(expand);
-                    $success = $stmt->fetchAll($bindParameters);
+                    $rows = $stmt->fetchAll();
+                    break;
 
                 case 'get':
                     // $stmt.expand(expand);
-                    $success = $stmt->fetch($bindParameters);
+                    $rows = $stmt->fetch();
+                    print_r($rows);
+                    break;
 
                 case 'run':
 
-                    $success = $stmt->execute($bindParameters);
+                    // $success = $stmt->execute($bindParameters);
+                    break;
             }
         } finally {
             // $stmt->debugDumpParams();
         }
-        return $success;
+
+        return $rows;
     }
 
     function prepareAndExecute(
@@ -65,5 +77,19 @@ class DbUtils extends PDO
 
 
         return $returnValue;
+    }
+
+    function executeStatement(
+        $sqlString,
+        $executionMethod,
+        $bindParameters
+    ) {
+        $results = $this->prepareAndExecute(
+            $sqlString,
+            $executionMethod,
+            $bindParameters
+        );
+
+        return $results;
     }
 }
