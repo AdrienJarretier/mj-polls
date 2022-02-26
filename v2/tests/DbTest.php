@@ -48,23 +48,23 @@ final class DbTest extends TestCase
     );
   }
 
-  /**
-   * @testdox should ignore constraints if ignoreConstraints is true
-   */
-  public function testInsertPOllIgnoreConstraints(): void
-  {
-    // echo "testInsertPOllIgnoreConstraints\n";
-    // $this->expect("Can't insert poll, constraint violated");
+  // /**
+  //  * @testdox should ignore constraints if ignoreConstraints is true
+  //  */
+  // public function testInsertPOllIgnoreConstraints(): void
+  // {
+  //   // echo "testInsertPOllIgnoreConstraints\n";
+  //   // $this->expect("Can't insert poll, constraint violated");
 
-    self::$dbh->insertPoll(
-      [
-        'title' => 'testPoll invalid reason',
-        'maxVotes' => null,
-        'max_datetime' => '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
-        'choices' => ['testChoice1'],
-        'duplicateCheckMethod' => null,
-      ],
-      true
-    );
-  }
+  //   self::$dbh->insertPoll(
+  //     [
+  //       'title' => 'testPoll invalid reason',
+  //       'maxVotes' => null,
+  //       'max_datetime' => '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
+  //       'choices' => ['testChoice1'],
+  //       'duplicateCheckMethod' => null,
+  //     ],
+  //     true
+  //   );
+  // }
 }
