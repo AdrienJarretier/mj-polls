@@ -62,53 +62,58 @@ final class DbTest extends TestCase
 
 
 
-  // /**
-  //  * @testdox should not ignore constraints if ignoreConstraints is not given
-  //  */
-  // public function testInsertPOllFollowsConstraints(): void
-  // {
-  //   // echo "testInsertPOllFollowsConstraints\n";
-  //   $this->expectExceptionMessage("Can't insert poll, constraint violated");
+  /**
+   * @testdox should not ignore constraints if ignoreConstraints is not given
+   */
+  public function testInsertPOllFollowsConstraints(): void
+  {
+    // echo "testInsertPOllFollowsConstraints\n";
+    $this->expectExceptionMessage("Can't insert poll, constraint violated");
 
-  //   self::$dbh->insertPoll(
-  //     [
-  //       'title' => 'testPoll invalid reason',
-  //       'maxVotes' => null,
-  //       'max_datetime' => '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
-  //       'choices' => ['testChoice1'],
-  //       'duplicateCheckMethod' => null
-  //     ]
-  //   );
-  // }
+    self::$db->insertPoll(
+      new Poll(
+        [
+          'title' => 'testPoll invalid reason',
+          'maxVotes' => null,
+          'max_datetime' => '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
+          'duplicateCheckMethod' => null
+        ]
+      ),
+      ['testChoice1']
+    );
+  }
 
 
 
-  // /**
-  //  * @testdox Throws error if number of votes is different than number of choices
-  //  * @depends testInsert
-  //  */
-  // public function testAddVoteWrongNbOfChoices($pollId)
-  // {
-  //   $this->expectExceptionMessage('number of votes does not match number of choices in ' . $pollId);
+  /**
+   * @testdox Throws error if number of votes is different than number of choices
+   * @depends testInsert
+   */
+  public function testAddVoteWrongNbOfChoices($pollId)
+  {
+    $this->expectExceptionMessage('number of votes does not match number of choices in ' . $pollId);
 
-  //   $poll = self::$dbh->getPoll($pollId);
+    // echo PHP_EOL . 'testAddVoteWrongNbOfChoices' . PHP_EOL;
+    // echo PHP_EOL . 'poll' . PHP_EOL;
+    // print_r($poll);
 
-  //   // echo PHP_EOL . 'testAddVoteWrongNbOfChoices' . PHP_EOL;
-  //   // echo PHP_EOL . 'poll' . PHP_EOL;
-  //   // print_r($poll);
+    try {
+      $poll = self::$db->getPoll($pollId);
 
-  //   // poll_choice_id : grade_id , ... 
-  //   $vote = [];
+      // poll_choice_id : grade_id , ... 
+      $vote = [];
 
-  //   for ($i = 0; $i < count($poll->choices) + 1; ++$i) {
-  //     $vote[$i] = 1;
-  //   }
+      for ($i = 0; $i < count($poll->choices) + 1; ++$i) {
+        $vote[$i] = 1;
+      }
 
-  //   // echo PHP_EOL . 'testAddVoteWrongNbOfChoices : vote' . PHP_EOL;
-  //   // print_r($vote);
+      self::$db->addVote($pollId, $vote);
+    } catch (Exception $e) {
 
-  //   self::$dbh->addVote($pollId, $vote);
-  // }
+      // echo $e;
+      throw $e;
+    }
+  }
 
 
   // /**

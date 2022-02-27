@@ -17,12 +17,57 @@ class MjPollsDao
         );
     }
 
+    function getPoll(int $pollId)
+    {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT *
+            FROM polls
+            WHERE id = ?',
+            'get',
+            [$pollId],
+            'Poll'
+        );
+    }
+
+    function getChoicesOfPoll(int $pollId)
+    {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT *
+            FROM polls_choices
+            WHERE poll_id = ?',
+            'all',
+            [$pollId],
+            'PollChoice'
+        );
+    }
+
     /**
      * @return array choices' ids of the poll with id $pollId
      */
     function getChoicesIdOfPoll(int $pollId)
     {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT id
+            FROM polls_choices AS pc
+            WHERE pc.poll_id = ?;',
+            'all',
+            [$pollId]
+        );
     }
+
+
+    function incPollVote($voteEntries)
+    {
+        return $this->dbUtils->executeLoop(
+            'UPDATE polls_votes
+            SET count = count+1
+            WHERE poll_choice_id = ?
+            AND grade_id = ?
+            ;',
+            $voteEntries
+        );
+    }
+
 
     function insertPoll(Poll $poll)
     {

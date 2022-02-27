@@ -65,17 +65,11 @@ class Db
     {
         $updateSuccess = false;
 
-        $this->dbUtils->beginTransaction();
+        $this->dao->dbUtils->beginTransaction();
 
-        $choices_ids = getChoicesIdOfPoll($pollId);
+        $choices_ids = $this->dao->getChoicesIdOfPoll($pollId);
 
-        $choices_ids = $this->dbUtils->prepareAndExecute(
-            'SELECT id
-            FROM polls_choices AS pc
-            WHERE pc.poll_id = ?;',
-            'all',
-            [$pollId]
-        );
+
 
 
 
@@ -104,14 +98,7 @@ class Db
             }
         }
 
-        $updatesResults = $this->dbUtils->executeLoop(
-            'UPDATE polls_votes
-        SET count = count+1
-        WHERE poll_choice_id = ?
-        AND grade_id = ?
-        ;',
-            $voteEntries
-        );
+        $updatesResults = $this->dao->incPollVote($voteEntries);
 
         //     // update unsuccessfull
         //     if(count($updatesResults) < count($voteEntries))
@@ -146,7 +133,7 @@ class Db
 
 
 
-        $this->dbUtils->commit();
+        $this->dao->dbUtils->commit();
 
         return $updateSuccess;
     }
@@ -171,28 +158,8 @@ class Db
      */
     function getPoll($id)
     {
-
-        $choices = $this->dbUtils->prepareAndExecute(
-            'SELECT *
-            FROM polls_choices
-            WHERE poll_id = ?',
-            'all',
-            $bindParameters = [$id],
-            $className = 'PollChoice'
-        );
-
-        // echo PHP_EOL . 'getPoll' . PHP_EOL;
-        // echo PHP_EOL . 'choices' . PHP_EOL;
-        // print_r($choices);
-
-        $poll = $this->dbUtils->prepareAndExecute(
-            'SELECT *
-            FROM polls
-            WHERE id = ?',
-            'get',
-            $bindParameters = [$id],
-            $className = 'Poll'
-        );
+        $poll = $this->dao->getPoll($id);
+        $choices = $this->dao->getChoicesOfPoll($id);
 
         $poll->addChoices($choices);
 

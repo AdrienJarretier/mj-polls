@@ -1,5 +1,7 @@
 <?php
 
+require_once 'entities/PollChoice.php';
+
 class DbUtils extends PDO
 {
     static function debug_sql($string, $data)
@@ -36,7 +38,7 @@ class DbUtils extends PDO
         $stmt,
         $executionMethod,
         $bindParameters,
-        $className = null
+        $className
         // , $expand
     ) {
         // echo PHP_EOL.PHP_EOL.PHP_EOL;
@@ -77,7 +79,7 @@ class DbUtils extends PDO
         $sqlString,
         $executionMethod,
         $bindParameters = [],
-        $className = null
+        $className = 'stdClass'
     ) {
 
         $stmt = $this->dbh->prepare($sqlString);

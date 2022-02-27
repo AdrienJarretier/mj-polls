@@ -6,7 +6,7 @@ class Poll
     public $max_voters = null;
     public $max_datetime = null;
 
-    function __construct(array $properties)
+    function __construct(array $properties = [])
     {
         foreach($properties as $col => $value)
         {
