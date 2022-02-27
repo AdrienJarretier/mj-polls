@@ -306,11 +306,53 @@ class Db
 
         return $datetime_closed != null;
     }
+
+
+    /*
+        There are only 2 instances when a poll will close
+        1 - the number of votes exceed max_voters   =>  datetime_closed <- CURRENT_TIMESTAMP
+        2 - the max_datetime has expired            =>  datetime_closed <- max_datetime 
+
+        @ 
+        reason : in, value of 1 or 2 as stated above.
+
+        errors throwns :
+            - no reason given
+            - reason 1, if max_voters is null
+            - reason 2, if max_datetime is null
+    */
+    function closePoll($pollId, $reason)
+    {
+        $possibleReasons = [1, 2];
+        if (in_array($reason, $possibleReasons)) {
+            if ($this->isClosed($pollId))
+                throw new Exception('poll is already closed');
+        } else {
+            throw new Exception('arg : reason,  must be an integer with value in ' . $possibleReasons);
+        }
+        switch ($reason) {
+            case 1:
+                $max_voters = $this->dao->getPollMaxVoters($pollId);
+                if ($max_voters === null)
+                    throw new Exception('Can\'t close poll, max_voters is NULL');
+                break;
+            case 2:
+                $max_datetime = $this->dao->getPollClosingTime($pollId)->max_datetime;
+                if ($max_datetime === null)
+                    throw new Exception('Can\'t close poll, max_datetime is NULL');
+                break;
+        }
+        $results = $this->dao->_closePoll($pollId, $reason);
+        return $results;
+    }
 }
 
 
 
-$db = new Db('mjpolls_unittests');
+
+
+
+// $db = new Db('mjpolls_unittests');
 
 // $insertedId = $db->insertPoll([
 //     'title' => 'test class Poll',

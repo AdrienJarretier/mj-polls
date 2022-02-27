@@ -3,12 +3,16 @@
 class Poll
 {
 
+    public $title;
     public $max_voters = null;
     public $max_datetime = null;
 
     function __construct(array $properties = [])
     {
         foreach ($properties as $col => $value) {
+            if (!property_exists('Poll', $col))
+                throw new Exception('wrong col name ' . $col);
+
             $this->$col = $value;
         }
     }

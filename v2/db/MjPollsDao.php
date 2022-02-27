@@ -78,6 +78,18 @@ class MjPollsDao
         );
     }
 
+    function getPollMaxVoters(int $pollId)
+    {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT max_voters
+            FROM polls
+            WHERE id=?;
+            ',
+            'get',
+            [$pollId]
+        )->max_voters;
+    }
+
 
     function incPollVote($voteEntries)
     {

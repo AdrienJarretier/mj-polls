@@ -62,26 +62,26 @@ final class DbTest extends TestCase
 
 
 
-  /**
-   * @testdox should not ignore constraints if ignoreConstraints is not given
-   */
-  public function testInsertPOllFollowsConstraints(): void
-  {
-    // echo "testInsertPOllFollowsConstraints\n";
-    $this->expectExceptionMessage("Can't insert poll, constraint violated");
+  // /**
+  //  * @testdox should not ignore constraints if ignoreConstraints is not given
+  //  */
+  // public function testInsertPOllFollowsConstraints(): void
+  // {
+  //   // echo "testInsertPOllFollowsConstraints\n";
+  //   $this->expectExceptionMessage("Can't insert poll, constraint violated");
 
-    self::$db->insertPoll(
-      new Poll(
-        [
-          'title' => 'testPoll invalid reason',
-          'maxVotes' => null,
-          'max_datetime' => '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
-          'duplicateCheckMethod' => null
-        ]
-      ),
-      ['testChoice1']
-    );
-  }
+  //   self::$db->insertPoll(
+  //     new Poll(
+  //       [
+  //         'title' => 'testPoll invalid reason',
+  //         'maxVotes' => null,
+  //         'max_datetime' => '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
+  //         'duplicateCheckMethod' => null
+  //       ]
+  //     ),
+  //     ['testChoice1']
+  //   );
+  // }
 
 
 
@@ -153,7 +153,7 @@ final class DbTest extends TestCase
 
 
   /**
-   * testdox should return false if date_closed is null
+   * @testdox should return false if date_closed is null
    */
   public function testIsClosedFalseIfDateClosedNull()
   {
@@ -162,9 +162,8 @@ final class DbTest extends TestCase
       new Poll(
         [
           'title' => 'test isClosed, date_closed is null',
-          'maxVotes' => 1,
-          'max_datetime' => null,
-          'duplicateCheckMethod' => null
+          'max_voters' => 1,
+          'max_datetime' => null
         ]
       ),
       ['testChoice1']
@@ -174,9 +173,8 @@ final class DbTest extends TestCase
       new Poll(
         [
           'title' => 'test isClosed, date_closed is null, max_datetime not expired',
-          'maxVotes' => 1,
-          'max_datetime' => '2100-01-01 00:00:00',
-          'duplicateCheckMethod' => null
+          'max_voters' => 1,
+          'max_datetime' => '2100-01-01 00:00:00'
         ]
       ),
       ['testChoice1']
@@ -184,5 +182,32 @@ final class DbTest extends TestCase
 
     $this->assertFalse(self::$db->isClosed($pollId));
     $this->assertFalse(self::$db->isClosed($pollId2));
+  }
+
+
+
+  /**
+   * @testdox should return true if date_closed is not null
+   */
+  function testTrueIdDateClosedNotNull()
+  {
+    $poll = new Poll(
+      [
+        'title' => 'test isClosed, date_closed is not null',
+        'max_voters' => 1,
+        'max_datetime' => null
+      ]
+    );
+
+    // print_r($poll);
+
+    $pollId = self::$db->insertPoll(
+      $poll,
+      ['testChoice1']
+    );
+
+    self::$db->closePoll($pollId, 1);
+
+    $this->assertTrue(self::$db->isClosed($pollId));
   }
 }
