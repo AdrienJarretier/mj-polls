@@ -8,22 +8,22 @@ class Poll
 
     function __construct(array $properties = [])
     {
-        foreach($properties as $col => $value)
-        {
+        foreach ($properties as $col => $value) {
             $this->$col = $value;
         }
     }
 
     function addChoices(array $choices)
     {
-        $this->choices = [];
-        foreach ($choices as $choice) {
+        $this->choices = $choices;
+        // foreach ($choices as $choice) {
 
-            $this->choices[$choice->id] = $choice;
-        }
+        //     $this->choices[$choice->id] = $choice;
+        // }
     }
 
-    function setIdentifier(string $identifier) {
+    function setIdentifier(string $identifier)
+    {
 
         $this->identifier = $identifier;
     }

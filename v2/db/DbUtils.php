@@ -75,6 +75,23 @@ class DbUtils extends PDO
         return $rows;
     }
 
+
+
+    function executeLoop($sqlString, $arrayOfBindParameters)
+    {
+        $arrayOfResults = [];
+        $stmt = $this->prepare($sqlString);
+        $this->beginTransaction();
+        foreach ($arrayOfBindParameters as $bindParameters) {
+            $bindParameters = $bindParameters;
+            array_push($arrayOfResults, $stmt->execute($bindParameters));
+        }
+        $this->commit();
+        return $arrayOfResults;
+    }
+
+
+
     function prepareAndExecute(
         $sqlString,
         $executionMethod,

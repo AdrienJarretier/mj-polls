@@ -84,15 +84,21 @@ class Db
         // echo PHP_EOL . 'addVote : voteEntries' . PHP_EOL;
         // print_r($voteEntries);
 
-        if (count($voteEntries) != count($choices_ids))
+        if (count($voteEntries) != count($choices_ids)) {
+            $this->dao->dbUtils->rollBack();
             throw new Exception(
                 'number of votes does not match number of choices in ' . $pollId
             );
+        }
+
+        // echo PHP_EOL . 'choices_ids' . PHP_EOL;
+        // print_r($choices_ids);
 
         foreach ($voteEntries as $voteEntry) {
             $choice_id = intval($voteEntry[0]);
             if (!in_array($choice_id, $choices_ids)) {
-                new Exception(
+                $this->dao->dbUtils->rollBack();
+                throw new Exception(
                     'choice ' . $choice_id . ' does not belong to poll ' . $pollId
                 );
             }

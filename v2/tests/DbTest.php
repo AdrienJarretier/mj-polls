@@ -116,33 +116,38 @@ final class DbTest extends TestCase
   }
 
 
-  // /**
-  //  * @testdox Throws error if choice is not a part of poll
-  //  * @depends testInsert
-  //  */
-  // public function testAddVoteChoiceNotInPoll($pollId)
-  // {
-  //   $poll = self::$dbh->getPoll($pollId);
+  /**
+   * @testdox Throws error if choice is not a part of poll
+   * @depends testInsert
+   */
+  public function testAddVoteChoiceNotInPoll($pollId)
+  {
+    $poll = self::$db->getPoll($pollId);
 
-  //   // echo PHP_EOL . 'testAddVoteChoiceNotInPoll' . PHP_EOL;
-  //   // echo PHP_EOL . 'poll' . PHP_EOL;
-  //   // print_r($poll);
+    // echo PHP_EOL . 'testAddVoteChoiceNotInPoll' . PHP_EOL;
+    // echo PHP_EOL . 'poll' . PHP_EOL;
+    // print_r($poll);
 
-  //   $choices = $poll['choices'];
+    $choices = $poll->choices;
 
+    // echo PHP_EOL . 'choices' . PHP_EOL;
+    // print_r($choices);
 
-  //   echo PHP_EOL . 'choices' . PHP_EOL;
-  //   print_r($choices);
+    $fakeId = $choices[0]->id + 1;
 
-  //   $fakeId = $choices[0]['id'] + 1;
+    $this->expectExceptionMessage('choice ' . $fakeId . ' does not belong to poll ' . $pollId);
 
-  //   $this->expectExceptionMessage('choice ' . $fakeId . ' does not belong to poll ' . $pollId);
+    try {
 
+      // poll_choice_id : grade_id , ... 
+      $vote = [];
+      $vote[$fakeId] = 1;
 
-  //   // poll_choice_id : grade_id , ... 
-  //   $vote = [];
-  //   $vote[$fakeId] = 1;
+      self::$db->addVote($pollId, $vote);
+    } catch (Exception $e) {
 
-  //   self::$dbh->addVote($pollId, $vote);
-  // }
+      // echo $e;
+      throw $e;
+    }
+  }
 }

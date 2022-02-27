@@ -42,17 +42,28 @@ class MjPollsDao
     }
 
     /**
-     * @return array choices' ids of the poll with id $pollId
+     * @return array of choices ids of the poll with id $pollId
      */
     function getChoicesIdOfPoll(int $pollId)
     {
-        return $this->dbUtils->prepareAndExecute(
+        $choicesRaw = $this->dbUtils->prepareAndExecute(
             'SELECT id
             FROM polls_choices AS pc
             WHERE pc.poll_id = ?;',
             'all',
             [$pollId]
         );
+
+        $choices = [];
+
+        foreach ($choicesRaw as $choiceObj) {
+            array_push($choices, $choiceObj->id);
+        }
+
+        // echo PHP_EOL . 'getChoicesIdOfPoll' . PHP_EOL;
+        // print_r($choicesObj);
+
+        return $choices;
     }
 
 
