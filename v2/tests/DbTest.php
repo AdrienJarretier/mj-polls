@@ -150,4 +150,39 @@ final class DbTest extends TestCase
       throw $e;
     }
   }
+
+
+  /**
+   * testdox should return false if date_closed is null
+   */
+  public function testIsClosedFalseIfDateClosedNull()
+  {
+
+    $pollId = self::$db->insertPoll(
+      new Poll(
+        [
+          'title' => 'test isClosed, date_closed is null',
+          'maxVotes' => 1,
+          'max_datetime' => null,
+          'duplicateCheckMethod' => null
+        ]
+      ),
+      ['testChoice1']
+    );
+
+    $pollId2 = self::$db->insertPoll(
+      new Poll(
+        [
+          'title' => 'test isClosed, date_closed is null, max_datetime not expired',
+          'maxVotes' => 1,
+          'max_datetime' => '2100-01-01 00:00:00',
+          'duplicateCheckMethod' => null
+        ]
+      ),
+      ['testChoice1']
+    );
+
+    $this->assertFalse(self::$db->isClosed($pollId));
+    $this->assertFalse(self::$db->isClosed($pollId2));
+  }
 }

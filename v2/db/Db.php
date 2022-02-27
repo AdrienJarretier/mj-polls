@@ -281,6 +281,31 @@ class Db
 
         return intval($pollId);
     }
+
+
+    function isClosed(int $pollId)
+    {
+
+        if ($pollId < 1)
+            throw 'db.isClosed() : argError : pollId';
+
+
+        $row = $this->dao->getPollClosingTime($pollId);
+
+        // echo PHP_EOL . 'isClosed' . PHP_EOL;
+        // echo PHP_EOL . 'row' . PHP_EOL;
+        // print_r($row);
+
+        $datetime_closed = $row->datetime_closed;
+        $maxDatetime = strtotime($row->max_datetime . 'Z');
+
+        if ($maxDatetime < time()) {
+            $this->dao->_closePoll($pollId, 2);
+            $datetime_closed = $maxDatetime;
+        }
+
+        return $datetime_closed != null;
+    }
 }
 
 

@@ -66,6 +66,18 @@ class MjPollsDao
         return $choices;
     }
 
+    function getPollClosingTime(int $pollId)
+    {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT max_datetime, datetime_closed
+            FROM polls
+            WHERE id=?;
+            ',
+            'get',
+            [$pollId]
+        );
+    }
+
 
     function incPollVote($voteEntries)
     {
@@ -123,5 +135,36 @@ class MjPollsDao
         }
 
         return $pcs_insertsResults;
+    }
+
+    /**
+     * 
+     * @param int pollId 
+     * @param int {(1|2)} reason - 1, number of votes exceed max_voters <br>
+     * - 2, max_datetime expired
+     */
+    function _closePoll($pollId, $reason)
+    {
+        switch ($reason) {
+            case 1:
+                return $this->dbUtils->prepareAndExecute(
+                    'UPDATE polls
+                    SET datetime_closed=CURRENT_TIMESTAMP
+                    WHERE id=?;
+                    ',
+                    'run',
+                    [$pollId]
+                );
+
+            case 2:
+                return $this->dbUtils->prepareAndExecute(
+                    'UPDATE polls
+                    SET datetime_closed=max_datetime
+                    WHERE id=?;
+                    ',
+                    'run',
+                    [$pollId]
+                );
+        }
     }
 }
