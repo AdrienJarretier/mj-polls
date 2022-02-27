@@ -4,35 +4,36 @@
 // ini_set('display_startup_errors', "1");
 // error_reporting(E_ALL);
 
-require 'DbUtils.php';
-require 'common.php';
+require_once 'MjPollsDao.php';
+require_once 'common.php';
+// require 'entities/Poll.php';
+// require 'entities/PollChoice.php';
 
 class Db
 {
     function __construct($dbname)
     {
-        $this->dbUtils = new DbUtils(
-            $dbname,
-            'mjpolls',
-            'pass',
-            [
-                'verbose' => false
-            ]
-        );
+        $this->dao = new MjPollsDao($dbname);
     }
 
     // for a list of results with polls and their choices
-    // returns an object with polls ids as keys
+    // returns an array with polls ids as keys
     // values are the polls with an array of their choices
     function _aggregateChoices($resultRows)
     {
+        $excludedColumns = ['poll_id', 'choice_id'];
+
         $polls = $resultRows;
 
         $polls = [];
 
+        // echo PHP_EOL . '_aggregateChoices' . PHP_EOL;
+        // echo PHP_EOL . 'resultRows' . PHP_EOL;
+        // print_r($resultRows);
+
         foreach ($resultRows as $row) {
 
-            $id = $row['id'][0];
+            $id = $row['poll_id'];
 
             if (!array_key_exists($id, $polls)) {
 
@@ -40,16 +41,17 @@ class Db
 
                 foreach ($row as $key => $value) {
 
-                    if (!in_array($key, ['id', 'name', 'poll_id']))
+                    if (!in_array($key, $excludedColumns))
                         $polls[$id][$key] = $value;
                 }
 
                 $polls[$id]['choices'] = [];
             }
 
-            array_push($polls[$id]['choices'], $row['name']);
+            $polls[$id]['choices'][$row['choice_id']] = $row['choice_id'];
         }
 
+        // echo PHP_EOL . 'polls' . PHP_EOL;
         // print_r($polls);
         return $polls;
     }
@@ -64,6 +66,8 @@ class Db
         $updateSuccess = false;
 
         $this->dbUtils->beginTransaction();
+
+        $choices_ids = getChoicesIdOfPoll($pollId);
 
         $choices_ids = $this->dbUtils->prepareAndExecute(
             'SELECT id
@@ -147,26 +151,83 @@ class Db
         return $updateSuccess;
     }
 
+    /**
+     * 
+     * @param int $id - poll id
+     * @return array {{seeBelow}}
+     * [
+     * - uuid: string
+     * - title: string
+     * - max_voters: integer | null
+     * - max_datetime: string | null
+     * - datetime_opened: string
+     * - datetime_closed: string | null
+     * - duplicate_vote_check_method_id: integer | null
+     * - choices: Array
+     * - [ 
+     * - - {id: integer, name: string}
+     * - ]
+     * ]
+     */
     function getPoll($id)
     {
 
-        $rows = $this->dbUtils->executeStatement(
-            '
-        SELECT *
-        FROM polls
-        INNER JOIN polls_choices
-        ON polls.id=polls_choices.poll_id
-        WHERE polls.id = ?;
-        ',
+        $choices = $this->dbUtils->prepareAndExecute(
+            'SELECT *
+            FROM polls_choices
+            WHERE poll_id = ?',
             'all',
-            [$id]
+            $bindParameters = [$id],
+            $className = 'PollChoice'
         );
 
-        // $poll = _removePollId(_aggregateChoices($rows)[$id]);
+        // echo PHP_EOL . 'getPoll' . PHP_EOL;
+        // echo PHP_EOL . 'choices' . PHP_EOL;
+        // print_r($choices);
 
-        $poll = $this->_aggregateChoices($rows)[$id];
+        $poll = $this->dbUtils->prepareAndExecute(
+            'SELECT *
+            FROM polls
+            WHERE id = ?',
+            'get',
+            $bindParameters = [$id],
+            $className = 'Poll'
+        );
+
+        $poll->addChoices($choices);
+
+        // echo PHP_EOL . 'getPoll' . PHP_EOL;
+        // echo PHP_EOL . 'poll' . PHP_EOL;
+        // print_r($poll);
 
         return $poll;
+
+        // $rows = $this->dbUtils->executeStatement(
+        //     'SELECT
+        //     polls.id AS poll_id,
+        //     polls_choices.id AS choice_id,
+        //     title
+        // FROM polls
+        // INNER JOIN polls_choices
+        // ON polls.id=polls_choices.poll_id
+        // WHERE polls.id = ?;
+        // ',
+        //     'all',
+        //     [$id],
+        //     'PollPollChoices'
+        // );
+
+        // // $poll = _removePollId(_aggregateChoices($rows)[$id]);
+
+        // echo PHP_EOL . 'getPoll' . PHP_EOL;
+        // echo PHP_EOL . 'rows' . PHP_EOL;
+        // print_r($rows);
+
+        // $poll = $this->_aggregateChoices($rows)[$id];
+
+        // return new Poll(
+        //     $poll['id'],
+        // );
     }
 
 
@@ -190,53 +251,30 @@ class Db
 
         Returns the id of the inserted poll
     */
-    function insertPoll($data)
+    function insertPoll(Poll $poll, array $choices)
     {
-
-        // ------------------------- prepare Data -------------------------
-
-        if ($data['maxVotes'] == '')
-            $data['maxVotes'] = null;
-
-        // ----------------------------------------------------------------
-
-
         $pollId = null;
 
-        $this->dbUtils->beginTransaction();
+        $this->dao->dbUtils->beginTransaction();
 
         try {
 
             // if ($ignoreConstraints)
             //     $this->dbUtils->exec('SET CONSTRAINTS ALL DEFERRED;');
 
-            $identifier = randomIdentifier(8);
+            $poll->setIdentifier(randomIdentifier(8));
 
             // if title is not only whitespaces
             $re = '/^\s*(\S.*?\S?)\s*$/';
-            $matched = preg_match($re, $data['title']);
+            $matched = preg_match($re, $poll->title);
 
             if (!$matched) {
                 throw new Exception('db.insertPoll() : title is only whitespaces');
             }
 
-            $this->dbUtils->prepareAndExecute(
-                '
-            INSERT INTO polls(identifier, title, max_voters, max_datetime)
-            VALUES(?, ?, ?, ?);
-            ',
-                'run',
-                [
-                    $identifier,
-                    $data['title'],
-                    $data['maxVotes'],
-                    $data['max_datetime']
-                ]
-            );
-
-            $pollId = $this->dbUtils->lastInsertId();
+            $pollId = $this->dao->insertPoll($poll);
         } catch (Exception $e) {
-            $this->dbUtils->rollBack();
+            $this->dao->dbUtils->rollBack();
             if ($e->getCode() == 23514)
                 throw new Exception("Can't insert poll, constraint violated");
             else
@@ -249,37 +287,50 @@ class Db
 
         // print_r($gradesIds);
 
-        $stmt = $this->dbUtils->prepare(
-            'INSERT 
-INTO polls_choices(poll_id, name) 
-VALUES(?, ?);'
-        );
-        $pcs_insertsResults = [];
-
         try {
-            foreach ($data['choices'] as $choiceName) {
+            $pcs_insertsResults =
+                $this->dao->insertChoices($pollId, $choices);
 
-                $re = '/^\s*(\S.*?\S?)\s*$/';
-                $matches = [];
-                $matched = preg_match($re, $choiceName, $matches);
-                if ($matched) {
-                    array_push($pcs_insertsResults, $stmt->execute([$pollId, $matches[1]]));
-                }
-            }
             if (count($pcs_insertsResults) == 0) {
+
                 throw new Exception('Db::insertPoll() : no choices inserted, aborting poll insertion');
             }
         } catch (Exception $e) {
+
+            $this->dao->dbUtils->rollBack();
             throw $e;
         }
 
         // ----------------------------------------------------------------
 
 
-        $this->dbUtils->commit();
+        $this->dao->dbUtils->commit();
 
         return intval($pollId);
     }
 }
 
-// print_r((new Db('mjpolls_unittests'))->getGrades());
+
+
+$db = new Db('mjpolls_unittests');
+
+// $insertedId = $db->insertPoll([
+//     'title' => 'test class Poll',
+//     'maxVotes' => null,
+//     'max_datetime' => null,
+//     'choices' => ['testChoice1', 'testChoice2'],
+//     'duplicateCheckMethod' => null
+// ]);
+
+// print_r($db->getPoll($insertedId));
+
+// print_r($db->getGrades());
+
+// require_once 'entities/Poll.php';
+
+// $poll = new Poll([
+//     'title' => 'test the new dao'
+// ]);
+// $choices = ['testdao choice 1'];
+
+// $insertedId = $db->insertPoll($poll, $choices);

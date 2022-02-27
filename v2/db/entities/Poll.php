@@ -3,15 +3,29 @@
 class Poll
 {
 
-    public $choices = [];
+    public $max_voters = null;
+    public $max_datetime = null;
+
+    function __construct(array $properties)
+    {
+        foreach($properties as $col => $value)
+        {
+            $this->$col = $value;
+        }
+    }
 
     function addChoices(array $choices)
     {
-
+        $this->choices = [];
         foreach ($choices as $choice) {
 
             $this->choices[$choice->id] = $choice;
         }
+    }
+
+    function setIdentifier(string $identifier) {
+
+        $this->identifier = $identifier;
     }
 
 
@@ -38,3 +52,10 @@ class Poll
     //     $this->duplicate_vote_check_method_id = $duplicate_vote_check_method_id;
     // }
 }
+
+// $poll = new Poll([
+//     'title' => 'test addVote'
+// ]);
+
+// echo "\n Poll \n";
+// print_r($poll);

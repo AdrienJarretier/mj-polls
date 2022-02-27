@@ -11,34 +11,17 @@ use PHPUnit\Framework\TestCase;
 
 require_once 'db/Db.php';
 
+require_once 'db/entities/Poll.php';
+
 
 final class DbTest extends TestCase
 {
-  private static $dbh;
+  private static $db;
 
   public static function setUpBeforeClass(): void
   {
     // echo "set up\n";
-    self::$dbh = new Db('mjpolls_unittests');
-  }
-
-  /**
-   * @testdox should not ignore constraints if ignoreConstraints is not given
-   */
-  public function testInsertPOllFollowsConstraints(): void
-  {
-    // echo "testInsertPOllFollowsConstraints\n";
-    $this->expectExceptionMessage("Can't insert poll, constraint violated");
-
-    self::$dbh->insertPoll(
-      [
-        'title' => 'testPoll invalid reason',
-        'maxVotes' => null,
-        'max_datetime' => '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
-        'choices' => ['testChoice1'],
-        'duplicateCheckMethod' => null
-      ]
-    );
+    self::$db = new Db('mjpolls_unittests');
   }
 
   // /**
@@ -61,40 +44,100 @@ final class DbTest extends TestCase
   //   );
   // }
 
+
+
   public function testInsert()
   {
-    $insertedId = self::$dbh->insertPoll([
-      'title' => 'test addVote',
-      'maxVotes' => null,
-      'max_datetime' => null,
-      'choices' => ['testChoice1', 'testChoice2'],
-      'duplicateCheckMethod' => null
+    $poll = new Poll([
+      'title' => 'test addVote'
     ]);
+    $choices = ['testChoice1'];
+
+    $insertedId = self::$db->insertPoll($poll, $choices);
 
     $this->assertIsInt($insertedId);
+
     return $insertedId;
   }
 
-  /**
-   * @testdox Throws error if number of votes is different than number of choices
-   * @depends testInsert
-   */
-  public function testAddVoteWrongNbOfChoices($pollId)
-  {
-    $this->expectExceptionMessage('number of votes does not match number of choices in ' . $pollId);
 
-    $poll = self::$dbh->getPoll($pollId);
 
-    // poll_choice_id : grade_id , ... 
-    $vote = [];
+  // /**
+  //  * @testdox should not ignore constraints if ignoreConstraints is not given
+  //  */
+  // public function testInsertPOllFollowsConstraints(): void
+  // {
+  //   // echo "testInsertPOllFollowsConstraints\n";
+  //   $this->expectExceptionMessage("Can't insert poll, constraint violated");
 
-    for ($i = 0; $i < count($poll['choices']) + 1; ++$i) {
-      $vote[$i] = 1;
-    }
+  //   self::$dbh->insertPoll(
+  //     [
+  //       'title' => 'testPoll invalid reason',
+  //       'maxVotes' => null,
+  //       'max_datetime' => '2021-07-01 00:00:00', // constraint violation, max date on insert can't be earleir than now
+  //       'choices' => ['testChoice1'],
+  //       'duplicateCheckMethod' => null
+  //     ]
+  //   );
+  // }
 
-    // echo PHP_EOL . 'testAddVoteWrongNbOfChoices : vote' . PHP_EOL;
-    // print_r($vote);
 
-    self::$dbh->addVote($pollId, $vote);
-  }
+
+  // /**
+  //  * @testdox Throws error if number of votes is different than number of choices
+  //  * @depends testInsert
+  //  */
+  // public function testAddVoteWrongNbOfChoices($pollId)
+  // {
+  //   $this->expectExceptionMessage('number of votes does not match number of choices in ' . $pollId);
+
+  //   $poll = self::$dbh->getPoll($pollId);
+
+  //   // echo PHP_EOL . 'testAddVoteWrongNbOfChoices' . PHP_EOL;
+  //   // echo PHP_EOL . 'poll' . PHP_EOL;
+  //   // print_r($poll);
+
+  //   // poll_choice_id : grade_id , ... 
+  //   $vote = [];
+
+  //   for ($i = 0; $i < count($poll->choices) + 1; ++$i) {
+  //     $vote[$i] = 1;
+  //   }
+
+  //   // echo PHP_EOL . 'testAddVoteWrongNbOfChoices : vote' . PHP_EOL;
+  //   // print_r($vote);
+
+  //   self::$dbh->addVote($pollId, $vote);
+  // }
+
+
+  // /**
+  //  * @testdox Throws error if choice is not a part of poll
+  //  * @depends testInsert
+  //  */
+  // public function testAddVoteChoiceNotInPoll($pollId)
+  // {
+  //   $poll = self::$dbh->getPoll($pollId);
+
+  //   // echo PHP_EOL . 'testAddVoteChoiceNotInPoll' . PHP_EOL;
+  //   // echo PHP_EOL . 'poll' . PHP_EOL;
+  //   // print_r($poll);
+
+  //   $choices = $poll['choices'];
+
+
+  //   echo PHP_EOL . 'choices' . PHP_EOL;
+  //   print_r($choices);
+
+  //   $fakeId = $choices[0]['id'] + 1;
+
+  //   $this->expectExceptionMessage('choice ' . $fakeId . ' does not belong to poll ' . $pollId);
+
+
+  //   // poll_choice_id : grade_id , ... 
+  //   $vote = [];
+  //   $vote[$fakeId] = 1;
+
+  //   self::$dbh->addVote($pollId, $vote);
+  // }
 }

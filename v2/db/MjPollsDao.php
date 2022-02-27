@@ -1,0 +1,71 @@
+<?php
+
+require_once 'DbUtils.php';
+
+class MjPollsDao
+{
+
+    function __construct(string $dbname)
+    {
+        $this->dbUtils = new DbUtils(
+            $dbname,
+            'mjpolls',
+            'pass',
+            [
+                'verbose' => false
+            ]
+        );
+    }
+
+    /**
+     * @return array choices' ids of the poll with id $pollId
+     */
+    function getChoicesIdOfPoll(int $pollId)
+    {
+    }
+
+    function insertPoll(Poll $poll)
+    {
+        $this->dbUtils->prepareAndExecute(
+            'INSERT INTO polls(
+                identifier, 
+                title,
+                max_voters,
+                max_datetime)
+            VALUES(?, ?, ?, ?);
+            ',
+            'run',
+            [
+                $poll->identifier,
+                $poll->title,
+                $poll->max_voters,
+                $poll->max_datetime
+            ]
+        );
+        return $this->dbUtils->lastInsertId();
+    }
+
+    function insertChoices(int $pollId, array $choices)
+    {
+        $stmt = $this->dbUtils->prepare(
+            'INSERT 
+            INTO polls_choices(poll_id, name) 
+            VALUES(?, ?);'
+        );
+        $pcs_insertsResults = [];
+        foreach ($choices as $choiceName) {
+
+            $re = '/^\s*(\S.*?\S?)\s*$/';
+            $matches = [];
+            $matched = preg_match($re, $choiceName, $matches);
+            if ($matched) {
+                array_push(
+                    $pcs_insertsResults,
+                    $stmt->execute([$pollId, $matches[1]])
+                );
+            }
+        }
+
+        return $pcs_insertsResults;
+    }
+}
