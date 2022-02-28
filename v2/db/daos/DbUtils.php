@@ -4,21 +4,28 @@ require_once 'entities/PollChoice.php';
 
 class DbUtils extends PDO
 {
-    static function debug_sql($string, $data)
+    static function debug_sql(string $string, array $data)
     {
+        $unpreparedString = $string;
+        // copy($string, $unpreparedString);
         $indexed = $data == array_values($data);
         foreach ($data as $k => $v) {
             if (is_string($v)) $v = "'$v'";
             if ($indexed) $string = preg_replace('/\?/', $v, $string, 1);
             else $string = str_replace(":$k", $v, $string);
         }
-        return $string;
+        return $unpreparedString
+            . PHP_EOL . PHP_EOL .
+            implode(', ', $data)
+            . PHP_EOL . PHP_EOL .
+            $string;
     }
 
     function __construct($dbname, $user, $pass, $opts = [
         'verbose' => false
     ])
     {
+        $this->options = $opts;
         try {
             parent::__construct(
                 'pgsql:host=localhost;dbname=' . $dbname,
@@ -38,7 +45,8 @@ class DbUtils extends PDO
         $stmt,
         $executionMethod,
         $bindParameters,
-        $className
+        $className,
+        $verbose
         // , $expand
     ) {
         // echo PHP_EOL.PHP_EOL.PHP_EOL;
@@ -49,6 +57,8 @@ class DbUtils extends PDO
 
         $rows = [];
         try {
+            if ($verbose)
+                print self::debug_sql($stmt->queryString, $bindParameters);
             $stmt->execute($bindParameters);
             switch ($executionMethod) {
 
@@ -69,7 +79,8 @@ class DbUtils extends PDO
                     break;
             }
         } finally {
-            // print self::debug_sql($stmt->queryString, $bindParameters);
+            // if ($verbose)
+            //     print self::debug_sql($stmt->queryString, $bindParameters);
         }
 
         return $rows;
@@ -96,8 +107,11 @@ class DbUtils extends PDO
         $sqlString,
         $executionMethod,
         $bindParameters = [],
-        $className = 'stdClass'
+        $className = 'stdClass',
+        $verbose = null
     ) {
+        if ($verbose == null)
+            $verbose = $this->options['verbose'];
 
         $stmt = $this->dbh->prepare($sqlString);
 
@@ -105,7 +119,8 @@ class DbUtils extends PDO
             $stmt,
             $executionMethod,
             $bindParameters,
-            $className
+            $className,
+            $verbose
         );
 
 

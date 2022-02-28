@@ -4,16 +4,16 @@
 // ini_set('display_startup_errors', "1");
 // error_reporting(E_ALL);
 
-require_once 'MjPollsDao.php';
+require_once 'daos/PollDao.php';
 require_once 'common.php';
 // require 'entities/Poll.php';
 // require 'entities/PollChoice.php';
 
 class Db
 {
-    function __construct($dbname)
+    function __construct(string $dbname)
     {
-        $this->dao = new MjPollsDao($dbname);
+        $this->dao = new PollDao($dbname);
     }
 
     // for a list of results with polls and their choices
@@ -147,20 +147,7 @@ class Db
     /**
      * 
      * @param int $id - poll id
-     * @return array {{seeBelow}}
-     * [
-     * - uuid: string
-     * - title: string
-     * - max_voters: integer | null
-     * - max_datetime: string | null
-     * - datetime_opened: string
-     * - datetime_closed: string | null
-     * - duplicate_vote_check_method_id: integer | null
-     * - choices: Array
-     * - [ 
-     * - - {id: integer, name: string}
-     * - ]
-     * ]
+     * @return Poll
      */
     function getPoll($id)
     {
@@ -224,7 +211,7 @@ class Db
 
         Returns the id of the inserted poll
     */
-    function insertPoll(Poll $poll, array $choices)
+    function insertPoll(Poll $poll, array $choices, bool $ignoreConstraints = false)
     {
         $pollId = null;
 
@@ -232,8 +219,8 @@ class Db
 
         try {
 
-            // if ($ignoreConstraints)
-            //     $this->dbUtils->exec('SET CONSTRAINTS ALL DEFERRED;');
+            if ($ignoreConstraints)
+                $this->dao->dropConstraintMaxDatetime();
 
             $poll->setIdentifier(randomIdentifier(8));
 
@@ -247,11 +234,16 @@ class Db
 
             $pollId = $this->dao->insertPoll($poll);
         } catch (Exception $e) {
+            // echo $e;
             $this->dao->dbUtils->rollBack();
-            if ($e->getCode() == 23514)
+            if ($e->getCode() == 23514) {
                 throw new Exception("Can't insert poll, constraint violated");
-            else
+            } else
                 throw $e;
+        } finally {
+
+            if ($ignoreConstraints)
+                $this->dao->addConstraintMaxDatetime();
         }
 
         // ------------------------ INSERT choices ------------------------

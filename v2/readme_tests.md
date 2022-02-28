@@ -14,6 +14,8 @@ sudo su - postgres
 
     psql -f dbSchema.sql mjpolls_unittests
     psql -f dbInitFill.sql mjpolls_unittests
+    
+    psql -c "ALTER TABLE polls OWNER TO mjpolls;" mjpolls_unittests
 )
 ```
 

@@ -11,17 +11,33 @@ use PHPUnit\Framework\TestCase;
 
 require_once 'db/Db.php';
 
-require_once 'db/entities/Poll.php';
+require_once 'db/daos/entities/Poll.php';
 
 
 final class DbTest extends TestCase
 {
-  private static $db;
+  private static Db $db;
 
   public static function setUpBeforeClass(): void
   {
     // echo "set up\n";
     self::$db = new Db('mjpolls_unittests');
+  }
+
+
+
+  public function testInsert()
+  {
+    $poll = new Poll([
+      'title' => 'test addVote'
+    ]);
+    $choices = ['testChoice1'];
+
+    $insertedId = self::$db->insertPoll($poll, $choices);
+
+    $this->assertIsInt($insertedId);
+
+    return $insertedId;
   }
 
   // /**
@@ -43,22 +59,6 @@ final class DbTest extends TestCase
   //     true
   //   );
   // }
-
-
-
-  public function testInsert()
-  {
-    $poll = new Poll([
-      'title' => 'test addVote'
-    ]);
-    $choices = ['testChoice1'];
-
-    $insertedId = self::$db->insertPoll($poll, $choices);
-
-    $this->assertIsInt($insertedId);
-
-    return $insertedId;
-  }
 
 
 
@@ -189,7 +189,7 @@ final class DbTest extends TestCase
   /**
    * @testdox should return true if date_closed is not null
    */
-  function testTrueIdDateClosedNotNull()
+  function testIsClosedTrueIdDateClosedNotNull()
   {
     $poll = new Poll(
       [
@@ -198,15 +198,31 @@ final class DbTest extends TestCase
         'max_datetime' => null
       ]
     );
-
-    // print_r($poll);
-
     $pollId = self::$db->insertPoll(
       $poll,
       ['testChoice1']
     );
-
     self::$db->closePoll($pollId, 1);
+    $this->assertTrue(self::$db->isClosed($pollId));
+  }
+
+
+  /**
+   * @testdox should return true if max_datetime is expired
+   */
+  function testIsClosedTrueIfMaxDateExpired()
+  {
+    $poll = new Poll(
+      [
+        'title' => 'test isClosed, max_datetime is expired',
+        'max_voters' => 1,
+        'max_datetime' => date('c', time() - 3600)
+      ]
+    );
+    $pollId = self::$db->insertPoll(
+      $poll,
+      ['testChoice1']
+    );
 
     $this->assertTrue(self::$db->isClosed($pollId));
   }

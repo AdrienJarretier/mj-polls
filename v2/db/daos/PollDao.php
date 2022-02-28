@@ -1,8 +1,9 @@
 <?php
 
 require_once 'DbUtils.php';
+require_once 'daoCommon.php';
 
-class MjPollsDao
+class PollDao
 {
 
     function __construct(string $dbname)
@@ -17,6 +18,9 @@ class MjPollsDao
         );
     }
 
+    /**
+     * @return Poll
+     */
     function getPoll(int $pollId)
     {
         return $this->dbUtils->prepareAndExecute(
@@ -178,5 +182,15 @@ class MjPollsDao
                     [$pollId]
                 );
         }
+    }
+
+    function dropConstraintMaxDatetime()
+    {
+        dropConstraint($this->dbUtils, 'polls', 'polls_max_datetime_check');
+    }
+
+    function addConstraintMaxDatetime()
+    {
+        addConstraint($this->dbUtils, 'polls', 'polls_max_datetime_check', '(max_datetime > CURRENT_TIMESTAMP)');
     }
 }
