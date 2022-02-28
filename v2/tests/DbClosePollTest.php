@@ -58,4 +58,47 @@ final class DbClosePollTest extends TestCase
         $this->expectExceptionMessage('Can\'t close poll, max_datetime is NULL');
         self::$db->closePoll($pollId, 2);
     }
+
+
+
+
+
+    /**
+     * @testdox if reason is 1 and max_voters is not null, should set datetime_closed to CURRENT_TIMESTAMP
+     */
+    function testClosePollWithReasonMaxVoters()
+    {
+        $pollId = self::$db->insertPoll(
+            new Poll([
+                'title' => 'testPoll valid reasons and opened poll',
+                'max_voters' => 1,
+                'max_datetime' => '2100-01-01 00:00:00'
+            ]),
+            ['testChoice1']
+        );
+
+        $dateBefore = microtime(true);
+        self::$db->closePoll($pollId, 1);
+        $dateAfter = microtime(true);
+
+        $dateClosedRaw = self::$db->getPoll($pollId)->datetime_closed;
+
+        $dateClosed = (new DateTime($dateClosedRaw))->format('U.u');
+
+        // echo PHP_EOL;
+        // print_r($dateBefore);
+        // echo PHP_EOL;
+        // print_r($dateAfter);
+        // echo PHP_EOL;
+        // print_r($dateClosedRaw);
+        // echo PHP_EOL;
+        // print_r($dateClosed);
+        // echo PHP_EOL;
+
+
+        // $this->assertGreaterThanOrEqual('1.1', '1.2');
+
+        $this->assertGreaterThanOrEqual($dateBefore, $dateClosed);
+        $this->assertLessThanOrEqual($dateAfter, $dateClosed);
+    }
 }
