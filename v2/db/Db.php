@@ -320,7 +320,7 @@ class Db
             if ($this->isClosed($pollId))
                 throw new Exception('poll is already closed');
         } else {
-            throw new Exception('arg : reason,  must be an integer with value in ' . $possibleReasons);
+            throw new Exception('arg : reason,  must be an integer with value in ' . implode(',', $possibleReasons));
         }
         switch ($reason) {
             case 1:
