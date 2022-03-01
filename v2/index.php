@@ -24,5 +24,35 @@ Route::pathNotFound(function ($path) {
   include('views/404.php');
 });
 
+
+
+require_once 'common.php';
+
+/**
+ * 
+ * @param string $part the part of the app to load messages for (or the page)
+ * e.g : "header", "home"
+ * @param string $locale e.g "fr-FR"
+ * @return array array containing messages
+ */
+Route::add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part, $locale) {
+
+  // echo 'requested : ' . $part . ' - ' . $locale;
+
+  $parts = explode('-', $part);
+
+  // Common::dlog(Common::$localesMsgs);
+  $localeMsgs = Common::$localesMsgs[$locale];
+
+  foreach($parts as $part) {
+    $localeMsgs = $localeMsgs[$part];
+  }
+
+  // Common::log($localeMsgs);
+  
+  return json_encode($localeMsgs);
+
+});
+
 // Run the router
 Route::run('/');
