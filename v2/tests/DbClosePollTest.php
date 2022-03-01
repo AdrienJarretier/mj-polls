@@ -81,24 +81,38 @@ final class DbClosePollTest extends TestCase
         self::$db->closePoll($pollId, 1);
         $dateAfter = microtime(true);
 
-        $dateClosedRaw = self::$db->getPoll($pollId)->datetime_closed;
-
-        $dateClosed = (new DateTime($dateClosedRaw))->format('U.u');
-
-        // echo PHP_EOL;
-        // print_r($dateBefore);
-        // echo PHP_EOL;
-        // print_r($dateAfter);
-        // echo PHP_EOL;
-        // print_r($dateClosedRaw);
-        // echo PHP_EOL;
-        // print_r($dateClosed);
-        // echo PHP_EOL;
-
-
-        // $this->assertGreaterThanOrEqual('1.1', '1.2');
+        $poll = self::$db->getPoll($pollId);
+        $dateClosed = $poll->datetime_closed_microtime;
 
         $this->assertGreaterThanOrEqual($dateBefore, $dateClosed);
         $this->assertLessThanOrEqual($dateAfter, $dateClosed);
+    }
+
+    /**
+     * @testdox if reason is 2 and max_datetime is not null, should set datetime_closed to max_datetime
+     */
+    function testClosePollWithReasonMaxDatetimeExpired()
+    {
+        $max_datetimeString = '2100-01-01 00:00:00+01';
+        $max_datetime = (new DateTime($max_datetimeString))->format('U.u');
+
+        $pollId = self::$db->insertPoll(
+            new Poll([
+                'title' => 'testPoll valid reasons and opened poll',
+                'max_voters' => 1,
+                'max_datetime' => $max_datetimeString
+            ]),
+            ['testChoice1']
+        );
+
+        self::$db->closePoll($pollId, 2);
+
+        $poll = self::$db->getPoll($pollId);
+
+        // print_r($poll);
+
+        $dateClosed = $poll->datetime_closed_microtime;
+
+        $this->assertEquals($max_datetime, $dateClosed);
     }
 }
