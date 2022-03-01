@@ -1,3 +1,9 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -9,7 +15,13 @@
 
         $(function() {
 
-            const recentPolls = JSON.parse('<%- recentPolls %>');
+            // <?php
+            // $recentPolls = [];
+            // ?>
+
+            const recentPolls = JSON.parse('<?= $recentPolls ?>');
+
+            // console.log(recentPolls);
 
             for (const poll of recentPolls) {
 

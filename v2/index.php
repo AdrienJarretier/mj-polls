@@ -8,12 +8,30 @@ error_reporting(E_ALL);
 // Autoload files using composer
 require_once __DIR__ . '/vendor/autoload.php';
 
+require_once 'common.php';
+
 // Use this namespace
 use Steampixel\Route;
 
-Route::add('/', function () {
-  include('views/index.php');
-});
+function handleCreatePoll($viewName)
+{
+  return function () use ($viewName) {
+    include("views/$viewName.php");
+  };
+
+  // return function ($req, $res) {
+
+  //   $duplicateCheckMethods = $db->getDuplicateCheckMethods();
+
+  //   res.render(viewName, pageOptions('Create Poll', {
+
+  //     duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
+
+  //   }));
+  // }
+}
+
+Route::add('/', handleCreatePoll('poll_display_create'));
 
 // Add a 404 not found route
 Route::pathNotFound(function ($path) {
@@ -24,9 +42,6 @@ Route::pathNotFound(function ($path) {
   include('views/404.php');
 });
 
-
-
-require_once 'common.php';
 
 /**
  * 
@@ -44,14 +59,13 @@ Route::add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part,
   // Common::dlog(Common::$localesMsgs);
   $localeMsgs = Common::$localesMsgs[$locale];
 
-  foreach($parts as $part) {
+  foreach ($parts as $part) {
     $localeMsgs = $localeMsgs[$part];
   }
 
   // Common::log($localeMsgs);
-  
-  return json_encode($localeMsgs);
 
+  echo json_encode($localeMsgs);
 });
 
 // Run the router

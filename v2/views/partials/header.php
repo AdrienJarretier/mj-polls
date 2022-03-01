@@ -3,9 +3,11 @@
     <script type="module">
         import {
             LocaleMessages
-        } from './static/public/javascripts/locales.js';
+        } from '/javascripts/locales.js';
 
         const localeMsgs = await LocaleMessages.new('client-header', 'fr-FR');
+
+        // console.log(localeMsgs);
 
         $(function() {
 

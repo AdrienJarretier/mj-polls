@@ -10,7 +10,9 @@ class LocaleMessages {
      * @returns {Object} Object containing messages
      */
     static async new(part, locale) {
-        return new LocaleMessages(await get('/locales/' + part + '/' + locale));
+        const data = await get('/locales/' + part + '/' + locale);
+        // console.log(data);
+        return new LocaleMessages(data);
     }
 
     constructor(msgs) {
