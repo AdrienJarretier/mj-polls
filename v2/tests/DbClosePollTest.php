@@ -1,11 +1,7 @@
 <?php
-
 declare(strict_types=1);
-
 use PHPUnit\Framework\TestCase;
-
 require_once 'db/Db.php';
-
 final class DbClosePollTest extends TestCase
 {
     private static Db $db;
@@ -15,6 +11,7 @@ final class DbClosePollTest extends TestCase
         self::$db = new Db('mjpolls_unittests');
     }
 
+
     function testClosePollFailsIfReasonInvalid()
     {
         $pollId = self::$db->insertPoll(
@@ -23,11 +20,12 @@ final class DbClosePollTest extends TestCase
             ]),
             ['testChoice1']
         );
-
         $possibleReasons = [1, 2];
         $this->expectExceptionMessage('arg : reason,  must be an integer with value in ' . implode(',', $possibleReasons));
         self::$db->closePoll($pollId, 3);
     }
+
+
     /**
      * @testdox should throw an error if reason is 1 and max_voters is null
      */
@@ -39,10 +37,11 @@ final class DbClosePollTest extends TestCase
             ]),
             ['testChoice1']
         );
-
         $this->expectExceptionMessage('Can\'t close poll, max_voters is NULL');
         self::$db->closePoll($pollId, 1);
     }
+
+
     /**
      * @testdox should throw an error if reason is 2 and max_datetime is null
      */
@@ -54,13 +53,9 @@ final class DbClosePollTest extends TestCase
             ]),
             ['testChoice1']
         );
-
         $this->expectExceptionMessage('Can\'t close poll, max_datetime is NULL');
         self::$db->closePoll($pollId, 2);
     }
-
-
-
 
 
     /**
@@ -76,17 +71,15 @@ final class DbClosePollTest extends TestCase
             ]),
             ['testChoice1']
         );
-
         $dateBefore = microtime(true);
         self::$db->closePoll($pollId, 1);
         $dateAfter = microtime(true);
-
         $poll = self::$db->getPoll($pollId);
         $dateClosed = $poll->datetime_closed_microtime;
-
         $this->assertGreaterThanOrEqual($dateBefore, $dateClosed);
         $this->assertLessThanOrEqual($dateAfter, $dateClosed);
     }
+
 
     /**
      * @testdox if reason is 2 and max_datetime is not null, should set datetime_closed to max_datetime
@@ -95,7 +88,6 @@ final class DbClosePollTest extends TestCase
     {
         $max_datetimeString = '2100-01-01 00:00:00+01';
         $max_datetime = (new DateTime($max_datetimeString))->format('U.u');
-
         $pollId = self::$db->insertPoll(
             new Poll([
                 'title' => 'testPoll valid reasons and opened poll',
@@ -104,15 +96,14 @@ final class DbClosePollTest extends TestCase
             ]),
             ['testChoice1']
         );
-
         self::$db->closePoll($pollId, 2);
-
         $poll = self::$db->getPoll($pollId);
-
         // print_r($poll);
-
         $dateClosed = $poll->datetime_closed_microtime;
-
         $this->assertEquals($max_datetime, $dateClosed);
     }
+
+
 }
+
+
