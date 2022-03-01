@@ -12,8 +12,12 @@ RewriteBase /
 # RewriteCond %{REQUEST_FILENAME} !-d
 
 # Deliver the folder or file directly if it is inside static/public
-RewriteCond %{REQUEST_FILENAME} !(static/public)
+# RewriteCond %{REQUEST_FILENAME} !(static/public)
 
+RewriteCond %{DOCUMENT_ROOT}/static/public%{REQUEST_URI} -f
+RewriteRule ^ static/public%{REQUEST_URI} [L]
+
+RewriteCond %{REQUEST_URI} !^/static/public/
  
 # Push every request to index.php
 RewriteRule ^(.*)$ index.php [QSA]
