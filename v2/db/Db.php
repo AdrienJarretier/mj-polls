@@ -161,35 +161,7 @@ class Db
         // print_r($poll);
 
         return $poll;
-
-        // $rows = $this->dbUtils->executeStatement(
-        //     'SELECT
-        //     polls.id AS poll_id,
-        //     polls_choices.id AS choice_id,
-        //     title
-        // FROM polls
-        // INNER JOIN polls_choices
-        // ON polls.id=polls_choices.poll_id
-        // WHERE polls.id = ?;
-        // ',
-        //     'all',
-        //     [$id],
-        //     'PollPollChoices'
-        // );
-
-        // // $poll = _removePollId(_aggregateChoices($rows)[$id]);
-
-        // echo PHP_EOL . 'getPoll' . PHP_EOL;
-        // echo PHP_EOL . 'rows' . PHP_EOL;
-        // print_r($rows);
-
-        // $poll = $this->_aggregateChoices($rows)[$id];
-
-        // return new Poll(
-        //     $poll['id'],
-        // );
     }
-
 
     function getGrades()
     {
