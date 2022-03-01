@@ -1,70 +1,172 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <?php require_once 'partials/head.php' ?>
+    <?php include('partials/head.php') ?>
 
-    <script>
+    <script type="module">
         'use strict';
+
+        import {
+            LocaleMessages
+        } from "/javascripts/locales.js";
+        let localeGrades = await LocaleMessages.new('db-grades', 'fr-FR');
+
+        <?php if (isset($poll)) { ?>
+
+            import {
+                displayPoll
+            } from "/javascripts/poll_display_create/displayPoll.js";
+
+            const parsedPoll = JSON.parse('<%- poll %>');
+            const infiniteVoteEnabled = JSON.parse('<%- infiniteVoteEnabled %>');
+
+            const PAGE_TYPE = 'displayPoll';
+
+        <?php } else { ?>
+
+            import makePollCreationForm from "/javascripts/poll_display_create/makePollCreationForm.js";
+
+            const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
+
+            const PAGE_TYPE = 'createPoll';
+
+        <?php } ?>
+
+        const grades = await get('/polls/grades');
+        grades.sort((a, b) => b.order - a.order);
+
+        for (let grade of grades) {
+            try {
+                grade.value = localeGrades.get(grade.value);
+            } catch (e) {
+                console.error(e);
+            }
+        }
 
         $(function() {
 
-            // <?php
-            // $recentPolls = [];
-            // ?>
+            const titleSize = 'fs-4';
 
-            const recentPolls = JSON.parse('<?= $recentPolls ?>');
+            switch (PAGE_TYPE) {
 
-            // console.log(recentPolls);
+                case 'displayPoll':
 
-            for (const poll of recentPolls) {
+                    // $('main').append(`
+                    // <div class="alert alert-success" role="alert" id="hasVotedAlert">
+                    //   <h2 class="alert-heading">Has voted</h2>
+                    //   <p>You have voted on this poll.</p>
+                    // </div>
+                    // `);
 
-                let pollPreviewTemplate = $('#pollPreviewTemplate')[0].content;
+                    let title = $('<h1 id="title" class="mb-0">')
+                        .text(parsedPoll.title)
+                        .addClass(titleSize);
+                    $('#titleArea').append(title);
 
-                let cloned = $(pollPreviewTemplate.cloneNode(true));
+                    displayPoll(parsedPoll, infiniteVoteEnabled, grades);
 
-                let href = cloned.children().children().children().attr('href');
+                    break;
 
-                cloned.children().children().children().attr('href', href + poll.uuid);
-                cloned.children().children().children().text(poll.title);
+                case 'createPoll':
 
-                $('#mostRecent').append(cloned);
+                    let titleId = 'title';
+                    let placeholder = 'Formulez votre question ou votre phrase.';
+                    let titleTextArea = $('<div class="form-floating">')
+                        .append(
+                            $('<textarea name="title" class="form-control">')
+                            .attr('id', titleId)
+                            .attr('placeholder', placeholder)
+                            .addClass(titleSize)
+                            .attr('required', true)
+                            .on('input', function(e) {
+                                const re = /^\s*(\S.*?\S?)\s*$/;
+                                const matched = $(this).val().match(re);
+                                if (!matched) {
+                                    $(this).val('');
+                                }
+                            })
+                        )
+                        .append(
+                            $('<label class="form-label">')
+                            .attr('for', titleId)
+                            .text(placeholder)
+                        );
+
+                    $('#titleArea').append(titleTextArea);
+
+                    makePollCreationForm(duplicateCheckMethods, grades);
+
+
+                    // $('#choicesArea #choices div').append(`
+                    // <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
+                    // `);
+
+
+                    // // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
+                    // // $('#choicesArea #choices div').addClass('form-floating');
+
+                    // $('#choicesArea #choices').append(`
+                    // `);
+
+                    // makePollCreationForm(duplicateCheckMethods);
+
+                    break;
+
             }
 
         });
     </script>
+
+    <!-- <style>
+            #choices,
+            #choicesForm .row {
+              border: solid black 2px;
+              margin-top: -2px;
+              margin-bottom: -2px;
+            }
+
+            label {
+              color: black;
+            }
+          </style> -->
+
 </head>
 
 <!-- Includes Body and container div opening tags as well as <header> -->
-<?php require_once('partials/header.php') ?>
+<?php include('partials/header.php') ?>
 
 <div class="row">
+    <div class="col">
+        <main>
 
-    <div class="col" id="mostRecent"></div>
+            <?php if (isset($poll)) { ?>
 
+                <div class="row">
+                    <div class="col">
+                        <div id="toResultsButton"></div>
+                    </div>
+                </div>
+
+            <?php } ?>
+
+            <form id="choicesForm">
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <div id="titleArea">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </main>
+    </div>
 </div>
 
+
 <!-- Includes Body and container closing tags as well as <footer> -->
-<?php require_once('partials/footer.php') ?>
+<?php include('partials/footer.php') ?>
 
 </html>
-
-<template id="pollPreviewTemplate">
-
-    <div class="row">
-
-        <div class="col">
-
-            <a href="poll/">title</a>
-
-        </div>
-
-    </div>
-
-</template>
