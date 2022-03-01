@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
+
 require_once 'db/Db.php';
 final class DbClosePollTest extends TestCase
 {
@@ -78,6 +81,8 @@ final class DbClosePollTest extends TestCase
         $dateClosed = $poll->datetime_closed_microtime;
         $this->assertGreaterThanOrEqual($dateBefore, $dateClosed);
         $this->assertLessThanOrEqual($dateAfter, $dateClosed);
+
+        return $poll;
     }
 
 
@@ -104,6 +109,24 @@ final class DbClosePollTest extends TestCase
     }
 
 
+    /**
+     * @testdox should throw an error if poll is already closed
+     * @depends testClosePollWithReasonMaxVoters
+     */
+    function testClosePollReason1readyClosed($poll)
+    {
+        $this->expectExceptionMessage('poll is already closed');
+        self::$db->closePoll($poll->id, 1);
+    }
+
+
+    /**
+     * @testdox should throw an error if poll is already closed
+     * @depends testClosePollWithReasonMaxVoters
+     */
+    function testClosePollReason2AlreadyClosed($poll)
+    {
+        $this->expectExceptionMessage('poll is already closed');
+        self::$db->closePoll($poll->id, 2);
+    }
 }
-
-
