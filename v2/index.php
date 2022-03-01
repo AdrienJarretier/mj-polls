@@ -25,4 +25,4 @@ Route::pathNotFound(function ($path) {
 });
 
 // Run the router
-Route::run('/sondage');
+Route::run('/');

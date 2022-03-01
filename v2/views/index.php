@@ -2,12 +2,57 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>HTML Template</title>
+    <?php require_once 'partials/head.php' ?>
+
+    <script>
+        'use strict';
+
+        $(function() {
+
+            const recentPolls = JSON.parse('<%- recentPolls %>');
+
+            for (const poll of recentPolls) {
+
+                let pollPreviewTemplate = $('#pollPreviewTemplate')[0].content;
+
+                let cloned = $(pollPreviewTemplate.cloneNode(true));
+
+                let href = cloned.children().children().children().attr('href');
+
+                cloned.children().children().children().attr('href', href + poll.uuid);
+                cloned.children().children().children().text(poll.title);
+
+                $('#mostRecent').append(cloned);
+            }
+
+        });
+    </script>
 </head>
 
-<body>
-    <p>Insert content here.</p>
-</body>
+<!-- Includes Body and container div opening tags as well as <header> -->
+<?php require_once('partials/header.php') ?>
+
+<div class="row">
+
+    <div class="col" id="mostRecent"></div>
+
+</div>
+
+<!-- Includes Body and container closing tags as well as <footer> -->
+<?php require_once('partials/footer.php') ?>
 
 </html>
+
+<template id="pollPreviewTemplate">
+
+    <div class="row">
+
+        <div class="col">
+
+            <a href="poll/">title</a>
+
+        </div>
+
+    </div>
+
+</template>

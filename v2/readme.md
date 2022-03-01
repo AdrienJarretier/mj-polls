@@ -94,6 +94,10 @@ Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
 
 ### For deployment with a vhost
 
+```bash
+sudo mkdir /var/log/apache2/mj-polls
+```
+
 ```
 <VirtualHost *:80>
     DocumentRoot /home/ubuntu/gitRepos/mj-polls/v2
