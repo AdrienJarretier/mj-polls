@@ -11,7 +11,7 @@ class Common
                 $out = print_r($data, true);
                 break;
             default:
-                $out = $data;
+                $out = $data.PHP_EOL;
                 break;
         }
         if ($html)
@@ -42,7 +42,7 @@ class Common
 
             foreach (['client', 'db'] as $part) {
 
-                $filename = self::joinPath('locales', $locale, $part . '.json');
+                $filename = self::joinPath(__DIR__ . '/locales', $locale, $part . '.json');
 
                 $fileContent = file_get_contents($filename);
 

@@ -20,15 +20,23 @@ final class CommonTest extends TestCase
         );
     }
 
-    function testLogTerminal()
+    function testLogArrayTerminal()
     {
         $data = [1];
         assertEquals(
             'Array
 (
     [0] => 1
-)
-',
+)' . PHP_EOL,
+            Common::log($data, false, true)
+        );
+    }
+
+    function testLogStringTerminal()
+    {
+        $data = 'string to output';
+        assertEquals(
+            'string to output' . PHP_EOL,
             Common::log($data, false, true)
         );
     }
