@@ -251,7 +251,7 @@ final class DbTest extends TestCase
       ]
     );
 
-    $poll = self::$db->dao->getPollFromIdentifier('00000000');
+    $poll = self::$db->getPollFromIdentifier('00000000');
 
     $this->assertInstanceOf('Poll', $poll);
     $this->assertEquals('00000000', $poll->identifier);

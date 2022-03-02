@@ -72,16 +72,18 @@ describe('api tests', function() {
             "choices": ["a", "b", ""],
             "max_datetime": null
         }
-        let pollIdentifier = await post('/polls', formData);
+        let pollIdentifier = (await post('/polls', formData)).identifier;
 
-        console.log(pollIdentifier);
+        // console.log(pollIdentifier);
 
         const poll = await get('/polls/' + pollIdentifier);
 
-        console.log(poll);
-
-        let expected = pollIdentifier;
+        let expected = formData;
+        delete expected['choices'];
         expected['identifier'] = pollIdentifier;
+
+        console.log(poll);
+        console.log(expected);
 
         assert.ownInclude(poll, expected);
 

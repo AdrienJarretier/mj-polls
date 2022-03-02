@@ -6,12 +6,15 @@ class Common
 
     static function log($data, bool $html = false, bool $return = false)
     {
-        switch (gettype($data)) {
+        $type = gettype($data);
+        // var_dump($type);
+        switch ($type) {
             case 'array':
+            case 'object':
                 $out = print_r($data, true);
                 break;
             default:
-                $out = $data.PHP_EOL;
+                $out = $data . PHP_EOL;
                 break;
         }
         if ($html)

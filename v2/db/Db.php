@@ -163,6 +163,17 @@ class Db
         return $poll;
     }
 
+    /**
+     * @return Poll
+     */
+    function getPollFromIdentifier(string $pollIdentifier)
+    {
+        $poll = $this->dao->getPollFromIdentifier($pollIdentifier);
+        $choices = $this->dao->getChoicesOfPoll($poll->id);
+        $poll->addChoices($choices);
+        return $poll;
+    }
+
     function getGrades()
     {
         return $this->dao->getGrades();
