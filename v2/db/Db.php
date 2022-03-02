@@ -165,10 +165,7 @@ class Db
 
     function getGrades()
     {
-
-        return $this->dbUtils->executeStatement('
-    SELECT * FROM grades ORDER BY "order";
-    ', 'all');
+        return $this->dao->getGrades();
     }
 
     /*

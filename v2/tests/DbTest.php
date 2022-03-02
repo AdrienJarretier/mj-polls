@@ -226,4 +226,16 @@ final class DbTest extends TestCase
 
     $this->assertTrue(self::$db->isClosed($pollId));
   }
+
+  function testGetGrades()
+  {
+    $grades = self::$db->getGrades();
+
+    $grade = new stdClass();
+    $grade->id = 6;
+    $grade->value = "To Reject";
+    $grade->order = 0;
+
+    $this->assertEquals($grade, $grades[0]);
+  }
 }

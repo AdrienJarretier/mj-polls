@@ -60,7 +60,7 @@ Route::add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part,
   echo json_encode($localeMsgs);
 });
 
-Router::use('/api', 'routes/api.php');;
+Router::use('/polls', 'routes/api.php');;
 
 // Run the router
 Route::run('/');
