@@ -4,7 +4,7 @@ class Common
 {
     static $localesMsgs = [];
 
-    static function log($data)
+    static function log($data, bool $html = false, bool $return = false)
     {
         switch (gettype($data)) {
             case 'array':
@@ -14,19 +14,24 @@ class Common
                 $out = $data;
                 break;
         }
-        echo '<div style="white-space: pre-wrap;line-height: 8px;">' . PHP_EOL;
-        // echo  nl2br(
-        //     str_replace('  ', ' ', $out)
-        // );
-        echo '<br>' .
-            preg_replace(
-                '/(?:<br \/>\n?)+/',
-                '<br>'.PHP_EOL,
-                nl2br(
-                    str_replace('  ', ' ', $out)
-                )
-            ) . '<br>' . PHP_EOL;
-        echo '</div>' . PHP_EOL;
+        if ($html)
+            $finalString = '<div style="white-space: pre-wrap;line-height: 8px;">'
+                . '<br>'
+                . preg_replace(
+                    '/(?:<br \/>\n?)+/',
+                    '<br><br>',
+                    nl2br(
+                        str_replace('  ', ' ', $out)
+                    )
+                ) . '<br>'
+                . '</div>';
+        else
+            $finalString = $out;
+
+        if ($return)
+            return $finalString;
+        else
+            echo $finalString;
     }
 
     static function init()

@@ -188,6 +188,7 @@ class Db
         $pollId = null;
 
         $this->dao->dbUtils->beginTransaction();
+        Common::log('begin transaction');
 
         try {
 
@@ -208,6 +209,7 @@ class Db
         } catch (Exception $e) {
             // echo $e;
             $this->dao->dbUtils->rollBack();
+            Common::log('rollBack transaction');
             if ($e->getCode() == 23514) {
                 throw new Exception("Can't insert poll, constraint violated");
             } else
