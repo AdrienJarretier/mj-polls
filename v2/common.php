@@ -15,7 +15,17 @@ class Common
                 break;
         }
         echo '<div style="white-space: pre-wrap;line-height: 8px;">' . PHP_EOL;
-        echo '<br>' . nl2br(str_replace('  ', ' ', $out)) . '<br>' . PHP_EOL;
+        // echo  nl2br(
+        //     str_replace('  ', ' ', $out)
+        // );
+        echo '<br>' .
+            preg_replace(
+                '/(?:<br \/>\n?)+/',
+                '<br>'.PHP_EOL,
+                nl2br(
+                    str_replace('  ', ' ', $out)
+                )
+            ) . '<br>' . PHP_EOL;
         echo '</div>' . PHP_EOL;
     }
 
