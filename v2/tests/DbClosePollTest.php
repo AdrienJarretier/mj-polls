@@ -19,9 +19,9 @@ final class DbClosePollTest extends TestCase
     {
         $pollId = self::$db->insertPoll(
             new Poll([
-                'title' => 'testPoll close with invalid reason'
-            ]),
-            ['testChoice1']
+                'title' => 'testPoll close with invalid reason',
+                'choices' => ['testChoice1']
+            ])
         );
         $possibleReasons = [1, 2];
         $this->expectExceptionMessage('arg : reason,  must be an integer with value in ' . implode(',', $possibleReasons));
@@ -36,9 +36,9 @@ final class DbClosePollTest extends TestCase
     {
         $pollId = self::$db->insertPoll(
             new Poll([
-                'title' => 'testPoll close with invalid reason'
-            ]),
-            ['testChoice1']
+                'title' => 'testPoll close with invalid reason',
+                'choices' => ['testChoice1']
+            ])
         );
         $this->expectExceptionMessage('Can\'t close poll, max_voters is NULL');
         self::$db->closePoll($pollId, 1);
@@ -52,9 +52,9 @@ final class DbClosePollTest extends TestCase
     {
         $pollId = self::$db->insertPoll(
             new Poll([
-                'title' => 'testPoll close with invalid reason'
-            ]),
-            ['testChoice1']
+                'title' => 'testPoll close with invalid reason',
+                'choices' => ['testChoice1']
+            ])
         );
         $this->expectExceptionMessage('Can\'t close poll, max_datetime is NULL');
         self::$db->closePoll($pollId, 2);
@@ -70,9 +70,9 @@ final class DbClosePollTest extends TestCase
             new Poll([
                 'title' => 'testPoll valid reasons and opened poll',
                 'max_voters' => 1,
-                'max_datetime' => '2100-01-01 00:00:00'
-            ]),
-            ['testChoice1']
+                'max_datetime' => '2100-01-01 00:00:00',
+                'choices' => ['testChoice1']
+            ])
         );
         $dateBefore = microtime(true);
         self::$db->closePoll($pollId, 1);
@@ -97,9 +97,9 @@ final class DbClosePollTest extends TestCase
             new Poll([
                 'title' => 'testPoll valid reasons and opened poll',
                 'max_voters' => 1,
-                'max_datetime' => $max_datetimeString
-            ]),
-            ['testChoice1']
+                'max_datetime' => $max_datetimeString,
+                'choices' => ['testChoice1']
+            ])
         );
         self::$db->closePoll($pollId, 2);
         $poll = self::$db->getPoll($pollId);

@@ -180,7 +180,7 @@ class Db
 
         Returns the id of the inserted poll
     */
-    function insertPoll(Poll $poll, array $choices, bool $ignoreConstraints = false)
+    function insertPoll(Poll $poll, bool $ignoreConstraints = false)
     {
         $pollId = null;
 
@@ -223,7 +223,7 @@ class Db
 
         try {
             $pcs_insertsResults =
-                $this->dao->insertChoices($pollId, $choices);
+                $this->dao->insertChoices($pollId, $poll->choices);
 
             if (count($pcs_insertsResults) == 0) {
 

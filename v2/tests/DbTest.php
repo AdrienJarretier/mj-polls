@@ -29,11 +29,11 @@ final class DbTest extends TestCase
   public function testInsert()
   {
     $poll = new Poll([
-      'title' => 'test addVote'
+      'title' => 'test addVote',
+      'choices' => ['testChoice1']
     ]);
-    $choices = ['testChoice1'];
 
-    $insertedId = self::$db->insertPoll($poll, $choices);
+    $insertedId = self::$db->insertPoll($poll);
 
     $this->assertIsInt($insertedId);
 
@@ -163,10 +163,11 @@ final class DbTest extends TestCase
         [
           'title' => 'test isClosed, date_closed is null',
           'max_voters' => 1,
-          'max_datetime' => null
+          'max_datetime' => null,
+          'choices' => ['testChoice1']
         ]
-      ),
-      ['testChoice1']
+      )
+
     );
 
     $pollId2 = self::$db->insertPoll(
@@ -174,10 +175,10 @@ final class DbTest extends TestCase
         [
           'title' => 'test isClosed, date_closed is null, max_datetime not expired',
           'max_voters' => 1,
-          'max_datetime' => '2100-01-01 00:00:00'
+          'max_datetime' => '2100-01-01 00:00:00',
+          'choices' => ['testChoice1']
         ]
-      ),
-      ['testChoice1']
+      )
     );
 
     $this->assertFalse(self::$db->isClosed($pollId));
@@ -195,12 +196,12 @@ final class DbTest extends TestCase
       [
         'title' => 'test isClosed, date_closed is not null',
         'max_voters' => 1,
-        'max_datetime' => null
+        'max_datetime' => null,
+        'choices' => ['testChoice1']
       ]
     );
     $pollId = self::$db->insertPoll(
-      $poll,
-      ['testChoice1']
+      $poll
     );
     self::$db->closePoll($pollId, 1);
     $this->assertTrue(self::$db->isClosed($pollId));
@@ -216,12 +217,12 @@ final class DbTest extends TestCase
       [
         'title' => 'test isClosed, max_datetime is expired',
         'max_voters' => 1,
-        'max_datetime' => date('c', time() - 3600)
+        'max_datetime' => date('c', time() - 3600),
+        'choices' => ['testChoice1']
       ]
     );
     $pollId = self::$db->insertPoll(
-      $poll,
-      ['testChoice1']
+      $poll
     );
 
     $this->assertTrue(self::$db->isClosed($pollId));

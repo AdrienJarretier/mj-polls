@@ -5,6 +5,7 @@ class Poll
 
     public string $title;
     public string $identifier;
+    public array $choices;
     public $max_voters = null;
     public $max_datetime = null;
     public $datetime_opened = null;
