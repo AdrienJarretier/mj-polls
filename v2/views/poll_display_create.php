@@ -27,7 +27,9 @@
 
             import makePollCreationForm from "/javascripts/poll_display_create/makePollCreationForm.js";
 
-            const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
+            // unused for now :
+            // const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
+            const duplicateCheckMethods = [];
 
             const PAGE_TYPE = 'createPoll';
 
