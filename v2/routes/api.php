@@ -5,18 +5,16 @@ error_reporting(E_ALL);
 ?>
 
 <?php
-// Autoload files using composer
-require_once __DIR__ . '/../vendor/autoload.php';
 
-// Use this namespace
-use Steampixel\Route;
+require_once 'Router.php';
 
+$router = new Router();
 
-SubRouter::add('/', function() {
+$router->add('/', function() {
     echo 'welcome to api';
 });
 
-Common::log(Route::getAll(), true);
+// Common::log(Route::getAll(), true);
 
 // foreach(Route::getAll() as $route) {
 

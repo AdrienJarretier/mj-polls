@@ -5,13 +5,16 @@ error_reporting(E_ALL);
 ?>
 
 <?php
+
 // Autoload files using composer
 require_once __DIR__ . '/vendor/autoload.php';
 
-require_once 'common.php';
-
 // Use this namespace
 use Steampixel\Route;
+
+require_once 'routes/Router.php';
+
+require_once 'common.php';
 
 function handleCreatePoll($viewName)
 {
@@ -31,7 +34,9 @@ function handleCreatePoll($viewName)
   // }
 }
 
-Route::add('/', handleCreatePoll('poll_display_create'));
+$router = new Router();
+
+$router->add('/', handleCreatePoll('poll_display_create'));
 
 // Add a 404 not found route
 Route::pathNotFound(function ($path) {
@@ -50,7 +55,7 @@ Route::pathNotFound(function ($path) {
  * @param string $locale e.g "fr-FR"
  * @return array array containing messages
  */
-Route::add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part, $locale) {
+$router->add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part, $locale) {
 
   // echo 'requested : ' . $part . ' - ' . $locale;
 
@@ -67,6 +72,8 @@ Route::add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part,
 
   echo json_encode($localeMsgs);
 });
+
+$router->use('/api', 'routes/api.php');
 
 // Run the router
 Route::run('/');
