@@ -16,6 +16,14 @@ sudo su - postgres
     psql -f dbInitFill.sql mjpolls_unittests
     
     psql -c "ALTER TABLE polls OWNER TO mjpolls;" mjpolls_unittests
+    psql -c "INSERT INTO polls(
+                identifier, 
+                title,
+                max_voters,
+                max_datetime)
+            VALUES('00000000', 'title of poll 00000000', null, null);" mjpolls_unittests
+
+    
 )
 ```
 

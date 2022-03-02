@@ -29,6 +29,8 @@ class Router
 
         $fullPath = rtrim($fullPath, '/');
 
+        // Common::log($fullPath, true);
+
         Route::add($fullPath, $function, $method);
     }
 }

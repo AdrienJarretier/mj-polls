@@ -2,6 +2,7 @@
 
 require_once 'DbUtils.php';
 require_once 'daoCommon.php';
+require_once 'entities/Poll.php';
 
 class PollDao
 {
@@ -29,6 +30,21 @@ class PollDao
             WHERE id = ?',
             'get',
             [$pollId],
+            'Poll'
+        );
+    }
+
+    /**
+     * @return Poll
+     */
+    function getPollFromIdentifier(string $pollIdentifier)
+    {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT *
+            FROM polls
+            WHERE identifier = ?',
+            'get',
+            [$pollIdentifier],
             'Poll'
         );
     }

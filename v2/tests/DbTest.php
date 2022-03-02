@@ -238,4 +238,24 @@ final class DbTest extends TestCase
 
     $this->assertEquals($grade, $grades[0]);
   }
+
+  function testGetPollFromIdentifier()
+  {
+    $expected = new Poll(
+      [
+        'identifier' => '00000000',
+        'title' => 'title of poll 00000000',
+        'max_voters' => null,
+        'max_datetime' => null,
+      ]
+    );
+
+    $poll = self::$db->dao->getPollFromIdentifier('00000000');
+
+    $this->assertInstanceOf('Poll', $poll);
+    $this->assertEquals('00000000', $poll->identifier);
+    $this->assertEquals('title of poll 00000000', $poll->title);
+    $this->assertNull($poll->max_voters);
+    $this->assertNull($poll->max_datetime);
+  }
 }

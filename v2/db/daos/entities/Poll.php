@@ -3,7 +3,8 @@
 class Poll
 {
 
-    public $title;
+    public string $title;
+    public string $identifier;
     public $max_voters = null;
     public $max_datetime = null;
     public $datetime_opened = null;
@@ -29,7 +30,7 @@ class Poll
 
         foreach ($properties as $col => $value) {
             if (!property_exists('Poll', $col))
-                throw new Exception('wrong col name ' . $col);
+                throw new Exception('wrong col name : ' . $col);
 
             $this->$col = $value;
         }
