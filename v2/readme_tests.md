@@ -20,5 +20,5 @@ sudo su - postgres
 ```
 
 ```bash
-./vendor/bin/phpunit tests --testdox
+./vendor/bin/phpunit tests --testdox --stop-on-error
 ```
