@@ -546,4 +546,3 @@ describe('Tests on get_ranking_and_outcome()', function () {
 });
 
 
-
