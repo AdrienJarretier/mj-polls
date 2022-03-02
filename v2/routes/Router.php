@@ -14,18 +14,21 @@ use Steampixel\Route;
 
 class Router
 {
-    function __construct()
+    private static $basePath = '';
+
+    static function use($expression, $filePath)
     {
-        Common::log('Router construct');
+        self::$basePath = $expression;
+
+        include $filePath;
     }
 
-    function use($expression, $filePath)
+    static function add($expression, $function, $method = 'get')
     {
-        echo 'using';
-    }
+        $fullPath = self::$basePath . $expression;
 
-    function add($expression, $function, $method = 'get')
-    {
-        Route::add($expression, $function, $method);
+        $fullPath = rtrim($fullPath, '/');
+
+        Route::add($fullPath, $function, $method);
     }
 }

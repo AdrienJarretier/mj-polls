@@ -21,22 +21,9 @@ function handleCreatePoll($viewName)
   return function () use ($viewName) {
     include("views/$viewName.php");
   };
-
-  // return function ($req, $res) {
-
-  //   $duplicateCheckMethods = $db->getDuplicateCheckMethods();
-
-  //   res.render(viewName, pageOptions('Create Poll', {
-
-  //     duplicateCheckMethods: prepareObjectForFrontend(db.getDuplicateCheckMethods())
-
-  //   }));
-  // }
 }
 
-$router = new Router();
-
-$router->add('/', handleCreatePoll('poll_display_create'));
+Route::add('/', handleCreatePoll('poll_display_create'));
 
 // Add a 404 not found route
 Route::pathNotFound(function ($path) {
@@ -55,7 +42,7 @@ Route::pathNotFound(function ($path) {
  * @param string $locale e.g "fr-FR"
  * @return array array containing messages
  */
-$router->add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part, $locale) {
+Route::add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part, $locale) {
 
   // echo 'requested : ' . $part . ' - ' . $locale;
 
@@ -73,7 +60,7 @@ $router->add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($par
   echo json_encode($localeMsgs);
 });
 
-$router->use('/api', 'routes/api.php');
+Router::use('/api', 'routes/api.php');;
 
 // Run the router
 Route::run('/');
