@@ -11,11 +11,16 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // Use this namespace
 use Steampixel\Route;
 
-echo Common::log(Route::getAll());
 
-// Route::add('/', function () {
-//     echo 'api welcome';
-// });
+SubRouter::add('/', function() {
+    echo 'welcome to api';
+});
 
-// // Run the router
-// Route::run('/api');
+Common::log(Route::getAll(), true);
+
+// foreach(Route::getAll() as $route) {
+
+//     if($route['expression'] == '/api') {
+//         Common::log($route, true);
+//     }
+// }
