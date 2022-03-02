@@ -1,6 +1,6 @@
 'use strict';
 
-import {get } from '/javascripts/utils.js';
+import {get, post } from '/javascripts/utils.js';
 
 const assert = chai.assert;
 describe('api tests', function() {
@@ -60,6 +60,28 @@ describe('api tests', function() {
             'max_voters': null,
             'max_datetime': null,
         }
+
+        assert.ownInclude(poll, expected);
+
+    });
+
+    it('should post poll and retrieve an identifier', async function() {
+
+        const formData = {
+            "title": "poll inserted from front end unit tests",
+            "choices": ["a", "b", ""],
+            "max_datetime": null
+        }
+        let pollIdentifier = await post('/polls', formData);
+
+        console.log(pollIdentifier);
+
+        const poll = await get('/polls/' + pollIdentifier);
+
+        console.log(poll);
+
+        let expected = pollIdentifier;
+        expected['identifier'] = pollIdentifier;
 
         assert.ownInclude(poll, expected);
 

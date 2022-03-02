@@ -49,6 +49,20 @@ class PollDao
         );
     }
 
+    /**
+     * @return string the randomly generated identifier of the poll
+     */
+    function getIdentifierFromId(int $pollId)
+    {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT identifier
+            FROM polls
+            WHERE id = ?',
+            'get',
+            [$pollId]
+        );
+    }
+
     function getChoicesOfPoll(int $pollId)
     {
         return $this->dbUtils->prepareAndExecute(

@@ -30,3 +30,24 @@ self::add('/((?:[a-z0-9]){8})', function ($pollIdentifier) {
 
     asJson((new Db(constant('DB_NAME')))->dao->getPollFromIdentifier($pollIdentifier));
 });
+
+
+self::add('/', function () {
+
+    $body = json_decode(file_get_contents('php://input'), true);
+    // $poll = new Poll($body);
+    Common::log($body);
+    // Common::log($poll);
+
+    // $db = new Db(constant('DB_NAME'));
+
+    // try {
+    //     $lastInsertRowid = $db->insertPoll(new Poll($body['poll']), $body['choices']);
+
+    //     $pollIdentifier = $db->dao->getIdentifierFromId($lastInsertRowid);
+
+    //     asJson($pollIdentifier);
+    // } catch (Exception $e) {
+    //     Common::log($e);
+    // }
+}, 'post');
