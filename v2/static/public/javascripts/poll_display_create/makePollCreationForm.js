@@ -146,7 +146,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
 
                     // let inputToFocus = $(this).parent().siblings().last().children();
                     let inputToFocus = $(this).parent().next().children();
-                    console.log(inputToFocus);
+                    // console.log(inputToFocus);
                     inputToFocus.focus();
                     pollTable.removeCol($(this).parent().index(), 'slow');
                     scrollPos -= inputWidth;
