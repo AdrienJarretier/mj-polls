@@ -17,8 +17,6 @@
 <script src="/extLibs/popper-2.9.3.min.js"></script>
 <script src="/extLibs/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
 
-<script src="/javascripts/utils.js"></script>
-
 
 <link rel="stylesheet" href="/stylesheets/style.css" />
 

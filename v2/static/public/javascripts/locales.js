@@ -1,5 +1,7 @@
 "use strict"
 
+import {get } from '/javascripts/utils.js';
+
 class LocaleMessages {
 
     /**

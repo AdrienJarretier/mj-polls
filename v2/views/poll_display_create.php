@@ -8,6 +8,10 @@
         'use strict';
 
         import {
+            get
+        } from '/javascripts/utils.js';
+
+        import {
             LocaleMessages
         } from "/javascripts/locales.js";
         let localeGrades = await LocaleMessages.new('db-grades', 'fr-FR');
