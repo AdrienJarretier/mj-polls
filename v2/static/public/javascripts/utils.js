@@ -63,13 +63,13 @@ async function sendDelete(uri, data) {
 
 function monitorEvents(element) {
 
-    var log = function (e) { console.log(e); };
+    var log = function(e) { console.log(e); };
     var events = [];
 
     for (var i in element) {
         if (i.startsWith("on")) events.push(i.substr(2));
     }
-    events.forEach(function (eventName) {
+    events.forEach(function(eventName) {
         element.addEventListener(eventName, log);
     });
 }
@@ -97,8 +97,7 @@ function parseForm(formSelector) {
             }
             formData[name].push(field.value);
 
-        }
-        else {
+        } else {
             formData[name] = field.value;
         }
 
@@ -157,4 +156,4 @@ function sleep(ms) {
     });
 }
 
-export {get};
+export {get, parseForm, post };
