@@ -14,3 +14,5 @@ RewriteRule ^tests static%{REQUEST_URI} [L]
 RewriteCond %{REQUEST_URI} !^/static/public/
 RewriteCond %{REQUEST_URI} !^/static/tests/
 RewriteRule ^(.*)$ index.php [QSA]
+
+DirectoryIndex index.html
