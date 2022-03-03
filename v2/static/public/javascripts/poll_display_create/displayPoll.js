@@ -64,12 +64,19 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
         hasVoted(true, infiniteVoteEnabled);
     }
 
+    // ---------------------------------------------------------------
+    // ------------------------ Results Button ------------------------
+
+    console.log(parsedPoll);
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
-            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.uuid).append($('<button class="btn btn-secondary">')
+            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.identifier).append($('<button class="btn btn-secondary">')
                 .text(localeMsgs.get('toResultsLink')))
             );
     }
+
+    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
 
     // ---------------------------------------------------------------
     // ------------------------ Submit Button ------------------------
@@ -91,7 +98,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     // ------------------------ Share Button ------------------------
 
     const windowLocOrig = window.location.origin;
-    const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.uuid
+    const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.identifier
 
     const copiedSuccessAlert = $(`<div class="alert alert-primary p-0 mb-0" role="alert">`)
         .text('Lien copié !')

@@ -6,7 +6,11 @@ use Common;
 
 function sanitizePoll(\Poll &$poll)
 {
-    $keysToKeep = ['identifier', 'title', 'choices', 'datetime_closed'];
+    $keysToKeep = [
+        'identifier', 'title', 'choices', 'datetime_closed',
+        'max_voters',
+        'max_datetime'
+    ];
 
     $poll = (object) array_filter(
         (array) $poll,
