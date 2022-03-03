@@ -1,7 +1,8 @@
 {
     "db": {
-        "database": "db/polls.db"
+        "database": "mjpolls_unittests"
     },
+    "pollIdentifierPattern": "(?:[a-z0-9]){8}",
     "testConfig": {
         "infiniteVoteEnabled":true,
         "testApiEnabled": false

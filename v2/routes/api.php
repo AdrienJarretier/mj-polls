@@ -8,8 +8,6 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/../db/Db.php';
 
-define('DB_NAME', 'mjpolls_unittests');
-
 function asJson($data)
 {
     header('Content-Type: application/json');
@@ -18,12 +16,12 @@ function asJson($data)
 
 self::add('/grades', function () {
 
-    asJson((new Db(constant('DB_NAME')))->getGrades());
+    asJson((new Db(Common::$serverConfig->db->database))->getGrades());
 });
 
 self::add('/((?:[a-z0-9]){8})', function ($pollIdentifier) {
 
-    asJson((new Db(constant('DB_NAME')))->getPollFromIdentifier($pollIdentifier));
+    asJson((new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($pollIdentifier));
 });
 
 
@@ -34,7 +32,7 @@ self::add('/', function () {
     // Common::log($body);
     // Common::log($poll);
 
-    $db = new Db(constant('DB_NAME'));
+    $db = new Db(Common::$serverConfig->db->database);
 
     try {
         $lastInsertRowid = $db->insertPoll($poll);

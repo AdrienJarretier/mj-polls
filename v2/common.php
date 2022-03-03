@@ -2,7 +2,31 @@
 
 class Common
 {
+    static $serverConfig;
     static $localesMsgs = [];
+
+    static function init()
+    {
+        self::$serverConfig = json_decode(
+            file_get_contents(
+                self::joinPath(__DIR__, 'config.json')
+            )
+        );
+
+        foreach (['fr-FR'] as $locale) {
+
+            self::$localesMsgs[$locale] = [];
+
+            foreach (['client', 'db'] as $part) {
+
+                $filename = self::joinPath(__DIR__ . '/locales', $locale, $part . '.json');
+
+                $fileContent = file_get_contents($filename);
+
+                self::$localesMsgs[$locale][$part] = json_decode($fileContent, true);
+            }
+        }
+    }
 
     static function log($data, bool $html = false, bool $return = false)
     {
@@ -39,24 +63,8 @@ class Common
 
     static function error_log($data)
     {
-        error_log(self::log($data, false, true));
-    }
-
-    static function init()
-    {
-        foreach (['fr-FR'] as $locale) {
-
-            self::$localesMsgs[$locale] = [];
-
-            foreach (['client', 'db'] as $part) {
-
-                $filename = self::joinPath(__DIR__ . '/locales', $locale, $part . '.json');
-
-                $fileContent = file_get_contents($filename);
-
-                self::$localesMsgs[$locale][$part] = json_decode($fileContent, true);
-            }
-        }
+        $stringToLog = self::log($data, false, true);
+        error_log($stringToLog);
     }
 
     static function randomIdentifier($length)
