@@ -22,8 +22,8 @@
                 displayPoll
             } from "/javascripts/poll_display_create/displayPoll.js";
 
-            const parsedPoll = JSON.parse('<%- poll %>');
-            const infiniteVoteEnabled = JSON.parse('<%- infiniteVoteEnabled %>');
+            const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll']) ?>');
+            const infiniteVoteEnabled = JSON.parse('<?= json_encode($pageOptions['infiniteVoteEnabled']) ?>');
 
             const PAGE_TYPE = 'displayPoll';
 

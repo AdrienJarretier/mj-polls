@@ -86,12 +86,12 @@ function handlePollView($viewName)
 
                 $poll = $db->getPoll($pollId);
 
-                $pollJSONstr = prepareObjectForFrontend($poll);
+                // $pollJSONstr = prepareObjectForFrontend($poll);
 
                 $pageOptions = pageOptions(
                     $poll->title,
                     [
-                        'poll' => $pollJSONstr,
+                        'poll' => $poll,
                         'infiniteVoteEnabled' => Common::$serverConfig->testConfig->infiniteVoteEnabled
                     ]
                 );
@@ -109,7 +109,7 @@ self::add('/createPoll', handleCreatePoll('poll_display_create'));
 
 self::get(
     '/poll/(' . Common::$serverConfig->pollIdentifierPattern . ')',
-    handlePollView(Common::joinPath(__DIR__ , '../views/poll_display_create.php')),
+    handlePollView(Common::joinPath(__DIR__, '../views/poll_display_create.php')),
     function () {
         renderPollResults();
     }
