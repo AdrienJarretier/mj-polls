@@ -210,7 +210,15 @@ class Db
             if ($ignoreConstraints)
                 $this->dao->dropConstraintMaxDatetime();
 
-            $poll->setIdentifier(Common::randomIdentifier(8));
+            $matches = [];
+            preg_match(
+                '/{([0-9]+)}$/',
+                Common::$serverConfig->pollIdentifierPattern,
+                $matches
+            );
+            $poll->setIdentifier(Common::randomIdentifier(
+                $matches[1]
+            ));
 
             // if title is not only whitespaces
             $re = '/^\s*(\S.*?\S?)\s*$/';
