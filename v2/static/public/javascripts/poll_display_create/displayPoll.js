@@ -2,7 +2,7 @@
 
 import Table from '/javascripts/Table.js';
 import { LocaleMessages } from "/javascripts/locales.js";
-import {parseForm,post} from '/javascripts/utils.js';
+import { parseForm, post } from '/javascripts/utils.js';
 let localeMsgs = await LocaleMessages.new('client-poll', 'fr-FR');
 
 // console.log(pollJSONstr);
@@ -56,8 +56,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     if (!localStorage.getItem(parsedPoll.id) || infiniteVoteEnabled) {
         newMakeVoteForm(parsedPoll);
         hasVoted(false, infiniteVoteEnabled);
-    }
-    else {
+    } else {
         pollTable.addCol();
         for (let choice of parsedPoll.choices) {
             pollTable.addCol(choice.name);
@@ -72,8 +71,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
             .append($('<a>').attr('href', '/poll_results/' + parsedPoll.identifier).append($('<button class="btn btn-secondary">')
-                .text(localeMsgs.get('toResultsLink')))
-            );
+                .text(localeMsgs.get('toResultsLink'))));
     }
 
     // ---------------------------------------------------------------
@@ -108,41 +106,40 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     const linkInput = $('<input type="text" class="form-control form-control-sm">')
         .attr('readonly', true)
         .val(pollLinkVal)
-        .select(function () {
-        });
+        .select(function() {});
 
     const popoverContent = $('<div class="container">')
         .append(
             $('<div class="row">')
-                .append(
-                    $('<div class="col p-0">')
-                        .append(copiedSuccessAlert)
-                )
+            .append(
+                $('<div class="col p-0">')
+                .append(copiedSuccessAlert)
+            )
         )
         .append(
             $('<div class="row">')
+            .append(
+                $('<div class="col p-0">')
                 .append(
-                    $('<div class="col p-0">')
-                        .append(
-                            linkInput
-                        )
+                    linkInput
                 )
-                .append(
-                    $('<div class="col pe-0 text-end copyBtnCol">')
-                        .append($('<button type="button" class="btn btn-secondary btn-sm popoverButton">')
-                            .text('copier')
-                            .click(function () {
-                                linkInput.select();
-                                navigator.clipboard.writeText(pollLinkVal).then(function () {
-                                    copiedSuccessAlert
-                                        .fadeTo(0, 1)
-                                        .fadeTo(2400, 0);
-                                }, function () {
-                                    console.error('select event on pollLinkVal error');
-                                });
-                            })
-                        )
+            )
+            .append(
+                $('<div class="col pe-0 text-end copyBtnCol">')
+                .append($('<button type="button" class="btn btn-secondary btn-sm popoverButton">')
+                    .text('copier')
+                    .click(function() {
+                        linkInput.select();
+                        navigator.clipboard.writeText(pollLinkVal).then(function() {
+                            copiedSuccessAlert
+                                .fadeTo(0, 1)
+                                .fadeTo(2400, 0);
+                        }, function() {
+                            console.error('select event on pollLinkVal error');
+                        });
+                    })
                 )
+            )
         );
 
     let divShareButton = $('<div>')
@@ -180,8 +177,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             )
         )
         .append($('<div class="row my-3">')
-            .append($('<div class="col">')
-            )
+            .append($('<div class="col">'))
             .append($('<div class="col-4">')
                 .append(divSubmitButton)
             )
@@ -189,7 +185,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
                 .append(shareButton)
             )
         )
-        .submit(async function (event) {
+        .submit(async function(event) {
             event.preventDefault();
 
             let formData = parseForm($(this));
