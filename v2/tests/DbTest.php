@@ -240,23 +240,36 @@ final class DbTest extends TestCase
     $this->assertEquals($grade, $grades[0]);
   }
 
-  function testGetPollFromIdentifier()
+  /**
+   * @depends testInsert
+   */
+  function testGetPollFromIdentifier($pollId)
   {
+    $identifier = '00000000';
+
     $expected = new Poll(
       [
-        'identifier' => '00000000',
-        'title' => 'title of poll 00000000',
-        'max_voters' => null,
-        'max_datetime' => null,
+        'identifier' => $identifier,
+        'title' => 'title of poll ' . $identifier
       ]
     );
 
-    $poll = self::$db->getPollFromIdentifier('00000000');
+    $poll = self::$db->getPollFromIdentifier($identifier);
 
     $this->assertInstanceOf('Poll', $poll);
-    $this->assertEquals('00000000', $poll->identifier);
-    $this->assertEquals('title of poll 00000000', $poll->title);
-    $this->assertNull($poll->max_voters);
-    $this->assertNull($poll->max_datetime);
+    $this->assertEquals($identifier, $poll->identifier);
+    $this->assertEquals($expected->title, $poll->title);
+
+
+
+    // $expected = self::$db->getPoll($pollId);
+
+    // $poll = self::$db->getPollFromIdentifier($expected->identifier);
+
+    // $this->assertInstanceOf('Poll', $poll);
+    // $this->assertEquals($expected->id, $poll->id);
+    // $this->assertEquals($expected->title, $poll->title);
+    // $this->assertNull($poll->max_voters);
+    // $this->assertNull($poll->max_datetime);
   }
 }

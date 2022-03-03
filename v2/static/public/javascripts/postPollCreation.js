@@ -33,8 +33,6 @@ async function submitHandler(event) {
 
     prepareFormData(formData);
 
-    console.log(formData);
-
     let pollId = await post('/polls', formData);
 
     // console.log(pollId);
