@@ -36,4 +36,19 @@ class Router
 
         Route::add($fullPath, $function, $method);
     }
+
+    static function get(string $expression, Closure ...$handlers)
+    {
+        self::add($expression, function () use ($handlers) {
+
+            function nextHandler()
+            {
+                array_shift($handlers)();
+            }
+
+            array_shift($handlers)();
+        });
+    }
 }
+
+// Router::get('/route', 'b', 'c');
