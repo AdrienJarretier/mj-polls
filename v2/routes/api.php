@@ -21,12 +21,12 @@ function sendPoll(Poll $poll)
     asJson($poll);
 }
 
-self::add('/grades', function () {
+self::get('/grades', function () {
 
     asJson((new Db(Common::$serverConfig->db->database))->getGrades());
 });
 
-self::add('/((?:[a-z0-9]){8})', function ($pollIdentifier) {
+self::get('/(' . Common::$serverConfig->pollIdentifierPattern . ')', function ($pollIdentifier) {
 
     $poll = (new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($pollIdentifier);
     sendPoll($poll);
@@ -52,3 +52,42 @@ self::add('/', function () {
         Common::log($e);
     }
 }, 'post');
+
+
+self::post('/(' . Common::$serverConfig->pollIdentifierPattern . ')/vote', function ($identifier) {
+
+    $db = new Db();
+
+    $pollId = $db->getIdFromIdentifier($identifier);
+
+
+
+    $responseObject = (object)[
+        'voteSuccessfull' => false,
+        'cause' => 'unknown'
+    ];
+
+    try {
+
+        $body = json_decode(file_get_contents('php://input'), true);
+
+        if ($db->isClosed($pollId)) {
+            Common::error_log('vote on closed poll');
+            Common::error_log($body);
+            $responseObject->voteSuccessfull = false;
+            $responseObject->cause = 'poll closed';
+        } else {
+            $responseObject->voteSuccessfull = $db->addVote($pollId, $body);
+            if ($responseObject->voteSuccessfull)
+                unset($responseObject->cause);
+        }
+
+        asJson($responseObject);
+    } catch (Exception $e) {
+        Common::error_log("####################################");
+        Common::error_log("error in api.post('/:id/vote') :", $e);
+        Common::error_log("####################################");
+
+        asJson($responseObject);
+    }
+});
