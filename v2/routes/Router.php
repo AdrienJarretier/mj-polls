@@ -24,7 +24,7 @@ class Router
         include $filePath;
     }
 
-    static function add($expression, $function, $method = 'get')
+    static function add(string $expression, Closure $function, string $method = 'get')
     {
         if (self::$basePath[-1] == '/') {
             $expression = ltrim($expression, '/');
@@ -37,20 +37,30 @@ class Router
         Route::add($fullPath, $function, $method);
     }
 
-    static function get(string $expression, Closure ...$handlers)
+    static function get(string $expression, Closure $handler)
     {
-        // Common::log('route add : ' . $expression, true);
-
-        self::add($expression, function (...$args) use ($handlers) {
-
-            function nextHandler()
-            {
-                array_shift($handlers)(...$args);
-            }
-
-            array_shift($handlers)(...$args);
-        });
+        self::add($expression, $handler);
     }
+
+    static function post(string $expression, Closure $handler)
+    {
+        self::add($expression, $handler, 'post');
+    }
+
+    // static function get(string $expression, Closure ...$handlers)
+    // {
+    //     // Common::log('route add : ' . $expression, true);
+
+    //     self::add($expression, function (...$args) use ($handlers) {
+
+    //         function nextHandler()
+    //         {
+    //             array_shift($handlers)(...$args);
+    //         }
+
+    //         array_shift($handlers)(...$args);
+    //     });
+    // }
 }
 
 // Router::get('/route', 'b', 'c');
