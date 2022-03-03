@@ -2,6 +2,7 @@
 
 import Table from '/javascripts/Table.js';
 import { LocaleMessages } from "/javascripts/locales.js";
+import {parseForm,post} from '/javascripts/utils.js';
 let localeMsgs = await LocaleMessages.new('client-poll', 'fr-FR');
 
 // console.log(pollJSONstr);
