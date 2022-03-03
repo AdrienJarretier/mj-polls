@@ -7,11 +7,18 @@ error_reporting(E_ALL);
 <?php
 
 require_once __DIR__ . '/../db/Db.php';
+require_once __DIR__ . '/RoutesCommon.php';
 
 function asJson($data)
 {
     header('Content-Type: application/json');
     echo json_encode($data);
+}
+
+function sendPoll(Poll $poll)
+{
+    RoutesCommon\sanitizePoll($poll);
+    asJson($poll);
 }
 
 self::add('/grades', function () {
@@ -21,7 +28,8 @@ self::add('/grades', function () {
 
 self::add('/((?:[a-z0-9]){8})', function ($pollIdentifier) {
 
-    asJson((new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($pollIdentifier));
+    $poll = (new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($pollIdentifier);
+    sendPoll($poll);
 });
 
 

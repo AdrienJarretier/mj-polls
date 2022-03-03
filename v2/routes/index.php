@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../db/Db.php';
+require_once __DIR__ . '/RoutesCommon.php';
 
 function prepareObjectForFrontend($object)
 {
@@ -85,6 +86,7 @@ function handlePollView($viewName)
             } else {
 
                 $poll = $db->getPoll($pollId);
+                RoutesCommon\sanitizePoll($poll);
 
                 // $pollJSONstr = prepareObjectForFrontend($poll);
 

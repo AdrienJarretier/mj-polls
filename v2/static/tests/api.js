@@ -56,9 +56,10 @@ describe('api tests', function() {
         // VALUES(00000000, 'title of poll 00000000', null, null)
         const expected = {
             'identifier': '00000000',
-            'title': 'title of poll 00000000',
-            'max_voters': null,
-            'max_datetime': null,
+            'title': 'title of poll 00000000'
+            // ,
+            // 'max_voters': null,
+            // 'max_datetime': null
         }
 
         assert.ownInclude(poll, expected);
@@ -69,8 +70,9 @@ describe('api tests', function() {
 
         const formData = {
             "title": "poll inserted from front end unit tests",
-            "choices": ["a", "b", ""],
-            "max_datetime": null
+            "choices": ["a", "b", ""]
+            // ,
+            // "max_datetime": null
         }
         let pollIdentifier = (await post('/polls', formData));
 
@@ -85,8 +87,8 @@ describe('api tests', function() {
         delete expected['choices'];
         expected['identifier'] = pollIdentifier;
 
-        console.log(poll);
-        console.log(expected);
+        console.log('actual poll', poll);
+        console.log('expected', expected);
 
         assert.ownInclude(poll, expected);
 
