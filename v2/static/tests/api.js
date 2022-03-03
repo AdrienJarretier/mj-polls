@@ -72,7 +72,10 @@ describe('api tests', function() {
             "choices": ["a", "b", ""],
             "max_datetime": null
         }
-        let pollIdentifier = (await post('/polls', formData)).identifier;
+        let pollIdentifier = (await post('/polls', formData));
+
+        assert.isString(pollIdentifier);
+        assert.lengthOf(pollIdentifier, 8);
 
         // console.log(pollIdentifier);
 

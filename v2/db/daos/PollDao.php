@@ -60,7 +60,7 @@ class PollDao
             WHERE id = ?',
             'get',
             [$pollId]
-        );
+        )->identifier;
     }
 
     function getChoicesOfPoll(int $pollId)

@@ -16,11 +16,6 @@ function asJson($data)
     echo json_encode($data);
 }
 
-self::add('/', function () {
-
-    echo 'welcome to api';
-});
-
 self::add('/grades', function () {
 
     asJson((new Db(constant('DB_NAME')))->getGrades());

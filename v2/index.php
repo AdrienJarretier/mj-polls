@@ -16,15 +16,6 @@ require_once 'routes/Router.php';
 
 require_once 'common.php';
 
-function handleCreatePoll($viewName)
-{
-  return function () use ($viewName) {
-    include("views/$viewName.php");
-  };
-}
-
-Route::add('/', handleCreatePoll('poll_display_create'));
-
 // Add a 404 not found route
 Route::pathNotFound(function ($path) {
   // Do not forget to send a status header back to the client
@@ -60,6 +51,7 @@ Route::add('/locales/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part,
   echo json_encode($localeMsgs);
 });
 
+Router::use('/', 'routes/index.php');;
 Router::use('/polls', 'routes/api.php');;
 
 // Run the router

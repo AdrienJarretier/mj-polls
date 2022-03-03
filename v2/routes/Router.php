@@ -18,6 +18,7 @@ class Router
 
     static function use($expression, $filePath)
     {
+        // Common::log('[' . $expression . ']', true);
         self::$basePath = $expression;
 
         include $filePath;
@@ -25,11 +26,13 @@ class Router
 
     static function add($expression, $function, $method = 'get')
     {
+        if (self::$basePath[-1] == '/') {
+            $expression = ltrim($expression, '/');
+        }
+        if ($expression == '/')
+            $expression = '';
+
         $fullPath = self::$basePath . $expression;
-
-        $fullPath = rtrim($fullPath, '/');
-
-        // Common::log($fullPath, true);
 
         Route::add($fullPath, $function, $method);
     }
