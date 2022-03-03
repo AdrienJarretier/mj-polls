@@ -37,6 +37,11 @@ class Common
             echo $finalString;
     }
 
+    static function error_log($data)
+    {
+        error_log(self::log($data, false, true));
+    }
+
     static function init()
     {
         foreach (['fr-FR'] as $locale) {
