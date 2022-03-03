@@ -174,6 +174,14 @@ class Db
         return $poll;
     }
 
+    /**
+     * @return int the id of the poll
+     */
+    function getIdFromIdentifier(string $identifier)
+    {
+        return $this->dao->getIdFromIdentifier($identifier);
+    }
+
     function getGrades()
     {
         return $this->dao->getGrades();
