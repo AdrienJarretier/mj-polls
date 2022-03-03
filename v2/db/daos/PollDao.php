@@ -7,16 +7,9 @@ require_once 'entities/Poll.php';
 class PollDao
 {
 
-    function __construct(string $dbname)
+    function __construct()
     {
-        $this->dbUtils = new DbUtils(
-            $dbname,
-            'mjpolls',
-            'pass',
-            [
-                'verbose' => false
-            ]
-        );
+        $this->dbUtils = new DbUtils();
     }
 
     /**

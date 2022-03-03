@@ -21,16 +21,16 @@ class DbUtils extends PDO
             $string;
     }
 
-    function __construct($dbname, $user, $pass, $opts = [
+    function __construct($opts = [
         'verbose' => false
     ])
     {
         $this->options = $opts;
         try {
             parent::__construct(
-                'pgsql:host=localhost;dbname=' . $dbname,
-                $user,
-                $pass,
+                'pgsql:host=localhost;dbname=' . Common::$serverConfig->db->database,
+                Common::$serverConfig->db->user,
+                Common::$serverConfig->db->pass,
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $e) {

@@ -1,10 +1,12 @@
 {
     "db": {
-        "database": "mjpolls_unittests"
+        "database": "mjpolls_unittests",
+        "user": "mjpolls",
+        "pass": "pass"
     },
     "pollIdentifierPattern": "(?:[a-z0-9]){8}",
     "testConfig": {
-        "infiniteVoteEnabled":true,
+        "infiniteVoteEnabled": true,
         "testApiEnabled": false
     },
     "testApi": {
