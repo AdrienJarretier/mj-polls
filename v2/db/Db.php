@@ -5,15 +5,16 @@
 // error_reporting(E_ALL);
 
 require_once 'daos/PollDao.php';
+require_once 'daos/PollsVotesDao.php';
 require_once 'common.php';
 // require 'entities/Poll.php';
 // require 'entities/PollChoice.php';
 
 class Db
 {
-    function __construct(string $dbname)
+    function __construct()
     {
-        $this->dao = new PollDao($dbname);
+        $this->dao = new PollDao();
     }
 
     // for a list of results with polls and their choices
@@ -173,6 +174,45 @@ class Db
         $poll->addChoices($choices);
         return $poll;
     }
+
+    function getFullPoll($pollId)
+    {
+        // $poll = $this->getPoll($pollId);
+        $polls_votes = (new PollsVotesDao())->get($pollId);
+
+        Common::log($polls_votes, true);
+    }
+
+    // function getFullPoll(poll_id) {
+    //     let poll = getPoll(poll_id);
+
+    //     let polls_votes = executeStatement(`
+    // SELECT pv.* FROM polls_votes AS pv
+    // INNER JOIN polls_choices AS pc ON pv.poll_choice_id=pc.id
+    // WHERE pc.poll_id = ?;
+    // `, 'all', [poll_id]);
+
+    //     let grades = getGrades();
+    //     for (let choice of poll.choices) {
+    //         choice['votes'] = {};
+    //         for (let grade of grades) {
+    //             choice['votes'][grade.id] = Object.assign({}, grade);
+    //         }
+    //         // console.log(choice['votes']);
+    //         for (let vote of polls_votes) {
+    //             if (vote.poll_choice_id == choice.id) {
+    //                 // console.log(vote.grade_id, vote.count);
+    //                 choice['votes'][vote.grade_id].count = vote.count;
+    //                 // console.log(choice);
+    //             }
+    //         }
+    //     }
+    //     return poll;
+    // }
+
+
+
+
 
     /**
      * @return int the id of the poll
