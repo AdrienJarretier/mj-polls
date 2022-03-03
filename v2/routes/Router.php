@@ -39,14 +39,16 @@ class Router
 
     static function get(string $expression, Closure ...$handlers)
     {
-        self::add($expression, function () use ($handlers) {
+        // Common::log('route add : ' . $expression, true);
+
+        self::add($expression, function (...$args) use ($handlers) {
 
             function nextHandler()
             {
-                array_shift($handlers)();
+                array_shift($handlers)(...$args);
             }
 
-            array_shift($handlers)();
+            array_shift($handlers)(...$args);
         });
     }
 }
