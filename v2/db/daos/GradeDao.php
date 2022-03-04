@@ -7,11 +7,18 @@ class GradeDao
         $this->dbUtils = $dbUtils;
     }
 
+    /**
+     * @return array of int, list of gradesIds in db
+     */
     function getIds()
     {
-        return $this->dbUtils->prepareAndExecute(
+        $ids = $this->dbUtils->prepareAndExecute(
             'SELECT id FROM grades;',
-            'all'
+            'all',
+            []
         );
+        // Common::log();
+        // exit();
+        return array_map(fn ($obj) => $obj->id, $ids);
     }
 }
