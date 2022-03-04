@@ -2,9 +2,9 @@
 
 class GradeDao
 {
-    function __construct()
+    function __construct(DbUtils &$dbUtils)
     {
-        $this->dbUtils = new DbUtils();
+        $this->dbUtils = $dbUtils;
     }
 
     function getIds()
