@@ -92,12 +92,18 @@ class DbUtils extends PDO
     {
         $arrayOfResults = [];
         $stmt = $this->prepare($sqlString);
-        $this->beginTransaction();
+
+        $needsCommit = false;
+        if (!$this->inTransaction()) {
+            $this->beginTransaction();
+            $needsCommit = true;
+        }
         foreach ($arrayOfBindParameters as $bindParameters) {
             $bindParameters = $bindParameters;
             array_push($arrayOfResults, $stmt->execute($bindParameters));
         }
-        $this->commit();
+        if ($needsCommit)
+            $this->commit();
         return $arrayOfResults;
     }
 
