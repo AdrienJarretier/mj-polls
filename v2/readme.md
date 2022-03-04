@@ -103,7 +103,9 @@ sudo mkdir /var/log/apache2/mj-polls
     DocumentRoot /home/ubuntu/gitRepos/mj-polls/v2
 
     ErrorLog ${APACHE_LOG_DIR}/mj-polls/error.log
-    CustomLog ${APACHE_LOG_DIR}/mj-polls/access.log combined    
+    CustomLog ${APACHE_LOG_DIR}/mj-polls/access.log combined
+
+    ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 
     <Directory /home/ubuntu/gitRepos/mj-polls/v2>
         Options -Indexes +FollowSymLinks

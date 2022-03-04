@@ -61,10 +61,15 @@ class Common
             echo $finalString;
     }
 
-    static function error_log($data)
+    static function error_log(...$data)
     {
-        $stringToLog = self::log($data, false, true);
-        error_log($stringToLog);
+        error_log(self::log(array_shift($data), false, true));
+        while ($nextData = array_shift($data)) {
+
+            $stringToLog = self::log($nextData, false, true);
+            foreach (explode(PHP_EOL, $stringToLog) as $line)
+                error_log('  ' . $line);
+        }
     }
 
     static function randomIdentifier($length)

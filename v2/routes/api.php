@@ -81,13 +81,15 @@ self::post('/(' . Common::$serverConfig->pollIdentifierPattern . ')/vote', funct
             if ($responseObject->voteSuccessfull)
                 unset($responseObject->cause);
         }
-
-        asJson($responseObject);
     } catch (Exception $e) {
-        Common::error_log("####################################");
-        Common::error_log("error in api.post('/:id/vote') :", $e);
-        Common::error_log("####################################");
-
+        Common::error_log(
+            "####################################",
+            "error in api.post('/:id/vote') :",
+            $e->getMessage(),
+            $e->getTraceAsString(),
+            '####################################'
+        );
+    } finally {
         asJson($responseObject);
     }
 });
