@@ -3,30 +3,30 @@
 require_once __DIR__ . '/../db/Db.php';
 require_once __DIR__ . '/RoutesCommon.php';
 
-function prepareObjectForFrontend($object)
-{
+// function prepareObjectForFrontend($object)
+// {
 
-    return
-        preg_replace(
-            '/"/',
-            "\\\"",
-            preg_replace(
-                "/'/",
-                "\\'",
-                preg_replace(
-                    '/\\\/',
-                    '\\\\\\',
-                    json_encode($object)
-                )
-            )
-        );
+//     return
+//         preg_replace(
+//             '/"/',
+//             "\\\"",
+//             preg_replace(
+//                 "/'/",
+//                 "\\'",
+//                 preg_replace(
+//                     '/\\\/',
+//                     '\\\\\\',
+//                     json_encode($object)
+//                 )
+//             )
+//         );
 
-    // return json_encode($object)
-    //   .replace(/\\/g, "\\\\")
-    //   .replace(/'/g, "\\'")
-    //   .replace(/"/g, "\\\"");
+//     // return json_encode($object)
+//     //   .replace(/\\/g, "\\\\")
+//     //   .replace(/'/g, "\\'")
+//     //   .replace(/"/g, "\\\"");
 
-}
+// }
 
 
 function pageOptions($pageTitle, $otherOptions)
@@ -44,25 +44,26 @@ function pageOptions($pageTitle, $otherOptions)
     return $options;
 }
 
-function renderPollResults()
-{
+// function renderPollResults($pollId)
+// {
 
-    try {
+//     try {
 
-        $db = new Db(Common::$serverConfig->db->database);
+//         $db = new Db();
 
-        $poll = $db->getFullPoll($pollId);
+//         $poll = $db->getFullPoll($pollId);
+//         RoutesCommon\sanitizePoll($poll);
 
-        $pollJSONstr = prepareObjectForFrontend($poll);
+//         // $pollJSONstr = prepareObjectForFrontend($poll);
 
-        $pageOptions = pageOptions('results ' . $poll->title, [
-            'poll' => $pollJSONstr
-        ]);
-        include 'views/poll_results.php';
-    } catch (Exception $e) {
-        Common::error_log($e);
-    }
-}
+//         $pageOptions = pageOptions('results ' . $poll->title, [
+//             'poll' => $poll
+//         ]);
+//         include 'views/poll_results.php';
+//     } catch (Exception $e) {
+//         Common::error_log($e);
+//     }
+// }
 
 function handleCreatePoll($viewName)
 {
@@ -116,3 +117,23 @@ self::get(
         renderPollResults();
     }
 );
+
+
+
+// self::get(
+//     '/poll_results/(' . Common::$serverConfig->pollIdentifierPattern . ')',
+//     function ($identifier) {
+
+//         $poll = (new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($identifier);
+//         // console.log(poll);
+
+//         if (
+//             Common::$serverConfig->testConfig->testApiEnabled ||
+//             ($poll->max_voters === null && $poll->max_datetime === null)
+//         ) {
+//             renderPollResults($poll->id);
+//         } else {
+//             createError(403);
+//         }
+//     }
+// );
