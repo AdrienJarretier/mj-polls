@@ -191,7 +191,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             let formData = parseForm($(this));
 
             let postResponse = await post(
-                '/polls/' + parsedPoll.uuid + '/vote',
+                '/polls/' + parsedPoll.identifier + '/vote',
                 formData
             );
 
