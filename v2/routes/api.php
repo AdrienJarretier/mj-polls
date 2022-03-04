@@ -84,7 +84,9 @@ self::post('/(' . Common::$serverConfig->pollIdentifierPattern . ')/vote', funct
     } catch (Exception $e) {
         Common::error_log(
             "####################################",
-            "error in api.post('/:id/vote') :",
+            "error in api.post('/" .
+                $identifier
+                . "/vote') :",
             $e->getMessage(),
             $e->getTraceAsString(),
             '####################################'
