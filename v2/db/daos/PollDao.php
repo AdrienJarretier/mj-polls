@@ -7,9 +7,9 @@ require_once 'entities/Poll.php';
 class PollDao
 {
 
-    function __construct()
+    function __construct(DbUtils &$dbUtils)
     {
-        $this->dbUtils = new DbUtils();
+        $this->dbUtils = $dbUtils;
     }
 
     /**
@@ -143,15 +143,20 @@ class PollDao
     }
 
 
-    function incPollVote($voteEntries)
+    function someData($pollId)
     {
-        return $this->dbUtils->executeLoop(
-            'UPDATE polls_votes
-            SET count = count+1
-            WHERE poll_choice_id = ?
-            AND grade_id = ?
-            ;',
-            $voteEntries
+        $this->dbUtils->prepareAndExecute(
+            'SELECT sum(count) as votes_count, max_voters
+            FROM polls AS p
+            INNER JOIN polls_choices AS pc
+            ON p.id = pc.poll_id
+            INNER JOIN polls_votes AS pv
+            ON pc.id = pv.poll_choice_id
+            WHERE p.id = ?
+            GROUP BY pc.id
+            LIMIT 1;',
+            'get',
+            [$pollId]
         );
     }
 
@@ -175,30 +180,6 @@ class PollDao
             ]
         );
         return $this->dbUtils->lastInsertId();
-    }
-
-    function insertChoices(int $pollId, array $choices)
-    {
-        $stmt = $this->dbUtils->prepare(
-            'INSERT 
-            INTO polls_choices(poll_id, name) 
-            VALUES(?, ?);'
-        );
-        $pcs_insertsResults = [];
-        foreach ($choices as $choiceName) {
-
-            $re = '/^\s*(\S.*?\S?)\s*$/';
-            $matches = [];
-            $matched = preg_match($re, $choiceName, $matches);
-            if ($matched) {
-                array_push(
-                    $pcs_insertsResults,
-                    $stmt->execute([$pollId, $matches[1]])
-                );
-            }
-        }
-
-        return $pcs_insertsResults;
     }
 
     /**

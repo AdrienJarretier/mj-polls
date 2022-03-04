@@ -5,6 +5,7 @@
 // error_reporting(E_ALL);
 
 require_once 'daos/PollDao.php';
+require_once 'daos/PollChoicesDao.php';
 require_once 'daos/PollsVotesDao.php';
 require_once 'common.php';
 // require 'entities/Poll.php';
@@ -14,7 +15,10 @@ class Db
 {
     function __construct()
     {
-        $this->dao = new PollDao();
+        $this->dbUtils = new DbUtils();
+        $this->dao = new PollDao($this->dbUtils);
+        $this->pollChoicesDao = new PollChoicesDao($this->dbUtils);
+        $this->pollsVotesDao = new PollsVotesDao($this->dbUtils);
     }
 
     // for a list of results with polls and their choices
@@ -65,36 +69,24 @@ class Db
     function addVote($pollId, $vote)
     {
         $updateSuccess = false;
-
         $this->dao->dbUtils->beginTransaction();
-
         $choices_ids = $this->dao->getChoicesIdOfPoll($pollId);
-
-
-
-
-
         // echo PHP_EOL . 'addVote : vote' . PHP_EOL;
         // print_r($vote);
-
         $voteEntries = [];
         foreach ($vote as $choice_id => $voteValue) {
             array_push($voteEntries, [$choice_id, $voteValue]);
         }
-
         // echo PHP_EOL . 'addVote : voteEntries' . PHP_EOL;
         // print_r($voteEntries);
-
         if (count($voteEntries) != count($choices_ids)) {
             $this->dao->dbUtils->rollBack();
             throw new Exception(
                 'number of votes does not match number of choices in ' . $pollId
             );
         }
-
         // echo PHP_EOL . 'choices_ids' . PHP_EOL;
         // print_r($choices_ids);
-
         foreach ($voteEntries as $voteEntry) {
             $choice_id = intval($voteEntry[0]);
             if (!in_array($choice_id, $choices_ids)) {
@@ -104,33 +96,31 @@ class Db
                 );
             }
         }
+        $updatesResults = $this->pollsVotesDao->increment($voteEntries);
 
-        $updatesResults = $this->dao->incPollVote($voteEntries);
+        // Common::log('updatesResults');
+        // Common::log($updatesResults);
 
-        //     // update unsuccessfull
-        //     if(count($updatesResults) < count($voteEntries))
-        //         return false;
+        // update unsuccessfull
+        if (count($updatesResults) < count($voteEntries)) {
+            $this->dao->dbUtils->rollBack();
+            return false;
+        }
+        foreach ($updatesResults as $updateResult) {
+            // update unsuccessfull
+            if ($updateResult->changes != 1) {
+                $this->dao->dbUtils->rollBack();
+                return false;
+            }
+        }
+        $updateSuccess = true;
 
-        //         foreach($updatesResults as $updatesResult)
-        //    {
-        //         // update unsuccessfull
-        //         if ($updateResult.changes != 1)
-        //             return false;
-        //     }
+        $returned = $this->dao->someData();
+        // Common::log('returned');
+        // Common::log($returned);
 
-        //     updateSuccess = true;
 
-        //     let { votes_count, max_voters } = dbUtils.prepareAndExecute(db,
-        //         `SELECT sum(count) as votes_count, max_voters
-        //     FROM polls AS p
-        //     INNER JOIN polls_choices AS pc
-        //     ON p.id = pc.poll_id
-        //     INNER JOIN polls_votes AS pv
-        //     ON pc.id = pv.poll_choice_id
-        //     WHERE p.id = ?
-        //     GROUP BY pc.id
-        //     LIMIT 1;`,
-        //         'get', [pollId]);
+
 
         //     if (max_voters !== null && votes_count >= max_voters) {
         //         closePoll(pollId, 1, db);
@@ -138,10 +128,7 @@ class Db
 
 
 
-
-
         $this->dao->dbUtils->commit();
-
         return $updateSuccess;
     }
 
@@ -175,10 +162,39 @@ class Db
         return $poll;
     }
 
+    // {
+    //     uuid: '5e1b5e2a-1299-4129-824e-8024401ab93f',
+    //     title: 'test',
+    //     max_voters: 100,
+    //     max_datetime: null,
+    //     datetime_opened: '2022-03-04 10:23:29',
+    //     datetime_closed: null,
+    //     duplicate_vote_check_method_id: null,
+    //     choices: [ { id: 1, name: 'cho1', votes: [Object] } ]
+    //   }
+    //   choices :
+    //   [
+    //     {
+    //       id: 1,
+    //       name: 'cho1',
+    //         votes: {
+    //             '1': { id: 1, value: 'Excellent', order: 50, count: 0 },
+    //             '2': { id: 2, value: 'Very Good', order: 40, count: 0 },
+    //             '3': { id: 3, value: 'Good', order: 30, count: 0 },
+    //             '4': { id: 4, value: 'Acceptable', order: 20, count: 0 },
+    //             '5': { id: 5, value: 'Poor', order: 10, count: 0 },
+    //             '6': { id: 6, value: 'To Reject', order: 0, count: 0 }
+    //         }
+    //     }
+    //   ]
+
+    /**
+     * @return Poll
+     */
     function getFullPoll($pollId)
     {
         // $poll = $this->getPoll($pollId);
-        $polls_votes = (new PollsVotesDao())->get($pollId);
+        $polls_votes = $this->pollsVotesDao->get($pollId);
 
         Common::log($polls_votes, true);
     }
@@ -284,13 +300,8 @@ class Db
 
         // ------------------------ INSERT choices ------------------------
 
-        // $gradesIds = $this->getGrades();
-
-        // print_r($gradesIds);
-
         try {
-            $pcs_insertsResults =
-                $this->dao->insertChoices($pollId, $poll->choices);
+            $pcs_insertsResults = $this->pollChoicesDao->insert($pollId, $poll->choices);
 
             if (count($pcs_insertsResults) == 0) {
 
@@ -302,7 +313,22 @@ class Db
             throw $e;
         }
 
+
+
         // ----------------------------------------------------------------
+        // ---------------------- INSERT polls_votes ----------------------
+        try {
+            // Common::log('pcs_insertsResults');
+            // Common::log($pcs_insertsResults);
+
+            $this->pollsVotesDao->insert($pcs_insertsResults);
+        } catch (Exception $e) {
+            Common::error_log('error inserting into polls_votes', $e);
+        }
+
+
+        // ----------------------------------------------------------------
+
 
 
         $this->dao->dbUtils->commit();

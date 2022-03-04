@@ -9,8 +9,8 @@ class PollChoicesDao
 
     function insert(int $pollId, array $choices)
     {
-        Common::log('insert PollChoices');
-        Common::log($pollId);
+        // Common::log('insert PollChoices');
+        // Common::log($pollId);
         $stmt = $this->dbUtils->prepare(
             'INSERT 
             INTO polls_choices(poll_id, name) 
@@ -24,12 +24,12 @@ class PollChoicesDao
             $matched = preg_match($re, $choiceName, $matches);
             if ($matched) {
                 $stmt->execute([$pollId, $matches[1]]);
-                $info = new stdClass();
+                $pollChoice = new PollChoice();
                 // $info->changes = $stmt->rowCount();
-                $info->lastInsertRowid = $this->dbUtils->lastInsertId();
+                $pollChoice->id = $this->dbUtils->lastInsertId();
                 array_push(
                     $pcs_insertsResults,
-                    $info
+                    $pollChoice
                 );
             }
         }
