@@ -30,7 +30,7 @@ final class DbTest extends TestCase
   {
     $poll = new Poll([
       'title' => 'test addVote',
-      'choices' => ['testChoice1']
+      'choices' => ['testChoice1', 'testChoice2']
     ]);
 
     $insertedId = self::$db->insertPoll($poll);
@@ -83,10 +83,24 @@ final class DbTest extends TestCase
   //   );
   // }
 
+  /**
+   * @depends testInsert
+   */
+  public function testAddVote($pollId)
+  {
+    $poll = self::$db->getPoll($pollId);
+    $vote = [];
+
+    foreach ($poll->choices as $choice) {
+      $vote[$choice->id] = 0;
+    }
+
+    $this->assertTrue(self::$db->addVote($pollId, $vote));
+  }
 
 
   /**
-   * @testdox Throws error if number of votes is different than number of choices
+   * @testdox Throws if number of votes is different than number of choices
    * @depends testInsert
    */
   public function testAddVoteWrongNbOfChoices($pollId)
@@ -117,7 +131,7 @@ final class DbTest extends TestCase
 
 
   /**
-   * @testdox Throws error if choice is not a part of poll
+   * @testdox Throws if choice is not a part of poll
    * @depends testInsert
    */
   public function testAddVoteChoiceNotInPoll($pollId)
@@ -133,7 +147,7 @@ final class DbTest extends TestCase
     // echo PHP_EOL . 'choices' . PHP_EOL;
     // print_r($choices);
 
-    $fakeId = $choices[0]->id + 1;
+    $fakeId = $choices[0]->id + count($choices);
 
     $this->expectExceptionMessage('choice ' . $fakeId . ' does not belong to poll ' . $pollId);
 
@@ -141,7 +155,8 @@ final class DbTest extends TestCase
 
       // poll_choice_id : grade_id , ... 
       $vote = [];
-      $vote[$fakeId] = 1;
+      for ($i = 0; $i < count($choices); ++$i)
+        $vote[$fakeId + $i] = 1;
 
       self::$db->addVote($pollId, $vote);
     } catch (Exception $e) {
