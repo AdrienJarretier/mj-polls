@@ -1,6 +1,8 @@
 <?php
 
-class Poll
+require_once 'Entity.php';
+
+class Poll extends Entity
 {
 
     public string $title;
@@ -20,22 +22,16 @@ class Poll
             return (new DateTime($datetime))->format('U.u');
     }
 
+    /**
+     * @param array $properties :
+     * [
+     *   'colName' => value,
+     *   ...
+     * ]
+     */
     function __construct(array $properties = [])
     {
-        // echo PHP_EOL;
-        // echo '__construct';
-        // echo PHP_EOL;
-        // foreach ($this as $key => $value) {
-        //     echo "$key => $value\n";
-        // }
-
-        foreach ($properties as $col => $value) {
-            if (!property_exists('Poll', $col))
-                throw new Exception('wrong col name : ' . $col);
-
-            $this->$col = $value;
-        }
-
+        parent::__construct($properties);
         $this->max_datetime_microtime = self::datetimeToMicrotime($this->max_datetime);
         $this->datetime_opened_microtime = self::datetimeToMicrotime($this->datetime_opened);
         $this->datetime_closed_microtime = self::datetimeToMicrotime($this->datetime_closed);
