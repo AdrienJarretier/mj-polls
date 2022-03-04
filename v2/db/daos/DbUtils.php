@@ -87,7 +87,9 @@ class DbUtils extends PDO
     }
 
 
-
+    /**
+     * @return array
+     */
     function executeLoop($sqlString, $arrayOfBindParameters)
     {
         $arrayOfResults = [];
@@ -100,7 +102,11 @@ class DbUtils extends PDO
         }
         foreach ($arrayOfBindParameters as $bindParameters) {
             $bindParameters = $bindParameters;
-            array_push($arrayOfResults, $stmt->execute($bindParameters));
+            $stmt->execute(($bindParameters));
+
+            $info = new stdClass();
+            $info->changes = $stmt->rowCount();
+            array_push($arrayOfResults, $info);
         }
         if ($needsCommit)
             $this->commit();

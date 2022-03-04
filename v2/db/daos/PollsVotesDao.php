@@ -20,4 +20,9 @@ class PollsVotesDao
             [$pollId]
         );
     }
+
+    function insert(array $pollChoicesIds)
+    {
+        $gradesIds = (new GradeDao())->getIds();
+    }
 }
