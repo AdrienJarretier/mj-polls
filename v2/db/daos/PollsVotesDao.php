@@ -1,6 +1,11 @@
 <?php
 
 require_once 'GradesDao.php';
+require_once __DIR__ . '/entities/PollVote.php';
+require_once __DIR__ . '/DbUtils.php';
+
+
+// Common::log((new PollsVotesDao(new DbUtils()))->get(686));
 
 class PollsVotesDao
 {
@@ -9,6 +14,9 @@ class PollsVotesDao
         $this->dbUtils = $dbUtils;
     }
 
+    /**
+     * @return array of PollVote
+     */
     function get($pollId)
     {
         return $this->dbUtils->prepareAndExecute(
@@ -19,7 +27,8 @@ class PollsVotesDao
             WHERE pc.poll_id = ?;
             ',
             'all',
-            [$pollId]
+            [$pollId],
+            'PollVote'
         );
     }
 

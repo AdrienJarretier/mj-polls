@@ -9,23 +9,14 @@ require_once __DIR__ . '/../../../Common.php';
 
 class PollVote extends Entity
 {
-    public int $id;
+    public int $poll_choice_id;
     public Grade $grade;
     public int $count;
-    public int $grade_id;
 
     function __construct()
     {
         parent::__construct();
         // Common::log('PollVote constructor');
-
-        if (
-            isset($this->poll_choice_id) &&
-            !is_null($this->poll_choice_id)
-        ) {
-            $this->id = &$this->poll_choice_id;
-            unset($this->poll_choice_id);
-        }
 
         try {
             // Common::log('-------new Grade after this--------');
