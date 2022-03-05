@@ -11,13 +11,13 @@ class Poll_Choices_Votes_Dao
     }
 
     /**
-     * @return object choices ids of the poll with the number of votes for each
-     * the number of votes should be the same for each choice
+     * @return object choices ids of the poll with the number of voters for each
+     * the number of voters should be the same for each choice
      */
-    function getNumberOfVotes(int $pollId)
+    function getNumberOfVoters(int $pollId)
     {
         $unpreparedQuery =
-            'SELECT pc.id,sum(count)
+            'SELECT pc.id as poll_choice_id,sum(count) as voters
         FROM polls AS p
         INNER JOIN polls_choices AS pc
         ON p.id = pc.poll_id
@@ -26,19 +26,19 @@ class Poll_Choices_Votes_Dao
         WHERE p.id = ?
         GROUP BY pc.id;';
 
-        $votesCount = $this->dbUtils->prepareAndExecute(
+        $votersCount = $this->dbUtils->prepareAndExecute(
             $unpreparedQuery,
             'all',
             [$pollId]
         );
 
-        $firstChoiceVotesCount = $votesCount[0]->sum;
-        for ($i = 1; $i < count($votesCount); ++$i) {
-            if ($votesCount[$i]->sum != $firstChoiceVotesCount)
+        $firstChoiceVotersCount = $votersCount[0]->voters;
+        for ($i = 1; $i < count($votersCount); ++$i) {
+            if ($votersCount[$i]->voters != $firstChoiceVotersCount)
                 throw new Exception('Choices have different number of votes in poll ' . $pollId);
         }
 
-        return $votesCount;
+        return $votersCount;
     }
 }
 
