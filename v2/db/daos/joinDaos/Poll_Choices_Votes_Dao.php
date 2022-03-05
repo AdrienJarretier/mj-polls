@@ -26,11 +26,19 @@ class Poll_Choices_Votes_Dao
         WHERE p.id = ?
         GROUP BY pc.id;';
 
-        return $this->dbUtils->prepareAndExecute(
+        $votesCount = $this->dbUtils->prepareAndExecute(
             $unpreparedQuery,
             'all',
             [$pollId]
         );
+
+        $firstChoiceVotesCount = $votesCount[0]->sum;
+        for ($i = 1; $i < count($votesCount); ++$i) {
+            if ($votesCount[$i]->sum != $firstChoiceVotesCount)
+                throw new Exception('Choices have different number of votes in poll ' . $pollId);
+        }
+
+        return $votesCount;
     }
 }
 
