@@ -9,31 +9,39 @@ use PHPUnit\Framework\TestCase;
 // ini_set('display_startup_errors', "1");
 // error_reporting(E_ALL);
 
-require_once 'db/Db.php';
+require_once __DIR__ . '/../db/Db.php';
 
-require_once 'db/daos/entities/Poll.php';
+require_once __DIR__ . '/../db/daos/entities/Poll.php';
 
 
 final class DbTest extends TestCase
 {
   private static Db $db;
+  private static Poll $poll1;
+  private static array $vote1;
 
   public static function setUpBeforeClass(): void
   {
     // echo "set up\n";
     self::$db = new Db('mjpolls_unittests');
+
+    self::$poll1 = new Poll([
+      'title' => 'test addVote',
+      'choices' => ['testChoice1', 'testChoice2']
+    ]);
+
+    self::$vote1 = [];
+
+    foreach (self::$poll1->choices as $choice) {
+      array_push(self::$vote1, 1);
+    }
   }
 
 
 
   public function testInsert()
   {
-    $poll = new Poll([
-      'title' => 'test addVote',
-      'choices' => ['testChoice1', 'testChoice2']
-    ]);
-
-    $insertedId = self::$db->insertPoll($poll);
+    $insertedId = self::$db->insertPoll(self::$poll1);
 
     $this->assertIsInt($insertedId);
 
@@ -89,13 +97,16 @@ final class DbTest extends TestCase
   public function testAddVote($pollId)
   {
     $poll = self::$db->getPoll($pollId);
+
     $vote = [];
 
-    foreach ($poll->choices as $choice) {
-      $vote[$choice->id] = 1;
+    foreach (self::$vote1 as $i => $voteValue) {
+      $vote[$poll->choices[$i]->id] = $voteValue;
     }
 
     $this->assertTrue(self::$db->addVote($pollId, $vote));
+
+    return $pollId;
   }
 
 
@@ -274,17 +285,19 @@ final class DbTest extends TestCase
     $this->assertInstanceOf('Poll', $poll);
     $this->assertEquals($identifier, $poll->identifier);
     $this->assertEquals($expected->title, $poll->title);
+  }
 
+  /**
+   * @depends testAddVote
+   */
+  function testgetFullPoll($pollId)
+  {
+    $poll = self::$db->getFullPoll($pollId);
 
+    // Common::log($poll);
 
-    // $expected = self::$db->getPoll($pollId);
-
-    // $poll = self::$db->getPollFromIdentifier($expected->identifier);
-
-    // $this->assertInstanceOf('Poll', $poll);
-    // $this->assertEquals($expected->id, $poll->id);
-    // $this->assertEquals($expected->title, $poll->title);
-    // $this->assertNull($poll->max_voters);
-    // $this->assertNull($poll->max_datetime);
+    $this->assertInstanceOf('Poll', $poll);
+    $this->assertInstanceOf('PollChoice', $poll->choices[0]);
+    $this->assertInstanceOf('PollVote', $poll->choices[0]->votes[0]);
   }
 }
