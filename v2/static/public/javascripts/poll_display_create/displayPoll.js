@@ -67,7 +67,6 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     // ---------------------------------------------------------------
     // ------------------------ Results Button ------------------------
 
-    console.log(parsedPoll);
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
             .append($('<a>').attr('href', '/poll_results/' + parsedPoll.identifier).append($('<button class="btn btn-secondary">')

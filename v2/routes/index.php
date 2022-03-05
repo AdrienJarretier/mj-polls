@@ -90,7 +90,6 @@ function handlePollView($viewName)
             } else {
 
                 $poll = $db->getPoll($pollId);
-                RoutesCommon\sanitizePoll($poll);
 
                 // $pollJSONstr = prepareObjectForFrontend($poll);
 
