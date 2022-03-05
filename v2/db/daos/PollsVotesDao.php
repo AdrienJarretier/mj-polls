@@ -53,6 +53,8 @@ class PollsVotesDao
      */
     function increment($voteEntries)
     {
+        // Common::log('--increment--');
+        // Common::log($voteEntries);
         return $this->dbUtils->executeLoop(
             'UPDATE polls_votes
             SET count = count+1
