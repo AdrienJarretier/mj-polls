@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once 'db/Db.php';
+require_once __DIR__ . '/../db/Db.php';
 final class DbClosePollTest extends TestCase
 {
     private static Db $db;

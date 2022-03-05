@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once 'db/daos/entities/Poll.php';
+require_once __DIR__.'/../db/daos/entities/Poll.php';
 
 final class EntitiesTest extends TestCase
 {
