@@ -23,7 +23,9 @@
             } from "/javascripts/poll_display_create/displayPoll.js";
 
             const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll']) ?>');
-            const infiniteVoteEnabled = JSON.parse('<?= json_encode($pageOptions['infiniteVoteEnabled']) ?>');
+            let infiniteVoteEnabled = JSON.parse('<?= json_encode($pageOptions['infiniteVoteEnabled']) ?>');
+            // infiniteVoteEnabled = true;
+            // console.log(infiniteVoteEnabled);
 
             const PAGE_TYPE = 'displayPoll';
 

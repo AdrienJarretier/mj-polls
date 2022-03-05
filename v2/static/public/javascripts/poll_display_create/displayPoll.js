@@ -53,7 +53,9 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
 
     parsedPoll.choices.sort((a, b) => a.name.localeCompare(b.name));
 
-    if (!localStorage.getItem(parsedPoll.id) || infiniteVoteEnabled) {
+    // console.log(localStorage.getItem(parsedPoll.identifier));
+
+    if (!localStorage.getItem(parsedPoll.identifier) || infiniteVoteEnabled) {
         newMakeVoteForm(parsedPoll);
         hasVoted(false, infiniteVoteEnabled);
     } else {

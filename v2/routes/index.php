@@ -86,7 +86,7 @@ function handlePollView($viewName)
 
             // if poll is closed, send results, else send poll choices;
             if ($db->isClosed($pollId)) {
-                nextHandler();
+                renderPollResults($pollId);
             } else {
 
                 $poll = $db->getPoll($pollId);
@@ -114,10 +114,7 @@ self::add('/createPoll', handleCreatePoll('poll_display_create'));
 
 self::get(
     '/poll/(' . Common::$serverConfig->pollIdentifierPattern . ')',
-    handlePollView(Common::joinPath(__DIR__, '../views/poll_display_create.php')),
-    function () {
-        renderPollResults();
-    }
+    handlePollView(Common::joinPath(__DIR__, '../views/poll_display_create.php'))
 );
 
 
