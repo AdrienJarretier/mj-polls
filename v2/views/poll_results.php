@@ -9,7 +9,6 @@
             'use strict';
 
             const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll']) ?>');
-            console.log(parsedPoll);
 
         </script>
 
