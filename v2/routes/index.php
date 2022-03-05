@@ -36,34 +36,37 @@ function pageOptions($pageTitle, $otherOptions)
     if (isset($pageTitle))
         $options['pageTitle'] = $pageTitle;
 
-    if (isset($otherOptions))
+    if (isset($otherOptions)) {
         $options = array_merge($options, $otherOptions);
+
+        if (isset($options['poll']))
+            RoutesCommon\sanitizePoll($options['poll']);
+    }
 
     // $options = array_merge($options, $GLOBAL_OPTIONS);
 
     return $options;
 }
 
-// function renderPollResults($pollId)
-// {
+function renderPollResults($pollId)
+{
 
-//     try {
+    try {
 
-//         $db = new Db();
+        $db = new Db();
 
-//         $poll = $db->getFullPoll($pollId);
-//         RoutesCommon\sanitizePoll($poll);
+        $poll = $db->getFullPoll($pollId);
 
-//         // $pollJSONstr = prepareObjectForFrontend($poll);
+        // $pollJSONstr = prepareObjectForFrontend($poll);
 
-//         $pageOptions = pageOptions('results ' . $poll->title, [
-//             'poll' => $poll
-//         ]);
-//         include 'views/poll_results.php';
-//     } catch (Exception $e) {
-//         Common::error_log($e);
-//     }
-// }
+        $pageOptions = pageOptions('results ' . $poll->title, [
+            'poll' => $poll
+        ]);
+        include 'views/poll_results.php';
+    } catch (Exception $e) {
+        Common::error_log($e);
+    }
+}
 
 function handleCreatePoll($viewName)
 {
@@ -120,20 +123,20 @@ self::get(
 
 
 
-// self::get(
-//     '/poll_results/(' . Common::$serverConfig->pollIdentifierPattern . ')',
-//     function ($identifier) {
+self::get(
+    '/poll_results/(' . Common::$serverConfig->pollIdentifierPattern . ')',
+    function ($identifier) {
 
-//         $poll = (new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($identifier);
-//         // console.log(poll);
+        $poll = (new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($identifier);
+        // console.log(poll);
 
-//         if (
-//             Common::$serverConfig->testConfig->testApiEnabled ||
-//             ($poll->max_voters === null && $poll->max_datetime === null)
-//         ) {
-//             renderPollResults($poll->id);
-//         } else {
-//             createError(403);
-//         }
-//     }
-// );
+        if (
+            Common::$serverConfig->testConfig->testApiEnabled ||
+            ($poll->max_voters === null && $poll->max_datetime === null)
+        ) {
+            renderPollResults($poll->id);
+        } else {
+            createError(403);
+        }
+    }
+);
