@@ -6,5 +6,5 @@ class PollChoice extends Entity
 {
     public int $id;
     public string $name;
-    public array $votes;
+    public array $votes; // array of PollVote
 }

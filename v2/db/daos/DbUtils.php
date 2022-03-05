@@ -58,7 +58,7 @@ class DbUtils extends PDO
         $rows = [];
         try {
             if ($verbose)
-                print self::debug_sql($stmt->queryString, $bindParameters);
+                Common::log(self::debug_sql($stmt->queryString, $bindParameters));
             $stmt->execute($bindParameters);
             switch ($executionMethod) {
 

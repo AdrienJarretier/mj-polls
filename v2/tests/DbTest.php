@@ -92,7 +92,7 @@ final class DbTest extends TestCase
     $vote = [];
 
     foreach ($poll->choices as $choice) {
-      $vote[$choice->id] = 0;
+      $vote[$choice->id] = 1;
     }
 
     $this->assertTrue(self::$db->addVote($pollId, $vote));

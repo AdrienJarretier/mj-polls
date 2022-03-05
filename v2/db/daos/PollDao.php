@@ -107,17 +107,6 @@ class PollDao
         return $choices;
     }
 
-    function getGrades()
-    {
-        return $this->dbUtils->executeStatement(
-            'SELECT *
-            FROM grades
-            ORDER BY "order";
-            ',
-            'all'
-        );
-    }
-
     function getPollClosingTime(int $pollId)
     {
         return $this->dbUtils->prepareAndExecute(
@@ -156,7 +145,9 @@ class PollDao
             GROUP BY pc.id
             LIMIT 1;',
             'get',
-            [$pollId]
+            [$pollId],
+            'stdClass',
+            true
         );
     }
 

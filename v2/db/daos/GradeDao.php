@@ -21,4 +21,15 @@ class GradeDao
         // exit();
         return array_map(fn ($obj) => $obj->id, $ids);
     }
+
+    function getGrades()
+    {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT *
+            FROM grades
+            ORDER BY "order";
+            ',
+            'all'
+        );
+    }
 }
