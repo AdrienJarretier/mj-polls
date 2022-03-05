@@ -7,6 +7,7 @@
 require_once 'daos/PollDao.php';
 require_once 'daos/PollChoicesDao.php';
 require_once 'daos/PollsVotesDao.php';
+require_once 'daos/joinDaos/Poll_Choices_Votes_Dao.php';
 require_once 'common.php';
 // require 'entities/Poll.php';
 // require 'entities/PollChoice.php';
@@ -16,9 +17,14 @@ class Db
     function __construct()
     {
         $this->dbUtils = new DbUtils();
-        $this->dao = new PollDao($this->dbUtils);
+
+        $this->pollDao = new PollDao($this->dbUtils);
+        $this->dao = &$this->pollDao;
+
         $this->pollChoicesDao = new PollChoicesDao($this->dbUtils);
         $this->pollsVotesDao = new PollsVotesDao($this->dbUtils);
+        $this->pcvDao = new Poll_Choices_Votes_Dao($this->dbUtils);
+        $this->gradesDao = new GradesDao($this->dbUtils);
     }
 
     // for a list of results with polls and their choices
@@ -71,22 +77,20 @@ class Db
         $updateSuccess = false;
         $this->dao->dbUtils->beginTransaction();
         $choices_ids = $this->dao->getChoicesIdOfPoll($pollId);
-        // echo PHP_EOL . 'addVote : vote' . PHP_EOL;
-        // print_r($vote);
+
         $voteEntries = [];
         foreach ($vote as $choice_id => $voteValue) {
             array_push($voteEntries, [$choice_id, $voteValue]);
         }
-        // echo PHP_EOL . 'addVote : voteEntries' . PHP_EOL;
-        // print_r($voteEntries);
-        if (count($voteEntries) != count($choices_ids)) {
+
+        $voteEntriesCount = count($voteEntries);
+        if ($voteEntriesCount != count($choices_ids)) {
             $this->dao->dbUtils->rollBack();
             throw new Exception(
                 'number of votes does not match number of choices in ' . $pollId
             );
         }
-        // echo PHP_EOL . 'choices_ids' . PHP_EOL;
-        // print_r($choices_ids);
+
         foreach ($voteEntries as $voteEntry) {
             $choice_id = intval($voteEntry[0]);
             if (!in_array($choice_id, $choices_ids)) {
@@ -98,11 +102,8 @@ class Db
         }
         $updatesResults = $this->pollsVotesDao->increment($voteEntries);
 
-        // Common::log('updatesResults');
-        // Common::log($updatesResults);
-
         // update unsuccessfull
-        if (count($updatesResults) < count($voteEntries)) {
+        if (count($updatesResults) < $voteEntriesCount) {
             $this->dao->dbUtils->rollBack();
             return false;
         }
@@ -115,18 +116,21 @@ class Db
         }
         $updateSuccess = true;
 
-        $returned = $this->dao->someData();
-        // Common::log('returned');
-        // Common::log($returned);
+
+        // count the total number of votes
+        $votersCount = $this->pcvDao->getNumberOfVoters($pollId);
+
+        if (count($votersCount) != $voteEntriesCount)
+            throw new Exception('number of choices in votersCount does not match number of voteEntries');
 
 
+        $max_voters = $this->pollDao->getPoll($pollId)->max_voters;
+        $votes_count = $votersCount[0]->voters;
 
-
-        //     if (max_voters !== null && votes_count >= max_voters) {
-        //         closePoll(pollId, 1, db);
-        //     }
-
-
+        // Compare the total number of votes to the max allowed votes
+        if ($max_voters !== null && $votes_count >= $max_voters) {
+            $this->closePoll($pollId, 1);
+        }
 
         $this->dao->dbUtils->commit();
         return $updateSuccess;
@@ -240,7 +244,7 @@ class Db
 
     function getGrades()
     {
-        return $this->dao->getGrades();
+        return $this->gradesDao->getGrades();
     }
 
     /*

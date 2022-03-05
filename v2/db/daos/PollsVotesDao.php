@@ -1,6 +1,6 @@
 <?php
 
-require_once 'GradeDao.php';
+require_once 'GradesDao.php';
 
 class PollsVotesDao
 {
@@ -29,7 +29,7 @@ class PollsVotesDao
     function insert(array $pollChoices)
     {
 
-        $gradesIds = (new GradeDao($this->dbUtils))->getIds();
+        $gradesIds = (new GradesDao($this->dbUtils))->getIds();
 
         // Common::log($pollChoices);
         // Common::log('-------');

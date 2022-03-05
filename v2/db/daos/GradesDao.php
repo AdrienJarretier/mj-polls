@@ -1,6 +1,6 @@
 <?php
 
-class GradeDao
+class GradesDao
 {
     function __construct(DbUtils &$dbUtils)
     {
