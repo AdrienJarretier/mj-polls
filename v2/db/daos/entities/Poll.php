@@ -46,6 +46,22 @@ class Poll extends Entity
         // }
     }
 
+    function addVotes(array $pollVotes)
+    {
+        foreach ($this->choices as $choice) {
+            $choice->votes = [];
+            foreach ($pollVotes as $pv) {
+
+                // Common::log($pv);
+                if ($choice->id == $pv->poll_choice_id) {
+                    $pvCLone = clone $pv;
+                    unset($pvCLone->poll_choice_id);
+                    array_push($choice->votes, $pvCLone);
+                }
+            }
+        }
+    }
+
     function setIdentifier(string $identifier)
     {
 

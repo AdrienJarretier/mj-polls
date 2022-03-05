@@ -8,7 +8,7 @@ require_once 'daos/PollDao.php';
 require_once 'daos/PollChoicesDao.php';
 require_once 'daos/PollsVotesDao.php';
 require_once 'daos/joinDaos/Poll_Choices_Votes_Dao.php';
-require_once 'common.php';
+require_once __DIR__ . '/../common.php';
 // require 'entities/Poll.php';
 // require 'entities/PollChoice.php';
 
@@ -197,10 +197,15 @@ class Db
      */
     function getFullPoll($pollId)
     {
-        // $poll = $this->getPoll($pollId);
+        $poll = $this->getPoll($pollId);
         $polls_votes = $this->pollsVotesDao->get($pollId);
+        $poll->addVotes($polls_votes);
 
-        Common::log($polls_votes, true);
+        // Common::log($poll);
+        // Common::log($polls_votes);
+        // exit;
+
+        return $poll;
     }
 
     // function getFullPoll(poll_id) {
