@@ -12,7 +12,31 @@ import { draw_candidate_results, update_candidate_results }
 
 export default function (localeMsgs) {
 
-    let choices = parsedPoll["choices"];
+    let choices = [];
+
+    for(const c of parsedPoll.choices) {
+
+        let choice = {
+
+            'name': c.name,
+            'votes': {}
+        }
+
+        for(const v of c.votes) {
+
+            const grade_id = v.grade.id;
+
+            choice.votes[grade_id] = {
+
+                "value" : v.grade.value,
+                "order" : v.grade.order,
+                "count" : v.count,
+
+            }
+        }
+
+        choices.push(choice);
+    }
 
 
     const VOTERS_COUNT = get_voters_count(choices);

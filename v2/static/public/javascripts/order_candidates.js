@@ -124,6 +124,21 @@ function get_majority_grades(choices, majority, for_ties) {
         choices.sort(compare);
 }
 
+/**
+ * @param {array} choices, array of objects :
+ *  [
+        {
+            "name": "nameValue",
+            "votes": {
+                "<grade_id>": {
+                    "value": "<gradeValue>",
+                    "order": <orderValue>
+                    "count": <countValue>
+                }
+            }
+        }
+    ] 
+ */
 function return_winner(choices, majority, for_ties) {
 
     for_ties = for_ties || false;
