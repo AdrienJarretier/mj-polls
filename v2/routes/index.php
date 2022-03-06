@@ -136,3 +136,10 @@ self::get(
         }
     }
 );
+
+self::get(
+    '/context',
+    function () {
+        include 'views/context.php';
+    }
+);
