@@ -18,4 +18,14 @@ final class EntitiesTest extends TestCase
         $this->expectExceptionMessage('wrong col name : ' . $wrongColName);
         new Poll([$wrongColName => 'value']);
     }
+
+    function testGrade()
+    {
+        $g = new Grade([
+            'id' => 1
+        ]);
+
+        $this->assertEquals('Excellent', $g->value);
+        $this->assertEquals(50, $g->order);
+    }
 }

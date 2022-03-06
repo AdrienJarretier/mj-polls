@@ -32,4 +32,17 @@ class GradesDao
             'all'
         );
     }
+
+    function getGrade($gradeId)
+    {
+        return $this->dbUtils->prepareAndExecute(
+            'SELECT *
+            FROM grades
+            WHERE id = ?;
+            ',
+            'get',
+            [$gradeId],
+            'Grade'
+        );
+    }
 }

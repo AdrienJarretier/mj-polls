@@ -199,6 +199,7 @@ class Db
     {
         $poll = $this->getPoll($pollId);
         $polls_votes = $this->pollsVotesDao->get($pollId);
+
         $poll->addVotes($polls_votes);
 
         // Common::log($poll);
