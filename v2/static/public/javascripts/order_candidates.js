@@ -32,8 +32,7 @@ function get_voters_count(choices, for_ties) {
 
         if (for_ties) {
             VOTERS_COUNT += votes[vote].count_for_ties;
-        }
-        else {
+        } else {
             VOTERS_COUNT += votes[vote].count;
         }
     }
@@ -45,8 +44,7 @@ function get_majority(VOTERS_COUNT) {
     var majority;
     if (VOTERS_COUNT % 2 == 0) {
         majority = (VOTERS_COUNT - 1) / 2
-    }
-    else {
+    } else {
         majority = VOTERS_COUNT / 2
     }
     return (majority);
@@ -95,8 +93,7 @@ function get_majority_grades(choices, majority, for_ties) {
 
             if (for_ties) {
                 cpt += vote.count_for_ties;
-            }
-            else {
+            } else {
                 cpt += vote.count;
                 // adding new count field to be used later for removing votes and discriminate ties
                 vote.count_for_ties = vote.count;
@@ -107,8 +104,7 @@ function get_majority_grades(choices, majority, for_ties) {
                 if (for_ties) {
                     choice["majority_grade_for_ties"] = vote.value;
                     choice["majority_grade_for_ties_order"] = vote.order;
-                }
-                else {
+                } else {
                     choice["majority_grade"] = vote.value;
                     choice["majority_grade_order"] = vote.order;
                 }
@@ -150,21 +146,19 @@ function return_winner(choices, majority, for_ties) {
 
     if (for_ties) {
         winning_grade = choices[0].majority_grade_for_ties;
-        ties = choices.filter(function (el) {
+        ties = choices.filter(function(el) {
             return el.majority_grade_for_ties == winning_grade;
         });
-    }
-    else {
+    } else {
         winning_grade = choices[0].majority_grade;
-        ties = choices.filter(function (el) {
+        ties = choices.filter(function(el) {
             return el.majority_grade == winning_grade;
         });
     }
 
     if (ties.length == 1) {
         return choices[0].name;
-    }
-    else {
+    } else {
 
         // removes one vote for each winning grade in the tied candidates
 
@@ -222,7 +216,7 @@ function order_candidates_(choices, majority) {
 
 
     let winner = return_winner(choices, majority);
-    let the_rest = choices.filter(function (el) {
+    let the_rest = choices.filter(function(el) {
         return el.name != winner;
     })
 
@@ -246,8 +240,9 @@ function order_candidates(choices) {
 
 function mapOrder(array, order, key) {
 
-    array.sort(function (a, b) {
-        var A = a[key], B = b[key];
+    array.sort(function(a, b) {
+        var A = a[key],
+            B = b[key];
 
         if (order.indexOf(A) > order.indexOf(B)) {
             return 1;
@@ -289,11 +284,11 @@ function detect_outcome(choices, ranking, localeMsgs) {
 
     // Several winners that are perfectly equal
 
-    const perfect_ties = choices.filter(function (el) {
+    const perfect_ties = choices.filter(function(el) {
         return el.perfect_tie == true;
     })
 
-    const winner_infos = choices.filter(function (el) {
+    const winner_infos = choices.filter(function(el) {
         return el.name == ranking[0];
     })
 
@@ -306,7 +301,7 @@ function detect_outcome(choices, ranking, localeMsgs) {
 
     // One winner that was separated from some other candidate(s)
 
-    const winner_ties = choices.filter(function (el) {
+    const winner_ties = choices.filter(function(el) {
         return el.majority_grade == winner_infos[0].majority_grade && el.name != ranking[0];
     })
 
@@ -343,6 +338,10 @@ function get_ranking_and_outcome(choices) {
 }
 
 export {
-    get_voters_count, order_candidates,
-    mapOrder, detect_outcome, get_majority, get_ranking_and_outcome
+    get_voters_count,
+    order_candidates,
+    mapOrder,
+    detect_outcome,
+    get_majority,
+    get_ranking_and_outcome
 };

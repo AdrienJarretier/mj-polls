@@ -1,20 +1,22 @@
 'use strict';
 
 import {
-    get_voters_count, order_candidates,
-    mapOrder, detect_outcome
+    get_voters_count,
+    order_candidates,
+    mapOrder,
+    detect_outcome
 } from './order_candidates.js';
 
 import draw_global_results from './draw_global_results.js';
 
 import { draw_candidate_results, update_candidate_results }
-    from './draw_candidate_results.js';
+from './draw_candidate_results.js';
 
-export default function (localeMsgs) {
+export default function(localeMsgs) {
 
     let choices = [];
 
-    for(const c of parsedPoll.choices) {
+    for (const c of parsedPoll.choices) {
 
         let choice = {
 
@@ -22,15 +24,15 @@ export default function (localeMsgs) {
             'votes': {}
         }
 
-        for(const v of c.votes) {
+        for (const v of c.votes) {
 
             const grade_id = v.grade.id;
 
             choice.votes[grade_id] = {
 
-                "value" : v.grade.value,
-                "order" : v.grade.order,
-                "count" : v.count,
+                "value": v.grade.value,
+                "order": v.grade.order,
+                "count": v.count,
 
             }
         }
@@ -54,8 +56,7 @@ export default function (localeMsgs) {
     if (width < 1500) {
         Chart.defaults.font.size = 12;
         Chart.defaults.plugins.title.font.size = 15;
-    }
-    else {
+    } else {
         Chart.defaults.font.size = 20;
         Chart.defaults.plugins.title.font.size = 28;
     }
@@ -100,7 +101,7 @@ export default function (localeMsgs) {
         )
     }
 
-    $('#formRadiosCandidate_selection').change(function (e) {
+    $('#formRadiosCandidate_selection').change(function(e) {
         update_candidate_results(choices, $(e.target).val());
     })
 
