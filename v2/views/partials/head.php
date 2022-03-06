@@ -3,10 +3,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
-    <!-- <%= globalTitle %>
-        <% if(locals.pageTitle) { %>
-            - <%= pageTitle %>
-                <% } %> -->
+    <?php
+    if (isset($pageOptions['pageTitle']))
+        echo $pageOptions['pageTitle'];
+    ?>
 </title>
 
 <link rel="stylesheet" href="/extLibs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
