@@ -274,8 +274,6 @@ function detect_outcome(choices, ranking, localeMsgs) {
 
     // Several winners that are perfectly equal
 
-    console.log(choices);
-
     const perfect_ties = choices.filter(function (el) {
         return el.perfect_tie == true;
     })
