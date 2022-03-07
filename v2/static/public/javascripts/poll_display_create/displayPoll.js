@@ -3,7 +3,10 @@
 import Table from '/javascripts/Table.js';
 import { LocaleMessages } from "/javascripts/locales.js";
 import { parseForm, post } from '/javascripts/utils.js';
-let localeMsgs = await LocaleMessages.new('client-poll', 'fr-FR');
+
+const localeCode = 'fr-FR';
+
+let localeMsgs = await LocaleMessages.new('client-poll', localeCode);
 
 // console.log(pollJSONstr);
 
@@ -80,6 +83,18 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
         $('#toResultsButton')
             .append($('<a>').attr('href', '/poll_results/' + parsedPoll.identifier).append($('<button class="btn btn-secondary">')
                 .text(localeMsgs.get('toResultsLink'))));
+
+    } else if (parsedPoll.max_datetime !== null) {
+
+        const maxDate = new Date(parsedPoll.max_datetime);
+
+        const maxDateStr = maxDate.toLocaleDateString(localeCode);
+        const maxTimeStr = maxDate.toLocaleTimeString(localeCode, { hour: '2-digit', minute: '2-digit' });
+
+        $('#toResultsButton').text(localeMsgs.get('closingDateTime', {
+            date: maxDateStr,
+            time: maxTimeStr,
+        }));
     }
 
     // ---------------------------------------------------------------

@@ -23,6 +23,7 @@
   },
   "poll": {
     "toResultsLink": "Voir les résultats",
+    "closingDateTime": "Ferme le ${params.date} à ${params.time}",
     "submitButton": "Voter",
     "hasVotedPopup":{
       "title":"A voté",
