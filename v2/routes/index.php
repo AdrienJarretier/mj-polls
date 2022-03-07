@@ -124,7 +124,7 @@ self::get(
     function ($identifier) {
 
         $poll = (new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($identifier);
-        // console.log(poll);
+        // Common::log($poll, true);
 
         if (
             Common::$serverConfig->testConfig->testApiEnabled ||
@@ -132,7 +132,7 @@ self::get(
         ) {
             renderPollResults($poll->id);
         } else {
-            createError(403);
+            handlePollView(Common::joinPath(__DIR__, '../views/poll_display_create.php'))($identifier);
         }
     }
 );

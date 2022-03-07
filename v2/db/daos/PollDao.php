@@ -33,7 +33,7 @@ class PollDao
     function getPollFromIdentifier(string $pollIdentifier)
     {
         return $this->dbUtils->prepareAndExecute(
-            'SELECT "id", "identifier","title","datetime_closed"
+            'SELECT "id", "identifier","title","datetime_closed","max_datetime"
             FROM polls
             WHERE identifier = ?',
             'get',
