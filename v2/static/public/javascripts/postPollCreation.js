@@ -1,4 +1,4 @@
-import { parseForm, post } from '/javascripts/utils.js';
+import { parseForm, post, formatDateTime } from '/javascripts/utils.js';
 
 function toDateTime(date, time) {
 
@@ -20,18 +20,22 @@ function toDateTime(date, time) {
 
 function prepareFormData(formData) {
 
-    formData.max_datetime = toDateTime(formData.maxDate, formData.maxTime);
-    delete formData.maxDate;
-    delete formData.maxTime;
+    formData.max_datetime = formData.maxDatetime;
+
+    // const splitDate = formData.maxDatetime.split('T');
+    // formData.max_datetime = toDateTime(splitDate[0], splitDate[1]);
+
+    delete formData.maxDatetime;
 }
 
 async function submitHandler(event) {
     event.preventDefault();
 
-
     let formData = parseForm('form');
 
     prepareFormData(formData);
+    // console.log(formData);
+    // throw '';
 
     let pollId = await post('/polls', formData);
 

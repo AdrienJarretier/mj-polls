@@ -156,4 +156,4 @@ function sleep(ms) {
     });
 }
 
-export {get, parseForm, post };
+export {get, parseForm, post, formatDateTime };
