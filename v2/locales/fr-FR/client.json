@@ -22,7 +22,11 @@
   },
   "poll": {
     "toResultsLink": "Voir les résultats",
-    "submitButton": "Voter"
+    "submitButton": "Voter",
+    "hasVotedPopup":{
+      "title":"A voté",
+      "body":"Vous avez déjà voté sur ce sondage"
+    }
   },
   "pollResults": {
     "title": "Résultats graphiques pour le sondage",

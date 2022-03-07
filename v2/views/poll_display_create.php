@@ -60,13 +60,6 @@
 
                 case 'displayPoll':
 
-                    // $('main').append(`
-                    // <div class="alert alert-success" role="alert" id="hasVotedAlert">
-                    //   <h2 class="alert-heading">Has voted</h2>
-                    //   <p>You have voted on this poll.</p>
-                    // </div>
-                    // `);
-
                     let title = $('<h1 id="title" class="mb-0">')
                         .text(parsedPoll.title)
                         .addClass(titleSize);

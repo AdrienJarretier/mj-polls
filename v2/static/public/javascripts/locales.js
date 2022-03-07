@@ -19,6 +19,11 @@ class LocaleMessages {
 
     constructor(msgs) {
         this._msgs = msgs;
+        for (let [k, v] of Object.entries(this._msgs)) {
+            if (typeof(v) == 'object') {
+                this._msgs[k] = new LocaleMessages(v);
+            }
+        }
     }
 
     get(key, params) {
@@ -53,8 +58,7 @@ class LocaleMessages {
             // console.log('evaluated:')
             // console.log(evaluated)
             return evaluated
-        }
-        catch (e) {
+        } catch (e) {
             console.error(this._msgs[key]);
             console.error(e);
         }

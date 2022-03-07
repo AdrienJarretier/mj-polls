@@ -17,6 +17,13 @@ function hasVoted(hasVoted, infiniteVoteEnabled) {
         $('#choicesForm').hide();
         $('#hasVotedAlert').show();
 
+        $('main').append(`
+        <div class="alert alert-success" role="alert" id="hasVotedAlert">
+          <h2 class="alert-heading">` + localeMsgs.get('hasVotedPopup').get('title') + `</h2>
+          <p>` + localeMsgs.get('hasVotedPopup').get('body') + `</p>
+        </div>
+        `);
+
     } else {
 
         $('#hasVotedAlert').hide();
@@ -202,7 +209,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
 
                 submitButton.text('Vote validé !');
 
-                localStorage.setItem(parsedPoll.id, true);
+                localStorage.setItem(parsedPoll.identifier, true);
 
                 hasVoted(true, infiniteVoteEnabled);
 

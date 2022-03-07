@@ -6,7 +6,7 @@
     },
     "pollIdentifierPattern": "(?:[a-z0-9]){8}",
     "testConfig": {
-        "infiniteVoteEnabled": true,
+        "infiniteVoteEnabled": false,
         "testApiEnabled": false
     },
     "testApi": {
