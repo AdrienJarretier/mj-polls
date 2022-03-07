@@ -179,7 +179,7 @@ function return_winner(choices, majority, for_ties) {
 
         // case where all the votes of perfect ties were removed
         if (VOTERS_COUNT == 0) {
-            if (for_ties) {
+            if (for_ties || get_voters_count(choices, false) == 1) {
                 for (const tie of ties) {
 
                     tie.perfect_tie = true;
