@@ -20,10 +20,13 @@ function toDateTime(date, time) {
 
 function prepareFormData(formData) {
 
-    formData.max_datetime = formData.maxDatetime;
+    if (formData.maxDatetime != '') {
 
-    // const splitDate = formData.maxDatetime.split('T');
-    // formData.max_datetime = toDateTime(splitDate[0], splitDate[1]);
+        formData.max_datetime = formData.maxDatetime;
+
+        // const splitDate = formData.maxDatetime.split('T');
+        // formData.max_datetime = toDateTime(splitDate[0], splitDate[1]);
+    }
 
     delete formData.maxDatetime;
 }
