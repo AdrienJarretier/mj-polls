@@ -45,7 +45,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
         class="form-control text-center">`)
             .data('empty', true);
 
-        choiceInput.on('input', function () {
+        choiceInput.on('input', function() {
 
             const re = /\S+/;
             const matched = $(this).val().match(re);
@@ -110,18 +110,35 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
 
-    $('#choicesForm')
-        .append($('<div class="row">')
-            .append($('<div class="col">')
-                .append(pollTable.rawResponsiveDiv)
-            )
-        )
-        .append($('<div class="row my-3">')
-            .append($('<div class="col">')
-                .append(divSubmitButton)
-            )
-        )
-        .submit(submitHandler);
+    // ---------------------------------------------------------------
+    // ------------------------ Max Date Input ------------------------
+
+    const maxDateInput = $('<input type="date" class="form-control">');
+
+    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
+
+    const form = $('#choicesForm');
+
+    function formNewLine(lineContent) {
+
+        let col = $('<div>')
+            .append(lineContent);
+
+        col.addClass('col');
+
+        let line = $('<div class="row">')
+            .append(col);
+
+        form.append(line);
+        return line;
+    }
+
+    formNewLine(pollTable.rawResponsiveDiv);
+    formNewLine(maxDateInput);
+    formNewLine(divSubmitButton).addClass('my-3');
+
+    form.submit(submitHandler);
 
     inputWidth = Math.ceil(parseFloat(addChoiceInput().parent().css("width")));
 }
