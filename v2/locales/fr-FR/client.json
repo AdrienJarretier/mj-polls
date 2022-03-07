@@ -25,7 +25,7 @@
     "submitButton": "Voter",
     "hasVotedPopup":{
       "title":"A voté",
-      "body":"Vous avez déjà voté sur ce sondage"
+      "body":"Vous avez voté sur ce sondage"
     }
   },
   "pollResults": {
