@@ -97,7 +97,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     // ------------------------ Submit Button ------------------------
 
     let divSubmitButton = $('<div>')
-        .addClass('d-grid col-6 mx-auto');
+        .addClass('d-grid col-6 mx-auto my-3 mt-4');
 
     let submitButton = $('<button type="submit" id="submitButton">')
         .addClass("btn")
@@ -107,13 +107,35 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
 
     divSubmitButton.append(submitButton);
 
-    // ---------------------------------------------------------------
-    // ---------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // ------------------------- poll options -------------------------
 
-    // ---------------------------------------------------------------
+    let divPollOptions = $('<div>')
+        .addClass('d-grid col-6 mx-auto mt-3 mb-2');
+
+    // ----------------------------------------------------------------
     // ------------------------ Max Date Input ------------------------
 
-    const maxDateInput = $('<input type="date" class="form-control">');
+    const maxDatetimeLabelText = localeMsgs.get('maxDateLabel');
+    const maxDatetimeInputId = 'maxDatetime';
+    const maxDatetimeInput = $('<div class="form-floating">')
+        .append(
+            $('<input type="datetime-local" class="form-control" >')
+            .attr('name', maxDatetimeInputId)
+            .attr('id', maxDatetimeInputId)
+        )
+        .append(
+            $('<label class="form-label">')
+            .attr('for', maxDatetimeInputId)
+            .text(maxDatetimeLabelText)
+        );
+
+    divPollOptions.append(maxDatetimeInput);
+
+    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
+
+    // divPollOptions.append('<hr>');
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
@@ -135,8 +157,8 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     }
 
     formNewLine(pollTable.rawResponsiveDiv);
-    formNewLine(maxDateInput);
-    formNewLine(divSubmitButton).addClass('my-3');
+    formNewLine(divPollOptions);
+    formNewLine(divSubmitButton);
 
     form.submit(submitHandler);
 
