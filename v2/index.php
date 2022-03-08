@@ -14,7 +14,7 @@ use Steampixel\Route;
 
 require_once 'routes/Router.php';
 
-require_once 'common.php';
+require_once 'Common.php';
 
 // Add a 404 not found route
 Route::pathNotFound(function ($path) {

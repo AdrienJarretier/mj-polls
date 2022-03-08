@@ -1,7 +1,7 @@
 'use strict';
 
 import Table from '/javascripts/Table.js';
-import { LocaleMessages } from "/javascripts/locales.js";
+import { LocaleMessages } from "/javascripts/LocaleMessages.js";
 import { parseForm, post } from '/javascripts/utils.js';
 
 const localeCode = 'fr-FR';

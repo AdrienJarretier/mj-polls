@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 <?php
 // Autoload files using composer
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../common.php';
+require_once __DIR__ . '/../Common.php';
 
 // Use this namespace
 use Steampixel\Route;

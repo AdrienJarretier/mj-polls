@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertTrue;
 
-require_once __DIR__ . '/../common.php';
+require_once __DIR__ . '/../Common.php';
 
 final class CommonTest extends TestCase
 {

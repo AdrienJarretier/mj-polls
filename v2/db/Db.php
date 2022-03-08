@@ -8,7 +8,7 @@ require_once 'daos/PollDao.php';
 require_once 'daos/PollChoicesDao.php';
 require_once 'daos/PollsVotesDao.php';
 require_once 'daos/joinDaos/Poll_Choices_Votes_Dao.php';
-require_once __DIR__ . '/../common.php';
+require_once __DIR__ . '/../Common.php';
 // require 'entities/Poll.php';
 // require 'entities/PollChoice.php';
 

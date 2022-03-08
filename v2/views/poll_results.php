@@ -19,7 +19,7 @@
             'use strict';
 
             import plot_results from '/javascripts/plot_results.js';
-            import { LocaleMessages } from '/javascripts/locales.js';
+            import { LocaleMessages } from '/javascripts/LocaleMessages.js';
 
             const localeMsgs = await LocaleMessages.new('client-pollResults', 'fr-FR');
 

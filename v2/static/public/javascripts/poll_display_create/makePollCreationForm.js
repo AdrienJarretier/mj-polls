@@ -2,7 +2,7 @@
 
 import Table from '/javascripts/Table.js';
 import { submitHandler } from '/javascripts/postPollCreation.js';
-import { LocaleMessages } from "/javascripts/locales.js";
+import { LocaleMessages } from "/javascripts/LocaleMessages.js";
 let localeMsgs = await LocaleMessages.new('client-createPoll', 'fr-FR');
 
 var choices = 0;
