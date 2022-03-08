@@ -21,7 +21,7 @@ A web application to host polls with the majority judgement voting method
 ```bash
 (
     sudo apt update
-    sudo apt install -y apache2 libapache2-mod-php postgresql
+    sudo apt install -y apache2 libapache2-mod-php postgresql php-pgsql
 )
 ```
 
@@ -131,6 +131,7 @@ sudo mkdir /var/log/apache2/mj-polls
 
 ```bash
 (
+sudo a2enmod rewrite
 sudo a2ensite mj-polls
 sudo systemctl restart apache2
 )
