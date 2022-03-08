@@ -1,6 +1,19 @@
 # Unit tests
 
 ```bash
+sudo apt install -y php-xml
+```
+
+## app local dependencies
+
+```bash
+(
+    cd v2
+    composer install --no-dev
+)
+```
+
+```bash
 sudo su - postgres
 ```
 

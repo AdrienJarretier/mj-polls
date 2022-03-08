@@ -39,7 +39,7 @@ A web application to host polls with the majority judgement voting method
 ### Dev-dependencies :
 
 ```bash
-sudo apt install -y php-pgsql php-xml
+sudo apt install -y php-pgsql
 ```
 
 <hr>
@@ -90,6 +90,14 @@ Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
 </Directory>
 ```
 
+#### .htaccess
+
+`RewriteBase /` becomes `RewriteBase /sondage`
+
+#### index.php
+
+`Route::run('/');` becomes `Route::run('/sondage');`
+
 <hr>
 
 ### For deployment with a vhost
@@ -116,14 +124,6 @@ sudo mkdir /var/log/apache2/mj-polls
 </VirtualHost>
 ```
 
-#### .htaccess
-
-`RewriteBase /sondage` becomes `RewriteBase /`
-
-#### index.php
-
-`Route::run('/sondage');` becomes `Route::run('/');`
-
 
 <hr>
 <hr>
@@ -143,7 +143,7 @@ sudo systemctl restart apache2
 ```bash
 (
     cd v2
-    composer install
+    composer install --no-dev
 )
 ```
 
