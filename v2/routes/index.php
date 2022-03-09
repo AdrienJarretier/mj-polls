@@ -84,23 +84,29 @@ function handlePollView($viewName)
 
             $pollId = $db->getIdFromIdentifier($identifier);
 
-            // if poll is closed, send results, else send poll choices;
-            if ($db->isClosed($pollId)) {
-                renderPollResults($pollId);
+            if ($pollId) {
+
+                // if poll is closed, send results, else send poll choices;
+                if ($db->isClosed($pollId)) {
+                    renderPollResults($pollId);
+                } else {
+
+                    $poll = $db->getPoll($pollId);
+
+                    // $pollJSONstr = prepareObjectForFrontend($poll);
+
+                    $pageOptions = pageOptions(
+                        $poll->title,
+                        [
+                            'poll' => $poll,
+                            'infiniteVoteEnabled' => Common::$serverConfig->testConfig->infiniteVoteEnabled
+                        ]
+                    );
+                    include $viewName;
+                }
             } else {
-
-                $poll = $db->getPoll($pollId);
-
-                // $pollJSONstr = prepareObjectForFrontend($poll);
-
-                $pageOptions = pageOptions(
-                    $poll->title,
-                    [
-                        'poll' => $poll,
-                        'infiniteVoteEnabled' => Common::$serverConfig->testConfig->infiniteVoteEnabled
-                    ]
-                );
-                include $viewName;
+                header('HTTP/1.0 404 Not Found');
+                include('views/404.php');
             }
         } catch (Exception $e) {
             Common::error_log($e);

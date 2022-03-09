@@ -61,13 +61,17 @@ class PollDao
      */
     function getIdFromIdentifier(string $identifier)
     {
-        return $this->dbUtils->prepareAndExecute(
+        $row = $this->dbUtils->prepareAndExecute(
             'SELECT id
             FROM polls
             WHERE identifier = ?',
             'get',
             [$identifier]
-        )->id;
+        );
+        if (!$row)
+            return false;
+        else
+            return $row->id;
     }
 
     function getChoicesOfPoll(int $pollId)
