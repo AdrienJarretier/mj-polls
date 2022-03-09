@@ -190,6 +190,15 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
         customClass: 'sharePopover'
     })
 
+    $('main')
+    .append($('<div class="row">')
+        .append($('<div class="col">'))
+        .append($('<div class="col-4">'))
+        .append($('<div class="col text-end">')
+            .append(shareButton)
+        )
+    );
+
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
 
@@ -205,7 +214,6 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
                 .append(divSubmitButton)
             )
             .append($('<div class="col text-end">')
-                .append(shareButton)
             )
         )
         .submit(async function(event) {
