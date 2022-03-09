@@ -3,10 +3,10 @@
 
 A web application to host polls with the majority judgement voting method
 
-- [Dependencies :](#dependencies)
-    - [Dev-dependencies :](#dev-dependencies)
-- [postgres config :](#postgres-config)
-- [apache config :](#apache-config)
+- [Dependencies](#dependencies)
+    - [Dev-dependencies](#dev-dependencies)
+- [postgres config](#postgres-config)
+- [apache config](#apache-config)
     - [For deployment in a subfolder](#for-deployment-in-a-subfolder)
     - [For deployment with a vhost](#for-deployment-with-a-vhost)
         - [.htaccess](#htaccess)
@@ -16,7 +16,7 @@ A web application to host polls with the majority judgement voting method
 
 - [Running unit tests (./readme_tests.md))](./readme_tests.md)
 
-## Dependencies :
+## Dependencies
 
 ```bash
 (
@@ -36,7 +36,7 @@ A web application to host polls with the majority judgement voting method
 )
 ```
 
-### Dev-dependencies :
+### Dev-dependencies
 
 phppgadmin to view database content while testing :
 ```bash
@@ -45,7 +45,7 @@ sudo apt install -y phppgadmin
 
 <hr>
 
-## postgres config :
+## postgres config
 
 ```bash
 sudo su - postgres
@@ -72,7 +72,7 @@ sudo su - postgres
 <hr>
 <br>
 
-## apache config :
+## apache config
 
 ```bash
 sudo nano /etc/apache2/sites-available/mj-polls.conf
