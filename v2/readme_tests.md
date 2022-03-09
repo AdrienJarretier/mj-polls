@@ -9,7 +9,7 @@ sudo apt install -y php-xml
 ```bash
 (
     cd v2
-    composer install --no-dev
+    composer install
 )
 ```
 
