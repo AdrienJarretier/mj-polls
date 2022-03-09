@@ -38,8 +38,9 @@ A web application to host polls with the majority judgement voting method
 
 ### Dev-dependencies :
 
+phppgadmin to view database content while testing :
 ```bash
-sudo apt install -y php-pgsql
+sudo apt install -y phppgadmin
 ```
 
 <hr>
