@@ -43,3 +43,8 @@ sudo su - postgres
 ```bash
 ./vendor/bin/phpunit tests --testdox --stop-on-error
 ```
+
+To remove dev dependencies run
+```bash
+composer install --no-dev
+```
