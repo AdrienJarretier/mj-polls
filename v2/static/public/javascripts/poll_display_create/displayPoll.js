@@ -211,9 +211,6 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             .append($('<div class="col-4">')
                 .append(divSubmitButton)
             )
-            .append($('<div class="col text-end">')
-                .append(shareButton)
-            )
         )
         .submit(async function(event) {
             event.preventDefault();
