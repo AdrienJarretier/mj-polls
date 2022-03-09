@@ -18,10 +18,20 @@ A web application to host polls with the majority judgement voting method
 
 ## Dependencies
 
+If php7.4 isn't available in the official repository :
 ```bash
 (
     sudo apt update
-    sudo apt install -y apache2 libapache2-mod-php postgresql php-pgsql
+    sudo apt -y install software-properties-common
+    sudo add-apt-repository ppa:ondrej/php
+    sudo apt update
+)
+```
+
+```bash
+(
+    sudo apt update
+    sudo apt install -y apache2 postgresql libapache2-mod-php7.4 php7.4-pgsql
 )
 ```
 
