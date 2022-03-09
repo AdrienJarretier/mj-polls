@@ -190,6 +190,13 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
         customClass: 'sharePopover'
     })
 
+    $('main')
+    .append($('<div class="row">')
+        .append($('<div class="col text-end">')
+            .append(shareButton)
+        )
+    );
+
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
 
