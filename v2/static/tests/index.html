@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Mocha Tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="mocha/mocha.css" />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+
+  <style>
+    #mocha-stats em {
+      color: rgb(196, 196, 196);
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+  </header>
+
+  <main>
+
+    <div id="mocha"></div>
+
+    <script src="chai/chai.js"></script>
+    <script src="mocha/mocha.js"></script>
+
+    <script class="mocha-init">
+      mocha.setup('bdd');
+    </script>
+
+    <script type="module">
+      'use strict';
+      // import './order_candidates.js';
+      import './apiTest.js';
+    </script>
+
+    <script class="mocha-exec" type="module">
+      mocha.run();
+    </script>
+
+    <script type="module">
+
+      let canvas = document.getElementById('mocha-stats')
+        .getElementsByTagName('canvas')[0]
+        .getContext('2d');
+
+      canvas.fillStyle = 'white';
+    </script>
+
+  </main>
+
+</body>
+
+</html>

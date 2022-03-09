@@ -1,3 +1,0 @@
-if sqlite needed : better-sqlite3
-
-npm install cookie-parser debug ejs express http-errors morgan env-config-prompt superagent

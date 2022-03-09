@@ -1,0 +1,39 @@
+{
+  "header": {
+    "nav": {
+      "Home": "Accueil",
+      "Create-Poll": "Créer un sondage",
+      "Context": "Contexte"
+    }
+  },
+  "createPoll": {
+    "submitButton": "Créer le sondage",
+    "maxDateLabel": "Fermeture du sondage"
+  },
+  "Context": {
+    "title": "",
+    "content": {
+      "sections": [
+        {
+          "title": "",
+          "content": ""
+        }
+      ]
+    }
+  },
+  "poll": {
+    "toResultsLink": "Voir les résultats",
+    "closingDateTime": "Ferme le ${params.date} à ${params.time}",
+    "submitButton": "Voter",
+    "hasVotedPopup":{
+      "title":"A voté",
+      "body":"Vous avez voté sur ce sondage"
+    }
+  },
+  "pollResults": {
+    "title": "Résultats graphiques pour le sondage",
+    "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
+    "toResultsLink": "Voir les résultats",
+    "submitButton": "Voter"
+  }
+}
