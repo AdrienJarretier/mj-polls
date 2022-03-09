@@ -1,7 +1,7 @@
 # Unit tests
 
 ```bash
-sudo apt install -y php-xml
+sudo apt install -y php7.4-xml php7.4-mbstring
 ```
 
 ## app local dependencies
