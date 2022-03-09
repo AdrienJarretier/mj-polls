@@ -21,6 +21,10 @@
     </div>
 </div>
 
+<p>
+    Ascii Art généré avec <a class="link-info" href="https://guillaume-gomez.github.io/image-to-ascii/">https://guillaume-gomez.github.io/image-to-ascii/</a>
+</p>
+
 <!-- Includes Body and container closing tags as well as <footer> -->
 <?php include 'partials/footer.php' ?>
 
