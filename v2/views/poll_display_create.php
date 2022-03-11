@@ -22,7 +22,7 @@
                 displayPoll
             } from "/javascripts/poll_display_create/displayPoll.js";
 
-            const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll']) ?>');
+            const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll'], JSON_HEX_APOS) ?>');
             let infiniteVoteEnabled = JSON.parse('<?= json_encode($pageOptions['infiniteVoteEnabled']) ?>');
             // infiniteVoteEnabled = true;
             // console.log(infiniteVoteEnabled);
