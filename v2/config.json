@@ -1,6 +1,6 @@
 {
     "db": {
-        "database": "mjpolls_unittests",
+        "database": "mjpollsdb",
         "user": "mjpolls",
         "pass": "pass"
     },

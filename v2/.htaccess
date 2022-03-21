@@ -8,11 +8,15 @@ RewriteBase /
 RewriteCond %{DOCUMENT_ROOT}/static/public%{REQUEST_URI} -f
 RewriteRule ^ static/public%{REQUEST_URI} [L]
 
-# RewriteCond %{DOCUMENT_ROOT}/tests%{REQUEST_URI} -f
-RewriteRule ^tests static%{REQUEST_URI} [L]
+
+# uncomment to enable front end units tests access
+# RewriteRule ^tests static%{REQUEST_URI} [L]
 
 RewriteCond %{REQUEST_URI} !^/static/public/
-RewriteCond %{REQUEST_URI} !^/static/tests/
+
+# uncomment to enable front end units tests access
+# RewriteCond %{REQUEST_URI} !^/static/tests/
+
 RewriteRule ^(.*)$ index.php [QSA]
 
 DirectoryIndex index.html
