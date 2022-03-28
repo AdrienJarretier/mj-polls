@@ -1,168 +1,38 @@
-
-# MJ-polls
-
-A web application to host polls with the majority judgement voting method
-
-- [Dependencies](#dependencies)
-    - [Dev-dependencies](#dev-dependencies)
-- [postgres config](#postgres-config)
-- [apache config](#apache-config)
-    - [For deployment in a subfolder](#for-deployment-in-a-subfolder)
-    - [For deployment with a vhost](#for-deployment-with-a-vhost)
-        - [.htaccess](#htaccess)
-        - [index.php](#indexphp)
-- [app local dependencies](#app-local-dependencies)
+# ![Majority Judgment](/static/public/images/logo.png "Majority Judgement")
 
 
-- [Running unit tests (./readme_tests.md))](./readme_tests.md)
+## This project is a web application for creating, running and visualizing **majority judgment** polls.
+---
 
-## Dependencies
+You can use the app by visiting <https://vote.sirtak.fr>
 
-If php7.4 isn't available in the official repository :
-```bash
-(
-    sudo apt update
-    sudo apt -y install software-properties-common
-    sudo add-apt-repository ppa:ondrej/php
-    sudo apt update
-)
-```
 
-```bash
-sudo apt update && \
-sudo apt install -y postgresql-14 apache2 libapache2-mod-php7.4 php7.4-pgsql
-```
+Or if you want to host it yourself you can start with theses instructions : [./readme_hosting.md](./readme_hosting.md) 
 
-```bash
-(
-    cd ~/Downloads
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-    php composer-setup.php
-    php -r "unlink('composer-setup.php');"
-    sudo mv composer.phar /usr/local/bin/composer
-)
-```
+---
+### Principle of majority judgment
 
-### Dev-dependencies
-
-phppgadmin to view database content while testing :
-```bash
-sudo apt install -y phppgadmin
-```
-
-<hr>
-
-## postgres config
-
-```bash
-sudo su - postgres
-```
-
-```bash
-databaseName="mjpollsdb" && \
-dbusername="mjpolls"
-```
-
-```bash
-(
-    createuser $dbusername
-    psql -c "ALTER USER $dbusername WITH ENCRYPTED PASSWORD 'pass';"
-)
-``` 
-
-```bash
-(
-    cd /home/ubuntu/gitRepos/mj-polls/db
-
-    psql -c "CREATE DATABASE $databaseName;"
-
-    psql -f dbSchema.sql $databaseName
-    psql -f dbInitFill.sql $databaseName
-)
-```
 <br>
 
-**For Dev If changing db structure**
-**/!\ DROP THE ENTIRE DATABASE /!\\**
-```bash
-psql -c "DROP DATABASE IF EXISTS $databaseName;"
-```
+Majority judgment is a voting system designed to elect a single winner, based on a highest median rule. It was introduced by two INRIA researcher in 2007, Michel Balinski and Rida Laraki.
 
-<hr>
+The voting process is as follows : 
 
-## apache config
++ Voters give each candidate a cardinal value reflecting their opinion. Traditionnally, the voters appreciation can be expressed within a list of seven grades, for example :
+*Excellent, Very good, Good, Passable, Inadequate, Mediocre, Bad.*
 
-```bash
-sudo nano /etc/apache2/sites-available/mj-polls.conf
-```
++ For each candidate, the median grade is computed, and serves as a ranking metric among candidates.
 
-<hr>
-
-### For deployment with a vhost
-
-```bash
-sudo mkdir /var/log/apache2/mj-polls
-```
-
-```
-<VirtualHost *:80>
-    DocumentRoot /home/ubuntu/gitRepos/mj-polls
-
-    ErrorLog ${APACHE_LOG_DIR}/mj-polls/error.log
-    CustomLog ${APACHE_LOG_DIR}/mj-polls/access.log combined
-
-    ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
-
-    <Directory /home/ubuntu/gitRepos/mj-polls>
-        Options -Indexes +FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-</VirtualHost>
-```
-
-<hr>
-
-### For deployment in a subfolder
-
-```
-Alias /sondage /home/ubuntu/gitRepos/mj-polls
-<Directory /home/ubuntu/gitRepos/mj-polls>
-    Options -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
-```
-
-#### .htaccess
-
-`RewriteBase /` becomes `RewriteBase /sondage`
-
-#### index.php
-
-`Route::run('/');` becomes `Route::run('/sondage');`
++ The winner is **the candidate with the greatest median grade**. If more than one candidate has the same highest median-grade, the winner is discovered by removing (one-by-one) any grades equal in value to the shared median grade from each tied candidate's total. This is repeated until only one of the previously tied candidates is currently found to have the highest median-grade.
 
 
-<hr>
-<hr>
-<br>
+This procedure offers several advantages against existing alternatives :
 
-```bash
-(
-sudo a2enmod rewrite
-sudo a2ensite mj-polls
-sudo systemctl restart apache2
-)
-```
++ It allows voters to truly communicate how they feel about the candidates. For example, they are able to give bad grades to all of the candidates if no one suits them, or to give same grades to candidates they equally value.
 
-<hr>
++ It was shown to significantly reduce strategic and dishonest votes
 
-## app local dependencies
++ In contrast with more classical approches, it does not encounter paradoxes such as Condorcet's and Arrow's, .
 
-```bash
-composer install --no-dev
-```
-
+[Balinski M. and R. Laraki (2007), A Theory of Measuring, Electing and Ranking, PNAS, 104(2), 8720-8725.](https://www.pnas.org/content/104/21/8720)
 
