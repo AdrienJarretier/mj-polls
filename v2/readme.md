@@ -29,10 +29,8 @@ If php7.4 isn't available in the official repository :
 ```
 
 ```bash
-(
-    sudo apt update
-    sudo apt install -y apache2 postgresql libapache2-mod-php7.4 php7.4-pgsql
-)
+sudo apt update && \
+sudo apt install -y postgresql-14 apache2 libapache2-mod-php7.4 php7.4-pgsql
 ```
 
 ```bash
@@ -62,9 +60,14 @@ sudo su - postgres
 ```
 
 ```bash
+databaseName="mjpollsdb" && \
+dbusername="mjpolls"
+```
+
+```bash
 (
-    createuser mjpolls
-    psql -c "ALTER USER mjpolls WITH ENCRYPTED PASSWORD 'pass';"
+    createuser $dbusername
+    psql -c "ALTER USER $dbusername WITH ENCRYPTED PASSWORD 'pass';"
 )
 ``` 
 
@@ -72,42 +75,27 @@ sudo su - postgres
 (
     cd /home/ubuntu/gitRepos/mj-polls/v2/db
 
-    psql -c "DROP DATABASE mjpollsdb;"
-    psql -c "CREATE DATABASE mjpollsdb;"
+    psql -c "CREATE DATABASE $databaseName;"
 
-    psql -f dbSchema.sql mjpollsdb
-    psql -f dbInitFill.sql mjpollsdb
+    psql -f dbSchema.sql $databaseName
+    psql -f dbInitFill.sql $databaseName
 )
 ```
-<hr>
 <br>
+
+**For Dev If changing db structure**
+**/!\ DROP THE ENTIRE DATABASE /!\\**
+```bash
+psql -c "DROP DATABASE IF EXISTS $databaseName;"
+```
+
+<hr>
 
 ## apache config
 
 ```bash
 sudo nano /etc/apache2/sites-available/mj-polls.conf
 ```
-
-<hr>
-
-### For deployment in a subfolder
-
-```
-Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
-<Directory /home/ubuntu/gitRepos/mj-polls/v2>
-    Options -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
-```
-
-#### .htaccess
-
-`RewriteBase /` becomes `RewriteBase /sondage`
-
-#### index.php
-
-`Route::run('/');` becomes `Route::run('/sondage');`
 
 <hr>
 
@@ -134,6 +122,27 @@ sudo mkdir /var/log/apache2/mj-polls
 
 </VirtualHost>
 ```
+
+<hr>
+
+### For deployment in a subfolder
+
+```
+Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
+<Directory /home/ubuntu/gitRepos/mj-polls/v2>
+    Options -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+</Directory>
+```
+
+#### .htaccess
+
+`RewriteBase /` becomes `RewriteBase /sondage`
+
+#### index.php
+
+`Route::run('/');` becomes `Route::run('/sondage');`
 
 
 <hr>
