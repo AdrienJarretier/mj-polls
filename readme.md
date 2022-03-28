@@ -7,7 +7,9 @@
 You can use the app by visiting <https://vote.sirtak.fr>
 
 
-Or if you want to host it yourself you can start with theses instructions : [./readme_hosting.md](./readme_hosting.md) 
+Or if you want to host it yourself you can start with theses instructions : [Hosting instructions](./readme_hosting.md)
+
+To contact us for anything, you can open an issue at <https://github.com/AdrienJarretier/mj-polls/issues>
 
 ---
 ### Principle of majority judgment
