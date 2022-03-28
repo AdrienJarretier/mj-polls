@@ -73,7 +73,7 @@ dbusername="mjpolls"
 
 ```bash
 (
-    cd /home/ubuntu/gitRepos/mj-polls/v2/db
+    cd /home/ubuntu/gitRepos/mj-polls/db
 
     psql -c "CREATE DATABASE $databaseName;"
 
@@ -107,14 +107,14 @@ sudo mkdir /var/log/apache2/mj-polls
 
 ```
 <VirtualHost *:80>
-    DocumentRoot /home/ubuntu/gitRepos/mj-polls/v2
+    DocumentRoot /home/ubuntu/gitRepos/mj-polls
 
     ErrorLog ${APACHE_LOG_DIR}/mj-polls/error.log
     CustomLog ${APACHE_LOG_DIR}/mj-polls/access.log combined
 
     ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 
-    <Directory /home/ubuntu/gitRepos/mj-polls/v2>
+    <Directory /home/ubuntu/gitRepos/mj-polls>
         Options -Indexes +FollowSymLinks
         AllowOverride All
         Require all granted
@@ -128,8 +128,8 @@ sudo mkdir /var/log/apache2/mj-polls
 ### For deployment in a subfolder
 
 ```
-Alias /sondage /home/ubuntu/gitRepos/mj-polls/v2
-<Directory /home/ubuntu/gitRepos/mj-polls/v2>
+Alias /sondage /home/ubuntu/gitRepos/mj-polls
+<Directory /home/ubuntu/gitRepos/mj-polls>
     Options -Indexes +FollowSymLinks
     AllowOverride All
     Require all granted
@@ -162,10 +162,7 @@ sudo systemctl restart apache2
 ## app local dependencies
 
 ```bash
-(
-    cd v2
-    composer install --no-dev
-)
+composer install --no-dev
 ```
 
 
