@@ -13,11 +13,13 @@
 
             let nav = $('nav a button')
             const navMsgs = localeMsgs.get('nav');
+                console.log(navMsgs);
             for (let i = 0; i < nav.length; ++i) {
 
                 let navButton = nav.eq(i);
                 const navButtonId = navButton.attr('id');
-                navButton.text(navMsgs[navButtonId]);
+                console.log(navButtonId);
+                navButton.text(navMsgs.get(navButtonId));
             }
 
         });
