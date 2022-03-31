@@ -4,7 +4,7 @@ import {get } from '/javascripts/utils.js';
 
 class LocaleMessages {
 
-    static currentLocale = 'fr';
+    static currentLocale = window.location.pathname.match(/^\/(fr|en)/)[1];
 
     /**
      * 
