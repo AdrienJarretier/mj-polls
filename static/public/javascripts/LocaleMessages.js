@@ -4,7 +4,7 @@ import {get } from '/javascripts/utils.js';
 
 class LocaleMessages {
 
-    static currentLocale = 'en';
+    static currentLocale = 'fr';
 
     /**
      * 

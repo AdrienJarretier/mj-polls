@@ -21,8 +21,13 @@ Route::pathNotFound(function ($path) {
   // Do not forget to send a status header back to the client
   // The router will not send any headers by default
   // So you will have the full flexibility to handle this case
-  header('HTTP/1.0 404 Not Found');
-  include('views/404.php');
+  if (preg_match('/^\/fr|en/', $path)) {
+    header('HTTP/1.0 404 Not Found');
+    include('views/404.php');
+  } else {
+    header('Location: en' . $path);
+    exit;
+  }
 });
 
 Router::use('/(fr|en)', 'routes/index.php');
