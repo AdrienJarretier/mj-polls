@@ -1,14 +1,14 @@
 {
   "header": {
     "nav": {
-      "Home": "Accueil",
-      "Create-Poll": "Créer un sondage",
-      "Context": "Contexte"
+      "Home": "Home",
+      "Create-Poll": "New poll",
+      "Context": "Context"
     }
   },
   "createPoll": {
-    "submitButton": "Créer le sondage",
-    "maxDateLabel": "Fermeture du sondage"
+    "submitButton": "Create the poll",
+    "maxDateLabel": "Poll closes on"
   },
   "Context": {
     "title": "",
