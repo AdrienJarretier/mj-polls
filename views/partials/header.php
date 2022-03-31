@@ -12,13 +12,22 @@
 
     $(function() {
 
-      let nav = $('nav a button')
       const navMsgs = localeMsgs.get('nav');
-      for (let i = 0; i < nav.length; ++i) {
 
-        let navButton = nav.eq(i);
+      let navButtons = $('nav a button');
+      for (let i = 0; i < navButtons.length; ++i) {
+
+        let navButton = navButtons.eq(i);
         const navButtonId = navButton.attr('id');
         navButton.text(navMsgs.get(navButtonId));
+      }
+
+      let navLinks = $('nav a');
+      for (let i = 0; i < navLinks.length; ++i) {
+
+        let navLink = navLinks.eq(i);
+
+        navLink.attr('href', '/' + LocaleMessages.currentLocale + navLink.attr('href'));
       }
 
     });
