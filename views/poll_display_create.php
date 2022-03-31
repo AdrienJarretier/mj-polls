@@ -14,7 +14,7 @@
         import {
             LocaleMessages
         } from "/javascripts/LocaleMessages.js";
-        let localeGrades = await LocaleMessages.new('db-grades', 'fr-FR');
+        let localeGrades = await LocaleMessages.new('db-grades');
 
         <?php if (isset($poll)) { ?>
 

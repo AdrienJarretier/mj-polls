@@ -13,7 +13,7 @@ class Common
             )
         );
 
-        foreach (['fr-FR'] as $locale) {
+        foreach (['fr'] as $locale) {
 
             self::$localesMsgs[$locale] = [];
 

@@ -4,9 +4,7 @@ import Table from '/javascripts/Table.js';
 import { LocaleMessages } from "/javascripts/LocaleMessages.js";
 import { parseForm, post } from '/javascripts/utils.js';
 
-const localeCode = 'fr-FR';
-
-let localeMsgs = await LocaleMessages.new('client-poll', localeCode);
+let localeMsgs = await LocaleMessages.new('client-poll');
 
 // console.log(pollJSONstr);
 
@@ -191,13 +189,13 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     })
 
     $('main')
-    .append($('<div class="row">')
-        .append($('<div class="col">'))
-        .append($('<div class="col-4">'))
-        .append($('<div class="col text-end">')
-            .append(shareButton)
-        )
-    );
+        .append($('<div class="row">')
+            .append($('<div class="col">'))
+            .append($('<div class="col-4">'))
+            .append($('<div class="col text-end">')
+                .append(shareButton)
+            )
+        );
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
@@ -213,8 +211,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             .append($('<div class="col-4">')
                 .append(divSubmitButton)
             )
-            .append($('<div class="col text-end">')
-            )
+            .append($('<div class="col text-end">'))
         )
         .submit(async function(event) {
             event.preventDefault();

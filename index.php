@@ -25,7 +25,7 @@ Route::pathNotFound(function ($path) {
   include('views/404.php');
 });
 
-Router::use('/', 'routes/index.php');
+Router::use('/(fr|en)', 'routes/index.php');
 Router::use('/polls', 'routes/api.php');
 Router::use('/locales', 'routes/locales.php');
 

@@ -4,6 +4,8 @@ import {get } from '/javascripts/utils.js';
 
 class LocaleMessages {
 
+    static currentLocale = 'fr';
+
     /**
      * 
      * @param {string} part the part of the app to load messages for (or the page)
@@ -11,7 +13,7 @@ class LocaleMessages {
      * @param {string} locale e.g "fr-FR"
      * @returns {Object} Object containing messages
      */
-    static async new(part, locale) {
+    static async new(part, locale = this.currentLocale) {
         const data = await get('/locales/' + part + '/' + locale);
         // console.log(data);
         return new LocaleMessages(data);

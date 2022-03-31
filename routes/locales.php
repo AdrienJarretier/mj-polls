@@ -7,7 +7,7 @@
  * @param string $locale e.g "fr-FR"
  * @return array array containing messages
  */
-self::get('/([a-z]+(?:-[a-z]+)*)/([a-z]{2}-[A-Z]{2})', function ($part, $locale) {
+self::get('/([a-z]+(?:-[a-z]+)*)/([a-z]{2})', function ($part, $locale) {
 
     // echo 'requested : ' . $part . ' - ' . $locale;
 

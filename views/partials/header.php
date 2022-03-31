@@ -5,7 +5,8 @@
             LocaleMessages
         } from '/javascripts/LocaleMessages.js';
 
-        const localeMsgs = await LocaleMessages.new('client-header', 'fr-FR');
+        const localeMsgs = await LocaleMessages.new(
+            'client-header');
 
         // console.log(localeMsgs);
 
