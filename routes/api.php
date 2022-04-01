@@ -76,6 +76,7 @@ self::post('/(' . Common::$serverConfig->pollIdentifierPattern . ')/vote', funct
                 unset($responseObject->cause);
         }
     } catch (Exception $e) {
+        // $responseObject->cause = $e->getMessage();
         Common::error_log(
             "####################################",
             "error in api.post('/" .

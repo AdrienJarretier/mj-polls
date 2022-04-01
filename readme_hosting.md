@@ -72,11 +72,18 @@ dbusername="mjpolls"
 
 ```bash
 (
-    cd /home/ubuntu/gitRepos/mj-polls/db
+    cd /home/ubuntu/gitRepos/mj-polls/db && \
 
-    psql -c "CREATE DATABASE $databaseName;"
+    psql -c "CREATE DATABASE $databaseName;" && \
 
-    psql -f dbSchema.sql $databaseName
+    psql -c "
+    ALTER DEFAULT PRIVILEGES GRANT SELECT ON TABLES TO $dbusername;
+    ALTER DEFAULT PRIVILEGES GRANT INSERT ON TABLES TO $dbusername;
+    ALTER DEFAULT PRIVILEGES GRANT UPDATE ON TABLES TO $dbusername;
+    ALTER DEFAULT PRIVILEGES GRANT USAGE ON SEQUENCES TO $dbusername;
+    " $databaseName && \
+
+    psql -f dbSchema.sql $databaseName && \
     psql -f dbInitFill.sql $databaseName
 )
 ```
