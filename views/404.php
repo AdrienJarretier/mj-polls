@@ -11,7 +11,10 @@
 <div class="row">
     <div class="col">
 
-        <?php include __DIR__ . '/404Contents/jp-Dennis-Nedry.html' ?>
+        <?php
+        $files404avail = scandir(__DIR__ . '/404Contents');
+        include __DIR__ . '/404Contents/' . $files404avail[rand(2, count($files404avail) - 1)];
+        ?>
 
     </div>
 </div>
