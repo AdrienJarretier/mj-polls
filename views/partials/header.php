@@ -100,15 +100,15 @@
                 <ul class="navbar-nav flex-fill justify-content-between">
 
 
-                  <li class="nav-item">
+                  <li class="nav-item mt-2 mb-2">
                     <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button" id="Create-Poll">Create a
                         poll</button></a>
                   </li>
 
-                  <li class="nav-item">
+                  <li class="nav-item mt-2">
                     <ul class="navbar-nav flex-fill justify-content-between">
 
-                      <li class="nav-item">
+                      <li class="nav-item mb-2">
                         <a href="/context"><button class="btn btn-md btn-secondary me-3" type="button" id="Context">Context</button></a>
                       </li>
 
