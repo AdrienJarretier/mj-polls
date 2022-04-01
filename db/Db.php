@@ -409,6 +409,11 @@ class Db
         $results = $this->dao->_closePoll($pollId, $reason);
         return $results;
     }
+
+    function getPollsCount()
+    {
+        return $this->pollDao->getPollsCount();
+    }
 }
 
 

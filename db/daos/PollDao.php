@@ -217,4 +217,18 @@ class PollDao
     {
         addConstraint($this->dbUtils, 'polls', 'polls_max_datetime_check', '(max_datetime > CURRENT_TIMESTAMP)');
     }
+
+    /**
+     * @return int
+     */
+    function getPollsCount(): int
+    {
+        $count = $this->dbUtils->prepareAndExecute(
+            'SELECT count(*)
+            FROM polls',
+            'get'
+        );
+
+        return $count->count;
+    }
 }

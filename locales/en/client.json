@@ -7,7 +7,8 @@
     }
   },
   "footer": {
-    "contactUs": "To contact us feel free to open an issue on Github"
+    "contactUs": "To contact us feel free to open an issue on Github",
+    "pollsCounter": "Poll counter : ${params.count}"
   },
   "createPoll": {
     "titlePlaceholder": "State your question or sentence.",

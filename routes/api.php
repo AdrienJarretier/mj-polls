@@ -26,6 +26,13 @@ self::get('/(' . Common::$serverConfig->pollIdentifierPattern . ')', function ($
     sendPoll($poll);
 });
 
+self::get('/count', function () {
+
+    asJson(
+        (new Db(Common::$serverConfig->db->database))->getPollsCount()
+    );
+});
+
 
 self::post('/', function () {
 
