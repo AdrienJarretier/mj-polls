@@ -79,15 +79,15 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
 
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
-            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.identifier).append($('<button class="btn btn-secondary">')
+            .append($('<a>').attr('href', '/' + LocaleMessages.currentLocale + '/poll_results/' + parsedPoll.identifier).append($('<button class="btn btn-secondary">')
                 .text(localeMsgs.get('toResultsLink'))));
 
     } else if (parsedPoll.max_datetime !== null) {
 
         const maxDate = new Date(parsedPoll.max_datetime);
 
-        const maxDateStr = maxDate.toLocaleDateString(localeCode);
-        const maxTimeStr = maxDate.toLocaleTimeString(localeCode, { hour: '2-digit', minute: '2-digit' });
+        const maxDateStr = maxDate.toLocaleDateString(LocaleMessages.currentLocale);
+        const maxTimeStr = maxDate.toLocaleTimeString(LocaleMessages.currentLocale, { hour: '2-digit', minute: '2-digit' });
 
         $('#toResultsButton').text(localeMsgs.get('closingDateTime', {
             date: maxDateStr,

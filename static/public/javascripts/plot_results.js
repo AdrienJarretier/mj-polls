@@ -63,7 +63,7 @@ export default function(localeMsgs) {
 
     draw_global_results(choices);
 
-    $('#title').text(localeMsgs.get('title') + ' : ' + parsedPoll.title);
+    $('#title').text(parsedPoll.title);
     $('#results_alert_text').text("    " + outcome);
 
 

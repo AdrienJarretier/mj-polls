@@ -27,8 +27,8 @@
     "closingDateTime": "Closes on ${params.date} at ${params.time}",
     "submitButton": "Vote",
     "hasVotedPopup": {
-      "title": "A voté",
-      "body": "Vous avez voté sur ce sondage"
+      "title": "Has voted",
+      "body": "You have voted on this poll"
     },
     "shareButton": "Share",
     "sharePopupCopyButton": "copy",
