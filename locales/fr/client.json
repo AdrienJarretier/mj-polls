@@ -6,6 +6,9 @@
       "Context": "Contexte"
     }
   },
+  "footer": {
+    "contactUs": "Pour nous contacter n'hésitez pas à ouvrir une issue sur Github"
+  },
   "createPoll": {
     "titlePlaceholder": "Formulez votre question ou votre phrase.",
     "submitButton": "Créer le sondage",
