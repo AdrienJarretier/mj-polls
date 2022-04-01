@@ -25,6 +25,19 @@
         navButton.text(navMsgs.get(navButtonId));
       }
 
+      // ----------------------------------------------
+      // -------------- Add lang to href --------------
+
+      let navLinks = $('nav a');
+      for (let i = 0; i < navLinks.length; ++i) {
+
+        let navLink = navLinks.eq(i);
+
+        navLink.attr('href', '/' + LocaleMessages.currentLocale + navLink.attr('href'));
+      }
+
+      // ----------------------------------------------
+
       // ---------------------------------------------
       // ---------- Fill languages dropdown ----------
 
@@ -43,35 +56,28 @@
 
         console.log();
         console.log(location.pathname);
-        const localizedHref = location.pathname.replace(
+        let localizedHref = location.pathname.replace(
           reUrlLangPattern,
           '/' + lang[0]
         );
+
         console.log(localizedHref);
+
+        const listLink = $('<a class="dropdown-item">')
+          .attr('href', localizedHref)
+          .text(lang[1]);
+
+        console.log(listLink);
 
         let listItem =
           $('<li>')
           .append(
-            $('<a class="dropdown-item">')
-            .attr('href', localizedHref)
-            .text(lang[1])
+            listLink
           );
+
 
         langList.append(listItem);
       }
-
-      // ----------------------------------------------
-      // -------------- Add lang to href --------------
-
-      let navLinks = $('nav a');
-      for (let i = 0; i < navLinks.length; ++i) {
-
-        let navLink = navLinks.eq(i);
-
-        navLink.attr('href', '/' + LocaleMessages.currentLocale + navLink.attr('href'));
-      }
-
-      // ----------------------------------------------
 
     });
   </script>
