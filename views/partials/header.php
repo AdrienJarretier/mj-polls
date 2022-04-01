@@ -95,23 +95,37 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
 
-              <div class="collapse navbar-collapse justify-content-between" id="navbarTogglerDemo01">
+              <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 
-                <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button" id="Create-Poll">Create a
-                    poll</button></a>
+                <ul class="navbar-nav flex-fill justify-content-between">
 
 
-                <span>
-                  <a href="/context"><button class="btn btn-md btn-secondary me-3" type="button" id="Context">Context</button></a>
+                  <li class="nav-item">
+                    <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button" id="Create-Poll">Create a
+                        poll</button></a>
+                  </li>
 
-                  <div class="dropdown d-inline">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="navLangDropdownLabel" data-bs-toggle="dropdown" aria-expanded="false">
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navLangDropdownLabel" id="navLangDropdownList">
+                  <li class="nav-item">
+                    <ul class="navbar-nav flex-fill justify-content-between">
+
+                      <li class="nav-item">
+                        <a href="/context"><button class="btn btn-md btn-secondary me-3" type="button" id="Context">Context</button></a>
+                      </li>
+
+                      <li class="nav-item">
+                        <div class="dropdown d-inline">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="navLangDropdownLabel" data-bs-toggle="dropdown" aria-expanded="false">
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navLangDropdownLabel" id="navLangDropdownList">
+                          </ul>
+                        </div>
+                      </li>
+
                     </ul>
-                  </div>
-                </span>
+                  </li>
 
+
+                </ul>
 
               </div>
             </div>
