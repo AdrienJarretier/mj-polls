@@ -49,7 +49,7 @@
       for (const lang of LocaleMessages.availableLanguages) {
 
         if (LocaleMessages.currentLocale == lang[0]) {
-          $('#navLangDropdownLabel').text(lang[1]);
+          $('#navLangDropdownLabel').html('<i class="bi bi-globe2"></i> ' + lang[1]);
         }
 
         let localizedHref = location.pathname.replace(

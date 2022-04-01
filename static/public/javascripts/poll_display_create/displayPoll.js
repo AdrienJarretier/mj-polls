@@ -107,7 +107,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     let submitButton = $('<button type="submit" id="submitButton">')
         .addClass("btn")
         .addClass("btn-success")
-        .text(localeMsgs.get('submitButton'));
+        .html('<i class="bi bi-envelope-fill"></i> ' + localeMsgs.get('submitButton'));
 
     divSubmitButton.append(submitButton);
 
