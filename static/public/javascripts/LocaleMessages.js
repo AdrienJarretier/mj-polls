@@ -4,7 +4,25 @@ import {get } from '/javascripts/utils.js';
 
 class LocaleMessages {
 
-    static currentLocale = window.location.pathname.match(/^\/(fr|en)/)[1];
+    static availableLanguages = [
+        ['en', 'English'],
+        ['fr', 'Français']
+    ];
+    static currentLocale;
+    static urlLangPattern;
+    static {
+
+        this.urlLangPattern = '^\/(' + this.availableLanguages[0][0];
+        for (let i = 1; i < this.availableLanguages.length; ++i) {
+            const lang = this.availableLanguages[i][0];
+            this.urlLangPattern += '|' + lang;
+        }
+        this.urlLangPattern += ')';
+
+        this.currentLocale = window.location.pathname.match(
+            this.urlLangPattern
+        )[1];
+    }
 
     /**
      * 

@@ -12,6 +12,9 @@
 
     $(function() {
 
+      // ---------------------------------------------
+      // --------- Localize nav buttons text ---------
+
       const navMsgs = localeMsgs.get('nav');
 
       let navButtons = $('nav a button');
@@ -22,6 +25,44 @@
         navButton.text(navMsgs.get(navButtonId));
       }
 
+      // ---------------------------------------------
+      // ---------- Fill languages dropdown ----------
+
+      let langList = $('#navLangDropdownList');
+      let reUrlLangPattern = new RegExp(
+        LocaleMessages.urlLangPattern
+      );
+
+      console.log(reUrlLangPattern);
+
+      for (const lang of LocaleMessages.availableLanguages) {
+
+        if (LocaleMessages.currentLocale == lang[0]) {
+          $('#navLangDropdownLabel').text(lang[1]);
+        }
+
+        console.log();
+        console.log(location.pathname);
+        const localizedHref = location.pathname.replace(
+          reUrlLangPattern,
+          '/' + lang[0]
+        );
+        console.log(localizedHref);
+
+        let listItem =
+          $('<li>')
+          .append(
+            $('<a class="dropdown-item">')
+            .attr('href', localizedHref)
+            .text(lang[1])
+          );
+
+        langList.append(listItem);
+      }
+
+      // ----------------------------------------------
+      // -------------- Add lang to href --------------
+
       let navLinks = $('nav a');
       for (let i = 0; i < navLinks.length; ++i) {
 
@@ -29,6 +70,8 @@
 
         navLink.attr('href', '/' + LocaleMessages.currentLocale + navLink.attr('href'));
       }
+
+      // ----------------------------------------------
 
     });
   </script>
@@ -51,7 +94,18 @@
             <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button" id="Create-Poll">Create a
                 poll</button></a>
 
-            <a href="/context"><button class="btn btn-md btn-secondary" type="button" id="Context">Context</button></a>
+            <span>
+
+              <a href="/context"><button class="btn btn-md btn-secondary me-3" type="button" id="Context">Context</button></a>
+
+              <div class="dropdown d-inline">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="navLangDropdownLabel" data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navLangDropdownLabel" id="navLangDropdownList">
+                </ul>
+              </div>
+
+            </span>
 
           </nav>
 
