@@ -1,50 +1,112 @@
 <body>
 
-    <script type="module">
-        import {
-            LocaleMessages
-        } from '/javascripts/LocaleMessages.js';
+  <script type="module">
+    import {
+      LocaleMessages
+    } from '/javascripts/LocaleMessages.js';
 
-        const localeMsgs = await LocaleMessages.new('client-header', 'fr-FR');
+    const localeMsgs = await LocaleMessages.new(
+      'client-header');
 
-        // console.log(localeMsgs);
+    // console.log(localeMsgs);
 
-        $(function() {
+    $(function() {
 
-            let nav = $('nav a button')
-            const navMsgs = localeMsgs.get('nav');
-            for (let i = 0; i < nav.length; ++i) {
+      // ---------------------------------------------
+      // --------- Localize nav buttons text ---------
 
-                let navButton = nav.eq(i);
-                const navButtonId = navButton.attr('id');
-                navButton.text(navMsgs[navButtonId]);
-            }
+      const navMsgs = localeMsgs.get('nav');
 
-        });
-    </script>
+      let navButtons = $('nav a button');
+      for (let i = 0; i < navButtons.length; ++i) {
 
-    <div class="container-md">
+        let navButton = navButtons.eq(i);
+        const navButtonId = navButton.attr('id');
+        navButton.text(navMsgs.get(navButtonId));
+      }
 
-        <!-- Body and container div will be closed in footer -->
+      // ----------------------------------------------
+      // -------------- Add lang to href --------------
 
-        <div class="row mb-4">
-            <div class="col">
-                <header>
+      let navLinks = $('nav a');
+      for (let i = 0; i < navLinks.length; ++i) {
 
-                    <img src="/images/logo.png" class="img-fluid" alt="Majority judgement banner" />
-                    <!-- <p class="fs-4">A web application for creating, running and visualizing majority judgment polls.</p> -->
+        let navLink = navLinks.eq(i);
 
-                    <nav class="navbar bg-dark bg-gradient shadow-lg p-2 px-3 rounded">
+        navLink.attr('href', '/' + LocaleMessages.currentLocale + navLink.attr('href'));
+      }
 
-                        <!-- <a href="/"><button class="btn btn-md btn-secondary" type="button" id="Home">Home</button></a> -->
+      // ----------------------------------------------
 
-                        <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button" id="Create-Poll">Create a
-                                poll</button></a>
+      // ---------------------------------------------
+      // ---------- Fill languages dropdown ----------
 
-                        <a href="/context"><button class="btn btn-md btn-secondary" type="button" id="Context">Context</button></a>
+      let langList = $('#navLangDropdownList');
+      let reUrlLangPattern = new RegExp(
+        LocaleMessages.urlLangPattern
+      );
 
-                    </nav>
+      for (const lang of LocaleMessages.availableLanguages) {
 
-                </header>
-            </div>
-        </div>
+        if (LocaleMessages.currentLocale == lang[0]) {
+          $('#navLangDropdownLabel').html('<i class="bi bi-globe2"></i> ' + lang[1]);
+        }
+
+        let localizedHref = location.pathname.replace(
+          reUrlLangPattern,
+          '/' + lang[0]
+        );
+
+        const listLink = $('<a class="dropdown-item">')
+          .attr('href', localizedHref)
+          .text(lang[1]);
+
+        let listItem =
+          $('<li>')
+          .append(
+            listLink
+          );
+
+
+        langList.append(listItem);
+      }
+
+    });
+  </script>
+
+  <div class="container-md">
+
+    <!-- Body and container div will be closed in footer -->
+
+    <div class="row mb-4">
+      <div class="col">
+        <header>
+
+          <img src="/images/logo.png" class="img-fluid" alt="Majority judgement banner" />
+          <!-- <p class="fs-4">A web application for creating, running and visualizing majority judgment polls.</p> -->
+
+          <nav class="navbar bg-dark bg-gradient shadow-lg p-2 px-3 rounded">
+
+            <!-- <a href="/"><button class="btn btn-md btn-secondary" type="button" id="Home">Home</button></a> -->
+
+            <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button" id="Create-Poll">Create a
+                poll</button></a>
+
+            <span>
+
+              <a href="/context"><button class="btn btn-md btn-secondary me-3" type="button" id="Context">Context</button></a>
+
+              <div class="dropdown d-inline">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="navLangDropdownLabel" data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navLangDropdownLabel" id="navLangDropdownList">
+                </ul>
+              </div>
+
+            </span>
+
+          </nav>
+
+        </header>
+      </div>
+    </div>

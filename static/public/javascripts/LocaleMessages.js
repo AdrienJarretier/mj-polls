@@ -4,6 +4,26 @@ import {get } from '/javascripts/utils.js';
 
 class LocaleMessages {
 
+    static availableLanguages = [
+        ['en', 'English'],
+        ['fr', 'Français']
+    ];
+    static currentLocale;
+    static urlLangPattern;
+    static {
+
+        this.urlLangPattern = '^\/(' + this.availableLanguages[0][0];
+        for (let i = 1; i < this.availableLanguages.length; ++i) {
+            const lang = this.availableLanguages[i][0];
+            this.urlLangPattern += '|' + lang;
+        }
+        this.urlLangPattern += ')';
+
+        this.currentLocale = window.location.pathname.match(
+            this.urlLangPattern
+        )[1];
+    }
+
     /**
      * 
      * @param {string} part the part of the app to load messages for (or the page)
@@ -11,7 +31,7 @@ class LocaleMessages {
      * @param {string} locale e.g "fr-FR"
      * @returns {Object} Object containing messages
      */
-    static async new(part, locale) {
+    static async new(part, locale = this.currentLocale) {
         const data = await get('/locales/' + part + '/' + locale);
         // console.log(data);
         return new LocaleMessages(data);

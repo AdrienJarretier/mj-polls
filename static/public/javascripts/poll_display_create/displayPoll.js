@@ -4,9 +4,7 @@ import Table from '/javascripts/Table.js';
 import { LocaleMessages } from "/javascripts/LocaleMessages.js";
 import { parseForm, post } from '/javascripts/utils.js';
 
-const localeCode = 'fr-FR';
-
-let localeMsgs = await LocaleMessages.new('client-poll', localeCode);
+let localeMsgs = await LocaleMessages.new('client-poll');
 
 // console.log(pollJSONstr);
 
@@ -81,15 +79,15 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
 
     if (parsedPoll.max_voters === null && parsedPoll.max_datetime === null) {
         $('#toResultsButton')
-            .append($('<a>').attr('href', '/poll_results/' + parsedPoll.identifier).append($('<button class="btn btn-secondary">')
+            .append($('<a>').attr('href', '/' + LocaleMessages.currentLocale + '/poll_results/' + parsedPoll.identifier).append($('<button class="btn btn-secondary">')
                 .text(localeMsgs.get('toResultsLink'))));
 
     } else if (parsedPoll.max_datetime !== null) {
 
         const maxDate = new Date(parsedPoll.max_datetime);
 
-        const maxDateStr = maxDate.toLocaleDateString(localeCode);
-        const maxTimeStr = maxDate.toLocaleTimeString(localeCode, { hour: '2-digit', minute: '2-digit' });
+        const maxDateStr = maxDate.toLocaleDateString(LocaleMessages.currentLocale);
+        const maxTimeStr = maxDate.toLocaleTimeString(LocaleMessages.currentLocale, { hour: '2-digit', minute: '2-digit' });
 
         $('#toResultsButton').text(localeMsgs.get('closingDateTime', {
             date: maxDateStr,
@@ -109,7 +107,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     let submitButton = $('<button type="submit" id="submitButton">')
         .addClass("btn")
         .addClass("btn-success")
-        .text(localeMsgs.get('submitButton'));
+        .html('<i class="bi bi-envelope-fill"></i> ' + localeMsgs.get('submitButton'));
 
     divSubmitButton.append(submitButton);
 
@@ -119,11 +117,12 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     // ---------------------------------------------------------------
     // ------------------------ Share Button ------------------------
 
-    const windowLocOrig = window.location.origin;
-    const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.identifier
+    const windowLocOrig = window.location.href;
+    // const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.identifier
+    const pollLinkVal = windowLocOrig;
 
     const copiedSuccessAlert = $(`<div class="alert alert-primary p-0 mb-0" role="alert">`)
-        .text('Lien copié !')
+        .text(localeMsgs.get('sharePopupCopiedSuccess'))
         .fadeTo(0, 0);
 
     const linkInput = $('<input type="text" class="form-control form-control-sm">')
@@ -150,7 +149,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             .append(
                 $('<div class="col pe-0 text-end copyBtnCol">')
                 .append($('<button type="button" class="btn btn-secondary btn-sm popoverButton">')
-                    .text('copier')
+                    .text(localeMsgs.get('sharePopupCopyButton'))
                     .click(function() {
                         linkInput.select();
                         navigator.clipboard.writeText(pollLinkVal).then(function() {
@@ -177,7 +176,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
         .append($(`<i class="bi-share-fill" role="img"
         aria-label="Share">
         </i>`))
-        .append('Partager')
+        .append(localeMsgs.get('shareButton'));
 
     divShareButton.append(shareButton);
 
@@ -191,13 +190,13 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     })
 
     $('main')
-    .append($('<div class="row">')
-        .append($('<div class="col">'))
-        .append($('<div class="col-4">'))
-        .append($('<div class="col text-end">')
-            .append(shareButton)
-        )
-    );
+        .append($('<div class="row">')
+            .append($('<div class="col">'))
+            .append($('<div class="col-4">'))
+            .append($('<div class="col text-end">')
+                .append(shareButton)
+            )
+        );
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
@@ -213,8 +212,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             .append($('<div class="col-4">')
                 .append(divSubmitButton)
             )
-            .append($('<div class="col text-end">')
-            )
+            .append($('<div class="col text-end">'))
         )
         .submit(async function(event) {
             event.preventDefault();

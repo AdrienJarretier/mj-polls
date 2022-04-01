@@ -1,0 +1,46 @@
+{
+  "header": {
+    "nav": {
+      "Home": "Home",
+      "Create-Poll": "New poll",
+      "Context": "Context"
+    }
+  },
+  "footer": {
+    "contactUs": "To contact us feel free to open an issue on Github"
+  },
+  "createPoll": {
+    "titlePlaceholder": "State your question or sentence.",
+    "submitButton": "Create the poll",
+    "maxDateLabel": "Poll closes on"
+  },
+  "Context": {
+    "title": "",
+    "content": {
+      "sections": [
+        {
+          "title": "",
+          "content": ""
+        }
+      ]
+    }
+  },
+  "poll": {
+    "toResultsLink": "To Results",
+    "closingDateTime": "Closes on ${params.date} at ${params.time}",
+    "submitButton": "Vote",
+    "hasVotedPopup": {
+      "title": "Has voted",
+      "body": "You have voted on this poll"
+    },
+    "shareButton": "Share",
+    "sharePopupCopyButton": "copy",
+    "sharePopupCopiedSuccess": "Link copied !"
+  },
+  "pollResults": {
+    "title": "Résultats graphiques pour le sondage",
+    "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
+    "toResultsLink": "Voir les résultats",
+    "submitButton": "Voter"
+  }
+}

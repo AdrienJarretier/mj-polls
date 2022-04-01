@@ -1,3 +1,14 @@
+<script type="module">
+    import {
+        LocaleMessages
+    } from '/javascripts/LocaleMessages.js';
+
+    const localeMsgs = await LocaleMessages.new(
+        'client-footer');
+
+    $('#footerContactUsText').text(localeMsgs.get('contactUs'));
+</script>
+
 <div class="row">
 
     <div class="col" style="text-align:center;">
@@ -6,9 +17,12 @@
 
             <hr class="my-2">
 
-            <a href="https://github.com/AdrienJarretier/mj-polls" class="link-secondary">
+            <a href="https://github.com/AdrienJarretier/mj-polls/issues" class="link-secondary">
+                <span id="footerContactUsText"></span>
+                <br>
                 <i class="bi-github" role="img" aria-label="GitHub" style="font-size:32px;">
-                </i></a>
+                </i>
+            </a>
 
         </footer>
 

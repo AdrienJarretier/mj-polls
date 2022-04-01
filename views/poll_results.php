@@ -21,7 +21,7 @@
             import plot_results from '/javascripts/plot_results.js';
             import { LocaleMessages } from '/javascripts/LocaleMessages.js';
 
-            const localeMsgs = await LocaleMessages.new('client-pollResults', 'fr-FR');
+            const localeMsgs = await LocaleMessages.new('client-pollResults');
 
             $(function () {
                 plot_results(localeMsgs);
@@ -39,7 +39,7 @@
 
         <div class="col">
 
-            <h1 id="title"></h1>
+            <h1 id="title" class="fs-2"></h1>
 
             <br>
 
