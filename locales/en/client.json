@@ -7,6 +7,7 @@
     }
   },
   "createPoll": {
+    "titlePlaceholder": "State your question or sentence.",
     "submitButton": "Create the poll",
     "maxDateLabel": "Poll closes on"
   },

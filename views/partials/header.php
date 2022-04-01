@@ -46,28 +46,20 @@
         LocaleMessages.urlLangPattern
       );
 
-      console.log(reUrlLangPattern);
-
       for (const lang of LocaleMessages.availableLanguages) {
 
         if (LocaleMessages.currentLocale == lang[0]) {
           $('#navLangDropdownLabel').text(lang[1]);
         }
 
-        console.log();
-        console.log(location.pathname);
         let localizedHref = location.pathname.replace(
           reUrlLangPattern,
           '/' + lang[0]
         );
 
-        console.log(localizedHref);
-
         const listLink = $('<a class="dropdown-item">')
           .attr('href', localizedHref)
           .text(lang[1]);
-
-        console.log(listLink);
 
         let listItem =
           $('<li>')

@@ -7,6 +7,7 @@
     }
   },
   "createPoll": {
+    "titlePlaceholder": "Formulez votre question ou votre phrase.",
     "submitButton": "Créer le sondage",
     "maxDateLabel": "Fermeture du sondage"
   },

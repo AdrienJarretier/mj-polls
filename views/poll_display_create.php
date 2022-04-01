@@ -52,7 +52,7 @@
             }
         }
 
-        $(function() {
+        $(async function() {
 
             const titleSize = 'fs-4';
 
@@ -71,8 +71,10 @@
 
                 case 'createPoll':
 
+                    let localeUiTexts = await LocaleMessages.new('client-createPoll');
+
                     let titleId = 'title';
-                    let placeholder = 'Formulez votre question ou votre phrase.';
+                    let placeholder = localeUiTexts.get('titlePlaceholder');
                     let titleTextArea = $('<div class="form-floating">')
                         .append(
                             $('<textarea name="title" class="form-control">')
