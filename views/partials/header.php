@@ -87,7 +87,7 @@
 
 
 
-          <nav class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient shadow-lg p-2 px-3 rounded">
+          <nav class="navbar navbar-expand-sm navbar-dark bg-dark bg-gradient shadow-lg p-2 px-3 rounded">
 
             <div class="container-fluid">
 
@@ -95,7 +95,7 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
 
-              <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+              <div class="collapse navbar-collapse justify-content-between" id="navbarTogglerDemo01">
 
                 <a href="/createPoll"><button class="btn btn-md btn-secondary" type="button" id="Create-Poll">Create a
                     poll</button></a>
