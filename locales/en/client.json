@@ -23,13 +23,16 @@
     }
   },
   "poll": {
-    "toResultsLink": "Voir les résultats",
-    "closingDateTime": "Ferme le ${params.date} à ${params.time}",
-    "submitButton": "Voter",
+    "toResultsLink": "To Results",
+    "closingDateTime": "Closes on ${params.date} at ${params.time}",
+    "submitButton": "Vote",
     "hasVotedPopup": {
       "title": "A voté",
       "body": "Vous avez voté sur ce sondage"
-    }
+    },
+    "shareButton": "Share",
+    "sharePopupCopyButton": "copy",
+    "sharePopupCopiedSuccess": "Link copied !"
   },
   "pollResults": {
     "title": "Résultats graphiques pour le sondage",

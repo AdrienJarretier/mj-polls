@@ -117,11 +117,12 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     // ---------------------------------------------------------------
     // ------------------------ Share Button ------------------------
 
-    const windowLocOrig = window.location.origin;
-    const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.identifier
+    const windowLocOrig = window.location.href;
+    // const pollLinkVal = windowLocOrig + '/poll/' + parsedPoll.identifier
+    const pollLinkVal = windowLocOrig;
 
     const copiedSuccessAlert = $(`<div class="alert alert-primary p-0 mb-0" role="alert">`)
-        .text('Lien copié !')
+        .text(localeMsgs.get('sharePopupCopiedSuccess'))
         .fadeTo(0, 0);
 
     const linkInput = $('<input type="text" class="form-control form-control-sm">')
@@ -148,7 +149,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             .append(
                 $('<div class="col pe-0 text-end copyBtnCol">')
                 .append($('<button type="button" class="btn btn-secondary btn-sm popoverButton">')
-                    .text('copier')
+                    .text(localeMsgs.get('sharePopupCopyButton'))
                     .click(function() {
                         linkInput.select();
                         navigator.clipboard.writeText(pollLinkVal).then(function() {
@@ -175,7 +176,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
         .append($(`<i class="bi-share-fill" role="img"
         aria-label="Share">
         </i>`))
-        .append('Partager')
+        .append(localeMsgs.get('shareButton'));
 
     divShareButton.append(shareButton);
 
