@@ -1,5 +1,7 @@
 import { parseForm, post, formatDateTime } from '/javascripts/utils.js';
 
+import { LocaleMessages }  from '/javascripts/LocaleMessages.js';
+
 function toDateTime(date, time) {
 
     if ((!date || date == '') && (!time || time == ''))
@@ -40,11 +42,11 @@ async function submitHandler(event) {
     // console.log(formData);
     // throw '';
 
-    let pollId = await post('/polls', formData);
+    let pollIdentifier = await post('/polls', formData);
 
     // console.log(pollId);
 
-    window.location.href = '/poll/' + pollId;
+    location.assign('/' + LocaleMessages.currentLocale + '/poll/' + pollIdentifier);
 
 }
 

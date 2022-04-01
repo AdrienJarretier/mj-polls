@@ -27,7 +27,7 @@ self::get('/(' . Common::$serverConfig->pollIdentifierPattern . ')', function ($
 });
 
 
-self::add('/', function () {
+self::post('/', function () {
 
     $body = json_decode(file_get_contents('php://input'), true);
     $poll = new Poll($body);
@@ -45,7 +45,7 @@ self::add('/', function () {
     } catch (Exception $e) {
         Common::log($e);
     }
-}, 'post');
+});
 
 
 self::post('/(' . Common::$serverConfig->pollIdentifierPattern . ')/vote', function ($identifier) {
