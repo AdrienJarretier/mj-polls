@@ -17,7 +17,7 @@ You can host the application yourself, here are the instructions for a setup wit
 
 ## Dependencies
 
-If php7.4 isn't available in the official repository :
+**If** `php7.4` isn't available in the default apt repository :
 ```bash
 (
     sudo apt update
@@ -25,6 +25,12 @@ If php7.4 isn't available in the official repository :
     sudo add-apt-repository ppa:ondrej/php
     sudo apt update
 )
+```
+
+**If** `postgresql-14` isn't available in the default apt repository :
+```bash
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 ```
 
 ```bash
