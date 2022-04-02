@@ -27,8 +27,20 @@
 
 <link rel="apple-touch-icon" sizes="96x96" href="/images/favicon96.png">
 
+<?php
 
+$og = [
+    'title' => 'Create a majority judgment poll'
+];
 
+if (isset($poll)) {
+    // Common::log($poll);
+
+    $og['title'] = $poll->title;
+}
+
+echo '<meta property="og:title" content="' . $og['title'] . '" />';
+?>
 <!-- 
 
 <meta property="og:url" content="https://sondage.sirtak.fr/">
