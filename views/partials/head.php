@@ -43,9 +43,9 @@ if (isset($poll)) {
     $og['title'] = $poll->title;
 
     if (isset($poll->choices[0]->votes)) {
-        $og['description'] = 'View results of "' . $poll->title . '"';
+        $og['description'] = 'View results of <<' . $poll->title . '>>';
     } else {
-        $og['description'] = 'Vote on "' . $poll->title . '"';
+        $og['description'] = 'Vote on <<' . $poll->title . '>>';
     }
 
     // $og['description'] = '$poll->title';
