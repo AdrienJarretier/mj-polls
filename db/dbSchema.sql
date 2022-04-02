@@ -43,3 +43,19 @@ CREATE TABLE "polls_votes" (
 CREATE UNIQUE INDEX unique_choice_per_poll ON "polls_choices" ("poll_id", "name");
 
 CREATE UNIQUE INDEX unique_vote_per_grade_per_choice ON "polls_votes" ("poll_choice_id", "grade_id");
+
+
+
+CREATE VIEW "poll_with_choices" AS
+  SELECT 
+    polls.id AS poll_id,
+    polls.identifier AS poll_identifier,
+    polls.title,
+    polls_choices.name AS choice_name,
+    polls_choices.id AS choice_id,
+    polls.max_voters,
+    polls.max_datetime,
+    polls.datetime_opened,
+    polls.datetime_closed,
+    polls.duplicate_vote_check_method_id
+  FROM (polls JOIN polls_choices ON polls.id = polls_choices.poll_id);
