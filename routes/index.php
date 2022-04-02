@@ -132,6 +132,12 @@ self::get(
         $poll = (new Db(Common::$serverConfig->db->database))->getPollFromIdentifier($identifier);
         // Common::log($poll, true);
 
+        if (!$poll) {
+            header('HTTP/1.0 404 Not Found');
+            include('views/404.php');
+            exit;
+        }
+
         if (
             Common::$serverConfig->testConfig->testApiEnabled ||
             ($poll->max_voters === null && $poll->max_datetime === null)

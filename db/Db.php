@@ -161,9 +161,11 @@ class Db
     function getPollFromIdentifier(string $pollIdentifier)
     {
         $poll = $this->dao->getPollFromIdentifier($pollIdentifier);
-        $choices = $this->dao->getChoicesOfPoll($poll->id);
-        $poll->addChoices($choices);
-        return $poll;
+        if ($poll) {
+            $choices = $this->dao->getChoicesOfPoll($poll->id);
+            $poll->addChoices($choices);
+            return $poll;
+        } else return null;
     }
 
     // {
