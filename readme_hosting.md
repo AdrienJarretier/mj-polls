@@ -17,6 +17,8 @@ You can host the application yourself, here are the instructions for a setup wit
 
 ## Dependencies
 
+---
+
 **If** `php7.4` isn't available in the default apt repository :
 ```bash
 (
@@ -32,6 +34,8 @@ You can host the application yourself, here are the instructions for a setup wit
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 ```
+
+---
 
 ```bash
 sudo apt update && \
@@ -51,7 +55,7 @@ sudo apt install -y postgresql-14 apache2 libapache2-mod-php7.4 php7.4-pgsql
 
 ### Dev-dependencies
 
-phppgadmin to view database content while testing :
+`phppgadmin` to view database content while testing :
 ```bash
 sudo apt install -y phppgadmin
 ```
@@ -76,9 +80,11 @@ dbusername="mjpolls"
 )
 ``` 
 
+Replace `<repository_path>` with the full path of the cloned repository
+
 ```bash
 (
-    cd /home/ubuntu/gitRepos/mj-polls/db && \
+    cd <repository_path>/db && \
 
     psql -c "CREATE DATABASE $databaseName;" && \
 
