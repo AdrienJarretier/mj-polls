@@ -27,27 +27,34 @@
 
 <link rel="apple-touch-icon" sizes="96x96" href="/images/favicon96.png">
 
+
+
+<meta property="og:url" content="https://vote.sirtak.fr/">
 <?php
-
 $og = [
-    'title' => 'Create a majority judgment poll'
+    'title' => 'Create a majority judgment poll',
+    'description' => 'Create and share majority judgment polls'
 ];
-
 if (isset($poll)) {
-    // Common::log($poll);
+
+    // Common::log($_REQUEST[''],true);
+    // Common::log($poll->choices[0]->votes, true);
 
     $og['title'] = $poll->title;
+
+    if (isset($poll->choices[0]->votes)) {
+        $og['description'] = 'View results of "' . $poll->title . '"';
+    } else {
+        $og['description'] = 'Vote on "' . $poll->title . '"';
+    }
+
+    // $og['description'] = '$poll->title';
 }
-
 echo '<meta property="og:title" content="' . $og['title'] . '" />';
+echo '<meta property="og:site_name" content="' . $og['title'] . '" />';
+echo '<meta property="og:description" content="' . $og['description'] . '" />';
+echo '<meta name="description" content="' . $og['description'] . '">';
+
 ?>
-<!-- 
 
-<meta property="og:url" content="https://sondage.sirtak.fr/">
-<meta property="og:title" content="Sondages au jugement majoritaire" />
-<meta property="og:site_name" content="Sondages au jugement majoritaire" />
-<meta property="og:description"
-    content="Créez, visualisez et partagez des sondages réalisés au jugement majoritaire." />
-<meta property="og:image" content="https://sondage.sirtak.fr/images/favicon96.png" />
-
-<meta name="description" content="Créez des sondages utilisant le système de vote du judgement majoritaire"> -->
+<meta property="og:image" content="https://vote.sirtak.fr/images/favicon96.png" />
