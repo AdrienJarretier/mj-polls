@@ -2,7 +2,13 @@
 
 import { get_voters_count, get_majority } from "./order_candidates.js";
 import colorPalettes from './colorPalettes.js';
+import {
+    LocaleMessages
+  } from '/javascripts/LocaleMessages.js';
 
+  const localeMsgs = await LocaleMessages.new(
+    'client-pollResults');
+    console.log(localeMsgs)
 /**
  * Custom positioner
  * @function Tooltip.positioners.myCustomPositioner
@@ -83,7 +89,7 @@ function draw_global_results(choices) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Number of voters : ' + VOTERS_COUNT
+                    text: localeMsgs.get("voteNumber", {nvotes: VOTERS_COUNT})
                 },
                 autocolors: false,
                 annotation: {
