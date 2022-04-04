@@ -17,7 +17,7 @@ class PollDao
      */
     function getPoll(int $pollId)
     {
-        return $this->dbUtils->prepareAndExecute(
+        $poll =  $this->dbUtils->prepareAndExecute(
             'SELECT *
             FROM polls
             WHERE id = ?',
@@ -25,6 +25,8 @@ class PollDao
             [$pollId],
             'Poll'
         );
+
+        return $poll;
     }
 
     /**

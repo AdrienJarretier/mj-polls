@@ -81,6 +81,7 @@ function handlePollView($viewName)
                         [
                             'poll' => $poll,
                             'infiniteVoteEnabled' => Common::$serverConfig->testConfig->infiniteVoteEnabled
+                                || $poll->duplicate_vote_check_method_id == 1
                         ]
                     );
                     include $viewName;

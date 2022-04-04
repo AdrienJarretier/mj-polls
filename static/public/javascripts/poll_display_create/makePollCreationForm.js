@@ -137,7 +137,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     const duplicationCheckLabelText = localeMsgs.get('duplicationCheckLabel');
     const duplicationCheckSelectId = 'duplicationCheckSelect';
     let duplicationCheckSelect = $('<select class="form-select" >')
-        .attr('name', 'duplicationCheckMethod_id')
+        .attr('name', 'duplicate_vote_check_method_id')
         .attr('id', duplicationCheckSelectId)
         .attr('aria-label', duplicationCheckLabelText);
 
