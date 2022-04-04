@@ -3,31 +3,12 @@
 require_once __DIR__ . '/../db/Db.php';
 require_once __DIR__ . '/RoutesCommon.php';
 
-// function prepareObjectForFrontend($object)
-// {
-
-//     return
-//         preg_replace(
-//             '/"/',
-//             "\\\"",
-//             preg_replace(
-//                 "/'/",
-//                 "\\'",
-//                 preg_replace(
-//                     '/\\\/',
-//                     '\\\\\\',
-//                     json_encode($object)
-//                 )
-//             )
-//         );
-
-//     // return json_encode($object)
-//     //   .replace(/\\/g, "\\\\")
-//     //   .replace(/'/g, "\\'")
-//     //   .replace(/"/g, "\\\"");
-
-// }
-
+function getLang()
+{
+    $matches = [];
+    preg_match('/^\/([a-z]{2})\//', $_SERVER['REQUEST_URI'], $matches);
+    return $matches[1];
+}
 
 function pageOptions($pageTitle, $otherOptions)
 {

@@ -112,27 +112,27 @@ psql -c "DROP DATABASE IF EXISTS $databaseName;"
 ## apache config
 
 ```bash
-sudo nano /etc/apache2/sites-available/mj-polls.conf
+sudo mkdir /var/log/apache2/mj-polls
 ```
 
 <hr>
 
-### For deployment with a vhost
+### vhost config
 
 ```bash
-sudo mkdir /var/log/apache2/mj-polls
+sudo nano /etc/apache2/sites-available/mj-polls.conf
 ```
 
 ```
 <VirtualHost *:80>
-    DocumentRoot /home/ubuntu/gitRepos/mj-polls
+    DocumentRoot <repository_path>
 
     ErrorLog ${APACHE_LOG_DIR}/mj-polls/error.log
     CustomLog ${APACHE_LOG_DIR}/mj-polls/access.log combined
 
     ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 
-    <Directory /home/ubuntu/gitRepos/mj-polls>
+    <Directory <repository_path>>
         Options -Indexes +FollowSymLinks
         AllowOverride All
         Require all granted
@@ -142,37 +142,13 @@ sudo mkdir /var/log/apache2/mj-polls
 ```
 
 <hr>
-
-### For deployment in a subfolder
-
-```
-Alias /sondage /home/ubuntu/gitRepos/mj-polls
-<Directory /home/ubuntu/gitRepos/mj-polls>
-    Options -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
-```
-
-#### .htaccess
-
-`RewriteBase /` becomes `RewriteBase /sondage`
-
-#### index.php
-
-`Route::run('/');` becomes `Route::run('/sondage');`
-
-
-<hr>
-<hr>
 <br>
 
 ```bash
-(
-sudo a2enmod rewrite
-sudo a2ensite mj-polls
-sudo systemctl restart apache2
-)
+sudo a2enmod rewrite 1> /dev/null && \
+sudo a2ensite mj-polls 1> /dev/null && \
+sudo systemctl restart apache2 && \
+echo 'apache restarted'
 ```
 
 <hr>

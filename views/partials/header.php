@@ -87,9 +87,9 @@
 
 
 
-          <nav class="navbar navbar-expand-sm navbar-dark bg-dark bg-gradient shadow-lg p-2 px-3 rounded">
+          <nav class="py-2 px-0 navbar navbar-expand-sm navbar-dark bg-dark bg-gradient shadow-lg rounded">
 
-            <div class="container-fluid">
+            <div class="container-fluid px-3">
 
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
