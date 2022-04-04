@@ -163,15 +163,17 @@ class PollDao
                 identifier, 
                 title,
                 max_voters,
-                max_datetime)
-            VALUES(?, ?, ?, ?);
+                max_datetime,
+                duplicate_vote_check_method_id)
+            VALUES(?, ?, ?, ?, ?);
             ',
             'run',
             [
                 $poll->identifier,
                 $poll->title,
                 $poll->max_voters,
-                $poll->max_datetime
+                $poll->max_datetime,
+                $poll->duplicationCheckMethod_id
             ]
         );
         return $this->dbUtils->lastInsertId();

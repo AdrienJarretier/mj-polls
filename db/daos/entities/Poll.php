@@ -13,7 +13,7 @@ class Poll extends Entity
     public $max_datetime = null;
     public $datetime_opened = null;
     public $datetime_closed = null;
-    public $duplicationCheckMethod_id = 0;
+    public $duplicationCheckMethod_id = 1;
     public $duplicationCheckMethod = null;
 
     private static function datetimeToMicrotime($datetime)
@@ -40,13 +40,9 @@ class Poll extends Entity
         $this->datetime_closed_microtime = self::datetimeToMicrotime($this->datetime_closed);
 
         try {
-
-            if ($this->duplicationCheckMethod_id > 0) {
-
-                $this->duplicationCheckMethod = new DuplicateVoteCheckMethod([
-                    'id' => $this->duplicationCheckMethod_id
-                ]);
-            }
+            $this->duplicationCheckMethod = new DuplicateVoteCheckMethod([
+                'id' => $this->duplicationCheckMethod_id
+            ]);
         } catch (Exception $e) {
             Common::log($e);
         }

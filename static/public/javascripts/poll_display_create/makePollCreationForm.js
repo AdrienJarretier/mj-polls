@@ -142,8 +142,8 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
         .attr('aria-label', duplicationCheckLabelText);
 
     const duplicationCheckMethods = [
-        { id: 1, name: 'yes' },
-        { id: 0, name: 'no' }
+        { id: 2, name: 'yes' },
+        { id: 1, name: 'no' }
     ];
     for (const method of duplicationCheckMethods) {
         duplicationCheckSelect.append($('<option>')

@@ -7,7 +7,8 @@ INSERT INTO grades("value", "order") VALUES
 ('To Reject', 0);
 
 
-INSERT INTO duplicate_vote_check_methods("name") VALUES
-('browser'),
-('ip'),
-('account');
+INSERT INTO duplicate_vote_check_methods("id", "name") VALUES
+(1, 'none'),
+(2, 'browser'),
+(3, 'ip'),
+(4, 'account');

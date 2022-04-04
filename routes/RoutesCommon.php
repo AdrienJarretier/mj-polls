@@ -9,7 +9,8 @@ function sanitizePoll(\Poll &$poll)
     $keysToKeep = [
         'identifier', 'title', 'choices', 'datetime_closed',
         'max_voters',
-        'max_datetime'
+        'max_datetime',
+        'duplicate_vote_check_method_id'
     ];
 
     $poll = (object) array_filter(
