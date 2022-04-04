@@ -122,6 +122,8 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             $('<input type="datetime-local" class="form-control" >')
             .attr('name', maxDatetimeInputId)
             .attr('id', maxDatetimeInputId)
+            .height('5rem')
+            .css('padding-top', '3rem')
         )
         .append(
             $('<label class="form-label">')
@@ -139,7 +141,9 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     let duplicationCheckSelect = $('<select class="form-select" >')
         .attr('name', 'duplicate_vote_check_method_id')
         .attr('id', duplicationCheckSelectId)
-        .attr('aria-label', duplicationCheckLabelText);
+        .attr('aria-label', duplicationCheckLabelText)
+        .height('5rem')
+        .css('padding-top', '3rem');
 
     const duplicationCheckMethods = [
         { id: 2, name: 'yes' },
@@ -159,7 +163,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             .text(duplicationCheckLabelText)
         );
 
-    divPollOptions.append($('<div>').addClass('col col-md-4 col-lg-3 mx-auto mt-3 mb-2').append(duplicationCheckSelectWrapper));
+    divPollOptions.append($('<div>').addClass('col col-md-5 col-lg-4 mx-auto mt-3 mb-2').append(duplicationCheckSelectWrapper));
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------

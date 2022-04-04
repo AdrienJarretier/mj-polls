@@ -175,7 +175,7 @@ class PollDao
                 $poll->title,
                 $poll->max_voters,
                 $poll->max_datetime,
-                $poll->duplicationCheckMethod_id
+                $poll->duplicate_vote_check_method_id
             ]
         );
         return $this->dbUtils->lastInsertId();
