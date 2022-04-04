@@ -80,7 +80,7 @@ class LocaleMessages {
             const evaluated = _eval(rawVal);
             // console.log('evaluated:')
             // console.log(evaluated)
-            console.log();
+            // console.log();
             return evaluated
         } catch (e) {
             console.error(this._msgs[key]);

@@ -35,54 +35,62 @@
 <?php include('partials/header.php') ?>
 
 <div class="row">
-
     <div class="col">
 
-        <h1 id="title" class="fs-2"></h1>
-
-        <br>
-
-        <div class="alert alert-success shadow-md p-3 mb-5 rounded" role="alert" id="results_alert">
-
-            <p class="fs-4"> <i class="bi-trophy-fill" role="img" aria-label="GitHub" style="font-size:32px;"></i><span id="results_alert_text"> </span> </p>
+        <div class="row mb-1">
+            <div class="col">
+                <h1 id="title" class="fs-3"></h1>
+            </div>
         </div>
 
-        <div class="col-lg-9 vh-80">
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-success shadow-md py-1 mb-0 rounded" role="alert" id="results_alert">
+                    <p class="my-0">
+                        <i class="bi-trophy-fill" role="img" style="font-size:1.5em;"></i><span id="results_alert_text"> </span>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-            <canvas id="results_plot"></canvas>
-
+        <div class="row mt-1">
+            <div class="col-lg-9 vh-80">
+                <canvas id="results_plot"></canvas>
+            </div>
         </div>
 
     </div>
-
 </div>
 
-<hr>
-
 <div class="row">
+    <div class="col">
 
-    <h1>Details for each candidate</h1>
-    <br>
-
-    <div class="row">
-
-        <br>
-
-        <br>
-
-        <form id="formRadiosCandidate_selection">
-            <div class="btn-group position-relative top-50 start-50 translate-middle" role="group" aria-label="Basic radio toggle button group" id="Candidate_choice">
-
+        <div class="row">
+            <div class="col">
+                <hr>
             </div>
-        </form>
+        </div>
 
-    </div>
+        <div class="row">
+            <div class="col">
+                <h2 class="fs-3">Details for each candidate</h2>
+            </div>
+        </div>
 
-    <br>
+        <div class="row">
+            <div class="col">
+                <form id="formRadiosCandidate_selection">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="Candidate_choice">
+                    </div>
+                </form>
+            </div>
+        </div>
 
-    <div class="row">
-
-        <canvas id="results_per_candidate"></canvas>
+        <div class="row">
+            <div class="col">
+                <canvas id="results_per_candidate"></canvas>
+            </div>
+        </div>
 
     </div>
 </div>
