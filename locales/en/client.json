@@ -35,6 +35,8 @@
     "toResultsLink": "To Results",
     "closingDateTime": "Closes on ${params.date} at ${params.time}",
     "submitButton": "Vote",
+    "submitButtonSuccess": "Success !",
+    "submitButtonError": "Error",
     "hasVotedPopup": {
       "title": "Has voted",
       "body": "You have voted on this poll"

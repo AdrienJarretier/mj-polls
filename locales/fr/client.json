@@ -35,6 +35,8 @@
     "toResultsLink": "Voir les Résultats",
     "closingDateTime": "Ferme le ${params.date} à ${params.time}",
     "submitButton": "Voter",
+    "submitButtonSuccess": "Validé !",
+    "submitButtonError": "Erreur",
     "hasVotedPopup": {
       "title": "A voté",
       "body": "Vous avez voté sur ce sondage"
