@@ -60,6 +60,6 @@ header img {
     }
 }
 
-input[type=datetime-local] {
+/* input[type=datetime-local] {
     width: fit-content;
-}
+} */

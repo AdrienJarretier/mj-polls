@@ -131,7 +131,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             .text(maxDatetimeLabelText)
         );
 
-    divPollOptions.append($('<div>').addClass('col-6 mx-auto mt-3 mb-2').append(maxDatetimeInput));
+    divPollOptions.append($('<div>').addClass('col col-md-5 col-lg-4 mx-auto mt-3 mb-2').append(maxDatetimeInput));
 
     // -----------------------------------------------------------------
     // ------------------ Duplication Checking select ------------------
