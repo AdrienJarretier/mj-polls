@@ -49,7 +49,7 @@
                         style="font-size:32px;"></i><span id="results_alert_text"> </span> </p>
             </div>
 
-            <div class="col w-100 vh-80">
+            <div class="col-lg-9 vh-80">
 
                 <canvas id="results_plot"></canvas>
 

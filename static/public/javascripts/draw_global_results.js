@@ -4,11 +4,13 @@ import { get_voters_count, get_majority } from "./order_candidates.js";
 import colorPalettes from './colorPalettes.js';
 import {
     LocaleMessages
-  } from '/javascripts/LocaleMessages.js';
+} from '/javascripts/LocaleMessages.js';
+import { stringSplitter } from '/javascripts/utils.js';
 
-  const localeMsgs = await LocaleMessages.new(
+
+const localeMsgs = await LocaleMessages.new(
     'client-pollResults');
-    console.log(localeMsgs)
+
 /**
  * Custom positioner
  * @function Tooltip.positioners.myCustomPositioner
@@ -17,7 +19,7 @@ import {
  * @returns {Point} the tooltip position
  */
 const tooltipPlugin = Chart.registry.getPlugin('tooltip');
-tooltipPlugin.positioners.myCustomPositioner = function (elements, eventPosition) {
+tooltipPlugin.positioners.myCustomPositioner = function(elements, eventPosition) {
     /** @type {Tooltip} */
     return eventPosition;
 };
@@ -30,7 +32,7 @@ function draw_global_results(choices) {
     // Names of choices, eg candidates, in the poll
     const labels = [];
     for (const choice of choices) {
-        labels.push(choice.name);
+        labels.push(stringSplitter(choice.name, 23));
     }
 
     // Getting possible values
@@ -59,7 +61,8 @@ function draw_global_results(choices) {
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
         const entry = {
-            "label": vote.value, "data": [vote.count],
+            "label": vote.value,
+            "data": [vote.count],
             "backgroundColor": colorPalettes.color(cpt, palette),
         };
         dataset.push(entry);
@@ -89,7 +92,7 @@ function draw_global_results(choices) {
             plugins: {
                 title: {
                     display: true,
-                    text: localeMsgs.get("voteNumber", {nvotes: VOTERS_COUNT})
+                    text: localeMsgs.get("voteNumber", { nvotes: VOTERS_COUNT })
                 },
                 autocolors: false,
                 annotation: {
@@ -124,7 +127,7 @@ function draw_global_results(choices) {
                 }
             },
             interaction: true,
-            aspectRatio: 1.2,
+            aspectRatio: 16/9,
             responsive: true,
             scales: {
                 x: {
