@@ -1,6 +1,7 @@
 let myChart;
 
 import { get_voters_count, get_majority } from "./order_candidates.js";
+import {stringSplitter} from "./utils.js";
 import colorPalettes from './colorPalettes.js';
 
 function draw_candidate_results(choices, candidate) {
@@ -85,7 +86,7 @@ function draw_candidate_results(choices, candidate) {
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: percentage_above + ' % of voters gave ' + choice[0].majority_grade + ' or above.'
+                            content: stringSplitter(percentage_above + ' % of voters gave ' + choice[0].majority_grade + ' or above.', 29)
                         }
                     },
                     {
@@ -206,7 +207,7 @@ function update_candidate_results(choices, candidate) {
         borderWidth: 4,
         label: {
             enabled: true,
-            content: percentage_above + ' % of voters gave the grade ' + choice[0].majority_grade + ' or above.'
+            content: stringSplitter(percentage_above + ' % of voters gave the grade ' + choice[0].majority_grade + ' or above.',29)
         }
     },
     {
