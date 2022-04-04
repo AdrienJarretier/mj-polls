@@ -80,12 +80,13 @@ class Table {
     /**
      * enable or disable uniformization of columns width
      * @param {bool} enableUniformColsWidth 
+     * @param {number} maxWidth
      */
-    setUniformColsWidth(enableUniformColsWidth) {
+    setUniformColsWidth(enableUniformColsWidth, maxWidth = Infinity) {
 
         this._options.uniformColsWidth = !!enableUniformColsWidth;
 
-        const maxW = this.getMaxWidth()
+        const maxW = Math.min(this.getMaxWidth(), maxWidth);
 
         if (this._options.uniformColsWidth)
             this.setColsWidth(maxW);

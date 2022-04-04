@@ -243,7 +243,8 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
 
         });
 
-        pollTable.setUniformColsWidth(true);
+    const maxWidThReturned = pollTable.setUniformColsWidth(true, 171);
+    // console.log('max width', maxWidThReturned);
 
 }
 
