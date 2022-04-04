@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Entity.php';
+require_once __DIR__ . '/DuplicateVoteCheckMethod.php';
 
 class Poll extends Entity
 {
@@ -12,6 +13,8 @@ class Poll extends Entity
     public $max_datetime = null;
     public $datetime_opened = null;
     public $datetime_closed = null;
+    public $duplicationCheckMethod_id = 0;
+    public $duplicationCheckMethod = null;
 
     private static function datetimeToMicrotime($datetime)
     {
@@ -35,6 +38,18 @@ class Poll extends Entity
         $this->max_datetime_microtime = self::datetimeToMicrotime($this->max_datetime);
         $this->datetime_opened_microtime = self::datetimeToMicrotime($this->datetime_opened);
         $this->datetime_closed_microtime = self::datetimeToMicrotime($this->datetime_closed);
+
+        try {
+
+            if ($this->duplicationCheckMethod_id > 0) {
+
+                $this->duplicationCheckMethod = new DuplicateVoteCheckMethod([
+                    'id' => $this->duplicationCheckMethod_id
+                ]);
+            }
+        } catch (Exception $e) {
+            Common::log($e);
+        }
     }
 
     function addChoices(array $choices)
