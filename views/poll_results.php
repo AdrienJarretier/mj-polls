@@ -88,7 +88,7 @@
 
         <div class="row">
             <div class="col">
-                <div style="height:720px; width:405px">
+                <div style="height:720px; width:415px">
                     <canvas id="results_per_candidate"></canvas>
                 </div>
             </div>
