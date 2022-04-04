@@ -10,7 +10,7 @@
         const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll'], JSON_HEX_APOS) ?>');
     </script>
 
-    <script src="/extLibs/chart.js/chart.js-3.5.0.min.js"></script>
+    <script src="/extLibs/chart.js/chart.js-3.5.1.min.js"></script>
     <script src="/extLibs/chart.js/chartjs-plugin-annotation-1.0.2.min.js"></script>
 
     <script type="module">
