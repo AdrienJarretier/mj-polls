@@ -9,7 +9,14 @@
   <script>
     $(function() {
 
-      const readmeContent = <?= json_encode(file_get_contents(__DIR__ . '/../readme.md'), JSON_HEX_APOS); ?>;
+      const readmeContent =
+        <?php
+        $readmePath = __DIR__ . '/../readme_' . getLang() . '.md';
+        if (!file_exists($readmePath))
+          $readmePath = __DIR__ . '/../readme.md';
+        echo json_encode(file_get_contents($readmePath), JSON_HEX_APOS);
+        ?>;
+
       let readmeParts = readmeContent.split('---');
 
       readmeParts.push(readmeParts[1]);
