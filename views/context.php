@@ -10,10 +10,21 @@
     $(function() {
 
       const readmeContent = <?= json_encode(file_get_contents(__DIR__ . '/../readme.md'), JSON_HEX_APOS); ?>;
+      let readmeParts = readmeContent.split('---');
 
-      let htmledReadme = $(marked.parse(readmeContent));
+      readmeParts.push(readmeParts[1]);
+      readmeParts.splice(1, 1);
 
-      $('#content').html(htmledReadme).find('h1').remove();
+      let reorderedReadme = readmeParts[0];
+
+      for (let i = 1; i < readmeParts.length; ++i) {
+        const part = readmeParts[i];
+        reorderedReadme += '\n---\n' + part;
+      }
+
+      let htmledReadme = $(marked.parse(reorderedReadme));
+      let divContent = $('#content');
+      divContent.html(htmledReadme).find('h1').remove();
 
     });
   </script>
