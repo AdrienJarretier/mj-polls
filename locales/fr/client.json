@@ -13,7 +13,12 @@
   "createPoll": {
     "titlePlaceholder": "Formulez votre question ou votre phrase.",
     "submitButton": "Créer le sondage",
-    "maxDateLabel": "Fermeture du sondage"
+    "maxDateLabel": "Fermeture du sondage",
+    "duplicationCheckLabel": "Contrôle des doublons de votes",
+    "duplicationCheckMethods": {
+      "yes": "Oui",
+      "no": "Non"
+    }
   },
   "Context": {
     "title": "",
@@ -30,6 +35,8 @@
     "toResultsLink": "Voir les Résultats",
     "closingDateTime": "Ferme le ${params.date} à ${params.time}",
     "submitButton": "Voter",
+    "submitButtonSuccess": "Validé !",
+    "submitButtonError": "Erreur",
     "hasVotedPopup": {
       "title": "A voté",
       "body": "Vous avez voté sur ce sondage"
@@ -40,8 +47,12 @@
   },
   "pollResults": {
     "title": "Résultats graphiques pour le sondage",
-    "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
-    "toResultsLink": "Voir les résultats",
-    "submitButton": "Voter"
+    "globalResults": {
+      "voteNumber": "Nombre de votes : ${params.nvotes}",
+      "winnerAlerts": {
+        "resolvedEquality": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention"
+      },
+      "majorityGrade": "Mention Majoritaire"
+    }
   }
 }

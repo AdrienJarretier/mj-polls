@@ -113,8 +113,8 @@ function draw_candidate_results(choices, candidate) {
                 }
             },
             interaction: true,
-            aspectRatio: 1,
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     stacked: true,

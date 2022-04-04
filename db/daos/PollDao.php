@@ -17,7 +17,7 @@ class PollDao
      */
     function getPoll(int $pollId)
     {
-        return $this->dbUtils->prepareAndExecute(
+        $poll =  $this->dbUtils->prepareAndExecute(
             'SELECT *
             FROM polls
             WHERE id = ?',
@@ -25,6 +25,8 @@ class PollDao
             [$pollId],
             'Poll'
         );
+
+        return $poll;
     }
 
     /**
@@ -163,15 +165,17 @@ class PollDao
                 identifier, 
                 title,
                 max_voters,
-                max_datetime)
-            VALUES(?, ?, ?, ?);
+                max_datetime,
+                duplicate_vote_check_method_id)
+            VALUES(?, ?, ?, ?, ?);
             ',
             'run',
             [
                 $poll->identifier,
                 $poll->title,
                 $poll->max_voters,
-                $poll->max_datetime
+                $poll->max_datetime,
+                $poll->duplicate_vote_check_method_id
             ]
         );
         return $this->dbUtils->lastInsertId();

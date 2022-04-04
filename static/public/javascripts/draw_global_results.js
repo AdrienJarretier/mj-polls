@@ -2,6 +2,16 @@
 
 import { get_voters_count, get_majority } from "./order_candidates.js";
 import colorPalettes from './colorPalettes.js';
+import {
+    LocaleMessages
+} from '/javascripts/LocaleMessages.js';
+import { stringSplitter } from '/javascripts/utils.js';
+
+
+const localeMsgs = await LocaleMessages.new(
+    'client-pollResults');
+const localeGrades = await LocaleMessages.new(
+    'db-grades');
 
 /**
  * Custom positioner
@@ -11,7 +21,7 @@ import colorPalettes from './colorPalettes.js';
  * @returns {Point} the tooltip position
  */
 const tooltipPlugin = Chart.registry.getPlugin('tooltip');
-tooltipPlugin.positioners.myCustomPositioner = function (elements, eventPosition) {
+tooltipPlugin.positioners.myCustomPositioner = function(elements, eventPosition) {
     /** @type {Tooltip} */
     return eventPosition;
 };
@@ -24,7 +34,7 @@ function draw_global_results(choices) {
     // Names of choices, eg candidates, in the poll
     const labels = [];
     for (const choice of choices) {
-        labels.push(choice.name);
+        labels.push(stringSplitter(choice.name, 23));
     }
 
     // Getting possible values
@@ -53,7 +63,8 @@ function draw_global_results(choices) {
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
         const entry = {
-            "label": vote.value, "data": [vote.count],
+            "label": localeGrades.get(vote.value),
+            "data": [vote.count],
             "backgroundColor": colorPalettes.color(cpt, palette),
         };
         dataset.push(entry);
@@ -75,6 +86,8 @@ function draw_global_results(choices) {
         datasets: dataset
     };
 
+    const localeGlobalResults = localeMsgs.get('globalResults');
+
     // Configurating the plot
     const config = {
         type: 'bar',
@@ -83,7 +96,7 @@ function draw_global_results(choices) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Number of voters : ' + VOTERS_COUNT
+                    text: localeGlobalResults.get("voteNumber", { nvotes: VOTERS_COUNT })
                 },
                 autocolors: false,
                 annotation: {
@@ -94,11 +107,11 @@ function draw_global_results(choices) {
                         yMax: majority_plot,
                         xMin: labels[0],
                         xMax: labels[labels.length - 1],
-                        borderColor: 'rgb(240, 240, 240)',
+                        borderColor: 'hsl(0, 0%, 100%)',
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: 'Majority grade'
+                            content: localeGlobalResults.get('majorityGrade')
                         }
                     }],
                     drawTime: 'afterDatasetsDraw'
@@ -118,7 +131,7 @@ function draw_global_results(choices) {
                 }
             },
             interaction: true,
-            aspectRatio: 1.2,
+            aspectRatio: 16 / 9,
             responsive: true,
             scales: {
                 x: {

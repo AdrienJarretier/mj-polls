@@ -51,14 +51,17 @@ class LocaleMessages {
         // params can be passed and will substitute inside template strings got from localeMessages.
         params = params || {};
 
+        // console.log('get ',key,'params :', params);
         function _eval(value) {
             // console.log('typeof value:')
             // console.log(typeof value)
+            // console.log('_eval value :', value);
+            // console.log('_eval params :', params);
             if (typeof value == 'object') {
-                for (const key in value) {
-                    // console.log('key :', key)
-                    value[key] = _eval(value[key]);
-                }
+                // for (const key in value) {
+                //     // console.log('key :', key)
+                //     value[key] = _eval(value[key]);
+                // }
                 return value;
             } else {
                 return eval('`' + value + '`');
@@ -77,6 +80,7 @@ class LocaleMessages {
             const evaluated = _eval(rawVal);
             // console.log('evaluated:')
             // console.log(evaluated)
+            // console.log();
             return evaluated
         } catch (e) {
             console.error(this._msgs[key]);

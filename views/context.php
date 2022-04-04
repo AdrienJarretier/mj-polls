@@ -26,7 +26,7 @@
 
       for (let i = 1; i < readmeParts.length; ++i) {
         const part = readmeParts[i];
-        reorderedReadme += '\n---\n' + part;
+        reorderedReadme += '\n\n---\n\n' + part;
       }
 
       let htmledReadme = $(marked.parse(reorderedReadme));
@@ -35,6 +35,13 @@
 
     });
   </script>
+
+  <style>
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
 
 </head>
 

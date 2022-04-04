@@ -56,7 +56,6 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
         }
     }
 
-    pollTable.setUniformColsWidth(true);
     pollTable.addClass('text-center');
 
     parsedPoll.choices.sort((a, b) => a.name.localeCompare(b.name));
@@ -101,13 +100,17 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
     // ---------------------------------------------------------------
     // ------------------------ Submit Button ------------------------
 
+    const submitButtonLabelOpened = '<i class="bi bi-envelope-open-fill"></i> ' + localeMsgs.get('submitButton');
+    const submitButtonLabelSuccess = '<i class="bi bi-envelope-fill"></i> ' + localeMsgs.get('submitButtonSuccess');
+    const submitButtonLabelError = '<i class="bi bi-exclamation-triangle-fill"></i> ' + localeMsgs.get('submitButtonError');
+
     let divSubmitButton = $('<div>')
         .addClass('d-grid mx-auto');
 
     let submitButton = $('<button type="submit" id="submitButton">')
         .addClass("btn")
         .addClass("btn-success")
-        .html('<i class="bi bi-envelope-fill"></i> ' + localeMsgs.get('submitButton'));
+        .html(submitButtonLabelOpened);
 
     divSubmitButton.append(submitButton);
 
@@ -225,24 +228,37 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             );
 
             submitButton.attr('disabled', true);
-            $(this).find('input').attr('disabled', true);
+            let inputs = $(this).find('input');
+            inputs.attr('disabled', true);
             if (postResponse.voteSuccessfull) {
 
-                submitButton.text('Vote validé !');
+                submitButton.html(submitButtonLabelSuccess);
 
                 localStorage.setItem(parsedPoll.identifier, true);
 
                 hasVoted(true, infiniteVoteEnabled);
 
+                setTimeout(function() {
+
+                    submitButton.attr('disabled', false);
+                    submitButton.html(submitButtonLabelOpened);
+                    inputs.attr('disabled', false);
+
+                }, 1000);
+
             } else {
 
-                submitButton.text('Erreur');
+                submitButton.html(submitButtonLabelError);
                 submitButton
                     .removeClass("btn-success")
                     .addClass("btn-danger");
             }
 
         });
+
+    const maxWidThReturned = pollTable.setUniformColsWidth(true, 142);
+    // console.log('max width', maxWidThReturned);
+    // console.log(pollTable);
 
 }
 

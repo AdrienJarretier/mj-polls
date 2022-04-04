@@ -110,8 +110,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     // ----------------------------------------------------------------
     // ------------------------- poll options -------------------------
 
-    let divPollOptions = $('<div>')
-        .addClass('d-grid col-6 mx-auto mt-3 mb-2');
+    let divPollOptions = $('<div class="row">');
 
     // ----------------------------------------------------------------
     // ------------------------ Max Date Input ------------------------
@@ -123,6 +122,8 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             $('<input type="datetime-local" class="form-control" >')
             .attr('name', maxDatetimeInputId)
             .attr('id', maxDatetimeInputId)
+            .height('5rem')
+            .css('padding-top', '3rem')
         )
         .append(
             $('<label class="form-label">')
@@ -130,12 +131,39 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             .text(maxDatetimeLabelText)
         );
 
-    divPollOptions.append(maxDatetimeInput);
+    divPollOptions.append($('<div>').addClass('col col-md-5 col-lg-4 mx-auto mt-3 mb-2').append(maxDatetimeInput));
 
-    // ---------------------------------------------------------------
-    // ---------------------------------------------------------------
+    // -----------------------------------------------------------------
+    // ------------------ Duplication Checking select ------------------
 
-    // divPollOptions.append('<hr>');
+    const duplicationCheckLabelText = localeMsgs.get('duplicationCheckLabel');
+    const duplicationCheckSelectId = 'duplicationCheckSelect';
+    let duplicationCheckSelect = $('<select class="form-select" >')
+        .attr('name', 'duplicate_vote_check_method_id')
+        .attr('id', duplicationCheckSelectId)
+        .attr('aria-label', duplicationCheckLabelText)
+        .height('5rem')
+        .css('padding-top', '3rem');
+
+    const duplicationCheckMethods = [
+        { id: 2, name: 'yes' },
+        { id: 1, name: 'no' }
+    ];
+    for (const method of duplicationCheckMethods) {
+        duplicationCheckSelect.append($('<option>')
+            .attr('value', method.id)
+            .text(localeMsgs.get('duplicationCheckMethods').get(method.name)));
+    }
+
+    const duplicationCheckSelectWrapper = $('<div class="form-floating">')
+        .append(duplicationCheckSelect)
+        .append(
+            $('<label class="form-label">')
+            .attr('for', duplicationCheckSelectId)
+            .text(duplicationCheckLabelText)
+        );
+
+    divPollOptions.append($('<div>').addClass('col col-md-5 col-lg-4 mx-auto mt-3 mb-2').append(duplicationCheckSelectWrapper));
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------

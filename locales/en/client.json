@@ -13,7 +13,12 @@
   "createPoll": {
     "titlePlaceholder": "State your question or sentence.",
     "submitButton": "Create the poll",
-    "maxDateLabel": "Poll closes on"
+    "maxDateLabel": "Poll closes on",
+    "duplicationCheckLabel": "Vote duplication checking",
+    "duplicationCheckMethods": {
+      "yes": "Yes",
+      "no": "No"
+    }
   },
   "Context": {
     "title": "",
@@ -30,6 +35,8 @@
     "toResultsLink": "To Results",
     "closingDateTime": "Closes on ${params.date} at ${params.time}",
     "submitButton": "Vote",
+    "submitButtonSuccess": "Success !",
+    "submitButtonError": "Error",
     "hasVotedPopup": {
       "title": "Has voted",
       "body": "You have voted on this poll"
@@ -39,9 +46,13 @@
     "sharePopupCopiedSuccess": "Link copied !"
   },
   "pollResults": {
-    "title": "Résultats graphiques pour le sondage",
-    "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
-    "toResultsLink": "Voir les résultats",
-    "submitButton": "Voter"
+    "title": "Graphical results for the poll",
+    "globalResults": {
+      "voteNumber": "Number of votes : ${params.nvotes}",
+      "winnerAlerts": {
+        "resolvedEquality": "The winner is ${params.winner}. It was separated from ${params.winner_ties_names}, which had the same grade"
+      },
+      "majorityGrade": "Majority Grade"
+    }
   }
 }
