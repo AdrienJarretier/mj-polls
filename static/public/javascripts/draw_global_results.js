@@ -10,6 +10,8 @@ import { stringSplitter } from '/javascripts/utils.js';
 
 const localeMsgs = await LocaleMessages.new(
     'client-pollResults');
+const localeGrades = await LocaleMessages.new(
+    'db-grades');
 
 /**
  * Custom positioner
@@ -61,7 +63,7 @@ function draw_global_results(choices) {
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
         const entry = {
-            "label": vote.value,
+            "label": localeGrades.get(vote.value),
             "data": [vote.count],
             "backgroundColor": colorPalettes.color(cpt, palette),
         };
@@ -84,6 +86,8 @@ function draw_global_results(choices) {
         datasets: dataset
     };
 
+    const localeGlobalResults = localeMsgs.get('globalResults');
+
     // Configurating the plot
     const config = {
         type: 'bar',
@@ -92,7 +96,7 @@ function draw_global_results(choices) {
             plugins: {
                 title: {
                     display: true,
-                    text: localeMsgs.get("voteNumber", { nvotes: VOTERS_COUNT })
+                    text: localeGlobalResults.get("voteNumber", { nvotes: VOTERS_COUNT })
                 },
                 autocolors: false,
                 annotation: {
@@ -107,7 +111,7 @@ function draw_global_results(choices) {
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: 'Majority grade'
+                            content: localeGlobalResults.get('majorityGrade')
                         }
                     }],
                     drawTime: 'afterDatasetsDraw'
@@ -127,7 +131,7 @@ function draw_global_results(choices) {
                 }
             },
             interaction: true,
-            aspectRatio: 16/9,
+            aspectRatio: 16 / 9,
             responsive: true,
             scales: {
                 x: {

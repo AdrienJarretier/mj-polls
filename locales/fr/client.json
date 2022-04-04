@@ -47,9 +47,10 @@
   },
   "pollResults": {
     "title": "Résultats graphiques pour le sondage",
-    "voteNumber": "Nombre de votes : ${params.nvotes}",
-    "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
-    "toResultsLink": "Voir les résultats",
-    "submitButton": "Voter"
+    "globalResults": {
+      "voteNumber": "Nombre de votes : ${params.nvotes}",
+      "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
+      "majorityGrade": "Mention Majoritaire"
+    }
   }
 }
