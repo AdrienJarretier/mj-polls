@@ -39,11 +39,13 @@ The voting process is as follows :
 + Voters give each candidate a cardinal value reflecting their opinion. Traditionnally, the voters appreciation can be expressed within a list of grades, such as :
 *Excellent, Very good, Good, Acceptabl, Poor, To Reject.*
 
- ![Majority Judgment](/static/public/images/context/en/pollExample.png "Majority Judgement")
+![Poll Example](/static/public/images/context/en/pollExample.png "Poll Example")
 
 + For each candidate, the median grade is computed, and serves as a ranking metric among candidates.
 
 + The winner is **the candidate with the greatest median grade, also called majority grade**. If more than one candidate has the same highest median grade, the winner is discovered by removing (one-by-one) any grades equal in value to the shared median grade from each tied candidate's total. This is repeated until only one of the previously tied candidates is currently found to have the highest median-grade.
+
+![Results Example](/static/public/images/context/en/resultsExample.png "Results Example")
 
 
 It was introduced by two INRIA researcher in 2007, Michel Balinski and Rida Laraki.
