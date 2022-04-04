@@ -110,8 +110,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
     // ----------------------------------------------------------------
     // ------------------------- poll options -------------------------
 
-    let divPollOptions = $('<div>')
-        .addClass('d-grid col-6 mx-auto mt-3 mb-2');
+    let divPollOptions = $('<div class="row">');
 
     // ----------------------------------------------------------------
     // ------------------------ Max Date Input ------------------------
@@ -130,7 +129,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             .text(maxDatetimeLabelText)
         );
 
-    divPollOptions.append(maxDatetimeInput);
+    divPollOptions.append($('<div>').addClass('col-6 mx-auto mt-3 mb-2').append(maxDatetimeInput));
 
     // -----------------------------------------------------------------
     // ------------------ Duplication Checking select ------------------
@@ -160,7 +159,7 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
             .text(duplicationCheckLabelText)
         );
 
-    divPollOptions.append(duplicationCheckSelectWrapper);
+    divPollOptions.append($('<div>').addClass('col col-md-4 col-lg-3 mx-auto mt-3 mb-2').append(duplicationCheckSelectWrapper));
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------
