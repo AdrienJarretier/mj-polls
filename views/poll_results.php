@@ -47,7 +47,7 @@
             <div class="col">
                 <div class="alert alert-success shadow-md py-1 mb-0 rounded" role="alert" id="results_alert">
                     <p class="my-0">
-                        <i class="bi-trophy-fill" role="img" style="font-size:1.5em;"></i><span id="results_alert_text"> </span>
+                        <i class="bi-trophy-fill me-2" role="img" style="font-size:1.5em;"></i><span id="results_alert_text"> </span>
                     </p>
                 </div>
             </div>

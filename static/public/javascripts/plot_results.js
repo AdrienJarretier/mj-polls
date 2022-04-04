@@ -64,7 +64,7 @@ export default function(localeMsgs) {
     draw_global_results(choices);
 
     $('#title').text(parsedPoll.title);
-    $('#results_alert_text').text("    " + outcome);
+    $('#results_alert_text').text(outcome);
 
 
     // define radio buttons to select a candidate
