@@ -56,7 +56,6 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
         }
     }
 
-    pollTable.setUniformColsWidth(true);
     pollTable.addClass('text-center');
 
     parsedPoll.choices.sort((a, b) => a.name.localeCompare(b.name));
@@ -243,6 +242,8 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
             }
 
         });
+
+        pollTable.setUniformColsWidth(true);
 
 }
 

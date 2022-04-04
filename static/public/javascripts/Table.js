@@ -85,9 +85,12 @@ class Table {
 
         this._options.uniformColsWidth = !!enableUniformColsWidth;
 
-        if (this._options.uniformColsWidth)
-            this.setColsWidth(this.getMaxWidth());
+        const maxW = this.getMaxWidth()
 
+        if (this._options.uniformColsWidth)
+            this.setColsWidth(maxW);
+
+        return maxW;
     }
 
     /**
@@ -102,12 +105,10 @@ class Table {
         let firstColCell = $('<th scope="row">')
             .html(header);
 
-        firstColCell.css(
-            {
-                'left': '0',
-                'border-right': '1px solid #6c757d'
-            }
-        );
+        firstColCell.css({
+            'left': '0',
+            'border-right': '1px solid #6c757d'
+        });
         firstColCell.addClass('position-sticky');
 
         row.append(firstColCell);
@@ -228,7 +229,7 @@ class Table {
 
             let children = cell.children();
 
-            cell.hide(duration, function () {
+            cell.hide(duration, function() {
                 cell.remove();
             });
 
