@@ -36,6 +36,13 @@
     });
   </script>
 
+  <style>
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+
 </head>
 
 <!-- Includes Body and container div opening tags as well as <header> -->

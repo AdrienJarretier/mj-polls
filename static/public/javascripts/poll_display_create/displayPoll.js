@@ -245,6 +245,7 @@ function displayPoll(parsedPoll, infiniteVoteEnabled, grades) {
 
     const maxWidThReturned = pollTable.setUniformColsWidth(true, 171);
     // console.log('max width', maxWidThReturned);
+    // console.log(pollTable);
 
 }
 

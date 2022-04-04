@@ -22,6 +22,8 @@ Indeed, this procedure offers several advantages over existing alternatives :
 
 + It allows voters to truly say how they feel about all candidates. This is a strong improvement over the widespread **first-past-the-post** electoral systems (AKA single-member plurality voting), where only one candidate must be chosen, and the voter can not express any opinion about the others. 
 
++ By allowing voters to grade each candidate there is no **Vote splitting** anymore.
+
 + A voter can express strong judgment differences by exploiting the entire range of grades, or even give the same grade to candidates they equally value. None of these are possible in **ranked voting** systems, in which candidates are simply ordered by preference. 
 
 + The need for **Tactical voting** is nullified
@@ -36,6 +38,8 @@ The voting process is as follows :
 
 + Voters give each candidate a cardinal value reflecting their opinion. Traditionnally, the voters appreciation can be expressed within a list of grades, such as :
 *Excellent, Very good, Good, Acceptabl, Poor, To Reject.*
+
+ ![Majority Judgment](/static/public/images/context/en/pollExample.png "Majority Judgement")
 
 + For each candidate, the median grade is computed, and serves as a ranking metric among candidates.
 
