@@ -46,10 +46,13 @@
     "sharePopupCopiedSuccess": "Link copied !"
   },
   "pollResults": {
-    "title": "Résultats graphiques pour le sondage",
-    "voteNumber": "Number of votes : ${params.nvotes}",
-    "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
-    "toResultsLink": "Voir les résultats",
-    "submitButton": "Voter"
+    "title": "Graphical results for the poll",
+    "globalResults": {
+      "voteNumber": "Number of votes : ${params.nvotes}",
+      "winnerAlerts": {
+        "resolvedEquality": "The winner is ${params.winner}. It was separated from ${params.winner_ties_names}, which had the same grade"
+      },
+      "majorityGrade": "Majority Grade"
+    }
   }
 }

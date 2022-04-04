@@ -49,7 +49,9 @@
     "title": "Résultats graphiques pour le sondage",
     "globalResults": {
       "voteNumber": "Nombre de votes : ${params.nvotes}",
-      "winnerAlert": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention",
+      "winnerAlerts": {
+        "resolvedEquality": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention"
+      },
       "majorityGrade": "Mention Majoritaire"
     }
   }

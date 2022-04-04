@@ -107,7 +107,7 @@ function draw_global_results(choices) {
                         yMax: majority_plot,
                         xMin: labels[0],
                         xMax: labels[labels.length - 1],
-                        borderColor: 'rgb(240, 240, 240)',
+                        borderColor: 'hsl(0, 0%, 100%)',
                         borderWidth: 4,
                         label: {
                             enabled: true,
