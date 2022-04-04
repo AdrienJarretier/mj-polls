@@ -311,7 +311,7 @@ function detect_outcome(choices, ranking, localeMsgs) {
 
         // return "The winner is " + ranking[0] + ". It was separated from " + winner_ties_names.join(' and ') + " that had the same majority grade.";
 
-        return localeMsgs.get('winnerAlerts', {
+        return localeMsgs.get('globalResults').get('winnerAlerts').get('resolvedEquality', {
             'winner': ranking[0],
             'winner_ties_names': winner_ties_names
         });
