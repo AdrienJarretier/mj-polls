@@ -13,7 +13,12 @@
   "createPoll": {
     "titlePlaceholder": "Formulez votre question ou votre phrase.",
     "submitButton": "Créer le sondage",
-    "maxDateLabel": "Fermeture du sondage"
+    "maxDateLabel": "Fermeture du sondage",
+    "duplicationCheckLabel": "Contrôle des doublons de votes",
+    "duplicationCheckMethods": {
+      "yes": "Oui",
+      "no": "Non"
+    }
   },
   "Context": {
     "title": "",

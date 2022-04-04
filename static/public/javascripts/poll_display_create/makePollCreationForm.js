@@ -132,10 +132,35 @@ function makePollCreationForm(duplicateCheckMethods, grades) {
 
     divPollOptions.append(maxDatetimeInput);
 
-    // ---------------------------------------------------------------
-    // ---------------------------------------------------------------
+    // -----------------------------------------------------------------
+    // ------------------ Duplication Checking select ------------------
 
-    // divPollOptions.append('<hr>');
+    const duplicationCheckLabelText = localeMsgs.get('duplicationCheckLabel');
+    const duplicationCheckSelectId = 'duplicationCheckSelect';
+    let duplicationCheckSelect = $('<select class="form-select" >')
+        .attr('name', duplicationCheckSelectId)
+        .attr('id', duplicationCheckSelectId)
+        .attr('aria-label', duplicationCheckLabelText);
+
+    const duplicationCheckMethods = [
+        { id: 1, name: 'yes' },
+        { id: null, name: 'no' }
+    ];
+    for (const method of duplicationCheckMethods) {
+        duplicationCheckSelect.append($('<option>')
+            .attr('value', method.id)
+            .text(localeMsgs.get('duplicationCheckMethods').get(method.name)));
+    }
+
+    const duplicationCheckSelectWrapper = $('<div class="form-floating">')
+        .append(duplicationCheckSelect)
+        .append(
+            $('<label class="form-label">')
+            .attr('for', duplicationCheckSelectId)
+            .text(duplicationCheckLabelText)
+        );
+
+    divPollOptions.append(duplicationCheckSelectWrapper);
 
     // ---------------------------------------------------------------
     // ---------------------------------------------------------------

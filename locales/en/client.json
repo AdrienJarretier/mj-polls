@@ -13,7 +13,12 @@
   "createPoll": {
     "titlePlaceholder": "State your question or sentence.",
     "submitButton": "Create the poll",
-    "maxDateLabel": "Poll closes on"
+    "maxDateLabel": "Poll closes on",
+    "duplicationCheckLabel": "Vote duplication checking",
+    "duplicationCheckMethods": {
+      "yes": "Yes",
+      "no": "No"
+    }
   },
   "Context": {
     "title": "",
