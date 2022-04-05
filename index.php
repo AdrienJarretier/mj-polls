@@ -25,7 +25,7 @@ Route::pathNotFound(function ($path) {
     header('HTTP/1.1 404 Not Found');
     include('views/404.php');
   } else {
-    header('Location: en' . $path);
+    header('Location: /en' . $path);
     exit;
   }
 });
