@@ -275,22 +275,23 @@ function detect_outcome(choices, ranking, localeMsgs) {
 
     // all candidates are perfect ties
 
-    var perfect_tie = true;
-    for (var choice of choices) {
-        perfect_tie = perfect_tie && choice.perfect_tie;
-    }
-    if (perfect_tie)
-        return "No winner. All candidates are perfectly equal";
+    // var perfect_tie = true;
+    // for (var choice of choices) {
+    //     perfect_tie = perfect_tie && choice.perfect_tie;
+    // }
+    // if (perfect_tie)
+    //     return "No winner. All candidates are perfectly equal";
 
     // Several winners that are perfectly equal
 
-    const perfect_ties = choices.filter(function(el) {
-        return el.perfect_tie == true;
-    })
 
     const winner_infos = choices.filter(function(el) {
         return el.name == ranking[0];
-    })
+    });
+
+    const perfect_ties = choices.filter(function(el) {
+        return el.perfect_tie == true && el.majority_grade == winner_infos[0].majority_grade;
+    });
 
     if (perfect_ties.length >= 2) {
         if (perfect_ties[0].majority_grade == winner_infos[0].majority_grade && winner_infos[0].majority_grade_for_ties == null) {
@@ -310,7 +311,7 @@ function detect_outcome(choices, ranking, localeMsgs) {
 
         // return "The winner is " + ranking[0] + ". It was separated from " + winner_ties_names.join(' and ') + " that had the same majority grade.";
 
-        return localeMsgs.get('winnerAlert', {
+        return localeMsgs.get('globalResults').get('winnerAlerts').get('resolvedEquality', {
             'winner': ranking[0],
             'winner_ties_names': winner_ties_names
         });

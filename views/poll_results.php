@@ -16,7 +16,7 @@
     <script type="module">
         'use strict';
 
-        import plot_results from '/javascripts/plot_results.js';
+        import plot_results from '/javascripts/results_page.js';
         import {
             LocaleMessages
         } from '/javascripts/LocaleMessages.js';

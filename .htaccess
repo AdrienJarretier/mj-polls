@@ -10,12 +10,12 @@ RewriteRule ^ static/public%{REQUEST_URI} [L]
 
 
 # uncomment to enable front end units tests access
-# RewriteRule ^tests static%{REQUEST_URI} [L]
+ RewriteRule ^tests static%{REQUEST_URI} [L]
 
 RewriteCond %{REQUEST_URI} !^/static/public/
 
 # uncomment to enable front end units tests access
-# RewriteCond %{REQUEST_URI} !^/static/tests/
+ RewriteCond %{REQUEST_URI} !^/static/tests/
 
 RewriteRule ^(.*)$ index.php [QSA]
 
