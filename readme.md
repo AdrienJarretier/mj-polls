@@ -9,7 +9,7 @@ You can use the app by visiting <https://vote.sirtak.fr>
 
 Or if you want to host it yourself you can start with these instructions : [Hosting instructions](./readme_hosting.md)
 
-To contact us for anything, you can open an issue at <https://github.com/AdrienJarretier/mj-polls/issues>
+To contact us, you can open an issue at <https://github.com/AdrienJarretier/mj-polls/issues>
 
 ---
 ### Principle of majority judgment
@@ -41,9 +41,9 @@ The voting process is as follows :
 
 ![Poll Example](/static/public/images/context/en/pollExample.png "Poll Example")
 
-+ For each candidate, the median grade is computed, and serves as a ranking metric among candidates.
++ For each candidate, the majority grade is computed, and serves as a ranking metric among candidates.
 
-+ The winner is **the candidate with the greatest median grade, also called majority grade**. If more than one candidate has the same highest median grade, the winner is discovered by removing (one-by-one) any grades equal in value to the shared median grade from each tied candidate's total. This is repeated until only one of the previously tied candidates is currently found to have the highest median-grade.
++ The winner is **the candidate with the best majority grade**. If more than one candidate has the same majority grade, the winner is discovered by removing one vote from that grade in each of the tied candidates, this is repeated until only one of the previously tied candidates currently has the highest median grade.
 
 ![Results Example](/static/public/images/context/en/resultsExample.png "Results Example")
 
