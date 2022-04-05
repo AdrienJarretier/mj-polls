@@ -22,7 +22,7 @@ Route::pathNotFound(function ($path) {
   // The router will not send any headers by default
   // So you will have the full flexibility to handle this case
   if (preg_match('/^\/fr|en/', $path)) {
-    header('HTTP/1.0 404 Not Found');
+    header('HTTP/1.1 404 Not Found');
     include('views/404.php');
   } else {
     header('Location: en' . $path);
