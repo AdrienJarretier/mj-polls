@@ -35,7 +35,7 @@ En effet, cette procédure offre plusieurs avantages par rapport aux alternative
 
 Le processus de vote est le suivant :
 
-+ Les électeurs attribuent à chaque candidat une valeur cardinale reflétant leur opinion. Traditionnellement, l'appréciation des électeurs peut être exprimée au sein d'une liste de notes, telles que :
++ Les électeurs attribuent à chaque candidat une valeur qualitative ordonnée reflétant leur opinion. Traditionnellement, l'appréciation des électeurs peut être exprimée au sein d'une liste de notes, telles que :
 *Excellent, Très bien, Bien, Passable, Insuffisant, A rejeter.*
 
 ![Exemple de sondage](/static/public/images/context/fr/pollExample.png "Exemple de sondage")

@@ -36,7 +36,7 @@ Indeed, this procedure offers several advantages over existing alternatives :
 
 The voting process is as follows : 
 
-+ Voters give each candidate a cardinal value reflecting their opinion. Traditionnally, the voters appreciation can be expressed within a list of grades, such as :
++ Voters give each candidate an ordered qualitative value reflecting their opinion. Traditionnally, the voters appreciation can be expressed within a list of grades, such as :
 *Excellent, Very good, Good, Acceptabl, Poor, To Reject.*
 
 ![Poll Example](/static/public/images/context/en/pollExample.png "Poll Example")
