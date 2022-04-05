@@ -1,0 +1,30 @@
+- update readme
+- 404 redirect to /en
+- update poll_results
+- fixed problem with perfect ties with different majority grades, that were mentioned all as winners
+- upgrade chart js to 3.5.1
+- update locales
+- update localisation of global_results chart
+- set max col width to 142px for poll creation form
+- fixed maxDatetimeInput colspan for mobiles
+- added a line to poll options to avoid overflow when label goes 2 lines
+- if poll is created with no vote duplication checking, vote button will be re enabled after a sec when voting
+- if duplicate_vote_check_method_id is set to 1 then enable infinite vote
+- duplication checking selector on poll creation
+- fixed table columns width uniformization
+- dynamically load readme in the correct language on the context page
+- removed context content, added extlib marked library
+- rewrote readme to empahsize the advantages and honesty of MJ
+- og meta tags
+- meta tag og title set to poll title if exists
+- more and better 404
+- nav items are correctly displayed as a vertical list when collapsed
+- navbar with toggler
+- poll counter in footer
+- contact text in footer
+- languages dropdown selector
+- get language from url
+- fixed nav buttons localization
+- share button will be added to main and not to form as to not be hidden when client has voted
+
+
