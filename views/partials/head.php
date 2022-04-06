@@ -12,10 +12,10 @@
 <link rel="stylesheet" href="/extLibs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
 
 
-<script src="/extLibs/jquery-3.4.1.min.js"></script>
+<script src="/extLibs/jquery-3.4.1.min.js" defer></script>
 
-<script src="/extLibs/popper-2.9.3.min.js"></script>
-<script src="/extLibs/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+<script src="/extLibs/popper-2.9.3.min.js" defer></script>
+<script src="/extLibs/bootstrap-5.0.2-dist/js/bootstrap.min.js" defer></script>
 
 
 <link rel="stylesheet" href="/stylesheets/style.css" />
