@@ -1,0 +1,2 @@
+- added defer attributes to scripts import
+- update composer dependencies versions
