@@ -267,13 +267,13 @@ function detect_outcome(choices, ranking, localeMsgs) {
     // 0 votes
 
     if (get_voters_count(choices) == 0) {
-        return "No winner. There is no vote on this poll";
+        return localeMsgsAlert.get('noVote');
     }
 
     // only one candidate
 
     if (choices.length == 1)
-        return "The winner is " + ranking[0] + ". It was the only running candidate.";
+        return localeMsgsAlert.get('oneCandidate', {'winner': ranking[0]});
 
     // all candidates are perfect ties
 
@@ -283,7 +283,6 @@ function detect_outcome(choices, ranking, localeMsgs) {
     // }
     // if (perfect_tie)
     //     return "No winner. All candidates are perfectly equal";
-
     // Several winners that are perfectly equal
 
 
