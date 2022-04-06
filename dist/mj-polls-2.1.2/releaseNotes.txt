@@ -1,0 +1,1 @@
+- removed defered for jquery as it is a required dependency for some inline scripts
