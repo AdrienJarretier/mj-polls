@@ -277,15 +277,6 @@ function detect_outcome(choices, ranking, localeMsgs) {
 
     // all candidates are perfect ties
 
-    // var perfect_tie = true;
-    // for (var choice of choices) {
-    //     perfect_tie = perfect_tie && choice.perfect_tie;
-    // }
-    // if (perfect_tie)
-    //     return "No winner. All candidates are perfectly equal";
-    // Several winners that are perfectly equal
-
-
     const winner_infos = choices.filter(function(el) {
         return el.name == ranking[0];
     });
@@ -313,9 +304,7 @@ function detect_outcome(choices, ranking, localeMsgs) {
     if (winner_ties.length >= 1) {
         const winner_ties_names = winner_ties.map(a => a.name);
 
-        // return "The winner is " + ranking[0] + ". It was separated from " + winner_ties_names.join(' and ') + " that had the same majority grade.";
-
-        return localeMsgsAlert.get('resolvedEquality', {
+         return localeMsgsAlert.get('resolvedEquality', {
             'winner': ranking[0],
             'winner_ties_names': winner_ties_names
         });
