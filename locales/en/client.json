@@ -50,6 +50,7 @@
     "globalResults": {
       "voteNumber": "Number of votes : ${params.nvotes}",
       "winnerAlerts": {
+        "oneWinner": "The winner is ${params.winner}. All other candidates had lesser majority grades.",
         "resolvedEquality": "The winner is ${params.winner}. It was separated from ${params.winner_ties_names}, which had the same grade"
       },
       "majorityGrade": "Majority Grade"
