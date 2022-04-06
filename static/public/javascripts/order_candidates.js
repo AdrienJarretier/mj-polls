@@ -298,7 +298,10 @@ function detect_outcome(choices, ranking, localeMsgs) {
     if (perfect_ties.length >= 2) {
         if (perfect_ties[0].majority_grade == winner_infos[0].majority_grade && winner_infos[0].majority_grade_for_ties == null) {
             let names = perfect_ties.map(a => a.name);
-            return "The winners are " + names.join(' and ') + ". There is perfect equality between them.";
+
+            return localeMsgsAlert.get('perfectEquality', {
+                'winners': names.join(' and ')
+            });
         }
     }
 
