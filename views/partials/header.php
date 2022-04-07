@@ -5,17 +5,12 @@
       LocaleMessages
     } from '/javascripts/LocaleMessages.js';
 
-    const localeMsgs = await LocaleMessages.new(
-      'client-header');
-
-    // console.log(localeMsgs);
-
-    $(function() {
+    $(async function() {
 
       // ---------------------------------------------
       // --------- Localize nav buttons text ---------
 
-      const navMsgs = localeMsgs.get('nav');
+      const navMsgs = (await LocaleMessages.new('client-header')).get('nav');
 
       let navButtons = $('nav a button');
       for (let i = 0; i < navButtons.length; ++i) {

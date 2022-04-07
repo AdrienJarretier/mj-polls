@@ -7,13 +7,17 @@
         get
     } from '/javascripts/utils.js';
 
-    const localeMsgs = await LocaleMessages.new(
-        'client-footer');
+    $(async function() {
 
-    $('#footerContactUsText').text(localeMsgs.get('contactUs'));
-    $('#footerPollsCounter').text(localeMsgs.get('pollsCounter', {
-        'count': await get('/polls/count')
-    }));
+        const localeMsgs = await LocaleMessages.new(
+            'client-footer');
+
+        $('#footerContactUsText').text(localeMsgs.get('contactUs'));
+        $('#footerPollsCounter').text(localeMsgs.get('pollsCounter', {
+            'count': await get('/polls/count')
+        }));
+
+    });
 </script>
 
 <div class="row">

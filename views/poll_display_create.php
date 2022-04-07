@@ -14,7 +14,6 @@
         import {
             LocaleMessages
         } from "/javascripts/LocaleMessages.js";
-        let localeGrades = await LocaleMessages.new('db-grades');
 
         <?php if (isset($poll)) { ?>
 
@@ -41,18 +40,19 @@
 
         <?php } ?>
 
-        const grades = await get('/polls/grades');
-        grades.sort((a, b) => b.order - a.order);
-
-        for (let grade of grades) {
-            try {
-                grade.value = localeGrades.get(grade.value);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
         $(async function() {
+
+            const grades = await get('/polls/grades');
+            grades.sort((a, b) => b.order - a.order);
+
+            const localeGrades = await LocaleMessages.new('db-grades');
+            for (let grade of grades) {
+                try {
+                    grade.value = localeGrades.get(grade.value);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
 
             const titleSize = 'fs-4';
 
