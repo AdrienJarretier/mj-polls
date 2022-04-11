@@ -51,7 +51,7 @@
       "voteNumber": "Nombre de votes : ${params.nvotes}",
       "winnerAlerts": {
         "noVote" : "Pas de gagnant : il n'y a pas de vote sur ce sondage.",
-        "oneCandidate" : "La vainqueur est ${params.winner}, qui était le seul candidat.",
+        "oneCandidate" : "Le vainqueur est ${params.winner}, qui était le seul candidat.",
         "perfectEquality" : "Les vainqueurs sont ${params.winners}, à égalité parfaite.",
         "oneWinner": "Le vainqueur est ${params.winner}. Tous les autres candidats ont une mention majoritaire inférieure.",
         "resolvedEquality": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention"
