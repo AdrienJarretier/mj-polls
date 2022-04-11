@@ -50,6 +50,10 @@
     "globalResults": {
       "voteNumber": "Number of votes : ${params.nvotes}",
       "winnerAlerts": {
+        "noVote" : "No winner : there is no vote in this poll",
+        "oneCandidate" : "The winner is ${params.winner}. It was the only running candidate.",
+        "perfectEquality" : "The winners are ${params.winners}. There is perfect equality between them.",
+        "oneWinner": "The winner is ${params.winner}. All other candidates had lesser majority grades.",
         "resolvedEquality": "The winner is ${params.winner}. It was separated from ${params.winner_ties_names}, which had the same grade"
       },
       "majorityGrade": "Majority Grade"

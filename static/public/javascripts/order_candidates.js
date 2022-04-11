@@ -262,28 +262,20 @@ function mapOrder(array, order, key) {
 // No winner (Perfect equality between all candidates, no votes on poll)
 function detect_outcome(choices, ranking, localeMsgs) {
 
+    const localeMsgsAlert = localeMsgs.get('globalResults').get('winnerAlerts');
+
     // 0 votes
 
     if (get_voters_count(choices) == 0) {
-        return "No winner. There is no vote on this poll";
+        return localeMsgsAlert.get('noVote');
     }
 
     // only one candidate
 
     if (choices.length == 1)
-        return "The winner is " + ranking[0] + ". It was the only running candidate.";
+        return localeMsgsAlert.get('oneCandidate', {'winner': ranking[0]});
 
     // all candidates are perfect ties
-
-    // var perfect_tie = true;
-    // for (var choice of choices) {
-    //     perfect_tie = perfect_tie && choice.perfect_tie;
-    // }
-    // if (perfect_tie)
-    //     return "No winner. All candidates are perfectly equal";
-
-    // Several winners that are perfectly equal
-
 
     const winner_infos = choices.filter(function(el) {
         return el.name == ranking[0];
@@ -296,7 +288,10 @@ function detect_outcome(choices, ranking, localeMsgs) {
     if (perfect_ties.length >= 2) {
         if (perfect_ties[0].majority_grade == winner_infos[0].majority_grade && winner_infos[0].majority_grade_for_ties == null) {
             let names = perfect_ties.map(a => a.name);
-            return "The winners are " + names.join(' and ') + ". There is perfect equality between them.";
+
+            return localeMsgsAlert.get('perfectEquality', {
+                'winners': names.join(' and ')
+            });
         }
     }
 
@@ -309,9 +304,7 @@ function detect_outcome(choices, ranking, localeMsgs) {
     if (winner_ties.length >= 1) {
         const winner_ties_names = winner_ties.map(a => a.name);
 
-        // return "The winner is " + ranking[0] + ". It was separated from " + winner_ties_names.join(' and ') + " that had the same majority grade.";
-
-        return localeMsgs.get('globalResults').get('winnerAlerts').get('resolvedEquality', {
+         return localeMsgsAlert.get('resolvedEquality', {
             'winner': ranking[0],
             'winner_ties_names': winner_ties_names
         });
@@ -319,7 +312,9 @@ function detect_outcome(choices, ranking, localeMsgs) {
 
     // One winner that did not have to be separated
 
-    return "The winner is " + ranking[0] + ". All other candidates had lesser majority grades."
+    return localeMsgsAlert.get('oneWinner', {
+        'winner': ranking[0]
+    })
 
 }
 
