@@ -1,0 +1,3 @@
+- update results translations
+- update readme
+- social media banner
