@@ -1,7 +1,7 @@
 let myChart;
 
 import { get_voters_count, get_majority } from "./order_candidates.js";
-import {stringSplitter} from "./utils.js";
+import { stringSplitter } from "./utils.js";
 import colorPalettes from './colorPalettes.js';
 
 function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
@@ -14,7 +14,7 @@ function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
 
     // Getting possible values
 
-    const choice = choices.filter(function (el) {
+    const choice = choices.filter(function(el) {
         return el.name == candidate;
     })
 
@@ -42,7 +42,8 @@ function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
         const entry = {
-            "label": localeGrades.get(vote.value), "data": [vote.count],
+            "label": localeGrades.get(vote.value),
+            "data": [vote.count],
             "backgroundColor": colorPalettes.color(cpt, palette),
         };
         dataset.push(entry);
@@ -79,29 +80,29 @@ function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
                 autocolors: false,
                 annotation: {
                     annotations: [{
-                        type: 'line',
-                        xScaleID: 'x',
-                        yMin: majority_plot,
-                        yMax: majority_plot,
-                        xMin: labels[0],
-                        xMax: labels[0],
-                        borderColor: 'rgb(240, 240, 240)',
-                        borderWidth: 4,
-                        label: {
-                            enabled: true,
-                            content: stringSplitter(localeMsgs.get('candidateDetails').get('annotationPercentVoters',{
-                                'percentage_above' : percentage_above,
-                                'majority_grade': localeGrades.get(choice[0].majority_grade)
-                            }),29)
+                            type: 'line',
+                            xScaleID: 'x',
+                            yMin: majority_plot,
+                            yMax: majority_plot,
+                            xMin: labels[0],
+                            xMax: labels[0],
+                            borderColor: 'rgb(240, 240, 240)',
+                            borderWidth: 4,
+                            label: {
+                                enabled: true,
+                                content: stringSplitter(localeMsgs.get('candidateDetails').get('annotationPercentVoters', {
+                                    'percentage_above': percentage_above,
+                                    'majority_grade': localeGrades.get(choice[0].majority_grade)
+                                }), 29)
+                            }
+                        },
+                        {
+                            type: 'box',
+                            yMin: yMin,
+                            yMax: yMax,
+                            backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                            borderColor: 'rgba(255, 255, 255, 1)'
                         }
-                    },
-                    {
-                        type: 'box',
-                        yMin: yMin,
-                        yMax: yMax,
-                        backgroundColor: 'rgba(255, 255, 255, 0.25)',
-                        borderColor: 'rgba(255, 255, 255, 1)'
-                    }
                     ],
                     drawTime: 'afterDatasetsDraw'
                 },
@@ -155,7 +156,7 @@ function update_candidate_results(choices, candidate, localeMsgs, localeGrades) 
 
     // Getting possible values
 
-    const choice = choices.filter(function (el) {
+    const choice = choices.filter(function(el) {
         return el.name == candidate;
     })
 
@@ -182,9 +183,9 @@ function update_candidate_results(choices, candidate, localeMsgs, localeGrades) 
     var yMin = 0;
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
-        const entry = { 
-            "label": localeGrades.get(vote.value), 
-            "data": [vote.count], 
+        const entry = {
+            "label": localeGrades.get(vote.value),
+            "data": [vote.count],
             "backgroundColor": colorPalettes.color(cpt, palette)
         };
         dataset.push(entry);
@@ -207,29 +208,30 @@ function update_candidate_results(choices, candidate, localeMsgs, localeGrades) 
     };
 
     myChart.options.plugins.annotation.annotations = [{
-        type: 'line',
-        xScaleID: 'x',
-        yMin: majority_plot,
-        yMax: majority_plot,
-        xMin: labels[0],
-        xMax: labels[0],
-        borderColor: 'rgb(240, 240, 240)',
-        borderWidth: 4,
-        label: {
-            enabled: true,
-            content: stringSplitter(localeMsgs.get('candidateDetails').get('annotationPercentVoters',{
-                'percentage_above' : percentage_above,
-                'majority_grade': localeGrades.get(choice[0].majority_grade)
-            }),29)
+            type: 'line',
+            xScaleID: 'x',
+            yMin: majority_plot,
+            yMax: majority_plot,
+            xMin: labels[0],
+            xMax: labels[0],
+            borderColor: 'rgb(240, 240, 240)',
+            borderWidth: 4,
+            label: {
+                enabled: true,
+                content: stringSplitter(localeMsgs.get('candidateDetails').get('annotationPercentVoters', {
+                    'percentage_above': percentage_above,
+                    'majority_grade': localeGrades.get(choice[0].majority_grade)
+                }), 29)
+            }
+        },
+        {
+            type: 'box',
+            yMin: yMin,
+            yMax: yMax,
+            backgroundColor: 'rgba(255, 255, 255, 0.25)',
+            borderColor: 'rgba(255, 255, 255, 1)'
         }
-    },
-    {
-        type: 'box',
-        yMin: yMin,
-        yMax: yMax,
-        backgroundColor: 'rgba(255, 255, 255, 0.25)',
-        borderColor: 'rgba(255, 255, 255, 1)'
-    }];
+    ];
 
     myChart.update();
 }
