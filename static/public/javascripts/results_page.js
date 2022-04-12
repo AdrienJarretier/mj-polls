@@ -102,7 +102,7 @@ export default function(localeMsgs, localeGrades) {
     }
 
     $('#formRadiosCandidate_selection').change(function(e) {
-        update_candidate_results(choices, $(e.target).val());
+        update_candidate_results(choices, $(e.target).val(), localeMsgs, localeGrades);
     })
 
     // graph with a focus on the chosen candidate

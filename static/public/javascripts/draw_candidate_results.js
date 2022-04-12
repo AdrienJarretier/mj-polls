@@ -89,7 +89,10 @@ function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
                         borderWidth: 4,
                         label: {
                             enabled: true,
-                            content: stringSplitter(percentage_above + ' % of voters gave ' + choice[0].majority_grade + ' or above.', 29)
+                            content: stringSplitter(localeMsgs.get('candidateDetails').get('annotationPercentVoters',{
+                                'percentage_above' : percentage_above,
+                                'majority_grade': localeGrades.get(choice[0].majority_grade)
+                            }),29)
                         }
                     },
                     {
@@ -142,7 +145,7 @@ function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
 
 
 
-function update_candidate_results(choices, candidate) {
+function update_candidate_results(choices, candidate, localeMsgs, localeGrades) {
 
     const VOTERS_COUNT = get_voters_count(choices);
     const majority_plot = get_majority(VOTERS_COUNT);
@@ -179,7 +182,11 @@ function update_candidate_results(choices, candidate) {
     var yMin = 0;
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
-        const entry = { "label": vote.value, "data": [vote.count], "backgroundColor": colorPalettes.color(cpt, palette), };
+        const entry = { 
+            "label": localeGrades.get(vote.value), 
+            "data": [vote.count], 
+            "backgroundColor": colorPalettes.color(cpt, palette)
+        };
         dataset.push(entry);
         cpt += 1;
         if (choice[0].majority_grade_order > vote.order)
@@ -193,10 +200,10 @@ function update_candidate_results(choices, candidate) {
     myChart.data.datasets = dataset;
     myChart.options.plugins.title = {
         display: true,
-        text: 'The majority grade of ' + candidate + ' is ' + choice[0].majority_grade,
-        font: {
-            size: 35
-        }
+        text: localeMsgs.get('candidateDetails').get('obtainedMajorityGrade', {
+            'candidate': candidate,
+            'majority_grade': localeGrades.get(choice[0].majority_grade)
+        })
     };
 
     myChart.options.plugins.annotation.annotations = [{
@@ -210,7 +217,10 @@ function update_candidate_results(choices, candidate) {
         borderWidth: 4,
         label: {
             enabled: true,
-            content: stringSplitter(percentage_above + ' % of voters gave the grade ' + choice[0].majority_grade + ' or above.',29)
+            content: stringSplitter(localeMsgs.get('candidateDetails').get('annotationPercentVoters',{
+                'percentage_above' : percentage_above,
+                'majority_grade': localeGrades.get(choice[0].majority_grade)
+            }),29)
         }
     },
     {

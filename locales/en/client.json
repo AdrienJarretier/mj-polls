@@ -59,7 +59,8 @@
     },
     "candidateDetails": {
       "title": "Details for each candidate",
-      "obtainedMajorityGrade" : "The majority grade of ${params.candidate} is ${params.majority_grade}"
+      "obtainedMajorityGrade" : "The majority grade of ${params.candidate} is ${params.majority_grade}",
+      "annotationPercentVoters": "${params.percentage_above} % of voters gave the grade ${params.majority_grade} or above"
     }
   }
 }

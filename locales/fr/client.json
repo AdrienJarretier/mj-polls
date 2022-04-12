@@ -59,7 +59,8 @@
     },
     "candidateDetails": {
       "title": "Détails pour chaque candidat",
-      "obtainedMajorityGrade" : "La mention majoritaire de ${params.candidate} est ${params.majority_grade}"
+      "obtainedMajorityGrade" : "La mention majoritaire de ${params.candidate} est ${params.majority_grade}",
+      "annotationPercentVoters": "${params.percentage_above} % des votants ont donné la mention ${params.majority_grade} ou mieux"
     }
   }
 }
