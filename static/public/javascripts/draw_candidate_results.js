@@ -4,7 +4,7 @@ import { get_voters_count, get_majority } from "./order_candidates.js";
 import {stringSplitter} from "./utils.js";
 import colorPalettes from './colorPalettes.js';
 
-function draw_candidate_results(choices, candidate) {
+function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
 
     const VOTERS_COUNT = get_voters_count(choices);
     const majority_plot = get_majority(VOTERS_COUNT);
@@ -42,7 +42,7 @@ function draw_candidate_results(choices, candidate) {
 
     for (const vote of Object.values(votes).sort((a, b) => a.order - b.order)) {
         const entry = {
-            "label": vote.value, "data": [vote.count],
+            "label": localeGrades.get(vote.value), "data": [vote.count],
             "backgroundColor": colorPalettes.color(cpt, palette),
         };
         dataset.push(entry);
@@ -71,7 +71,10 @@ function draw_candidate_results(choices, candidate) {
             plugins: {
                 title: {
                     display: true,
-                    text: 'The majority grade of ' + candidate + ' is ' + choice[0].majority_grade
+                    text: localeMsgs.get('candidateDetails').get('obtainedMajorityGrade', {
+                        'candidate': candidate,
+                        'majority_grade': localeGrades.get(choice[0].majority_grade)
+                    })
                 },
                 autocolors: false,
                 annotation: {

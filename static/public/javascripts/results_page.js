@@ -12,7 +12,7 @@ import draw_global_results from './draw_global_results.js';
 import { draw_candidate_results, update_candidate_results }
 from './draw_candidate_results.js';
 
-export default function(localeMsgs) {
+export default function(localeMsgs, localeGrades) {
 
     let choices = [];
 
@@ -61,7 +61,7 @@ export default function(localeMsgs) {
         Chart.defaults.plugins.title.font.size = 28;
     }
 
-    draw_global_results(choices);
+    draw_global_results(choices, localeMsgs, localeGrades);
 
     $('#title').text(parsedPoll.title);
     $('#results_alert_text').text(outcome);
@@ -107,7 +107,7 @@ export default function(localeMsgs) {
 
     // graph with a focus on the chosen candidate
 
-    draw_candidate_results(choices, $("input:radio[name='radio_btn_candidate_selection']:checked").val());
+    draw_candidate_results(choices, $("input:radio[name='radio_btn_candidate_selection']:checked").val(), localeMsgs, localeGrades);
 
 
 };

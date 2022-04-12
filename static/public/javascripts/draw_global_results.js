@@ -7,12 +7,6 @@ import {
 } from '/javascripts/LocaleMessages.js';
 import { stringSplitter } from '/javascripts/utils.js';
 
-
-const localeMsgs = await LocaleMessages.new(
-    'client-pollResults');
-const localeGrades = await LocaleMessages.new(
-    'db-grades');
-
 /**
  * Custom positioner
  * @function Tooltip.positioners.myCustomPositioner
@@ -26,7 +20,7 @@ tooltipPlugin.positioners.myCustomPositioner = function(elements, eventPosition)
     return eventPosition;
 };
 
-function draw_global_results(choices) {
+function draw_global_results(choices, localeMsgs, localeGrades) {
 
     const VOTERS_COUNT = get_voters_count(choices);
     const majority_plot = get_majority(VOTERS_COUNT);

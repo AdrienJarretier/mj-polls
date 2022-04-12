@@ -22,9 +22,13 @@
         } from '/javascripts/LocaleMessages.js';
 
         const localeMsgs = await LocaleMessages.new('client-pollResults');
+        const localeGrades = await LocaleMessages.new(
+            'db-grades');
 
         $(function() {
-            plot_results(localeMsgs);
+            plot_results(localeMsgs, localeGrades);
+
+            $('#candidateDetailsTitle').text(localeMsgs.get('candidateDetails').get('title'));
         })
     </script>
 
@@ -73,7 +77,7 @@
 
         <div class="row">
             <div class="col">
-                <h2 class="fs-3">Details for each candidate</h2>
+                <h2 class="fs-3" id="candidateDetailsTitle">Details for each candidate</h2>
             </div>
         </div>
 

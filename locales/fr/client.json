@@ -46,7 +46,6 @@
     "sharePopupCopiedSuccess": "Lien copié !"
   },
   "pollResults": {
-    "title": "Résultats graphiques pour le sondage",
     "globalResults": {
       "voteNumber": "Nombre de votes : ${params.nvotes}",
       "winnerAlerts": {
@@ -57,6 +56,10 @@
         "resolvedEquality": "Le gagnant est ${params.winner}. Il a été départagé de ${params.winner_ties_names}, qui avaient la même mention"
       },
       "majorityGrade": "Mention Majoritaire"
+    },
+    "candidateDetails": {
+      "title": "Détails pour chaque candidat",
+      "obtainedMajorityGrade" : "La mention majoritaire de ${params.candidate} est ${params.majority_grade}"
     }
   }
 }

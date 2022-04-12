@@ -46,7 +46,6 @@
     "sharePopupCopiedSuccess": "Link copied !"
   },
   "pollResults": {
-    "title": "Graphical results for the poll",
     "globalResults": {
       "voteNumber": "Number of votes : ${params.nvotes}",
       "winnerAlerts": {
@@ -57,6 +56,10 @@
         "resolvedEquality": "The winner is ${params.winner}. It was separated from ${params.winner_ties_names}, which had the same grade"
       },
       "majorityGrade": "Majority Grade"
+    },
+    "candidateDetails": {
+      "title": "Details for each candidate",
+      "obtainedMajorityGrade" : "The majority grade of ${params.candidate} is ${params.majority_grade}"
     }
   }
 }
