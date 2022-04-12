@@ -1,10 +1,9 @@
 # ![Majority Judgment](/static/public/images/logo.png "Majority Judgement")
 
-
 ## This project is a web application for creating, running and visualizing **majority judgment** polls.
 ---
 
-You can use the app by visiting <https://vote.sirtak.fr>
+You can use the app by visiting <https://vote.sirtak.fr/en>
 
 
 Or if you want to host it yourself you can start with these instructions : [Hosting instructions](./readme_hosting.md)

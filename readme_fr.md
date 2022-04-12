@@ -3,7 +3,7 @@
 ## Ce projet est une application web pour la création, la publication et la visualisation de sondages avec le **jugement majoritaire**.
 ---
 
-Vous pouvez utiliser l'application en visitant <https://vote.sirtak.fr>
+Vous pouvez utiliser l'application en visitant <https://vote.sirtak.fr/fr>
 
 
 Ou si vous souhaitez l'héberger vous-même, vous pouvez commencer par ces instructions : [Instructions d'hébergement](./readme_hosting.md)
