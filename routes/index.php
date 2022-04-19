@@ -134,6 +134,12 @@ self::get(
 self::get(
     '/context',
     function () {
+        $lang = getLang();
+        $title = 'About';
+        if ($lang == 'fr') {
+            $title = 'A propos';
+        }
+        $pageOptions = pageOptions($title, []);
         include 'views/context.php';
     }
 );

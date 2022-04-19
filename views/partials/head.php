@@ -3,8 +3,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
-    MJ Poll
     <?php
+    $lang = getLang();
+    if ($lang == 'fr')
+        echo 'Sondage JM';
+    else
+        echo 'MJ Poll';
     if (isset($pageOptions['pageTitle']))
         echo ' - ' . $pageOptions['pageTitle'];
     ?>
@@ -32,10 +36,17 @@
 
 <meta property="og:url" content="https://vote.sirtak.fr/">
 <?php
+
 $og = [
     'title' => 'Create a majority judgment poll',
     'description' => 'Create and share majority judgment polls'
 ];
+
+if ($lang == 'fr') {
+    $og['title'] = 'Créer un sondage au jugement majoritaire';
+    $og['description'] = 'Créer et partager des sondages au jugement majoritaire';
+}
+
 if (isset($poll)) {
 
     // Common::log($_REQUEST[''],true);
@@ -44,9 +55,13 @@ if (isset($poll)) {
     $og['title'] = $poll->title;
 
     if (isset($poll->choices[0]->votes)) {
-        $og['description'] = 'View results of << ' . $poll->title . ' >>';
+        $og['description'] = 'View results for << ' . $poll->title . ' >>';
+        if ($lang == 'fr')
+            $og['description'] = 'Voir les résultats pour << ' . $poll->title . ' >>';
     } else {
         $og['description'] = 'Vote on << ' . $poll->title . ' >>';
+        if ($lang == 'fr')
+            $og['description'] = 'Voter sur << ' . $poll->title . ' >>';
     }
 
     // $og['description'] = '$poll->title';
