@@ -3,9 +3,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
+    MJ Poll
     <?php
     if (isset($pageOptions['pageTitle']))
-        echo $pageOptions['pageTitle'];
+        echo ' - ' . $pageOptions['pageTitle'];
     ?>
 </title>
 
