@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
   <?php include('partials/head.php') ?>
 
   <script src="/extLibs/marked-4.0.12/marked.min.js"></script>
