@@ -1,5 +1,9 @@
+<?php
+$lang = getLang();
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= $lang ?>">
 
 <head>
 
@@ -9,7 +13,6 @@
 
     <title>
         <?php
-        $lang = getLang();
         if ($lang == 'fr')
             echo 'Sondage JM';
         else
