@@ -1,0 +1,3 @@
+- html lang attribute based on url
+- og title and descripton translated to fr
+- added Mj Poll in title
