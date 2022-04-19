@@ -1,32 +1,32 @@
-    <?php include('partials/head.php') ?>
+<?php include('partials/head.php') ?>
 
-    <script>
-        'use strict';
+<script>
+    'use strict';
 
-        const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll'], JSON_HEX_APOS) ?>');
-    </script>
+    const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll'], JSON_HEX_APOS) ?>');
+</script>
 
-    <script src="/extLibs/chart.js/chart.js-3.5.1.min.js"></script>
-    <script src="/extLibs/chart.js/chartjs-plugin-annotation-1.0.2.min.js"></script>
+<script src="/extLibs/chart.js/chart.js-3.5.1.min.js"></script>
+<script src="/extLibs/chart.js/chartjs-plugin-annotation-1.0.2.min.js"></script>
 
-    <script type="module">
-        'use strict';
+<script type="module">
+    'use strict';
 
-        import plot_results from '/javascripts/results_page.js';
-        import {
-            LocaleMessages
-        } from '/javascripts/LocaleMessages.js';
+    import plot_results from '/javascripts/results_page.js';
+    import {
+        LocaleMessages
+    } from '/javascripts/LocaleMessages.js';
 
-        const localeMsgs = await LocaleMessages.new('client-pollResults');
-        const localeGrades = await LocaleMessages.new(
-            'db-grades');
+    const localeMsgs = await LocaleMessages.new('client-pollResults');
+    const localeGrades = await LocaleMessages.new(
+        'db-grades');
 
-        $(function() {
-            plot_results(localeMsgs, localeGrades);
+    $(function() {
+        plot_results(localeMsgs, localeGrades);
 
-            $('#candidateDetailsTitle').text(localeMsgs.get('candidateDetails').get('title'));
-        })
-    </script>
+        $('#candidateDetailsTitle').text(localeMsgs.get('candidateDetails').get('title'));
+    })
+</script>
 
 
 </head>

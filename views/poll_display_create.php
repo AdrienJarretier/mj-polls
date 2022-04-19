@@ -1,134 +1,134 @@
-    <?php include('partials/head.php') ?>
+<?php include('partials/head.php') ?>
 
-    <script type="module">
-        'use strict';
+<script type="module">
+    'use strict';
+
+    import {
+        get
+    } from '/javascripts/utils.js';
+
+    import {
+        LocaleMessages
+    } from "/javascripts/LocaleMessages.js";
+    let localeGrades = await LocaleMessages.new('db-grades');
+
+    <?php if (isset($poll)) { ?>
 
         import {
-            get
-        } from '/javascripts/utils.js';
+            displayPoll
+        } from "/javascripts/poll_display_create/displayPoll.js";
 
-        import {
-            LocaleMessages
-        } from "/javascripts/LocaleMessages.js";
-        let localeGrades = await LocaleMessages.new('db-grades');
+        const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll'], JSON_HEX_APOS) ?>');
+        let infiniteVoteEnabled = JSON.parse('<?= json_encode($pageOptions['infiniteVoteEnabled']) ?>');
+        // infiniteVoteEnabled = true;
+        // console.log(infiniteVoteEnabled);
 
-        <?php if (isset($poll)) { ?>
+        const PAGE_TYPE = 'displayPoll';
 
-            import {
-                displayPoll
-            } from "/javascripts/poll_display_create/displayPoll.js";
+    <?php } else { ?>
 
-            const parsedPoll = JSON.parse('<?= json_encode($pageOptions['poll'], JSON_HEX_APOS) ?>');
-            let infiniteVoteEnabled = JSON.parse('<?= json_encode($pageOptions['infiniteVoteEnabled']) ?>');
-            // infiniteVoteEnabled = true;
-            // console.log(infiniteVoteEnabled);
+        import makePollCreationForm from "/javascripts/poll_display_create/makePollCreationForm.js";
 
-            const PAGE_TYPE = 'displayPoll';
+        // unused for now :
+        // const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
+        const duplicateCheckMethods = [];
 
-        <?php } else { ?>
+        const PAGE_TYPE = 'createPoll';
 
-            import makePollCreationForm from "/javascripts/poll_display_create/makePollCreationForm.js";
+    <?php } ?>
 
-            // unused for now :
-            // const duplicateCheckMethods = JSON.parse('<%- duplicateCheckMethods %>');
-            const duplicateCheckMethods = [];
+    const grades = await get('/polls/grades');
+    grades.sort((a, b) => b.order - a.order);
 
-            const PAGE_TYPE = 'createPoll';
+    for (let grade of grades) {
+        try {
+            grade.value = localeGrades.get(grade.value);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
-        <?php } ?>
+    $(async function() {
 
-        const grades = await get('/polls/grades');
-        grades.sort((a, b) => b.order - a.order);
+        const titleSize = 'fs-4';
 
-        for (let grade of grades) {
-            try {
-                grade.value = localeGrades.get(grade.value);
-            } catch (e) {
-                console.error(e);
-            }
+        switch (PAGE_TYPE) {
+
+            case 'displayPoll':
+
+                let title = $('<h1 id="title" class="mb-0">')
+                    .text(parsedPoll.title)
+                    .addClass(titleSize);
+                $('#titleArea').append(title);
+
+                displayPoll(parsedPoll, infiniteVoteEnabled, grades);
+
+                break;
+
+            case 'createPoll':
+
+                let localeUiTexts = await LocaleMessages.new('client-createPoll');
+
+                let titleId = 'title';
+                let placeholder = localeUiTexts.get('titlePlaceholder');
+                let titleTextArea = $('<div class="form-floating">')
+                    .append(
+                        $('<textarea name="title" class="form-control">')
+                        .attr('id', titleId)
+                        .attr('placeholder', placeholder)
+                        .addClass(titleSize)
+                        .attr('required', true)
+                        .on('input', function(e) {
+                            const re = /^\s*(\S.*?\S?)\s*$/;
+                            const matched = $(this).val().match(re);
+                            if (!matched) {
+                                $(this).val('');
+                            }
+                        })
+                    )
+                    .append(
+                        $('<label class="form-label">')
+                        .attr('for', titleId)
+                        .text(placeholder)
+                    );
+
+                $('#titleArea').append(titleTextArea);
+
+                makePollCreationForm(duplicateCheckMethods, grades);
+
+
+                // $('#choicesArea #choices div').append(`
+                // <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
+                // `);
+
+
+                // // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
+                // // $('#choicesArea #choices div').addClass('form-floating');
+
+                // $('#choicesArea #choices').append(`
+                // `);
+
+                // makePollCreationForm(duplicateCheckMethods);
+
+                break;
+
         }
 
-        $(async function() {
+    });
+</script>
 
-            const titleSize = 'fs-4';
+<!-- <style>
+        #choices,
+        #choicesForm .row {
+            border: solid black 2px;
+            margin-top: -2px;
+            margin-bottom: -2px;
+        }
 
-            switch (PAGE_TYPE) {
-
-                case 'displayPoll':
-
-                    let title = $('<h1 id="title" class="mb-0">')
-                        .text(parsedPoll.title)
-                        .addClass(titleSize);
-                    $('#titleArea').append(title);
-
-                    displayPoll(parsedPoll, infiniteVoteEnabled, grades);
-
-                    break;
-
-                case 'createPoll':
-
-                    let localeUiTexts = await LocaleMessages.new('client-createPoll');
-
-                    let titleId = 'title';
-                    let placeholder = localeUiTexts.get('titlePlaceholder');
-                    let titleTextArea = $('<div class="form-floating">')
-                        .append(
-                            $('<textarea name="title" class="form-control">')
-                            .attr('id', titleId)
-                            .attr('placeholder', placeholder)
-                            .addClass(titleSize)
-                            .attr('required', true)
-                            .on('input', function(e) {
-                                const re = /^\s*(\S.*?\S?)\s*$/;
-                                const matched = $(this).val().match(re);
-                                if (!matched) {
-                                    $(this).val('');
-                                }
-                            })
-                        )
-                        .append(
-                            $('<label class="form-label">')
-                            .attr('for', titleId)
-                            .text(placeholder)
-                        );
-
-                    $('#titleArea').append(titleTextArea);
-
-                    makePollCreationForm(duplicateCheckMethods, grades);
-
-
-                    // $('#choicesArea #choices div').append(`
-                    // <input type="number" id="addChoice" class="form-control" min="1" value="1" placeholder="Choices">
-                    // `);
-
-
-                    // // $('#choicesArea #choices div').append('<label for="addChoice" class="form-label">Choices</label>');
-                    // // $('#choicesArea #choices div').addClass('form-floating');
-
-                    // $('#choicesArea #choices').append(`
-                    // `);
-
-                    // makePollCreationForm(duplicateCheckMethods);
-
-                    break;
-
-            }
-
-        });
-    </script>
-
-    <!-- <style>
-            #choices,
-            #choicesForm .row {
-              border: solid black 2px;
-              margin-top: -2px;
-              margin-bottom: -2px;
-            }
-
-            label {
-              color: black;
-            }
-          </style> -->
+        label {
+            color: black;
+        }
+        </style> -->
 
 </head>
 

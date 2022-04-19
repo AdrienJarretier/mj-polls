@@ -1,4 +1,4 @@
-    <?php include 'partials/head.php' ?>
+<?php include 'partials/head.php' ?>
 </head>
 
 <!-- Includes Body and container div opening tags as well as <header> -->

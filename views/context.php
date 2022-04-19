@@ -1,43 +1,43 @@
-  <?php include('partials/head.php') ?>
+<?php include('partials/head.php') ?>
 
-  <script src="/extLibs/marked-4.0.12/marked.min.js"></script>
+<script src="/extLibs/marked-4.0.12/marked.min.js"></script>
 
-  <script>
-    $(function() {
+<script>
+  $(function() {
 
-      const readmeContent =
-        <?php
-        $readmePath = __DIR__ . '/../readme_' . getLang() . '.md';
-        if (!file_exists($readmePath))
-          $readmePath = __DIR__ . '/../readme.md';
-        echo json_encode(file_get_contents($readmePath), JSON_HEX_APOS);
-        ?>;
+    const readmeContent =
+      <?php
+      $readmePath = __DIR__ . '/../readme_' . getLang() . '.md';
+      if (!file_exists($readmePath))
+        $readmePath = __DIR__ . '/../readme.md';
+      echo json_encode(file_get_contents($readmePath), JSON_HEX_APOS);
+      ?>;
 
-      let readmeParts = readmeContent.split('---');
+    let readmeParts = readmeContent.split('---');
 
-      readmeParts.push(readmeParts[1]);
-      readmeParts.splice(1, 1);
+    readmeParts.push(readmeParts[1]);
+    readmeParts.splice(1, 1);
 
-      let reorderedReadme = readmeParts[0];
+    let reorderedReadme = readmeParts[0];
 
-      for (let i = 1; i < readmeParts.length; ++i) {
-        const part = readmeParts[i];
-        reorderedReadme += '\n\n---\n\n' + part;
-      }
-
-      let htmledReadme = $(marked.parse(reorderedReadme));
-      let divContent = $('#content');
-      divContent.html(htmledReadme).find('h1').remove();
-
-    });
-  </script>
-
-  <style>
-    img {
-      max-width: 100%;
-      height: auto;
+    for (let i = 1; i < readmeParts.length; ++i) {
+      const part = readmeParts[i];
+      reorderedReadme += '\n\n---\n\n' + part;
     }
-  </style>
+
+    let htmledReadme = $(marked.parse(reorderedReadme));
+    let divContent = $('#content');
+    divContent.html(htmledReadme).find('h1').remove();
+
+  });
+</script>
+
+<style>
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
 
 </head>
 
