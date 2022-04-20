@@ -82,7 +82,7 @@
       <div class="col">
         <header>
 
-          <img src="/images/logo.png" class="img-fluid" alt="Majority judgement banner" />
+          <img src="/images/logo.png" class="img-fluid" alt="<?= $fullPageTitle ?>" />
           <!-- <p class="fs-4">A web application for creating, running and visualizing majority judgment polls.</p> -->
 
 

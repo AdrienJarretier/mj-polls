@@ -13,12 +13,15 @@ $lang = getLang();
 
     <title>
         <?php
-        if ($lang == 'fr')
-            echo 'Sondage JM';
-        else
-            echo 'MJ Poll';
+        if ($lang == 'fr') {
+            $fullPageTitle = 'Sondage JM';
+        } else {
+            $fullPageTitle = 'MJ Poll';
+        }
         if (isset($pageOptions['pageTitle']))
-            echo ' - ' . $pageOptions['pageTitle'];
+            $fullPageTitle .= ' - ' . $pageOptions['pageTitle'];
+
+        echo $fullPageTitle;
         ?>
     </title>
 
