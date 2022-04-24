@@ -72,6 +72,7 @@ function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
             plugins: {
                 title: {
                     display: true,
+                    color: '#8a8a8a',
                     text: localeMsgs.get('candidateDetails').get('obtainedMajorityGrade', {
                         'candidate': candidate,
                         'majority_grade': localeGrades.get(choice[0].majority_grade)
@@ -112,7 +113,10 @@ function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
                 },
                 legend: {
                     reverse: true,
-                    onClick: null
+                    onClick: null,
+                    labels: {
+                        color: '#8a8a8a'
+                    }  
                 }
             },
             layout: {
@@ -126,11 +130,17 @@ function draw_candidate_results(choices, candidate, localeMsgs, localeGrades) {
             scales: {
                 x: {
                     stacked: true,
+                    ticks: {
+                        color: "#8a8a8a"
+                      }
                 },
                 y: {
                     stacked: true,
                     min: 0,
-                    max: VOTERS_COUNT
+                    max: VOTERS_COUNT,
+                    ticks: {
+                        color: "#8a8a8a"
+                      }
                 }
             }
         }
@@ -201,6 +211,7 @@ function update_candidate_results(choices, candidate, localeMsgs, localeGrades) 
     myChart.data.datasets = dataset;
     myChart.options.plugins.title = {
         display: true,
+        color: '#8a8a8a',
         text: localeMsgs.get('candidateDetails').get('obtainedMajorityGrade', {
             'candidate': candidate,
             'majority_grade': localeGrades.get(choice[0].majority_grade)
