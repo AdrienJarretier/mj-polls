@@ -90,7 +90,8 @@ function draw_global_results(choices, localeMsgs, localeGrades) {
             plugins: {
                 title: {
                     display: true,
-                    text: localeGlobalResults.get("voteNumber", { nvotes: VOTERS_COUNT })
+                    text: localeGlobalResults.get("voteNumber", { nvotes: VOTERS_COUNT }),
+                    color: '#8a8a8a'
                 },
                 autocolors: false,
                 annotation: {
@@ -116,7 +117,10 @@ function draw_global_results(choices, localeMsgs, localeGrades) {
                 },
                 legend: {
                     reverse: true,
-                    onClick: null
+                    onClick: null,
+                    labels: {
+                        color: '#8a8a8a'
+                    }                
                 }
             },
             layout: {
@@ -130,15 +134,24 @@ function draw_global_results(choices, localeMsgs, localeGrades) {
             scales: {
                 x: {
                     stacked: true,
+                    ticks: {
+                        color: "#8a8a8a"
+                      }
                 },
                 y: {
                     stacked: true,
                     min: 0,
-                    max: VOTERS_COUNT
+                    max: VOTERS_COUNT,
+                    ticks: {
+                        color: "#8a8a8a"
+                      }
+                    
                 }
             }
         }
     };
+
+    Chart.defaults.font.color = "#8a8a8a";
 
     // drawing the plot, finally
     var myChart = new Chart(
