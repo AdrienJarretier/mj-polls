@@ -151,8 +151,6 @@ function draw_global_results(choices, localeMsgs, localeGrades) {
         }
     };
 
-    Chart.defaults.font.color = "#8a8a8a";
-
     // drawing the plot, finally
     var myChart = new Chart(
         document.getElementById('results_plot'),

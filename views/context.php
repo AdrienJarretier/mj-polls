@@ -26,7 +26,7 @@
     }
 
     let htmledReadme = $(marked.parse(reorderedReadme));
-    let divContent = $('#content');
+    let divContent = $('#about-page-content');
     divContent.html(htmledReadme).find('h1').remove();
 
   });
@@ -45,7 +45,7 @@
 <?php include('partials/header.php') ?>
 
 <div class="row">
-  <div id="content" class="col">
+  <div id="about-page-content" class="col">
 
   </div>
 </div>

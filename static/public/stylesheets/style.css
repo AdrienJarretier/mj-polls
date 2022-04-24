@@ -28,6 +28,14 @@ header img {
     min-height: 100px;
 }
 
+#about-page-content a {
+    color: #838b91
+}
+
+#about-page-content a:hover {
+    color: #babdb6
+}
+
 .popoverButton {
     background-color: #553d8a;
 }
@@ -51,6 +59,10 @@ header img {
 
 .link-secondary-lighter:hover {
     color: #babdb6
+}
+
+.btn-outline-secondary {
+    color: #838b91
 }
 @media (min-width:580px) {
     .sharePopover input {
