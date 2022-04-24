@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col">
 
-                    <a href="https://github.com/AdrienJarretier/mj-polls/issues" class="link-secondary">
+                    <a href="https://github.com/AdrienJarretier/mj-polls/issues" class="link-secondary-lighter">
                         <span id="footerContactUsText"></span>
                         <br>
                         <i class="bi-github" role="img" aria-label="GitHub" style="font-size:32px;">

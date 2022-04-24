@@ -45,6 +45,13 @@ header img {
     max-width: 670px;
 }
 
+.link-secondary-lighter {
+    color: #838b91
+}
+
+.link-secondary-lighter:hover {
+    color: #babdb6
+}
 @media (min-width:580px) {
     .sharePopover input {
         width: 540px;
